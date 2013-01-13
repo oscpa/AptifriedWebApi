@@ -1,4 +1,4 @@
-body{
+﻿body{
 	font-size: 10px;
 	background: url(images/x/Backgrounds/Desktop/bgd-pattern-blue.png) center top #506e88;
     -webkit-text-size-adjust:none;
@@ -51,7 +51,7 @@ header .quick-links{
 	margin-left: -4.5em;
 }
 header .quick-links li a{
-	font-size: 1.4em;
+	font-size: 14px;
 	color: #444;
 	text-decoration: none;
 	display: inline-block;
@@ -94,7 +94,7 @@ header .quick-links li a.highlight{
 }
 .sfsearchResultStatistics, .sfsearchResultsWrp{
 	padding: 4%;
-	font-size: 1.2em;
+	font-size: 12px;
 }
 .sfsearchResultsWrp dd{
 	padding-bottom: 2%;
@@ -114,11 +114,11 @@ header .mobile_menu{
 header .mobile_menu li{
 	letter-spacing: normal;
 	word-spacing: normal;
-	font-size: 1.7em !important;
+	font-size: 17px !important;
 	line-height: 1em !important;
 	font-weight: normal;
 	padding: 0 .5em;
-	font-family: "league-gothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	font-family: "LeagueGothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 	
 }
 header .mobile_menu li .rtsOut{
@@ -126,14 +126,12 @@ header .mobile_menu li .rtsOut{
 }
 header .menu{
 	text-align: right;
-	font-family: "league-gothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
-	width: 100%;
+	font-family: "LeagueGothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+    width: 100%;
 	margin-top: 1.5em;
 	left: 0;
-	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.006, #4f4847), to(#857e74));
-	background-image: -moz-linear-gradient(90deg, #4f4847 0.6%, #857e74 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#857e74', endColorstr='#4f4847');
-	color: #fefffe;
+	background: url(images/menu-background.png);
+    color: #fefffe;
 	margin-right: 2em!important;
 	letter-spacing: -0.31em; /* webkit */
 	*letter-spacing: normal; /* reset IE < 8 */
@@ -143,10 +141,10 @@ header .menu{
 }
 header .menu li{
 	letter-spacing: normal;
-	word-spacing: normal;
-	font-size: 2.4em !important;
-	line-height: 1em !important;
-	font-weight: normal;
+    word-spacing: normal;
+    font-size: 24px !important;
+    line-height: 1em !important;
+    font-weight: normal;
 }
 header .menu li:first-child{
 	background: url(images/x/menu-divider.png) no-repeat;
@@ -155,7 +153,7 @@ header .menu li:last-child{
 	margin-right: 2em!important;
 }
 header .menu a{
-	padding: .4em 1.4em!important;
+	padding: .4em .6em!important;
 	color: #fff;
 	display: inline-block;
 	.display: inline;
@@ -167,7 +165,7 @@ header .menu a{
 .menu ul ul.rsmLevel1{
 	display: block;
 	position: absolute;
-	top:7em;
+	top:44px;
 	left:0;
 	font-size: 6px;
 	background: black;
@@ -184,15 +182,16 @@ header .menu ul.rsmLevel1 li:first-child{
 }
 .menu ul ul.rsmLevel1 li{
 	background: none;
-	width:18em
+	width:260px
 }
 .menu ul ul.rsmLevel1 a{
 	background: url(images/x/sub-arrow.png) no-repeat right center;
+	font-size: 14px!important;
 }
 .menu ul ul.rsmLevel1 a:hover{
 	color: #b6d591;
 	text-decoration: underline;
-	
+	filter:none;
 }
 .menu ul ul.rsmLevel1 ul{
 	display: none;
@@ -202,6 +201,9 @@ header .menu a:hover{
 	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.006, #779650), to(#b6d591));
 	background-image: -moz-linear-gradient(90deg, #779650 0.6%, #b6d591 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b6d591', endColorstr='#779650');
+}
+header .menu .rsmLevel1 a:hover{
+    filter:none;
 }
 header .menu a.active{
 	color:#b5d590;
@@ -280,7 +282,7 @@ header .search{
 
 	width: 13em;
 	padding: .3em .4em;
-	font: 5em/1.2em "league-gothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	font: 5em/1.2em "LeagueGothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 	background-color: rgb(68, 130, 185);
 	background-color: rgba(68, 130, 185, 0.35);
 	position: absolute;
@@ -292,6 +294,7 @@ header .search{
 	color: #fff;
 	text-decoration: none;
 }
+
 
 #large-profile li .left_quote{
 	display: inline-block;
@@ -320,11 +323,12 @@ header .search{
 	width: 100%;
 }
 #large-profile .button, .sign_in,.joinus{
-	background: -moz-linear-gradient(90deg, #789950 0%, #b4d590 100%) #99ba72;
-	background: -webkit-gradient(linear, left bottom, left top, from(#789950), to(#b4d590)) #99ba72;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b4d590', endColorstr='#789950');
+	background: url(images/green-back.png);
+    -moz-background-clip: padding; 
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
 	color: #4c4544;
-	font-size: 1.4em;
+	font-size: 14px;
 	border: 2px solid #fff;
 	border-radius: .5em;
 	behavior: url(PIE.htc);
@@ -347,7 +351,7 @@ header .search{
 	display: none;
 }
 .sign_in{
-	font-size: 1.4em;
+	font-size: 14px;
 	top:0;
 	right: 0;
 	position: relative;
@@ -362,32 +366,27 @@ header .search{
 	border-radius:5px;
 	behavior: url(PIE.htc);
 	padding: .4em;
-	font-size: 1.4em;
-}
-.sfsearchBox input.sfsearchSubmit{
-	position: absolute;
-	right: 4px;
-	top:5px;
-	text-indent: -800em;
-	width: 2em;
-	background: #fff url(images/x/icon-search.png) no-repeat center center;
-	border: none;
-	height: 25px;
+	font-size: 14px;
 }
 
+
 .sf_pagerNumeric{
-	font-size: .8em;
-	padding-left: 4em;
+	font-size: 14px;
+	padding-left: 1em;
 	padding-top: 2em;
 	
 }
 
 
 .relatedArticles{
-	font-size: 1.4em;
+	font-size: 14px;
 	padding-top: 0em;
 }
 
+article.stories .sfContentBlock {
+            font-size:14px;
+        line-height:1.6em;
+}
 
 article.stories .sf_2cols_1_67{
 /* 	width:73%!important; */
@@ -398,6 +397,8 @@ article.stories .sf_2cols_2_33{
 	padding-right: 25px;
 	box-sizing: border-box;
 	padding-left: 8px;
+    max-width:265px;
+    
 }
 article.stories .sf_pagerNumeric a{
 	float: left;
@@ -407,6 +408,7 @@ article.stories .sf_pagerNumeric a{
 	vertical-align: top;
 	text-decoration: none!important;
 	color:#958f87!important;
+    margin-right:.5em;
 }
 article.stories .sfContentBlock p{
 	margin: 0 6%;
@@ -427,7 +429,7 @@ article.stories .sf_pagerNumeric a.sf_PagerCurrent{
 	top: .3em
 }
 #large-profile .copy{
-	font-size: 1.6em;
+	font-size: 16px;
 	line-height: 1.4em;
 	width: 25em;
 	position: absolute;
@@ -487,13 +489,16 @@ article.stories .sf_pagerNumeric a.sf_PagerCurrent{
 	position: absolute;
 	right: 0;
 	top: .5em;
-	font-size: 2.4em;
+	font-size: 24px;
 	line-height: .7em;
 	text-transform: uppercase;
-	padding: .4em .8em;
+	padding-top: 10px;
+    padding-left: 15px;
+    padding-bottom: 9px;
+    padding-right:15px;
 	border-radius: 5px;
 	behavior: url(PIE.htc);
-	font-family: "league-gothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	font-family: "LeagueGothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
 	color: #fff;
@@ -567,7 +572,7 @@ article.stories .sf_pagerNumeric a.sf_PagerCurrent{
 	display: block;
 }
 .action h2{
-	font: 3.5em/1.2em "league-gothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	font: 3.5em/1.2em "LeagueGothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 	text-transform:uppercase;
 	color: #857e74;
 	text-shadow: 0 2px 1px #ffffff;
@@ -578,6 +583,8 @@ article.stories .sf_pagerNumeric a.sf_PagerCurrent{
 	vertical-align: top;
 	padding-right: 1em;
 }
+
+
 .action .icon, .action .summary{
 	display: inline-block;
 	.display: inline;
@@ -588,12 +595,15 @@ article.stories .sf_pagerNumeric a.sf_PagerCurrent{
 .action .icon{
 	width: 14.2em;
 }
+.action .icon img {
+    max-width:14.2em;
+}
 .action .icon_adaptive{
 	display: none;
 }
 .action .summary{
 	width: 17.2em;
-	font-size: 1.4em;
+	font-size: 14px;
 	line-height: 1.4em;
 	padding-top: 1em;
 	color: #726f6c;
@@ -646,7 +656,7 @@ article.stories .sf_pagerNumeric a.sf_PagerCurrent{
 	vertical-align: top;
 	padding: .3em 1em;
 	color: #fff;
-	font-size: 1.2em;
+	font-size: 12px;
 	
 }
 #main_content footer .content li {
@@ -678,7 +688,7 @@ article.stories .sf_pagerNumeric a.sf_PagerCurrent{
 	
 }
 #main_content footer .advertise a {
-	font: 2.4em/1.3em "league-gothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	font: 2.4em/1.3em "LeagueGothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 	text-transform:uppercase;
 	color: #fff;
 	background: url(images/x/arrow-white.png) no-repeat center right;
@@ -713,7 +723,7 @@ article.stories .sf_pagerNumeric a.sf_PagerCurrent{
 }
 .landing_menu a{
 	text-decoration: none;
-	font-size: 1.4em;
+	font-size: 14px;
 	color:#fff;
 /* 	background: url(images/x/) */
 }
@@ -748,7 +758,7 @@ article.stories {
 article.stories div.snippet {
 	width: 420px;
 	padding-left: 15px;
-	height: 140px;
+	height: 160px;
 	box-sizing: border-box;
 	margin: 25px 0 0 0px;
 	padding-bottom: 1em;
@@ -767,11 +777,10 @@ article.stories .sf_2cols_1_67 div.snippet{
 
 article.stories div.snippet div.snippet-text {
 	color: #857e75;
-	margin-top: 10px;
+	margin-top: 0px;
 	font: 1.4em Arial, Helvetica, Geneva, sans-serif;
 	position: relative;
 	height: 85px;
-	max-height: 85px;
 	overflow: hidden;
 }
 article.stories div.dither {
@@ -786,7 +795,7 @@ article.stories div.dither {
 article.stories .snippet span.date,
 article.stories .snippet a {
 	color: #4c4645;
-	font-size: 1.4em;
+	font-size: 14px;
 }
 article.stories .snippet a {
 	font-weight: 600;
@@ -799,14 +808,14 @@ article.stories a.full-story{
 }
 
 article.stories .sf_2cols_2_33 .right_column_menu{
-	padding-left: 3.3em;
+	/*padding-left: 3.3em;*/
 }
 
 article.stories .sf_2cols_2_33 .right_column_menu .rsmLink{
-	font-size: 1em!important;
+	font-size: 13px!important;
 	font-weight: normal!important;
 	color:#888;
-	line-height: 1.6em;
+	line-height:1.6em!important;
 }
 
 article.stories .sf_2cols_2_33 .right_column_menu .rsmLink.active{
@@ -814,13 +823,13 @@ article.stories .sf_2cols_2_33 .right_column_menu .rsmLink.active{
 }
 article.stories .sf_2cols_2_33 .right_column_menu ul ul{
 	display: none;
-	font-size: 1.2em!important;
+	font-size: 12px!important;
 	margin: 0!important;
 	padding-bottom: 0.6em!important;
 }
 .sf_2cols_2in_33 h3{
-	padding-top: .5em;
-	padding-left: 1.2em!important;
+	padding-top: .2em;
+	/*padding-left: 1.2em!important;*/
 	padding-bottom: .5em;
 }
 .right_column_menu .has_children .icon{
@@ -863,7 +872,7 @@ article.stories.col-3 div.snippet {
 	display: none !important;
 }
 .pageTitle .sfNoBreadcrumbNavigation a, .pageTitle .sfNoBreadcrumbNavigation a:hover{
-	font-family: "league-gothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif !important;
+	font-family: "LeagueGothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif !important;
 	font-size: 3.5em!important;
 	color: #857e75;
 	text-decoration: none;
@@ -871,6 +880,7 @@ article.stories.col-3 div.snippet {
 	font-weight: normal;
 	text-transform: uppercase;
 }
+b
 .CTA .sfContentBlock{
 	font-size: 1.4em;
 	line-height: 1.5em;
@@ -886,7 +896,7 @@ article.stories.col-3 div.snippet {
 }
 
 .cpe_title{
-		font-family: "league-gothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif !important;
+		font-family: "LeagueGothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif !important;
 
 	background: #4483b9;
 	color: white;
@@ -961,7 +971,7 @@ article.stories.col-3 div.snippet {
 	color:#ba4444;
 	font-size: 2.5em;
 	text-transform: uppercase;
-	font-family: "league-gothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	font-family: "LeagueGothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 }
 
 
@@ -1007,9 +1017,7 @@ div.right-column {
 
 @media (max-width:960px){
 	.menu ul ul.rsmLevel1{
-		top:5.5em;
 		width:100%;
-		
 	}
 	.cpe_title{
 		margin-left: -1.1em;
@@ -1249,7 +1257,7 @@ div.right-column {
 }
 @media (max-width:710px){
 	header .menu a {
-		padding: .4em .8em!important;
+		padding: .4em .4em!important;
 	}
 	#large-profile .copy{
 		width: 20em;
@@ -1319,6 +1327,10 @@ padding-left: 9px;
 }
 
 @media (max-width:480px){
+    article.stories div.snippet{
+        height:200px;
+    }
+
 	header .menu{
 		display: none;
 	}
@@ -1430,3 +1442,4 @@ padding-left: 9px;
 		width: 119px;
 	}
 }
+

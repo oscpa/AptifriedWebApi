@@ -1,12 +1,12 @@
-﻿h1 {
-	font-family: "LeagueGothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+h1 {
+	font-family: "league-gothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 	font-size: 24px;
 	line-height: 1.2em;
 	color: #74954d;
 }
 
 h2, a.additional, .popularTitle {
-	font: 35px/1.2em "LeagueGothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	font: 35px/1.2em "league-gothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 	text-transform:uppercase;
 	color: #857e74;
 	text-shadow: 0 2px 1px #ffffff;
@@ -27,10 +27,10 @@ h2 a{
 }
 .popularArticles{
 	margin: 10px 10px 0 0;
-	padding:20px 15px;
+	padding:2em;
 	background:#edebe9;
 	border-radius: 5px;
-	padding-bottom: 30px;
+	
 }
 
 .popularTitle{
@@ -41,31 +41,15 @@ h2 a{
 	
 }
 .popularArticle h2.sfpostTitle{
-	font: 24px/1.2em "LeagueGothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	font: 24px/1.2em "league-gothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 	text-transform:uppercase;
 	color: #4483b9;
 	margin-top: 15px;
 	background: none;
 	display: block;
-	padding-bottom: 10px;
-    margin-left: 24px;
+	padding-bottom: .5em;
 }
 
-article.CTA .sfContentBlock {
-    font-size:12px;
-    color:#555;
-    padding:5px;
-}
-
-.rgSortAsc {
-    background:url(images/down.gif) no-repeat center center!important;
-}
-.rgSortDesc {
-    background:url(images/up.gif) no-repeat center center!important;
-}
-.rgHeader a:hover{
-    color:#fff!important;
-}
 article.stories .popularArticle a.full-story{
 	float: none;
 	margin-left: 25px;
@@ -73,19 +57,17 @@ article.stories .popularArticle a.full-story{
 	font-size: 1.2em;
 }
 h3, h5 {
-	font: 24px/1.2em "LeagueGothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	font: 24px/1.2em "league-gothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 	text-transform:uppercase;
 	color: #4483b9;
 	margin-top: 15px;
 }
-
 h4 {
-	font: 30px/1.2em "LeagueGothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	font: 30px/1.2em "league-gothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 	text-transform:none;
 	color: #75954c;
 	margin-top: 15px;
 }
-
 h5{
 	margin-top: 15px;
 }
@@ -97,7 +79,6 @@ h3.related{
 	font-size: 14px;
 	line-height: 1.4em;
 	padding-top: 10px;
-    width:auto;
 }
 .stories ul{
 	color: #857e75;
@@ -129,22 +110,6 @@ span.caption {
 	font-size: 13px;
 	line-height: 1.6em;
 	color: #333;
-}
-
-address {
-    font-size: 13px;
-	line-height: 1.6em;
-	color: #333;
-}
-textarea {
-    border: 1px solid #333;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
-    padding: 5px;
-    font-size:13px;
-    font-family: Arial;
 }
 .article_post .sfpostTitle{
 	padding: 0 0 .5em;
@@ -197,7 +162,6 @@ article.stories .similar .popularTitle{
 	border-spacing: 0;
 	background: #fff;
 	border-collapse:collapse;
-    font-size:12px;
 }
 
 .stories table th{
@@ -211,6 +175,7 @@ article.stories .similar .popularTitle{
 
 .stories table tr td{
 	padding: 10px;
+	font: normal 11px 'Lato', Arial, serif;
 	text-align: left;
 	border-left:1px solid #ccc;
 	color: #777;
@@ -227,10 +192,10 @@ label{
 	padding-left: 10px;
 	font-size: 14px;
 }
-input[type="password"],input[type="search"],input[type="text"], select, input.ui-autocomplete-input{
+input[type="password"],input[type="search"],input[type="text"], select{
 	border: 1px solid #333;
 	border-radius: 5px;
-	padding: 6px 6px;
+	padding: 6px 10px;
 	color: #777;
 	font-size: 14px;
 	background: #fff;
@@ -239,20 +204,20 @@ input[type="password"],input[type="search"],input[type="text"], select, input.ui
 	-webkit-appearance: none;
 }
 input[type=submit]{
-	background: url(images/green-back.png);
-    	color: #fff;
+	background: -moz-linear-gradient(90deg, #789950 0%, #b4d590 100%) #99ba72;
+	background: -webkit-gradient(linear, left bottom, left top, from(#789950), to(#b4d590)) #99ba72;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b4d590', endColorstr='#789950');
+	color: #fff;
 	font-size: 14px;
 	border: none;
 	border-radius: .5em;
 	behavior: url(PIE.htc);
-	padding: 6px 6px;
-    font-weight:bold;
-    cursor:pointer;
+	padding: 6px 10px;
 }
 .sfsearchBox input[type=submit].sfsearchSubmit{
 	position: absolute;
 	right: 4px;
-	top:3px;
+	top:4px;
     padding :0;
 	text-indent: -800em;
 	width: 2em;
@@ -268,24 +233,17 @@ a.RadButton{
 }
 
 .RadButton input[type=submit]{
-	background: url(images/green-back.png);
-    height: auto;
-    font-family:Arial;
+	padding: 3px 5px;
+	font-size: .9em;
+	background: -moz-linear-gradient(90deg, #789950 0%, #b4d590 100%) #99ba72 !important;
+	background: -webkit-gradient(linear, left bottom, left top, from(#789950), to(#b4d590)) #99ba72 !important;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b4d590', endColorstr='#789950') !important;
 }
-.RadButton input[type=submit]:hover{
-	background: url(images/green-back.png);
-    height: auto;
-}
+
 select{
 	background: #fff url(images/down.png) no-repeat right center;
 	padding-right: 32px;
-    border-radius:0;
 }
-    select[multiple], select[size] {
-        background:#ffffff;
-        border:1px solid #8e8e8e;
-        padding: 2px 5px;
-    }
 .accordion{
 	margin-bottom: 4px; 
 	margin-top: 20px;
@@ -318,11 +276,6 @@ select{
 }
 .accordion.open .content, .ui-accordion .ui-accordion-content{
 	display: block;
-    background: #EEE;
-    margin-left: 8px;
-    padding: 5px 10px;
-    margin-right: 8px;
-    width:auto;
 }
 
 article.stories .RadRating_Default a{
@@ -400,7 +353,7 @@ article.stories .RadRating_Default a{
 	color:#333;
 }
 .ui-tabs{
-	margin-top:10px;
+	
 }
 .ui-tabs .ui-tabs-nav{
 	padding:0;
@@ -431,18 +384,11 @@ article.stories .RadRating_Default a{
 .ui-tabs .ui-tabs-nav li a{
 	text-decoration:none;
 	color:#5b743c;
-	 display:inline-block;
-    .display:inline;
-    zoom:1;
-    vertical-align:top;
-    padding:5px 10px;
-    padding-right:0;
-    font-size:14px;
+	padding-right:0;
 }
 .ui-tabs .ui-tabs-nav .ui-state-active a{
 	text-decoration:none;
 	color:#000;
-    font-weight:bold;
 }
 .ui-tabs .ui-tabs-nav a:hover{
 	color:#000!important;
@@ -458,8 +404,10 @@ article.stories .RadRating_Default a{
 
 
 article.stories .button_general{
-	background: url(images/green-back.png);
-   	color: #4c4544;
+	background: -moz-linear-gradient(90deg, #789950 0%, #b4d590 100%) #99ba72;
+	background: -webkit-gradient(linear, left bottom, left top, from(#789950), to(#b4d590)) #99ba72;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b4d590', endColorstr='#789950');
+	color: #4c4544;
 	font-size: 14px;
 	border-radius: .5em;
 	behavior: url(PIE.htc);
@@ -474,13 +422,13 @@ article.stories .button_general{
 	color: #fff;	
 }
 .ui-button, button, input[type=button]{
-   background: url(images/green-back.png);
-   border-radius: .5em;
-	padding: 6px;
+    background: -moz-linear-gradient(90deg, #789950 0%, #b4d590 100%) #99ba72;
+	background: -webkit-gradient(linear, left bottom, left top, from(#789950), to(#b4d590)) #99ba72;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b4d590', endColorstr='#789950');
+    border-radius: .5em;
+	padding: .5em;
     color: #fff;
     border:none;
-    font-weight:bold;
-    font-size:14px;
 }
 .RadUpload .ruButton{
     padding-top:1px;
@@ -517,7 +465,7 @@ a.form_item:hover{
 	color: #4483b9!important;
 }
 .form_title{
-	font: 22px/1.6em "LeagueGothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	font: 22px/1.6em "league-gothic", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 	text-transform: uppercase;
 	color: #4c4645;
 }
@@ -530,8 +478,6 @@ article.stories h1, article.stories h3, article.stories p{
 
 article.stories .snippet h1{
 	margin-left:0!important;
-    max-height: 80px;
-    overflow: hidden
 }
 article.stories .article_post h1{
 margin-left:0!important;
@@ -546,8 +492,8 @@ article.stories a:hover{
 	color: #4483b9;
 }
 
-.stories li{
-	line-height: 1.6em!important;
+.stories ul{
+	line-height: 2.2em!important;
 }
 
 .popularArticle a{
@@ -589,6 +535,7 @@ article.stories a.arrow_link:hover{
 	vertical-align: top;
 }
 
+
 article.stories .snippet h1 a{
     color:#74954d;
     font-size:24px;
@@ -600,8 +547,6 @@ article.stories .snippet h1 a:hover{
     color:#4483b9;
 
 }
-
-
 
 input[type=submit].rgPageFirst,input[type=submit].rgPageLast,input[type=submit].rgPagePrev,input[type=submit].rgPageNext{
     filter:none!important;
@@ -617,125 +562,4 @@ input[type=submit].rgPageFirst,input[type=submit].rgPageLast,input[type=submit].
 .stories ul.sfpostsList{
     list-style:none;
     margin-left:0;
-}
-
-
-
-
-/*.webkit header .menu a {
-    background: white;
-    -webkit-background-clip: text;
-    color: transparent;
-}*/
-
-
-
-/* lets override some rad styles*/
-
-html body .RadInput_Default .riTextBox, html body .RadInputMgr_Default {
-	border-color:#333!important;
-	border: 1px solid #333 !important;
-	border-radius: 5px !important;
-	padding: 6px 6px !important;
-	color: #777 !important;
-	font-size: 14px !important;
-	background: #fff !important;
-}
-
-.RadComboBox_Default input, .RadComboBox_Default .rcbInput, .RadComboBoxDropDown_Default input {
-    border:none!important;
-}
- .RadComboBox_Default, .RadComboBox_Default .rcbInput, .RadComboBoxDropDown_Default {
-	font:14px Arial, sans-serif!important;
-	color:#333!important;
-	border:1px solid #333!important;
-	border-radius: 5px!important;
-    padding:4px 5px 5px;
-}
-.RadComboBox .rcbReadOnly .rcbInput {
-cursor: default;
-border: none!important;
-}
-.RadComboBox_Default .rcbInputCellLeft, .RadComboBox_Default .rcbInputCellRight, .RadComboBox_Default .rcbArrowCellLeft, .RadComboBox_Default .rcbArrowCellRight {
-	background:none!important;
-}
-* html .RadComboBox_Default .rcbInputCellLeft, * html .RadComboBox_Default .rcbInputCellRight, * html .RadComboBox_Default .rcbArrowCellLeft, * html .RadComboBox_Default .rcbArrowCellRight {
-	background:none!important;
-}
-.RadComboBoxDropDown_Default .rcbHeader, .RadComboBoxDropDown_Default .rcbFooter, .RadComboBoxDropDown_Default .rcbMoreResults, .RadComboBoxDropDown_Default .rcbMoreResults a {
-	background:none!important;
-}
-* html .RadComboBoxDropDown_Default .rcbHeader, * html .RadComboBoxDropDown_Default .rcbFooter, * html .RadComboBoxDropDown_Default .rcbMoreResults, * html .RadComboBoxDropDown_Default .rcbMoreResults a {
-	background:none!important;
-}
-.rcbArrowCell.rcbArrowCellRight {
-    background: #fff url(images/down.png) no-repeat right center!important;
-}
-.RadComboBox .rcbReadOnly td.rcbArrowCell a {
-    width: 26px!important;
-}
-.RadComboBoxDropDown_Default {
-top: 0px;
-left: -6px!important;
-border-top: none!important;
-border-radius: 0!important;
-}
-
-.RadComboBoxDropDown.RadComboBoxDropDown_Default,.RadComboBox.RadComboBox_Default{
-    min-width:60px;
-    box-sizing:border-box;
-}
-.RadComboBoxDropDown.RadComboBoxDropDown_Default  {
-    min-width:48px;
-    box-sizing:content-box;
-}
-div[id$="DropDown"] {
-       min-width:30px!important;
-   margin:5px 27px 5px 5px!important;
-}
-.RadCalendar.RadCalendar_Default {
-
-}
-.RadCalendar_Default .rcTitlebar table {
-    font: 12px/23px "segoe ui",arial,sans-serif!important;
-    background:inherit!important;
-    height:24px!important;
-}
-.RadCalendar_Default .rcTitlebar table a {
-    font: 12px/23px "segoe ui",arial,sans-serif!important;
-}
-
-.stories .RadCalendar_Default table th {
-    background: none!important;
-}
-
-.RadCalendar_Default .rcWeek .rcViewSel,.RadCalendar_Default .rcRow th:first-child {
-    background:#eee!important;
-}
-
-.sfpostsList li{
-    margin-bottom:40px;
-}
-
-body.webkit .sfsearchBox input[type="submit"].sfsearchSubmit {
-    top:5px;
-}
-
-.rgPagerCell {
-    font-size:14px;
-}
-.RadGrid .rgWrap, .RadGrid .rgNumPart a{
-    line-height:33px!important;
-}
-
-.riSingle, .riSingle .riTextBox, .riSingle .riContentWrapper, .riSingle .riDisplay {
-   /* box-sizing:content-box!important;*/
-}
-
-.RadPicker .rcCalPopup, .RadPicker .rcTimePopup {
-    /*margin-left:23px;*/
-}
-
-.RadComboBox .rcbReadOnly td.rcbArrowCell{
-    width:22px!important;
 }
