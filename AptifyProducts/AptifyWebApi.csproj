@@ -177,10 +177,13 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="Controllers\AptifyClassesController.cs" />
+    <Compile Include="Dto\AptifiriedClassFilterDto.cs" />
     <Compile Include="Dto\AptifriedAddressDto.cs" />
     <Compile Include="Dto\AptifriedClassDto.cs" />
     <Compile Include="Dto\AptifriedCompanyDto.cs" />
     <Compile Include="Dto\AptifriedCourseDto.cs" />
+    <Compile Include="Dto\AptifriedCreditDto.cs" />
+    <Compile Include="Dto\AptifriedFilterCreditDto.cs" />
     <Compile Include="Dto\AptifriedMemberTypeDto.cs" />
     <Compile Include="Dto\AptifriedProductDto.cs" />
     <Compile Include="Dto\AptifriedProductPriceDto.cs" />
@@ -201,6 +204,8 @@
     <Compile Include="Models\AptifriedClassMap.cs" />
     <Compile Include="Models\AptifriedCompanyMap.cs" />
     <Compile Include="Models\AptifriedCourseMap.cs" />
+    <Compile Include="Models\AptifriedCredit.cs" />
+    <Compile Include="Models\AptifriedCreditMap.cs" />
     <Compile Include="Models\AptifriedMemberType.cs" />
     <Compile Include="Models\AptifriedMemberTypeMap.cs" />
     <Compile Include="Models\AptifriedProductPriceMap.cs" />

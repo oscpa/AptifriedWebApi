@@ -12,5 +12,6 @@ namespace AptifyWebApi.Models {
         public virtual AptifriedCompany Location { get; set; }
         public virtual AptifriedProduct Product { get; set; }
         public virtual AptifriedCourse Course { get; set; }
+        public virtual IEnumerable<AptifriedCredit> Credits { get; set; }
     }
 }

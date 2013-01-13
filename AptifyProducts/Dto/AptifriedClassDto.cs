@@ -14,5 +14,6 @@ namespace AptifyWebApi.Dto {
         public AptifriedCompanyDto Location { get; set; }
         public AptifriedProductDto Product { get; set; }
         public AptifriedCourseDto Course { get; set; }
+        public IEnumerable<AptifriedCreditDto> Credits { get; set; }
     }
 }
