@@ -1,0 +1,76 @@
+/*
+these are classes you can use for some responsive styling. 
+note that the class .columns must contain a series of .column elements to render properly
+*/
+
+/*The below segment based on work done by Yahoo @http://yui.yahooapis.com/3.5.0/build/cssgrids/grids.css */
+.columns{
+	letter-spacing: -0.31em; /* webkit */
+    *letter-spacing: normal; /* reset IE < 8 */
+    word-spacing: -0.43em; /* IE < 8 && gecko */
+    margin-right: 6%;
+    max-width: 840px;
+	font-size: 12px;
+}
+.column{
+	display: inline-block;
+    zoom: 1; *display: inline; /* IE < 8: fake inline-block */
+    letter-spacing: normal;
+    word-spacing: normal;
+    vertical-align: top;
+    box-sizing: border-box;
+}
+/* done @yahoo*/
+
+
+
+.form_holder .columns{
+	/* The .form_holder class already has a nice padding applied to it, so lets get rid of our initial setting and use that */
+	 margin-right: 0;
+}
+
+
+
+/*
+Ok so here is the repsonsive part. Each of these columns should know what width to have. We want it to be a % so it remains fluid. Below you will see 4 class selectors to handle this.
+*/
+
+.five{
+	width:20%;
+}
+.four{
+	width:25%;
+}
+.three{
+	width:33.3%;
+}
+.two{
+	width:50%;
+}
+
+
+/*
+These @media declarations will determine when the columns should shift and radically resize.
+These are mearly my suggestions, you will probably have different needs for different peices of content,
+however these should handle most situations.
+*/
+@media (max-width:810px){
+	.five{
+		width:33.3%
+	}
+}
+
+@media (max-width:620px){
+	.five,.four{
+		width:50%;
+	}
+	.two{
+		width:100%;
+	}
+}
+
+@media (max-width:320px){
+	.five,.four, .three, .two{
+		width:100%;
+	}
+}

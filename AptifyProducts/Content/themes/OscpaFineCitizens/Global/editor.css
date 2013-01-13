@@ -1,0 +1,75 @@
+
+.sfPageEditor #header_navigation{
+	height: 116px;
+}
+
+.sfPageEditor .zeControlDock{
+	margin-bottom: 0;
+}
+
+.sfPageContainer .zeDockZoneEmpty{
+	min-height: 20px !important;
+	margin:0 !important;
+	padding:0 !important;
+}
+
+ .RadDockZone{
+ 	width: 100%;
+ }
+
+ .sfPageContainer .RadDock_Sitefinity .rdCenter .rdTitleBar > em , .sfPageContainer .RadDock_Sitefinity .rdCenter .rdCommands a, .sfPageContainer .RadDock_Sitefinity .rdCenter .rdCommands a span{
+ 	font-size: 11px !important;
+ 	height: auto !important;
+ }
+ 
+ .sfPageContainer .RadDock_Sitefinity .rdTable .rdTop .rdCenter .rdTitleBar{
+ 	height: 17px !important;
+	border-width:0 !important;
+ 	position: absolute !important;
+ 	min-width: 180px !important;
+ 	background: rgb(183, 210, 229);
+ 	margin:0 !important;
+ 	padding:0 !important;
+ 	opacity: .5;
+ }
+ 
+.sfPageContainer .RadDock_Sitefinity .rdTable .rdTop .rdCenter .rdTitleBar:hover{
+ 	opacity: 1;
+ }
+ 
+ .sfPageContainer .RadDock_Sitefinity .rdCenter .rdCommands a span.rdMoreCommand, .sfPageContainer .RadDock_Sitefinity .rdCenter .rdCommands a span.rdEditCommand{
+ 	padding: 0 2px !important;
+ 	background: none !important;
+ 	border:0 !important;
+ }
+ 
+ .zeContentMode .sfPageContainer .RadDock_Sitefinity .rdContent, .zeLayoutMode .sfPageContainer .RadDock_Sitefinity .rdContent, .zeSettingsMode .sfPageContainer .RadDock_Sitefinity .rdContent, .zeThemesMode .sfPageContainer .RadDock_Sitefinity .rdContent{
+ 	min-height:20px !important;
+ }
+ 
+ sfPageContainer .zeDockZoneEmpty, .zeContentMode .sfPageContainer .zeDockZoneEmpty{
+ 	border-width: 1px;
+ 	border-style: dashed;
+	border-color: orange;
+ 	background: white url(../images/content.gif) center center;
+ 	
+ }
+#ctl00_Scripts_RadDockZoneScripts{
+ 	background: url('../images/code.png') ;
+ }
+ 
+ 
+ .sfPageContainer .rdPlaceHolder{margin-bottom:0px;padding-bottom:0px;background:#ffffe6 ;height:2px !important; url(/WebResource.axd?d=0WD-sVjIqu4Z7pB-kg56oqO6uwN3V9-7nYf490fF6XeOcUg1zxjwcGRFeaQ-9SuJZPo4a09CfLkNGmHdGxTCAW3TaxaQHiM8bzgKfXZYvHH9oPAvm7ZSrZxD8ks5ms7GnGqZ93aYJQJrwMTf8jNsC1Uxf_n64weBOBb66gDJ5gKjImzDf2Sux3sOeno5QJUQmEbPIPaJG2N8SaKcXkAGSQ2&t=634544594898556000) no-repeat 50% 50%!important;border-color:#008000!important}
+
+ 
+.rdContent .banner_list li:first-child{
+	display: block;
+}
+ 
+#sfPageContainer .thumb-profile{
+	width: 930px;
+overflow: hidden;
+height: 197px;
+position: relative;
+}
+ 

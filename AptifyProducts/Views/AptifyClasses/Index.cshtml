@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = "AptifyClassView";
+    Layout = "~/Views/Shared/_LayoutPageOscpaFineCitizens.cshtml";
+}
+
+<h2>Classes Index View</h2>
+
+<script type="text/javascript">
+    function viewModel() {
+        var self = this;
+        self.classes = ko.observableArray();
+    };
+
+    function searchClasses() {
+
+        // Build OData query
+        var queryString = $("#textFilter").val();
+        var query = '@ViewBag.RouteUri' // netflix base url
+            + "?$filter=substringof(Name, '" + escape(queryString) + "')"  // filter by movie name
+            //+ "&$callback=callback" // jsonp request
+            + "$orderby=Name desc"
+            + "&$format=json"; // json request
+
+        $.getJSON(query, function (data) {
+            catchBinding(data, false);
+        });
+
+    }
+
+    $(document).ready(function () {
+        var classPath = '@ViewBag.RouteUri';
+       
+        $.getJSON(classPath, function (data) {
+            catchBinding(data, true);
+        });
+    });
+
+    function catchBinding(data, rebindData) {
+        
+        viewModel.classes = data;
+        if (rebindData === true){
+            bindViewModel();
+        }
+    }
+
+    function bindViewModel() {
+        ko.applyBindings(viewModel);
+    }
+</script>
+
+<div class="columns"> 
+    <div class="column two">
+
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+            </tr>
+            <tbody data-bind="foreach: viewModel.classes "> 
+
+                <tr> 
+                    <td> 
+                        <span data-bind="text:Name" ></span>
+                    </td> 
+                    <td> 
+                        <span data-bind="text:StartDate"></span> 
+                    </td> 
+                    <td> 
+                        <span data-bind="text:EndDate"></span> 
+                    </td> 
+                </tr> 
+            </tbody> 
+        </table>
+    </div> 
+    
+    <div class="column two">
+        <div class="form_holder">
+            <div class="form_title">filters bitches</div>
+
+            <label for="textFilter">Name</label>
+            <input id="textFilter" type="text">
+            <input type="button" id="btnLookup" value="Search" onclick="searchClasses()" />
+        </div>
+    </div> 
+
+</div>
+

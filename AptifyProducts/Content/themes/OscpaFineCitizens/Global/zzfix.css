@@ -1,0 +1,19 @@
+.RadSiteMap .rsmThreeLevels .rsmLink, .RadSiteMap .rsmThreeLevels .rsmTemplate{
+	margin-bottom: 0!important;
+}
+
+.RadSiteMap .rsmLink, .RadSiteMap .rsmTemplate{
+	margin-right: 0!important;
+}
+
+.RadTabStrip .rtsLink{
+	text-align: left!important;
+}
+
+
+footer .sfContentBlock{
+	display: inline-block!important;
+	.display:inline!important;
+	.zoom:1!important;
+	vertical-align: top;
+}
