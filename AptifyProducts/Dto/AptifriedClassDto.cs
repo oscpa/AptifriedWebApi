@@ -3,8 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using AptifyWebApi.Repository;
+using AptifyWebApi.Attributes;
 
 namespace AptifyWebApi.Dto {
+    
+    [AptifriedEntity(Name="Classes")]
     public class AptifriedClassDto {
 
         public int Id { get; set; }

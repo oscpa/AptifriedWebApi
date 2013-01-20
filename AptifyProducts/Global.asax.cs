@@ -62,6 +62,11 @@ namespace AptifyWebApi {
             
         }
 
+        protected void Application_BeginRequest(object sender, EventArgs e) {
+            Console.WriteLine("Now here");
+
+        }
+
         protected void Application_EndRequest(object sender, EventArgs e) {
             Object sessionObject = HttpContext.Current.Items[PerRequestLifetimeManager.Key];
             if (sessionObject != null) {
@@ -71,5 +76,7 @@ namespace AptifyWebApi {
                 }
             }
         } 
+
+        
     }
 }

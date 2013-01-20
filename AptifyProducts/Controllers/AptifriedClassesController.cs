@@ -27,7 +27,7 @@ namespace AptifyWebApi.Controllers {
             classDto = Mapper.Map(hibernatedCol, new List<AptifriedClassDto>());
             return classDto.AsQueryable<AptifriedClassDto>();
         }
-
+        
         public AptifriedClassDto Put(AptifriedClassDto classDto) {
             if (classDto != null) {
                 classDto.Name += "With juice!";
