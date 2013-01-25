@@ -17,7 +17,7 @@ namespace AptifyWebApi {
             Mapper.CreateMap<AptifriedProduct, AptifriedProductDto>();
             Mapper.CreateMap<AptifriedProductPrice, AptifriedProductPriceDto>();
             Mapper.CreateMap<AptifriedCredit, AptifriedCreditDto>();
-            
+            //Mapper.CreateMap<AptifriedSavedShoppingCart, AptifriedSavedShoppingCartDto>();
 
 
             Mapper.AssertConfigurationIsValid();

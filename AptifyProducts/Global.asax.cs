@@ -18,6 +18,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
+
 namespace AptifyWebApi {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
@@ -60,11 +61,6 @@ namespace AptifyWebApi {
                 typeof(IHttpControllerActivator),
                 new UnityControllerFactory(this.container));
             
-        }
-
-        protected void Application_BeginRequest(object sender, EventArgs e) {
-            Console.WriteLine("Now here");
-
         }
 
         protected void Application_EndRequest(object sender, EventArgs e) {

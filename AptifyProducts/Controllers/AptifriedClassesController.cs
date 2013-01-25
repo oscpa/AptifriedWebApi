@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using AutoMapper;
 using AptifyWebApi.Dto;
+using NHibernate.OData;
 
 namespace AptifyWebApi.Controllers {
     public class AptifriedClassesController : ApiController {
@@ -21,16 +22,41 @@ namespace AptifyWebApi.Controllers {
             _repo = new HibernatedAptifriedClassRepository(this.session);
         }
 
-        public IQueryable<AptifriedClassDto> Get() {
-            var hibernatedCol = _repo.GetAll();
+        public IEnumerable<AptifriedClassDto> Get() {
+
+            // Use the odata query parsing engine to 
+            // try to limit hits to the database.
+            var queryString = Request.RequestUri.Query;
+            ICriteria queryCriteria;
+            try {
+                if (!string.IsNullOrEmpty(queryString) && queryString.Contains("?")) {
+                    queryString = queryString.Remove(0, 1);
+                }
+                queryCriteria = ODataParser.ODataQuery<AptifriedClass>
+                    (session, queryString);
+            } catch (NHibernate.OData.ODataException) {
+                queryCriteria = session.CreateCriteria<AptifriedClass>();
+                throw new System.Web.HttpException(500, "Homie don't play that.");
+            }
+            var hibernatedCol = queryCriteria.List<AptifriedClass>();
+
+
+
             IList<AptifriedClassDto> classDto = new List<AptifriedClassDto>();
             classDto = Mapper.Map(hibernatedCol, new List<AptifriedClassDto>());
-            return classDto.AsQueryable<AptifriedClassDto>();
+            return classDto;
+        }
+
+        public AptifriedClassDto Get(int id) {
+            var hibernatedClass = _repo.Get(id);
+            AptifriedClassDto classDto = null;
+            classDto = Mapper.Map(hibernatedClass, classDto);
+            return classDto;
         }
         
         public AptifriedClassDto Put(AptifriedClassDto classDto) {
             if (classDto != null) {
-                classDto.Name += "With juice!";
+                
             }
             return classDto;
         }

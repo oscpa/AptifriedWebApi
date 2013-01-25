@@ -22,9 +22,9 @@ namespace AptifyWebApi.Controllers {
 
         // GET: /AptifyClass/
         public ActionResult Index() {
-            var hibernatedCol = aptifyRepository.GetAll();
+            //var hibernatedCol = aptifyRepository.GetAll();
             IList<AptifriedClassDto> classDto = new List<AptifriedClassDto>();
-            classDto = Mapper.Map(hibernatedCol, new List<AptifriedClassDto>());
+            //classDto = Mapper.Map(hibernatedCol, new List<AptifriedClassDto>());
 
             ViewBag.RouteUri = "/api/aptifriedclasses";
 
