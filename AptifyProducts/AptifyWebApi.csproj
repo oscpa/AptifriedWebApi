@@ -66,6 +66,10 @@
     <Reference Include="AptifyOrdersEntity">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyOrdersEntity.dll</HintPath>
     </Reference>
+    <Reference Include="AptifySecurityKey, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0\AptifySecurityKey.dll</HintPath>
+    </Reference>
     <Reference Include="AutoMapper">
       <HintPath>..\packages\AutoMapper.2.2.0\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
@@ -101,6 +105,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -113,9 +118,6 @@
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -179,10 +181,15 @@
     <Compile Include="App_Start\AutomapperConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\FormatterConfig.cs" />
+    <Compile Include="Attributes\AptifriedAuthorizeAttribute.cs" />
     <Compile Include="Attributes\AptifriedEntityFieldAttribute.cs" />
+    <Compile Include="Controllers\AuthorizationController.cs" />
     <Compile Include="Controllers\AptifriedCartController.cs" />
     <Compile Include="Controllers\AptifyClassesController.cs" />
     <Compile Include="Controllers\OscpaAuthController.cs" />
+    <Compile Include="Dto\AptifriedAuthorizedRoleDto.cs" />
+    <Compile Include="Dto\AptifriedAuthroizedUserDto.cs" />
     <Compile Include="Dto\AptifriedClassFilterDto.cs" />
     <Compile Include="Dto\AptifriedAddressDto.cs" />
     <Compile Include="Dto\AptifriedClassDto.cs" />
@@ -194,7 +201,10 @@
     <Compile Include="Dto\AptifriedProductDto.cs" />
     <Compile Include="Dto\AptifriedProductPriceDto.cs" />
     <Compile Include="Dto\AptifriedSavedShoppingCartDto.cs" />
+    <Compile Include="Dto\AptifriedWebRoleDto.cs" />
+    <Compile Include="Dto\AptifriedWebUserDto.cs" />
     <Compile Include="Dto\FlattenedClassViewDto.cs" />
+    <Compile Include="Formatters\JsonpMediaTypeFormatter.cs" />
     <Compile Include="Managers\PerRequestLifetimeManager.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Factories\UnityControllerFactory.cs" />
@@ -219,6 +229,12 @@
     <Compile Include="Attributes\AptifriedEntityAttribute.cs" />
     <Compile Include="Models\AptifriedSavedShoppingCart.cs" />
     <Compile Include="Models\AptifriedSavedShoppingCartMap.cs" />
+    <Compile Include="Models\AptifriedSecurityKey.cs" />
+    <Compile Include="Models\AptifriedSecurityKeyMap.cs" />
+    <Compile Include="Models\AptifriedWebRole.cs" />
+    <Compile Include="Models\AptifriedWebRoleMap.cs" />
+    <Compile Include="Models\AptifriedWebUser.cs" />
+    <Compile Include="Models\AptifriedWebUserMap.cs" />
     <Compile Include="Repository\HibernatedAptifriedClassRepository.cs" />
     <Compile Include="Models\AptifriedCompany.cs" />
     <Compile Include="Models\AptifriedCourse.cs" />
@@ -658,7 +674,9 @@
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -712,15 +730,14 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>62371</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:61739/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:8088</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

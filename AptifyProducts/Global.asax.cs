@@ -23,7 +23,7 @@ namespace AptifyWebApi {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
 
-    public class AptifyWebApiApplication : System.Web.HttpApplication {
+    public class AptifyWebApiApplication : HttpApplication {
 
         private UnityContainer container;
 
@@ -33,6 +33,7 @@ namespace AptifyWebApi {
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            FormatterConfig.RegisterFormatters(GlobalConfiguration.Configuration.Formatters);
             
             // wire up our config for automapper
             AutomapperConfig.InitializeAutoMapper();
@@ -72,7 +73,6 @@ namespace AptifyWebApi {
                 }
             }
         } 
-
         
     }
 }

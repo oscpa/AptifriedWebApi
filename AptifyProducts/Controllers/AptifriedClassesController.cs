@@ -34,9 +34,9 @@ namespace AptifyWebApi.Controllers {
                 }
                 queryCriteria = ODataParser.ODataQuery<AptifriedClass>
                     (session, queryString);
-            } catch (NHibernate.OData.ODataException) {
+            } catch (NHibernate.OData.ODataException odataException) {
                 queryCriteria = session.CreateCriteria<AptifriedClass>();
-                throw new System.Web.HttpException(500, "Homie don't play that.");
+                throw new System.Web.HttpException(500, "Homie don't play that.", odataException);
             }
             var hibernatedCol = queryCriteria.List<AptifriedClass>();
 

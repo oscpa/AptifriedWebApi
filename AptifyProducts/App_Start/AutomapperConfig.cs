@@ -17,9 +17,15 @@ namespace AptifyWebApi {
             Mapper.CreateMap<AptifriedProduct, AptifriedProductDto>();
             Mapper.CreateMap<AptifriedProductPrice, AptifriedProductPriceDto>();
             Mapper.CreateMap<AptifriedCredit, AptifriedCreditDto>();
+
+            Mapper.CreateMap<AptifriedWebUser, AptifriedWebUserDto>()
+                .ForMember( x => x.Password, y => y.Ignore());
+            Mapper.CreateMap<AptifriedWebRole, AptifriedWebRoleDto>();
+            Mapper.CreateMap<AptifriedWebUser, AptifriedAuthroizedUserDto>()
+                .ForMember(x => x.Password, y => y.Ignore()); ;
+            Mapper.CreateMap<AptifriedWebRole, AptifriedAuthorizedRoleDto>();
+
             //Mapper.CreateMap<AptifriedSavedShoppingCart, AptifriedSavedShoppingCartDto>();
-
-
             Mapper.AssertConfigurationIsValid();
         }
     }
