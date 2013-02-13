@@ -18,6 +18,6 @@ namespace AptifyWebApi.Models {
         public virtual string UniqueId { get; set; }
         public virtual string EncryptedPassword { get; set; }
 
-        public virtual ISet<AptifriedWebRole> Roles { get; set; }
+        public virtual IList<AptifriedWebRole> Roles { get; set; }
     }
 }

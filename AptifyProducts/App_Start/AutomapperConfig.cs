@@ -20,9 +20,10 @@ namespace AptifyWebApi {
 
             Mapper.CreateMap<AptifriedWebUser, AptifriedWebUserDto>()
                 .ForMember( x => x.Password, y => y.Ignore());
-            Mapper.CreateMap<AptifriedWebRole, AptifriedWebRoleDto>();
             Mapper.CreateMap<AptifriedWebUser, AptifriedAuthroizedUserDto>()
-                .ForMember(x => x.Password, y => y.Ignore()); ;
+                .ForMember(x => x.Password, y => y.Ignore()); 
+
+            Mapper.CreateMap<AptifriedWebRole, AptifriedWebRoleDto>();
             Mapper.CreateMap<AptifriedWebRole, AptifriedAuthorizedRoleDto>();
 
             //Mapper.CreateMap<AptifriedSavedShoppingCart, AptifriedSavedShoppingCartDto>();

@@ -18,10 +18,14 @@ namespace AptifyWebApi.Models {
             Map(x => x.UserName).Column("UserID");
             Map(x => x.UniqueId).Column("CmsGuid");
             Map(x => x.EncryptedPassword).Column("PWD");
-            HasMany(x => x.Roles)
-                .AsSet()
-                .Table("vwWebUsersWithCalculatedGroupsAndUniqueIDs")
-                .KeyColumn("WebUserUniqueID");
+
+            HasManyToMany(x => x.Roles)
+                .AsBag()
+                .Table("vwJoinWebGroupsCalculatedWebUsers")
+                .ParentKeyColumn("WebUserID")
+                .ChildKeyColumn("WebGroupUniqueID");
+
+            ReadOnly();
         }
     }
 }

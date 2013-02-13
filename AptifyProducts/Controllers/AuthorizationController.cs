@@ -4,6 +4,7 @@ using AutoMapper;
 using NHibernate;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -17,7 +18,6 @@ namespace AptifyWebApi.Attributes {
             this.session = session;
         }
 
-        [HttpGet]
         public AptifriedAuthroizedUserDto Get(string uniqueId) {
             AptifriedAuthroizedUserDto resultingUser = null;
             if (string.IsNullOrEmpty(uniqueId))
@@ -36,7 +36,7 @@ namespace AptifyWebApi.Attributes {
 
         [HttpPost]
         public AptifriedAuthroizedUserDto Post(AptifriedWebUserDto user) {
-            AptifriedAuthroizedUserDto resultingUser = null;
+            AptifriedAuthroizedUserDto resultingUser = new AptifriedAuthroizedUserDto();
 
             if (user == null)
                 throw new HttpException(401, "User is not present", new ArgumentException("user"));
@@ -46,29 +46,34 @@ namespace AptifyWebApi.Attributes {
                 .SingleOrDefault();
 
             if (foundUser != null) {
+                int aptifyEbizSecurityKeyId = -1;
+                if (int.TryParse(ConfigurationManager.AppSettings["AptifyEbizSecurityId"], out aptifyEbizSecurityKeyId)) {
 
+                    var aptifriedSecurityKey = session.QueryOver<AptifriedSecurityKey>()
+                        .Where(x => x.Id == aptifyEbizSecurityKeyId)
+                        .SingleOrDefault();
 
-                var aptifriedSecurityKey = session.QueryOver<AptifriedSecurityKey>()
-                    .Where(x => x.Id == 1)
-                    .SingleOrDefault();
+                    if (aptifriedSecurityKey == null)
+                        throw new HttpException(401, "Could not find Security Key to decrypt password.");
 
-                if (aptifriedSecurityKey == null)
-                    throw new HttpException(401, "Could not find Security Key to decrypt password.");
-                var aptifyCryptograph = new Aptify.Framework.BusinessLogic.Security.AptifyCryptograph();
-
-                string decryptedPassword = aptifyCryptograph.DecryptData(aptifriedSecurityKey.KeyValue, foundUser.EncryptedPassword);
-
-                if (decryptedPassword == user.Password) {
-                    Mapper.Map(foundUser, resultingUser);
-                    resultingUser.Password = decryptedPassword;
+                    string decryptedPassword = DecryptPassword(foundUser.EncryptedPassword, aptifriedSecurityKey.KeyValue);
+                    if (decryptedPassword == user.Password) {
+                        resultingUser = Mapper.Map(foundUser, new AptifriedAuthroizedUserDto());
+                        resultingUser.Password = decryptedPassword;
+                    } else {
+                        throw new ArgumentException("AptifyEbizSecurityId missing from web.config");
+                    }
                 }
-                
-                
-            } else {
-                throw new HttpException(401, "User not found");
             }
 
             return resultingUser;
         }
+
+        private string DecryptPassword(string encryptedPassword, string keyValue) {
+                var aptifyCryptograph = new Aptify.Framework.BusinessLogic.Security.AptifyCryptograph();
+                string decryptedPassword = aptifyCryptograph.DecryptData(keyValue, encryptedPassword);
+                return decryptedPassword;
+        }
+
     }
 }

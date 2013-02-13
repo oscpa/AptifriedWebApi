@@ -9,6 +9,6 @@ namespace AptifyWebApi.Dto {
         public string UserName { get; set; }
         public string Password { get; set; }
         public string UniqueId { get; set; }
-        public virtual ISet<AptifriedAuthorizedRoleDto> Roles { get; set; }
+        public virtual IList<AptifriedAuthorizedRoleDto> Roles { get; set; }
     }
 }
