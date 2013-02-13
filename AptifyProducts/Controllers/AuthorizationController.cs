@@ -28,7 +28,7 @@ namespace AptifyWebApi.Attributes {
                 .SingleOrDefault();
 
             if (foundUser != null)
-                Mapper.Map(foundUser, resultingUser);
+               resultingUser =  Mapper.Map(foundUser, new AptifriedAuthroizedUserDto());
 
             return resultingUser;
 
