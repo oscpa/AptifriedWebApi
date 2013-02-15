@@ -41,7 +41,6 @@ namespace AptifyWebApi.Factories{
                 IHttpController controller = null;
                 if (controllerType != null) {
                     controller = this.container.Resolve(controllerType) as IHttpController;
-                    
                 }
                 return controller;
         }

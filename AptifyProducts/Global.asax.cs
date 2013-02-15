@@ -67,17 +67,7 @@ namespace AptifyWebApi {
 
             GlobalConfiguration.Configuration.MessageHandlers.Add(
                 new AptifriedAuthenticationDelegatingHandler());
-        }
-
-        void Application_AuthorizeRequest(object sender, EventArgs e) {
-            AptifriedPrincipal principal = null;
-            if (AptifriedAuthorizationFactory.TryGetAuthorization(Context.Request, out principal)) {
-                Context.User = (IPrincipal)principal;
-            }
-        }
-
-
-        
+        }        
 
         protected void Application_EndRequest(object sender, EventArgs e) {
             Object sessionObject = HttpContext.Current.Items[PerRequestLifetimeManager.Key];

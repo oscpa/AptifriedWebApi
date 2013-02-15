@@ -182,7 +182,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\FormatterConfig.cs" />
-    <Compile Include="Attributes\AptifriedAuthorizeAttribute.cs" />
     <Compile Include="Attributes\AptifriedEntityFieldAttribute.cs" />
     <Compile Include="Controllers\AuthorizationController.cs" />
     <Compile Include="Controllers\AptifriedCartController.cs" />

@@ -12,7 +12,7 @@ using System.Web.Http;
 
 namespace AptifyWebApi.Controllers {
 
-    
+    [System.Web.Http.Authorize]
     public class AptifriedCartController : ApiController {
 
         private ISession _sesssion;
@@ -23,7 +23,7 @@ namespace AptifyWebApi.Controllers {
             _repo = new HibernatedAptifriedClassRepository(session);
         }
 
-        [System.Web.Http.Authorize]
+        
         public IQueryable<AptifriedProductDto> Get() {
             return null;
         }
