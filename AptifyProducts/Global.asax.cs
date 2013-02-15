@@ -1,5 +1,6 @@
 ﻿using AptifyWebApi.Factories;
 using AptifyWebApi.Managers;
+using AptifyWebApi.Membership;
 using AptifyWebApi.Models;
 using AptifyWebApi.Repository;
 using FluentNHibernate.Cfg;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Reflection;
+using System.Security.Principal;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Dispatcher;
@@ -34,7 +36,7 @@ namespace AptifyWebApi {
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             FormatterConfig.RegisterFormatters(GlobalConfiguration.Configuration.Formatters);
-            
+
             // wire up our config for automapper
             AutomapperConfig.InitializeAutoMapper();
 
@@ -51,7 +53,6 @@ namespace AptifyWebApi {
                 }
             ));
 
-
             // retigster with mvc that when we ask for a controller,
             // then use our own factory to hydrate the controller and 
             // get the request's ISession 
@@ -61,8 +62,22 @@ namespace AptifyWebApi {
             GlobalConfiguration.Configuration.Services.Replace(
                 typeof(IHttpControllerActivator),
                 new UnityControllerFactory(this.container));
-            
+
+            DependencyResolver.SetResolver(new UnityDependencyResolver(container));
+
+            GlobalConfiguration.Configuration.MessageHandlers.Add(
+                new AptifriedAuthenticationDelegatingHandler());
         }
+
+        void Application_AuthorizeRequest(object sender, EventArgs e) {
+            AptifriedPrincipal principal = null;
+            if (AptifriedAuthorizationFactory.TryGetAuthorization(Context.Request, out principal)) {
+                Context.User = (IPrincipal)principal;
+            }
+        }
+
+
+        
 
         protected void Application_EndRequest(object sender, EventArgs e) {
             Object sessionObject = HttpContext.Current.Items[PerRequestLifetimeManager.Key];

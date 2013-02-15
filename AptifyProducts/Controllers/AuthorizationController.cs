@@ -29,7 +29,7 @@ namespace AptifyWebApi.Attributes {
 
             if (foundUser != null)
                resultingUser =  Mapper.Map(foundUser, new AptifriedAuthroizedUserDto());
-
+            
             return resultingUser;
 
         }

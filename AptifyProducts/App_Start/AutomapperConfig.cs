@@ -25,6 +25,7 @@ namespace AptifyWebApi {
 
             Mapper.CreateMap<AptifriedWebRole, AptifriedWebRoleDto>();
             Mapper.CreateMap<AptifriedWebRole, AptifriedAuthorizedRoleDto>();
+            Mapper.CreateMap<AptifriedClassExtended, AptifriedClassExtendedDto>();
 
             //Mapper.CreateMap<AptifriedSavedShoppingCart, AptifriedSavedShoppingCartDto>();
             Mapper.AssertConfigurationIsValid();

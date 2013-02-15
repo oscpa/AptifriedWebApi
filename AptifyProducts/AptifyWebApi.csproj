@@ -190,6 +190,7 @@
     <Compile Include="Controllers\OscpaAuthController.cs" />
     <Compile Include="Dto\AptifriedAuthorizedRoleDto.cs" />
     <Compile Include="Dto\AptifriedAuthroizedUserDto.cs" />
+    <Compile Include="Dto\AptifriedClassExtendedDto.cs" />
     <Compile Include="Dto\AptifriedClassFilterDto.cs" />
     <Compile Include="Dto\AptifriedAddressDto.cs" />
     <Compile Include="Dto\AptifriedClassDto.cs" />
@@ -204,6 +205,8 @@
     <Compile Include="Dto\AptifriedWebRoleDto.cs" />
     <Compile Include="Dto\AptifriedWebUserDto.cs" />
     <Compile Include="Dto\FlattenedClassViewDto.cs" />
+    <Compile Include="Factories\AptifriedAuthorizationFactory.cs" />
+    <Compile Include="Factories\UnityDependencyResolver.cs" />
     <Compile Include="Formatters\JsonpMediaTypeFormatter.cs" />
     <Compile Include="Managers\PerRequestLifetimeManager.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -215,6 +218,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Membership\AptifriedAuthenticationDelegatingHandler.cs" />
+    <Compile Include="Membership\AptifriedIdentity.cs" />
+    <Compile Include="Membership\AptifriedMembershipProvider.cs" />
+    <Compile Include="Membership\AptifriedPrincipal.cs" />
     <Compile Include="Models\AptifriedAddressMap.cs" />
     <Compile Include="Models\AptifriedClass.cs" />
     <Compile Include="Models\AptifriedAddress.cs" />
@@ -223,6 +230,8 @@
     <Compile Include="Models\AptifriedCourseMap.cs" />
     <Compile Include="Models\AptifriedCredit.cs" />
     <Compile Include="Models\AptifriedCreditMap.cs" />
+    <Compile Include="Models\AptifriedClassExtended.cs" />
+    <Compile Include="Models\AptifriedClassExtendedMap.cs" />
     <Compile Include="Models\AptifriedMemberType.cs" />
     <Compile Include="Models\AptifriedMemberTypeMap.cs" />
     <Compile Include="Models\AptifriedProductPriceMap.cs" />
@@ -730,13 +739,13 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>62371</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:61739/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>True</UseCustomServer>
+          <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>http://localhost:8088</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>

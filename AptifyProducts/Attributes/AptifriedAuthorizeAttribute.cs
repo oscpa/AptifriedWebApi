@@ -1,43 +1,34 @@
-﻿using NHibernate;
+﻿using Microsoft.Practices.Unity;
+using NHibernate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Web;
-using System.Web.Http;
+using System.Web.Mvc;
 using System.Web.Http.Controllers;
+using System.Web.Http.Filters;
+using System.Threading.Tasks;
+using System.Threading;
+using AptifyWebApi.Models;
 
 namespace AptifyWebApi.Attributes {
-    public class AptifriedAuthorizeAttribute : AuthorizeAttribute {
+    public class AptifriedAuthorizeAttribute : System.Web.Http.AuthorizeAttribute{
 
+
+        private const string HEADER_KEY = "";
         private ISession session;
+
+        public AptifriedAuthorizeAttribute() : this(DependencyResolver.Current.GetService<ISession>()) { }
         public AptifriedAuthorizeAttribute(ISession session) {
             this.session = session;
         }
 
-        protected override void HandleUnauthorizedRequest(HttpActionContext actionContext) {
-            var challengeMessage = new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.Unauthorized);
-            challengeMessage.Headers.Add("WWW-Authenticate", "AptifriedAuth");
-            throw new HttpResponseException(challengeMessage);
-        }
-
         protected override bool IsAuthorized(HttpActionContext actionContext) {
-            return Authorize(actionContext);
+            return base.IsAuthorized(actionContext);
         }
-
         public override void OnAuthorization(HttpActionContext actionContext) {
             base.OnAuthorization(actionContext);
         }
-
-        protected bool Authorize(HttpActionContext actionContext) {
-            bool isAuthorized = false;
-
-            if (actionContext.Request.Headers.Contains("X-User-Data")) {
-                isAuthorized = true;
-            } 
-
-            return isAuthorized;
-        }
-
     }
 }

@@ -39,17 +39,17 @@ namespace AptifyWebApi.Controllers {
                 throw new System.Web.HttpException(500, "Homie don't play that.", odataException);
             }
             var hibernatedCol = queryCriteria.List<AptifriedClass>();
-
-
-
             IList<AptifriedClassDto> classDto = new List<AptifriedClassDto>();
             classDto = Mapper.Map(hibernatedCol, new List<AptifriedClassDto>());
             return classDto;
         }
 
-        public AptifriedClassDto Get(int id) {
-            var hibernatedClass = _repo.Get(id);
-            AptifriedClassDto classDto = null;
+        public AptifriedClassExtendedDto Get(int id) {
+            var hibernatedClass = session.QueryOver<AptifriedClassExtended>()
+                .Where(c => c.Id == id)
+                .SingleOrDefault();
+
+            AptifriedClassExtendedDto classDto = null;
             classDto = Mapper.Map(hibernatedClass, classDto);
             return classDto;
         }

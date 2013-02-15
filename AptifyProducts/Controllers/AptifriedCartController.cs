@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Http;
 using AptifyWebApi.Dto;
 using AptifyWebApi.Repository;
 using AptifyWebApi.Attributes;
 using NHibernate;
+using System.Web.Mvc;
+using System.Web.Http;
 
 
 namespace AptifyWebApi.Controllers {
+
+    
     public class AptifriedCartController : ApiController {
 
         private ISession _sesssion;
@@ -20,13 +23,13 @@ namespace AptifyWebApi.Controllers {
             _repo = new HibernatedAptifriedClassRepository(session);
         }
 
+        [System.Web.Http.Authorize]
         public IQueryable<AptifriedProductDto> Get() {
-            var userName = HttpContext.Current.User.Identity.Name;
             return null;
         }
 
-        public void Put(AptifriedProductDto product) {
-            
+
+        public void Put(IList<AptifriedProductDto> product) {
             
         }
     }

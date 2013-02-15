@@ -1,4 +1,5 @@
-﻿using NHibernate;
+﻿using AptifyWebApi.Attributes;
+using NHibernate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace AptifyWebApi.Controllers {
         public HomeController(ISession session) {
             this.session = session;
         }
+
+        
         public ActionResult Index() {
             return View();
         }
