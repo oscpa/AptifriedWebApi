@@ -1,8 +1,10 @@
-﻿using AptifyWebApi.Membership;
+﻿using Aptify.Framework.DataServices;
+using AptifyWebApi.Membership;
 using AptifyWebApi.Models;
 using NHibernate;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Web;
@@ -62,6 +64,31 @@ namespace AptifyWebApi.Factories {
                 }
             }
             return authorizationFound;
+        }
+
+        internal static UserCredentials GetUserCredientails() {
+            UserCredentials uc = new Aptify.Framework.DataServices.UserCredentials(
+                 ValidateAppSetting("AptifyDBServer", true),
+                 ValidateAppSetting("AptifyUsersDB", true),
+                 ValidateAppSetting("AptifyEntitiesDB", true),
+                 Convert.ToBoolean(ValidateAppSetting("AptifyEBusinessSQLIsTrusted", true)),
+                 Convert.ToInt64(ValidateAppSetting("AptifyEBusinessWebEmployeeID", false)),
+                 ValidateAppSetting("AptifyEBusinessSQLLogin", false),
+                 ValidateAppSetting("AptifyEBusinessSQLPWD", false),
+                 null,
+                 false,
+                 -1,
+                 false);
+
+            return uc;
+        }
+
+        private static string ValidateAppSetting(string keyName, bool requre = false) {
+            if (string.IsNullOrEmpty(System.Configuration.ConfigurationManager.AppSettings[keyName]) && requre)
+                throw new ConfigurationErrorsException("Missing Key: " + keyName);
+            else
+                return System.Configuration.ConfigurationManager.AppSettings[keyName];
+
         }
 
         internal static bool IsUserInRole(string userName, string roleName) {

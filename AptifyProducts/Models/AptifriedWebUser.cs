@@ -19,5 +19,6 @@ namespace AptifyWebApi.Models {
         public virtual string EncryptedPassword { get; set; }
 
         public virtual IList<AptifriedWebRole> Roles { get; set; }
+        public virtual IList<AptifriedSavedShoppingCart> ShoppingCarts { get; set; }
     }
 }

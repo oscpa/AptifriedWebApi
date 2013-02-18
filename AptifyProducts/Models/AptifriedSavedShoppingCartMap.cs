@@ -11,10 +11,12 @@ namespace AptifyWebApi.Models {
 
             Id(x => x.Id);
             Map(x => x.Name);
-            Map(x => x.WebUserId);
+
+            HasOne(x => x.WebUser).ForeignKey("WebUserID");
             Map(x => x.XmlData);
             Map(x => x.Description);
             Map(x => x.OrderId);
+            ReadOnly();
         }
     }
 }

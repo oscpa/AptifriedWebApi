@@ -1,4 +1,5 @@
-﻿using AptifyWebApi.Factories;
+﻿using Aptify.Framework.Web.eBusiness;
+using AptifyWebApi.Factories;
 using AptifyWebApi.Managers;
 using AptifyWebApi.Membership;
 using AptifyWebApi.Models;
@@ -67,8 +68,8 @@ namespace AptifyWebApi {
 
             GlobalConfiguration.Configuration.MessageHandlers.Add(
                 new AptifriedAuthenticationDelegatingHandler());
-        }        
-
+        }
+        
         protected void Application_EndRequest(object sender, EventArgs e) {
             Object sessionObject = HttpContext.Current.Items[PerRequestLifetimeManager.Key];
             if (sessionObject != null) {
@@ -77,7 +78,6 @@ namespace AptifyWebApi {
                     currentSession.Close();
                 }
             }
-        } 
-        
+        }         
     }
 }

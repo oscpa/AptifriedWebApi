@@ -8,6 +8,7 @@ namespace AptifyWebApi.Models {
     public class AptifriedWebUserMap : ClassMap<AptifriedWebUser> {
         public AptifriedWebUserMap() {
             Table("vwWebUsers");
+
             Id(x => x.Id);
             Map(x => x.Email);
             Map(x => x.FirstName);
@@ -24,6 +25,11 @@ namespace AptifyWebApi.Models {
                 .Table("vwJoinWebGroupsCalculatedWebUsers")
                 .ParentKeyColumn("WebUserID")
                 .ChildKeyColumn("WebGroupUniqueID");
+
+            HasMany(x => x.ShoppingCarts)
+                .Table("vwWebShoppingCarts")
+                .KeyColumn("WebUserID")
+                .AsBag();
 
             ReadOnly();
         }

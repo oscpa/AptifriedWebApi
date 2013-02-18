@@ -19,16 +19,90 @@ namespace AptifyWebApi {
             Mapper.CreateMap<AptifriedCredit, AptifriedCreditDto>();
 
             Mapper.CreateMap<AptifriedWebUser, AptifriedWebUserDto>()
-                .ForMember( x => x.Password, y => y.Ignore());
+                .ForMember(x => x.Password, y => y.Ignore());
             Mapper.CreateMap<AptifriedWebUser, AptifriedAuthroizedUserDto>()
-                .ForMember(x => x.Password, y => y.Ignore()); 
+                .ForMember(x => x.Password, y => y.Ignore());
 
             Mapper.CreateMap<AptifriedWebRole, AptifriedWebRoleDto>();
             Mapper.CreateMap<AptifriedWebRole, AptifriedAuthorizedRoleDto>();
             Mapper.CreateMap<AptifriedClassExtended, AptifriedClassExtendedDto>();
+            Mapper.CreateMap<AptifriedPerson, AptifriedPersonDto>();
 
-            //Mapper.CreateMap<AptifriedSavedShoppingCart, AptifriedSavedShoppingCartDto>();
+            Mapper.CreateMap<Aptify.Applications.OrderEntry.OrdersEntity, AptifriedOrderDto>()
+                .ForMember(dto => dto.Lines, m => m.ResolveUsing<OrderLinesResolver>()
+                    .FromMember(ao => ao.SubTypes["OrderLines"]))
+                .ForMember(dto => dto.ShipToPerson, m => m.ResolveUsing<OrderShipToPersonResolver>())
+                .ForMember(dto => dto.ShippingAddress, m => m.ResolveUsing<OrderShipToAddressResolver>())
+                .ForMember(dto => dto.Balance, m => m.MapFrom(ao => ao.Balance))
+                .ForMember(dto => dto.SubTotal, m => m.MapFrom(ao => ao.CALC_SubTotal))
+                .ForMember(dto => dto.ShippingTotal, m => m.MapFrom(ao => ao.CALC_ShippingCharge))
+                .ForMember(dto => dto.Tax, m => m.MapFrom(ao => ao.CALC_SalesTax))
+                .ForMember(dto => dto.GrandTotal, m => m.MapFrom(ao => ao.CALC_GrandTotal));
+
+            Mapper.CreateMap<AptifriedSavedShoppingCart, AptifriedSavedShoppingCartDto>()
+                .ForMember(dto => dto.XmlData, m => m.Ignore())
+                .ForMember(dto => dto.Order, m => m.Ignore());
+
+
             Mapper.AssertConfigurationIsValid();
         }
+
+        internal class OrderLinesResolver :
+            ValueResolver<Aptify.Framework.BusinessLogic.GenericEntity.AptifySubTypes, IEnumerable<AptifriedOrderLineDto>> {
+
+            protected override IEnumerable<AptifriedOrderLineDto> ResolveCore(
+                Aptify.Framework.BusinessLogic.GenericEntity.AptifySubTypes source) {
+                IList<AptifriedOrderLineDto> convertedOrderLines = new List<AptifriedOrderLineDto>();
+                var orderLineEnumerator = source.GetEnumerator();
+
+                while (orderLineEnumerator.MoveNext()) {
+                    var currentOrderline = (Aptify.Applications.OrderEntry.OrderLinesEntity)orderLineEnumerator.Current;
+                    convertedOrderLines.Add(new AptifriedOrderLineDto() {
+                        Product = new AptifriedProductDto() {
+                            Id = Convert.ToInt32(currentOrderline.ProductID)
+                        },
+                        Price = currentOrderline.Price,
+                        Discount = currentOrderline.Discount,
+                        Extended = currentOrderline.Extended
+                    });
+                }
+
+                return convertedOrderLines.AsEnumerable();
+            }
+
+
+        }
+
+        internal class OrderShipToPersonResolver :
+            ValueResolver<Aptify.Applications.OrderEntry.OrderLinesEntity, AptifriedPersonDto> {
+
+            protected override AptifriedPersonDto ResolveCore(Aptify.Applications.OrderEntry.OrderLinesEntity source) {
+                AptifriedPersonDto resulingPerson = new AptifriedPersonDto() {
+                    Id = source.ShipToID
+                };
+
+                return resulingPerson;
+            }
+
+        }
+
+        internal class OrderShipToAddressResolver :
+            ValueResolver<Aptify.Applications.OrderEntry.OrderLinesEntity, AptifriedAddressDto> {
+
+            protected override AptifriedAddressDto ResolveCore(Aptify.Applications.OrderEntry.OrderLinesEntity source) {
+                AptifriedAddressDto resultingAddress = new AptifriedAddressDto() {
+                    Id = source.ShipToAddressID,
+                    Line1 = source.ShipToAddrLine1,
+                    Line2 = source.ShipToAddrLine2,
+                    Line3 = source.ShipToAddrLine3,
+                    City = source.ShipToCity,
+                    StateProvince = source.ShipToState,
+                    PostalCode = source.ShipToZipCode
+                };
+
+                return resultingAddress;
+            }
+        }
+
     }
 }
