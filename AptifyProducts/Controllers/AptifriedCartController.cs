@@ -21,6 +21,20 @@ namespace AptifyWebApi.Controllers {
 
         private ISession _sesssion;
         private Aptify.Framework.Application.AptifyApplication _app;
+        private AptifriedAuthroizedUserDto _aptifyUser;
+
+        protected AptifriedAuthroizedUserDto AptifyUser {
+            get {
+                if (_aptifyUser == null && this.User.Identity.IsAuthenticated) {
+                    var thisUser = _sesssion.QueryOver<AptifriedWebUser>()
+                        .Where(u => u.UserName == User.Identity.Name)
+                        .SingleOrDefault();
+                    _aptifyUser = Mapper.Map(thisUser, new AptifriedAuthroizedUserDto());
+                }
+                return _aptifyUser;
+            }
+        }
+
         protected Aptify.Framework.Application.AptifyApplication AptifyApp {
             get {
                 if (_app == null) {
@@ -43,6 +57,12 @@ namespace AptifyWebApi.Controllers {
 
 
         public AptifriedSavedShoppingCartDto Put(AptifriedAddProductToSavedShoppingCartDto addRequest) {
+            
+            AptifyGenericEntityBase orderGe = null;
+            AptifyGenericEntityBase aptifyShoppingCartGe = null;
+            var aptifyXmlParser = new Aptify.Framework.BusinessLogic.GenericEntity.XMLParser();
+
+
             if (addRequest.Id >= 0) {
 
                 var userCartCheck = _sesssion.QueryOver<AptifriedSavedShoppingCart>()
@@ -53,31 +73,47 @@ namespace AptifyWebApi.Controllers {
 
                 if (userCartCheck == 0)
                     throw new HttpException(500, "User does not have access to this cart.");
-            }
 
-            AptifyGenericEntityBase orderGe = null;
-            var aptifyShoppingCartGe = AptifyApp.GetEntityObject("Web Shopping Carts", addRequest.Id);
+                aptifyShoppingCartGe = AptifyApp.GetEntityObject("Web Shopping Carts", addRequest.Id);
+            } else {
+                aptifyShoppingCartGe = AptifyApp.GetEntityObject("Web Shopping Carts", -1);
+                aptifyShoppingCartGe.SetAddValue("Name", AptifyUser.UserName + ' ' + DateTime.Now.ToLongDateString());
+                aptifyShoppingCartGe.SetAddValue("WebUserID", AptifyUser.Id);
+            }
 
             // TODO: need to refactor this so we don't have duplicate parsing code.
             string xmlData = Convert.ToString(aptifyShoppingCartGe.GetValue("XMLData"));
             if (!string.IsNullOrEmpty(xmlData)) {
-                var aptifyXmlParser = new Aptify.Framework.BusinessLogic.GenericEntity.XMLParser();
-                aptifyXmlParser.LoadGEFromXMLString(xmlData, ref orderGe);
+                aptifyXmlParser.LoadGEFromXMLString(xmlData, ref orderGe); 
             }
             if (orderGe == null) {
                 orderGe = AptifyApp.GetEntityObject("Orders", -1);
             }
 
             var orderProper = (Aptify.Applications.OrderEntry.OrdersEntity)orderGe;
-            foreach (var requestdProductAdd in addRequest.Products) {
-                orderProper.AddProduct(Convert.ToInt64(requestdProductAdd.Id));
+            foreach (var requestedProductId in addRequest.Products) {
+                orderProper.AddProduct(Convert.ToInt64(requestedProductId));
             }
 
-            //AptifriedSavedShoppingCart savedCart = new AptifriedSavedShoppingCartDto() {
-            //    Order = Mapper.Map(orderProper, new AptifriedOrderDto())
-            //};
+            aptifyShoppingCartGe.SetAddValue("XmlData",
+                ((Aptify.Framework.BusinessLogic.GenericEntity.AptifyGenericEntity)orderProper).GetDataString());
 
-            return null;
+            string possibleError = string.Empty;
+            if (aptifyShoppingCartGe.Save(ref possibleError)) {
+                throw new HttpException(500, "Error saving shopping cart. Error was: " + possibleError);
+            }
+
+            AptifriedSavedShoppingCartDto savedCart = new AptifriedSavedShoppingCartDto() {
+                Id = Convert.ToInt32(aptifyShoppingCartGe.RecordID),
+                Name = Convert.ToString(aptifyShoppingCartGe.GetValue("Name")),
+                Description = Convert.ToString(aptifyShoppingCartGe.GetValue("Description")),
+                DateCreated = Convert.ToDateTime(aptifyShoppingCartGe.GetValue("DateCreated")),
+                DateUpdated = Convert.ToDateTime(aptifyShoppingCartGe.GetValue("DateUpdated")),
+                OrderId = Convert.ToInt32(aptifyShoppingCartGe.GetValue("OrderID")),
+                Order = Mapper.Map(orderProper, new AptifriedOrderDto())
+            };
+
+            return savedCart;
         }
 
 
@@ -119,9 +155,10 @@ namespace AptifyWebApi.Controllers {
             var shoppingCarts = _sesssion.QueryOver<AptifriedSavedShoppingCart>()
                 .Where(sc => sc.OrderId <= 0)
                 .JoinQueryOver(x => x.WebUser)
-                .Where(u => u.UserName == User.Identity.Name)
+                    .Where(u => u.UserName == User.Identity.Name)
                 .List();
             return shoppingCarts;
+
         }
     }
 }

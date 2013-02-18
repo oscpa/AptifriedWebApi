@@ -6,8 +6,6 @@ using System.Web;
 namespace AptifyWebApi.Dto {
     public class AptifriedAddProductToSavedShoppingCartDto {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public IEnumerable<AptifriedProductDto> Products { get; set; }
+        public IEnumerable<int> Products { get; set; }
     }
 }
