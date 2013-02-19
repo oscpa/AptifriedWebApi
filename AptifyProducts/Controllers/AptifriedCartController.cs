@@ -38,6 +38,7 @@ namespace AptifyWebApi.Controllers {
         protected Aptify.Framework.Application.AptifyApplication AptifyApp {
             get {
                 if (_app == null) {
+                    
                     _app = new Aptify.Framework.Application.AptifyApplication(
                         AptifriedAuthorizationFactory.GetUserCredientails());
                 }
@@ -50,14 +51,22 @@ namespace AptifyWebApi.Controllers {
             _sesssion = session;
         }
 
+        public IEnumerable<AptifriedSavedShoppingCartDto> Get(int cartId) {
+            return GetSavedCarts(cartId);
+        }
         
         public IEnumerable<AptifriedSavedShoppingCartDto> Get() {
-            return GetSavedCarts();
+            return GetSavedCarts(null);
         }
 
-
-        public AptifriedSavedShoppingCartDto Put(AptifriedAddProductToSavedShoppingCartDto addRequest) {
+        [System.Web.Http.HttpPost]
+        public AptifriedSavedShoppingCartDto Post(AptifriedShoppingCartAddRequestDto addRequest) {
             
+            // TODO: refactor all this.
+
+            if (addRequest == null)
+                throw new HttpException(500, "Add Request not present.", new ArgumentException("addRequest"));
+
             AptifyGenericEntityBase orderGe = null;
             AptifyGenericEntityBase aptifyShoppingCartGe = null;
             var aptifyXmlParser = new Aptify.Framework.BusinessLogic.GenericEntity.XMLParser();
@@ -78,7 +87,7 @@ namespace AptifyWebApi.Controllers {
             } else {
                 aptifyShoppingCartGe = AptifyApp.GetEntityObject("Web Shopping Carts", -1);
                 aptifyShoppingCartGe.SetAddValue("Name", AptifyUser.UserName + ' ' + DateTime.Now.ToLongDateString());
-                aptifyShoppingCartGe.SetAddValue("WebUserID", AptifyUser.Id);
+                aptifyShoppingCartGe.SetAddValue("WebUserID", Convert.ToInt64(AptifyUser.Id));
             }
 
             // TODO: need to refactor this so we don't have duplicate parsing code.
@@ -87,19 +96,25 @@ namespace AptifyWebApi.Controllers {
                 aptifyXmlParser.LoadGEFromXMLString(xmlData, ref orderGe); 
             }
             if (orderGe == null) {
-                orderGe = AptifyApp.GetEntityObject("Orders", -1);
+                try {
+                    orderGe = AptifyApp.GetEntityObject("Orders", -1L);
+                } catch (Exception ex) {
+                    throw new HttpException(500, "error generating order", ex);
+                }
+                
             }
-
             var orderProper = (Aptify.Applications.OrderEntry.OrdersEntity)orderGe;
+
+            orderProper.ShipToID = Convert.ToInt64(AptifyUser.PersonId);
             foreach (var requestedProductId in addRequest.Products) {
-                orderProper.AddProduct(Convert.ToInt64(requestedProductId));
+                orderProper.AddProduct(Convert.ToInt64(requestedProductId.ProductId));
             }
 
             aptifyShoppingCartGe.SetAddValue("XmlData",
                 ((Aptify.Framework.BusinessLogic.GenericEntity.AptifyGenericEntity)orderProper).GetDataString());
 
             string possibleError = string.Empty;
-            if (aptifyShoppingCartGe.Save(ref possibleError)) {
+            if (!aptifyShoppingCartGe.Save(ref possibleError)) {
                 throw new HttpException(500, "Error saving shopping cart. Error was: " + possibleError);
             }
 
@@ -118,12 +133,17 @@ namespace AptifyWebApi.Controllers {
 
 
 
-        private IEnumerable<AptifriedSavedShoppingCartDto> GetSavedCarts() {
+        private IEnumerable<AptifriedSavedShoppingCartDto> GetSavedCarts(int? shoppingCartId) {
             IList<AptifriedSavedShoppingCartDto> savedCarts = new List<AptifriedSavedShoppingCartDto>();
 
             if (this.User != null && this.User.Identity.IsAuthenticated) {
 
-                var shoppingCarts = GetUncommittedUerSavedShoppingCarts();
+                IList<AptifriedSavedShoppingCart> shoppingCarts = null;
+
+                if (shoppingCartId.HasValue)
+                    shoppingCarts = GetCarts(shoppingCartId.Value);
+                else
+                    shoppingCarts = GetUncommittedUerSavedShoppingCarts();
 
                 foreach (var cart in shoppingCarts) {
 
@@ -152,13 +172,25 @@ namespace AptifyWebApi.Controllers {
         /// </summary>
         /// <returns></returns>
         private IList<AptifriedSavedShoppingCart> GetUncommittedUerSavedShoppingCarts() {
-            var shoppingCarts = _sesssion.QueryOver<AptifriedSavedShoppingCart>()
-                .Where(sc => sc.OrderId <= 0)
-                .JoinQueryOver(x => x.WebUser)
-                    .Where(u => u.UserName == User.Identity.Name)
-                .List();
+            var shoppingCarts =
+                _sesssion.CreateSQLQuery(
+                    "select carts.* from vwWebShoppingCarts carts join vwWebUsers users on carts.WebUserID = users.ID " +
+                    " where carts.OrderId is null and users.UserID = '" + User.Identity.Name + "'")
+                    .AddEntity("carts", typeof(AptifriedSavedShoppingCart))
+                    .List<AptifriedSavedShoppingCart>();
+            
             return shoppingCarts;
+        }
 
+        private IList<AptifriedSavedShoppingCart> GetCarts(int shoppingCartId) {
+            var shoppingCarts =
+                _sesssion.CreateSQLQuery(
+                    "select carts.* from vwWebShoppingCarts carts join vwWebUsers users on carts.WebUserID = users.ID " +
+                    " where carts.ID = " + shoppingCartId.ToString() +" and users.UserID = '" + User.Identity.Name + "'")
+                    .AddEntity("carts", typeof(AptifriedSavedShoppingCart))
+                    .List<AptifriedSavedShoppingCart>();
+
+            return shoppingCarts;
         }
     }
 }

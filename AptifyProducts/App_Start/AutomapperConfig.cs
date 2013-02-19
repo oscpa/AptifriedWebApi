@@ -2,6 +2,7 @@
 using AptifyWebApi.Models;
 using AutoMapper;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -48,12 +49,13 @@ namespace AptifyWebApi {
         }
 
         internal class OrderLinesResolver :
-            ValueResolver<Aptify.Framework.BusinessLogic.GenericEntity.AptifySubTypes, IEnumerable<AptifriedOrderLineDto>> {
+            ValueResolver<Aptify.Framework.BusinessLogic.GenericEntity.AptifySubType, IEnumerable<AptifriedOrderLineDto>> {
 
             protected override IEnumerable<AptifriedOrderLineDto> ResolveCore(
-                Aptify.Framework.BusinessLogic.GenericEntity.AptifySubTypes source) {
+                Aptify.Framework.BusinessLogic.GenericEntity.AptifySubType source) {
                 IList<AptifriedOrderLineDto> convertedOrderLines = new List<AptifriedOrderLineDto>();
-                var orderLineEnumerator = source.GetEnumerator();
+                var orderLineEnumerator =
+                    ((IEnumerable)source).GetEnumerator();
 
                 while (orderLineEnumerator.MoveNext()) {
                     var currentOrderline = (Aptify.Applications.OrderEntry.OrderLinesEntity)orderLineEnumerator.Current;
@@ -74,11 +76,12 @@ namespace AptifyWebApi {
         }
 
         internal class OrderShipToPersonResolver :
-            ValueResolver<Aptify.Applications.OrderEntry.OrderLinesEntity, AptifriedPersonDto> {
+            ValueResolver<Aptify.Applications.OrderEntry.OrdersEntity, AptifriedPersonDto> {
 
-            protected override AptifriedPersonDto ResolveCore(Aptify.Applications.OrderEntry.OrderLinesEntity source) {
+            protected override AptifriedPersonDto ResolveCore(Aptify.Applications.OrderEntry.OrdersEntity source) {
                 AptifriedPersonDto resulingPerson = new AptifriedPersonDto() {
-                    Id = source.ShipToID
+                    Id = Convert.ToInt32(source.ShipToID),
+                    FirstName = source.ShipToName
                 };
 
                 return resulingPerson;
@@ -87,9 +90,9 @@ namespace AptifyWebApi {
         }
 
         internal class OrderShipToAddressResolver :
-            ValueResolver<Aptify.Applications.OrderEntry.OrderLinesEntity, AptifriedAddressDto> {
+            ValueResolver<Aptify.Applications.OrderEntry.OrdersEntity, AptifriedAddressDto> {
 
-            protected override AptifriedAddressDto ResolveCore(Aptify.Applications.OrderEntry.OrderLinesEntity source) {
+            protected override AptifriedAddressDto ResolveCore(Aptify.Applications.OrderEntry.OrdersEntity source) {
                 AptifriedAddressDto resultingAddress = new AptifriedAddressDto() {
                     Id = source.ShipToAddressID,
                     Line1 = source.ShipToAddrLine1,
