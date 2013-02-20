@@ -68,6 +68,12 @@ namespace AptifyWebApi {
 
             GlobalConfiguration.Configuration.MessageHandlers.Add(
                 new AptifriedAuthenticationDelegatingHandler());
+
+            // TODO: This should be remove and made localonly when we roll out to production
+            GlobalConfiguration.Configuration.IncludeErrorDetailPolicy = 
+                IncludeErrorDetailPolicy.Always;
+            // exception stack 
+            
         }
         
         protected void Application_EndRequest(object sender, EventArgs e) {

@@ -92,11 +92,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyGenericFind.dll</HintPath>
     </Reference>
+    <Reference Include="AptifyMeetingsEntity">
+      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyMeetingsEntity.dll</HintPath>
+    </Reference>
     <Reference Include="AptifyOrdersEntity">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyOrdersEntity.dll</HintPath>
     </Reference>
     <Reference Include="AptifyOrdersExtension">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyOrdersExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="AptifyPersonsEntity">
+      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyPersonsEntity.dll</HintPath>
     </Reference>
     <Reference Include="AptifyProcessFlowEngine, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -141,6 +147,9 @@
     </Reference>
     <Reference Include="CheckInventory">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\CheckInventory.dll</HintPath>
+    </Reference>
+    <Reference Include="CheckMeetingInventory">
+      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\CheckMeetingInventory.dll</HintPath>
     </Reference>
     <Reference Include="ClassRegistrationGE">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\ClassRegistrationGE.dll</HintPath>
@@ -218,6 +227,9 @@
     </Reference>
     <Reference Include="OrganizationObject">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OrganizationObject.dll</HintPath>
+    </Reference>
+    <Reference Include="OSCPACompanyObject">
+      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OSCPACompanyObject.dll</HintPath>
     </Reference>
     <Reference Include="OSCPAOrderEntityObject">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OSCPAOrderEntityObject.dll</HintPath>

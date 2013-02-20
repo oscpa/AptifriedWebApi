@@ -78,13 +78,9 @@ namespace AptifyWebApi.Controllers {
 
             if (addRequest.Id >= 0) {
 
-                var userCartCheck = _session.QueryOver<AptifriedSavedShoppingCart>()
-                    .Where(x => x.Id == addRequest.Id)
-                    .JoinQueryOver(x => x.WebUser)
-                    .Where(wu => wu.UserName == this.User.Identity.Name)
-                    .RowCount();
+                var userCartCheck = GetCarts(addRequest.Id);
 
-                if (userCartCheck == 0)
+                if (userCartCheck.Count == 0)
                     throw new HttpException(500, "User does not have access to this cart.");
 
                 aptifyShoppingCartGe = AptifyApp.GetEntityObject("Web Shopping Carts", addRequest.Id);
@@ -111,7 +107,45 @@ namespace AptifyWebApi.Controllers {
 
             orderProper.ShipToID = Convert.ToInt64(AptifyUser.PersonId);
             foreach (var requestedProductId in addRequest.Products) {
-                orderProper.AddProduct(Convert.ToInt64(requestedProductId.ProductId));
+                var orderLines = orderProper.AddProduct(Convert.ToInt64(requestedProductId.ProductId));
+
+                foreach (var orderLine in orderLines) {
+                    if (orderLine.ProductID == requestedProductId.ProductId && 
+                        orderLine.ExtendedOrderDetailEntity != null) {
+                            
+                        // hopefully we won't have to run all of this code more than the first time
+                        // we add an order line to the order. Guard all of this logic by looking at
+                        // the registrant.
+    
+                        if (orderLine.ExtendedOrderDetailEntity.EntityName == "Class Registrations" &&
+                            Convert.ToInt32(orderLine.ExtendedOrderDetailEntity.GetValue("StudentID")) != 
+                            requestedProductId.RegistrantId) {
+
+                                orderLine.ExtendedOrderDetailEntity
+                                    .SetValue("ClassID", GetClassIdFromProductId(requestedProductId.ProductId));
+                                orderLine.ExtendedOrderDetailEntity
+                                    .SetValue("StudentID", requestedProductId.RegistrantId);
+                                orderLine.ExtendedOrderDetailEntity
+                                    .SetValue("Status", "Registered");
+                                orderLine.ExtendedOrderDetailEntity
+                                    .SetValue("__ExtendedAttributeObjectData",
+                                   orderLine.ExtendedOrderDetailEntity.GetObjectData(false));
+
+
+                        } else if (orderLine.ExtendedOrderDetailEntity.EntityName == "OrderMeetingDetail" &&
+                            Convert.ToInt32(orderLine.ExtendedOrderDetailEntity.GetValue("AttendeeID")) != 
+                            requestedProductId.RegistrantId) {
+
+                                orderLine.ExtendedOrderDetailEntity
+                                    .SetValue("AttendeeID", requestedProductId.RegistrantId);
+                                orderLine.ExtendedOrderDetailEntity
+                                    .SetValue("ProductID", requestedProductId.ProductId);
+                                orderLine.ExtendedOrderDetailEntity
+                                    .SetValue("RegistrationType", "Pre-Registration"); // TODO: validate that this is the correct with biz                         
+                        }
+                    }
+                }
+
             }
 
             string convertedXmlData = string.Empty;
@@ -120,8 +154,6 @@ namespace AptifyWebApi.Controllers {
             } else {
                 throw new HttpException(500, "Could not convert order to xml to save cart.");
             }
-                
-                //((Aptify.Framework.BusinessLogic.GenericEntity.AptifyGenericEntity)orderProper).GetDataString());
 
             string possibleError = string.Empty;
             if (!aptifyShoppingCartGe.Save(ref possibleError)) {
@@ -207,6 +239,18 @@ namespace AptifyWebApi.Controllers {
                     .List<AptifriedSavedShoppingCart>();
 
             return shoppingCarts;
+        }
+
+        private int GetClassIdFromProductId(int productId) {
+            var classAssociatedWithProduct =
+                _session.QueryOver<AptifriedClass>()
+                    .Where(x => x.Product.Id == productId)
+                    .SingleOrDefault();
+
+            if (classAssociatedWithProduct == null)
+                throw new HttpException(500, "No product associated with class!");
+
+            return classAssociatedWithProduct.Id;
         }
     }
 }
