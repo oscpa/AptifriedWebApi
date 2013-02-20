@@ -19,14 +19,17 @@ namespace AptifyWebApi.Controllers {
     [System.Web.Http.Authorize]
     public class AptifriedCartController : ApiController {
 
-        private ISession _sesssion;
+
+        // TODO: extract GetCarts/etc into class and make DRY
+
+        private ISession _session;
         private Aptify.Framework.Application.AptifyApplication _app;
         private AptifriedAuthroizedUserDto _aptifyUser;
 
         protected AptifriedAuthroizedUserDto AptifyUser {
             get {
                 if (_aptifyUser == null && this.User.Identity.IsAuthenticated) {
-                    var thisUser = _sesssion.QueryOver<AptifriedWebUser>()
+                    var thisUser = _session.QueryOver<AptifriedWebUser>()
                         .Where(u => u.UserName == User.Identity.Name)
                         .SingleOrDefault();
                     _aptifyUser = Mapper.Map(thisUser, new AptifriedAuthroizedUserDto());
@@ -48,7 +51,7 @@ namespace AptifyWebApi.Controllers {
         }
 
         public AptifriedCartController(ISession session) {
-            _sesssion = session;
+            _session = session;
         }
 
         public IEnumerable<AptifriedSavedShoppingCartDto> Get(int cartId) {
@@ -70,11 +73,12 @@ namespace AptifyWebApi.Controllers {
             AptifyGenericEntityBase orderGe = null;
             AptifyGenericEntityBase aptifyShoppingCartGe = null;
             var aptifyXmlParser = new Aptify.Framework.BusinessLogic.GenericEntity.XMLParser();
+            aptifyXmlParser.UserCredential = this.AptifyApp.UserCredentials;
 
 
             if (addRequest.Id >= 0) {
 
-                var userCartCheck = _sesssion.QueryOver<AptifriedSavedShoppingCart>()
+                var userCartCheck = _session.QueryOver<AptifriedSavedShoppingCart>()
                     .Where(x => x.Id == addRequest.Id)
                     .JoinQueryOver(x => x.WebUser)
                     .Where(wu => wu.UserName == this.User.Identity.Name)
@@ -110,8 +114,14 @@ namespace AptifyWebApi.Controllers {
                 orderProper.AddProduct(Convert.ToInt64(requestedProductId.ProductId));
             }
 
-            aptifyShoppingCartGe.SetAddValue("XmlData",
-                ((Aptify.Framework.BusinessLogic.GenericEntity.AptifyGenericEntity)orderProper).GetDataString());
+            string convertedXmlData = string.Empty;
+            if (aptifyXmlParser.CreateXMLStream(ref convertedXmlData, orderProper, true, false)) {
+                aptifyShoppingCartGe.SetAddValue("XmlData", convertedXmlData);
+            } else {
+                throw new HttpException(500, "Could not convert order to xml to save cart.");
+            }
+                
+                //((Aptify.Framework.BusinessLogic.GenericEntity.AptifyGenericEntity)orderProper).GetDataString());
 
             string possibleError = string.Empty;
             if (!aptifyShoppingCartGe.Save(ref possibleError)) {
@@ -147,24 +157,30 @@ namespace AptifyWebApi.Controllers {
 
                 foreach (var cart in shoppingCarts) {
 
-                    // move the saved shopping cart from memory into our transfer object
-                    AptifriedSavedShoppingCartDto thisCart = Mapper.Map(cart, new AptifriedSavedShoppingCartDto());
-                    
-                    // TOOD: Try to move this XML Parsing code over to the automapper config to generate an order 
-                    // parse the order within the xml over to an order object
-                    var aptifyXmlParser = new Aptify.Framework.BusinessLogic.GenericEntity.XMLParser();
-                    AptifyGenericEntityBase orderBase = null;
-                   
-                    // if the xml makes for a valid aptify ge order, then add it to the resulting cart
-                    if (aptifyXmlParser.LoadGEFromXMLString(cart.XmlData, ref orderBase)) {
-                        var orderObject = (Aptify.Applications.OrderEntry.OrdersEntity)orderBase;
-                        thisCart.Order = Mapper.Map(orderObject, new AptifriedOrderDto());
-                    }
+                    AptifriedSavedShoppingCartDto thisCart = CreateShoppingCartDtoFromCartModel(cart);
 
                     savedCarts.Add(thisCart);
                 }
             }
             return savedCarts;
+        }
+
+        private AptifriedSavedShoppingCartDto CreateShoppingCartDtoFromCartModel(AptifriedSavedShoppingCart cart) {
+            // move the saved shopping cart from memory into our transfer object
+            AptifriedSavedShoppingCartDto thisCart = Mapper.Map(cart, new AptifriedSavedShoppingCartDto());
+
+            // TOOD: Try to move this XML Parsing code over to the automapper config to generate an order 
+            // parse the order within the xml over to an order object
+            var aptifyXmlParser = new Aptify.Framework.BusinessLogic.GenericEntity.XMLParser();
+            aptifyXmlParser.UserCredential = this.AptifyApp.UserCredentials;
+            AptifyGenericEntityBase orderBase = AptifyApp.GetEntityObject("Orders", -1);
+
+            // if the xml makes for a valid aptify ge order, then add it to the resulting cart
+            if (aptifyXmlParser.LoadGEFromXMLString(cart.XmlData, ref orderBase)) {
+                var orderObject = (Aptify.Applications.OrderEntry.OrdersEntity)orderBase;
+                thisCart.Order = Mapper.Map(orderObject, new AptifriedOrderDto());
+            }
+            return thisCart;
         }
 
         /// <summary>
@@ -173,7 +189,7 @@ namespace AptifyWebApi.Controllers {
         /// <returns></returns>
         private IList<AptifriedSavedShoppingCart> GetUncommittedUerSavedShoppingCarts() {
             var shoppingCarts =
-                _sesssion.CreateSQLQuery(
+                _session.CreateSQLQuery(
                     "select carts.* from vwWebShoppingCarts carts join vwWebUsers users on carts.WebUserID = users.ID " +
                     " where carts.OrderId is null and users.UserID = '" + User.Identity.Name + "'")
                     .AddEntity("carts", typeof(AptifriedSavedShoppingCart))
@@ -184,7 +200,7 @@ namespace AptifyWebApi.Controllers {
 
         private IList<AptifriedSavedShoppingCart> GetCarts(int shoppingCartId) {
             var shoppingCarts =
-                _sesssion.CreateSQLQuery(
+                _session.CreateSQLQuery(
                     "select carts.* from vwWebShoppingCarts carts join vwWebUsers users on carts.WebUserID = users.ID " +
                     " where carts.ID = " + shoppingCartId.ToString() +" and users.UserID = '" + User.Identity.Name + "'")
                     .AddEntity("carts", typeof(AptifriedSavedShoppingCart))

@@ -16,6 +16,8 @@ namespace AptifyWebApi.Models {
             Map(x => x.XmlData);
             Map(x => x.Description);
             Map(x => x.OrderId);
+            Map(x => x.DateCreated);
+            Map(x => x.DateUpdated);
             ReadOnly();
         }
     }
