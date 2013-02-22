@@ -93,6 +93,7 @@ namespace AptifyWebApi.Controllers {
             // TODO: need to refactor this so we don't have duplicate parsing code.
             string xmlData = Convert.ToString(aptifyShoppingCartGe.GetValue("XMLData"));
             if (!string.IsNullOrEmpty(xmlData)) {
+                orderGe = AptifyApp.GetEntityObject("Orders", -1);
                 aptifyXmlParser.LoadGEFromXMLString(xmlData, ref orderGe); 
             }
             if (orderGe == null) {
@@ -104,6 +105,9 @@ namespace AptifyWebApi.Controllers {
                 
             }
             var orderProper = (Aptify.Applications.OrderEntry.OrdersEntity)orderGe;
+
+            if (orderProper.EmployeeID <= 0)
+                orderProper.EmployeeID = 1; // should be aptify ebiz
 
             orderProper.ShipToID = Convert.ToInt64(AptifyUser.PersonId);
             foreach (var requestedProductId in addRequest.Products) {

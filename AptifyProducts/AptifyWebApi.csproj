@@ -231,6 +231,9 @@
     <Reference Include="OSCPACompanyObject">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OSCPACompanyObject.dll</HintPath>
     </Reference>
+    <Reference Include="OSCPADiscountPricing">
+      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OSCPADiscountPricing.dll</HintPath>
+    </Reference>
     <Reference Include="OSCPAOrderEntityObject">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OSCPAOrderEntityObject.dll</HintPath>
     </Reference>
