@@ -63,7 +63,7 @@ namespace AptifyWebApi.Controllers {
         }
 
         [System.Web.Http.HttpPost]
-        public AptifriedSavedShoppingCartDto Post(AptifriedShoppingCartAddRequestDto addRequest) {
+        public AptifriedSavedShoppingCartDto Post(AptifriedShoppingCartRequestDto addRequest) {
             
             // TODO: refactor all this.
 
@@ -177,6 +177,83 @@ namespace AptifyWebApi.Controllers {
             return savedCart;
         }
 
+        public bool Delete(int cartId) {
+            var myCarts = GetCarts(cartId);
+            bool successInDeletion = false;
+
+            if (myCarts != null && myCarts.Count == 1) {
+                var cartToDelete = AptifyApp.GetEntityObject("Web Shopping Carts", Convert.ToInt64(cartId));    
+                successInDeletion = cartToDelete.Delete();
+            }
+
+            return successInDeletion;
+        }
+
+
+        public bool Delete(AptifriedShoppingCartRequestDto deleteRequest) {
+
+            bool successfulDelete = false;
+
+            if (deleteRequest == null)
+                throw new HttpException(500, "Request object missing.",
+                    new ArgumentException("deleteRequest missing", "deleteRequest"));
+
+
+            AptifriedSavedShoppingCart cartRequested = null;
+            if (deleteRequest != null && deleteRequest.Id > 0) {
+                cartRequested = GetCarts(deleteRequest.Id).FirstOrDefault();
+            } else {
+                throw new HttpException(500, "Invalid delete request Id");
+            }
+
+            if (cartRequested == null)
+                throw new HttpException(500, "Cart in question does not exist.");
+
+            var aptifyXmlparser = new Aptify.Framework.BusinessLogic.GenericEntity.XMLParser();
+            aptifyXmlparser.UserCredential = AptifyApp.UserCredentials;
+            AptifyGenericEntityBase orderBase = AptifyApp.GetEntityObject("Orders", -1);
+
+            if (aptifyXmlparser.LoadGEFromXMLString(cartRequested.XmlData, ref orderBase)) {
+
+                foreach (AptifyGenericEntityBase orderLineBase in orderBase.SubTypes["OrderLines"]) {
+                    foreach (var orderLineToDelete in deleteRequest.Products) {
+
+                        var orderLineProper = (Aptify.Applications.OrderEntry.OrderLinesEntity)orderLineBase;
+
+                        if (orderLineProper.ExtendedOrderDetailEntity.EntityName == "Class Registrations" &&
+                            Convert.ToInt32(orderLineProper.ExtendedOrderDetailEntity.GetValue("StudentID")) !=
+                            orderLineToDelete.RegistrantId) {
+
+                            successfulDelete = orderLineProper.Delete();
+                            break;
+
+                        } else if (orderLineProper.ExtendedOrderDetailEntity.EntityName == "OrderMeetingDetail" &&
+                            Convert.ToInt32(orderLineProper.ExtendedOrderDetailEntity.GetValue("AttendeeID")) !=
+                            orderLineToDelete.RegistrantId) {
+
+                            successfulDelete = orderLineProper.Delete();
+                            break;
+                        }
+                    }
+                }
+
+                // now save the order back into the saved shopping carts
+                AptifyGenericEntityBase savedShoppingCart = AptifyApp.GetEntityObject("Web Saved Shopping Carts", deleteRequest.Id);
+                string convertedXmlData = string.Empty;
+                if (aptifyXmlparser.CreateXMLStream(ref convertedXmlData, orderBase, true, false)) {
+                    savedShoppingCart.SetAddValue("XmlData", convertedXmlData);
+                } else {
+                    throw new HttpException(500, "Could not convert order to xml to save cart.");
+                }
+
+                successfulDelete = savedShoppingCart.Save();
+
+            } else {
+                throw new HttpException(500, "Could not load saved cart.");
+            }
+
+            return successfulDelete;
+        }
 
 
         private IEnumerable<AptifriedSavedShoppingCartDto> GetSavedCarts(int? shoppingCartId) {

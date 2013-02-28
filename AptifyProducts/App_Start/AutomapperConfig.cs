@@ -29,6 +29,8 @@ namespace AptifyWebApi {
             Mapper.CreateMap<AptifriedClassExtended, AptifriedClassExtendedDto>();
             Mapper.CreateMap<AptifriedPerson, AptifriedPersonDto>();
 
+            Mapper.CreateMap<AptifriedPaymentType, AptifriedPaymentTypeDto>();
+
             Mapper.CreateMap<Aptify.Applications.OrderEntry.OrdersEntity, AptifriedOrderDto>()
                 .ForMember(dto => dto.Lines, m => m.ResolveUsing<OrderLinesResolver>()
                     .FromMember(ao => ao.SubTypes["OrderLines"]))

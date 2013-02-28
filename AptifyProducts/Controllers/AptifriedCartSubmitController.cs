@@ -1,5 +1,7 @@
-﻿using AptifyWebApi.Dto;
+﻿using Aptify.Applications.OrderEntry;
+using AptifyWebApi.Dto;
 using AptifyWebApi.Models;
+using AutoMapper;
 using NHibernate;
 using System;
 using System.Collections.Generic;
@@ -11,6 +13,7 @@ using System.Web.Http;
 
 namespace AptifyWebApi.Controllers
 {
+    [Authorize]
     public class AptifriedCartSubmitController : ApiController
     {
         // TODO: extract GetCarts/etc into class and make DRY
@@ -21,6 +24,8 @@ namespace AptifyWebApi.Controllers
         }
 
         public AptifriedOrderDto Post(AptifriedShoppingCartSubmitRequestDto submitRequest) {
+            AptifriedOrderDto resultingOrder = null;
+
             var existingCarts = GetCarts(submitRequest.SavedShoppingCartId);
 
             if (existingCarts.Count > 1) 
@@ -39,15 +44,39 @@ namespace AptifyWebApi.Controllers
             Aptify.Framework.BusinessLogic.GenericEntity.AptifyGenericEntityBase orderGe = null;
 
             if (aptifyXmlParser.LoadGEFromXMLString(existingCarts[0].XmlData, ref orderGe)) {
-                
-                // TODO : add payment info and ship
 
+                OrdersEntity orderProper = (OrdersEntity)orderGe;
+                orderProper.SetAddValue("OrderDate", DateTime.Now);
+
+                orderProper.SetAddValue("InitialPaymentAmount", orderProper.GrandTotal);
+                orderProper.SetAddValue("OrderSourceID", 4); // hard coded for production/dev of "web" 
+                
+                orderProper.SetAddValue("PayTypeID", submitRequest.PaymentTypeId);
+                orderProper.SetAddValue("CCAccountNumber", submitRequest.CardNumber);
+                orderProper.SetAddValue("CCExpireDate", 
+                    new DateTime(
+                        submitRequest.CardExpirationYear,  
+                        submitRequest.CardExpirationMonth, 
+                        DateTime.DaysInMonth(
+                            submitRequest.CardExpirationYear, 
+                            submitRequest.CardExpirationMonth)));
+                orderProper.SetAddValue("CCSecurityNumber", submitRequest.CardSvn);
+                orderProper.SetAddValue("PaymentSource", submitRequest.PaymentSource);
+                
+                orderProper.SetAddValue("OrderLevelID", 1);
+                orderProper.SetAddValue("OrderLevel", "Regular");
+
+                bool successInShipment = orderProper.ShipEntireOrder(false);
+                if (!successInShipment) {
+                    throw new HttpException(500, "Could not ship order. Exception on order shipment wrapped in this exception.", new ApplicationException(orderProper.LastError));
+                }
+
+                resultingOrder = Mapper.Map(orderProper, new AptifriedOrderDto());
             } else {
                 throw new HttpException(500, "Could not parse order associated with cart!");
             }
 
-            return null;
-            
+            return resultingOrder;
         }
 
         private IList<AptifriedSavedShoppingCart> GetCarts(int shoppingCartId) {

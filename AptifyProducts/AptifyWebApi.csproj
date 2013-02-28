@@ -366,8 +366,10 @@
     <Compile Include="Controllers\AptifriedCartController.cs" />
     <Compile Include="Controllers\AptifyClassesController.cs" />
     <Compile Include="Controllers\OscpaAuthController.cs" />
-    <Compile Include="Dto\AptifriedShoppingCartProductAddRequestDto.cs" />
-    <Compile Include="Dto\AptifriedShoppingCartAddRequestDto.cs" />
+    <Compile Include="Controllers\AptifriedPaymentTypeController.cs" />
+    <Compile Include="Dto\AptifriedPaymentTypeDto.cs" />
+    <Compile Include="Dto\AptifriedShoppingCartProductRequestDto.cs" />
+    <Compile Include="Dto\AptifriedShoppingCartRequestDto.cs" />
     <Compile Include="Dto\AptifriedAuthorizedRoleDto.cs" />
     <Compile Include="Dto\AptifriedAuthroizedUserDto.cs" />
     <Compile Include="Dto\AptifriedClassExtendedDto.cs" />
@@ -418,6 +420,8 @@
     <Compile Include="Models\AptifriedClassExtendedMap.cs" />
     <Compile Include="Models\AptifriedMemberType.cs" />
     <Compile Include="Models\AptifriedMemberTypeMap.cs" />
+    <Compile Include="Models\AptifriedPaymentType.cs" />
+    <Compile Include="Models\AptifriedPaymentTypeMap.cs" />
     <Compile Include="Models\AptifriedPerson.cs" />
     <Compile Include="Models\AptifriedPersonMap.cs" />
     <Compile Include="Models\AptifriedProductPriceMap.cs" />
