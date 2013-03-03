@@ -13,13 +13,13 @@ using AptifyWebApi.Dto;
 using NHibernate.OData;
 
 namespace AptifyWebApi.Controllers {
-    public class AptifriedClassesController : ApiController {
+    public class AptifriedClassesController : AptifyEnabledApiController {
 
         private IAptifriedClassRepository _repo;
-        private ISession session;
-        public AptifriedClassesController(ISession session) {
-            this.session = session;
-            _repo = new HibernatedAptifriedClassRepository(this.session);
+
+        public AptifriedClassesController(ISession session)
+            : base(session) {
+                _repo = new HibernatedAptifriedClassRepository(session);
         }
 
         public IEnumerable<AptifriedClassDto> Get() {

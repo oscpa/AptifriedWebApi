@@ -12,13 +12,9 @@ using AutoMapper;
 
 namespace AptifyWebApi.Controllers
 {
-    public class AptifriedPaymentTypeController : ApiController
+    public class AptifriedPaymentTypeController : AptifyEnabledApiController
     {
-        private ISession _session;
-
-        public AptifriedPaymentTypeController(ISession session) {
-            _session = session;
-        }
+        public AptifriedPaymentTypeController(ISession session) : base(session) { }
 
         public IEnumerable<AptifriedPaymentTypeDto> Get() {
             return GetPaymentTypes(null);
@@ -33,7 +29,7 @@ namespace AptifyWebApi.Controllers
 
             if (paymentTypeId.HasValue) {
 
-                var singlePaymentType = _session.QueryOver<AptifriedPaymentType>()
+                var singlePaymentType = session.QueryOver<AptifriedPaymentType>()
                     .Where(x => x.Id == paymentTypeId.Value)
                     .SingleOrDefault();
 
@@ -42,7 +38,7 @@ namespace AptifyWebApi.Controllers
 
                 paymentTypesToReturn.Add(Mapper.Map(singlePaymentType, new AptifriedPaymentTypeDto()));
             } else {
-                var allPaymentTypes = _session.QueryOver<AptifriedPaymentType>()
+                var allPaymentTypes = session.QueryOver<AptifriedPaymentType>()
                     .Where(x => x.Type == "Credit Card")
                     .List<AptifriedPaymentType>();
 

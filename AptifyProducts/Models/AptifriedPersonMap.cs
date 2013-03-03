@@ -14,6 +14,7 @@ namespace AptifyWebApi.Models {
             References(x => x.HomeAddress).Column("HomeAddressID");
             References(x => x.BusinessAddress).Column("AddressID");
             References(x => x.MemberType).Column("MemberTypeID");
+            ReadOnly();
         }
     }
 }

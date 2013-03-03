@@ -17,42 +17,9 @@ using AptifyWebApi.Factories;
 namespace AptifyWebApi.Controllers {
 
     [System.Web.Http.Authorize]
-    public class AptifriedCartController : ApiController {
+    public class AptifriedCartController : AptifyEnabledApiController {
 
-
-        // TODO: extract GetCarts/etc into class and make DRY
-
-        private ISession _session;
-        private Aptify.Framework.Application.AptifyApplication _app;
-        private AptifriedAuthroizedUserDto _aptifyUser;
-
-        protected AptifriedAuthroizedUserDto AptifyUser {
-            get {
-                if (_aptifyUser == null && this.User.Identity.IsAuthenticated) {
-                    var thisUser = _session.QueryOver<AptifriedWebUser>()
-                        .Where(u => u.UserName == User.Identity.Name)
-                        .SingleOrDefault();
-                    _aptifyUser = Mapper.Map(thisUser, new AptifriedAuthroizedUserDto());
-                }
-                return _aptifyUser;
-            }
-        }
-
-        protected Aptify.Framework.Application.AptifyApplication AptifyApp {
-            get {
-                if (_app == null) {
-                    
-                    _app = new Aptify.Framework.Application.AptifyApplication(
-                        AptifriedAuthorizationFactory.GetUserCredientails());
-                }
-                return _app;
-            }
-
-        }
-
-        public AptifriedCartController(ISession session) {
-            _session = session;
-        }
+        public AptifriedCartController(ISession session) : base(session) { }
 
         public IEnumerable<AptifriedSavedShoppingCartDto> Get(int cartId) {
             return GetSavedCarts(cartId);
@@ -62,7 +29,6 @@ namespace AptifyWebApi.Controllers {
             return GetSavedCarts(null);
         }
 
-        [System.Web.Http.HttpPost]
         public AptifriedSavedShoppingCartDto Post(AptifriedShoppingCartRequestDto addRequest) {
             
             // TODO: refactor all this.
@@ -74,7 +40,6 @@ namespace AptifyWebApi.Controllers {
             AptifyGenericEntityBase aptifyShoppingCartGe = null;
             var aptifyXmlParser = new Aptify.Framework.BusinessLogic.GenericEntity.XMLParser();
             aptifyXmlParser.UserCredential = this.AptifyApp.UserCredentials;
-
 
             if (addRequest.Id >= 0) {
 
@@ -302,7 +267,7 @@ namespace AptifyWebApi.Controllers {
         /// <returns></returns>
         private IList<AptifriedSavedShoppingCart> GetUncommittedUerSavedShoppingCarts() {
             var shoppingCarts =
-                _session.CreateSQLQuery(
+                session.CreateSQLQuery(
                     "select carts.* from vwWebShoppingCarts carts join vwWebUsers users on carts.WebUserID = users.ID " +
                     " where carts.OrderId is null and users.UserID = '" + User.Identity.Name + "'")
                     .AddEntity("carts", typeof(AptifriedSavedShoppingCart))
@@ -313,7 +278,7 @@ namespace AptifyWebApi.Controllers {
 
         private IList<AptifriedSavedShoppingCart> GetCarts(int shoppingCartId) {
             var shoppingCarts =
-                _session.CreateSQLQuery(
+                session.CreateSQLQuery(
                     "select carts.* from vwWebShoppingCarts carts join vwWebUsers users on carts.WebUserID = users.ID " +
                     " where carts.ID = " + shoppingCartId.ToString() +" and users.UserID = '" + User.Identity.Name + "'")
                     .AddEntity("carts", typeof(AptifriedSavedShoppingCart))
@@ -324,7 +289,7 @@ namespace AptifyWebApi.Controllers {
 
         private int GetClassIdFromProductId(int productId) {
             var classAssociatedWithProduct =
-                _session.QueryOver<AptifriedClass>()
+                session.QueryOver<AptifriedClass>()
                     .Where(x => x.Product.Id == productId)
                     .SingleOrDefault();
 

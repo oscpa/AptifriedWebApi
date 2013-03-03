@@ -14,14 +14,9 @@ using System.Web.Http;
 namespace AptifyWebApi.Controllers
 {
     [Authorize]
-    public class AptifriedCartSubmitController : ApiController
+    public class AptifriedCartSubmitController : AptifyEnabledApiController
     {
-        // TODO: extract GetCarts/etc into class and make DRY
-
-        private ISession _session;
-        public AptifriedCartSubmitController(ISession session) {
-            this._session = session;
-        }
+        public AptifriedCartSubmitController(ISession session) : base(session) { }
 
         public AptifriedOrderDto Post(AptifriedShoppingCartSubmitRequestDto submitRequest) {
             AptifriedOrderDto resultingOrder = null;
@@ -81,7 +76,7 @@ namespace AptifyWebApi.Controllers
 
         private IList<AptifriedSavedShoppingCart> GetCarts(int shoppingCartId) {
             var shoppingCarts =
-                _session.CreateSQLQuery(
+                session.CreateSQLQuery(
                     "select carts.* from vwWebShoppingCarts carts join vwWebUsers users on carts.WebUserID = users.ID " +
                     " where carts.ID = " + shoppingCartId.ToString() + " and users.UserID = '" + User.Identity.Name + "'")
                     .AddEntity("carts", typeof(AptifriedSavedShoppingCart))

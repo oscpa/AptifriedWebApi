@@ -42,10 +42,10 @@ namespace AptifyWebApi {
                 .ForMember(dto => dto.Tax, m => m.MapFrom(ao => ao.CALC_SalesTax))
                 .ForMember(dto => dto.GrandTotal, m => m.MapFrom(ao => ao.CALC_GrandTotal));
 
+            Mapper.CreateMap<AptifriedSavedShoppingCartType, AptifriedSavedShoppingCartTypeDto>();
             Mapper.CreateMap<AptifriedSavedShoppingCart, AptifriedSavedShoppingCartDto>()
                 .ForMember(dto => dto.XmlData, m => m.Ignore())
                 .ForMember(dto => dto.Order, m => m.Ignore());
-
 
             Mapper.AssertConfigurationIsValid();
         }
