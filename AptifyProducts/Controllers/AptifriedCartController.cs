@@ -21,15 +21,15 @@ namespace AptifyWebApi.Controllers {
 
         public AptifriedCartController(ISession session) : base(session) { }
 
-        public IEnumerable<AptifriedSavedShoppingCartDto> Get(int cartId) {
+        public IEnumerable<AptifriedWebShoppingCartDto> Get(int cartId) {
             return GetSavedCarts(cartId);
         }
         
-        public IEnumerable<AptifriedSavedShoppingCartDto> Get() {
+        public IEnumerable<AptifriedWebShoppingCartDto> Get() {
             return GetSavedCarts(null);
         }
 
-        public AptifriedSavedShoppingCartDto Post(AptifriedShoppingCartRequestDto addRequest) {
+        public AptifriedWebShoppingCartDto Post(AptifriedWebShoppingCartRequestDto addRequest) {
             
             // TODO: refactor all this.
 
@@ -129,7 +129,7 @@ namespace AptifyWebApi.Controllers {
                 throw new HttpException(500, "Error saving shopping cart. Error was: " + possibleError);
             }
 
-            AptifriedSavedShoppingCartDto savedCart = new AptifriedSavedShoppingCartDto() {
+            AptifriedWebShoppingCartDto savedCart = new AptifriedWebShoppingCartDto() {
                 Id = Convert.ToInt32(aptifyShoppingCartGe.RecordID),
                 Name = Convert.ToString(aptifyShoppingCartGe.GetValue("Name")),
                 Description = Convert.ToString(aptifyShoppingCartGe.GetValue("Description")),
@@ -155,7 +155,7 @@ namespace AptifyWebApi.Controllers {
         }
 
 
-        public bool Delete(AptifriedShoppingCartRequestDto deleteRequest) {
+        public bool Delete(AptifriedWebShoppingCartRequestDto deleteRequest) {
 
             bool successfulDelete = false;
 
@@ -164,7 +164,7 @@ namespace AptifyWebApi.Controllers {
                     new ArgumentException("deleteRequest missing", "deleteRequest"));
 
 
-            AptifriedSavedShoppingCart cartRequested = null;
+            AptifriedWebShoppingCart cartRequested = null;
             if (deleteRequest != null && deleteRequest.Id > 0) {
                 cartRequested = GetCarts(deleteRequest.Id).FirstOrDefault();
             } else {
@@ -221,12 +221,12 @@ namespace AptifyWebApi.Controllers {
         }
 
 
-        private IEnumerable<AptifriedSavedShoppingCartDto> GetSavedCarts(int? shoppingCartId) {
-            IList<AptifriedSavedShoppingCartDto> savedCarts = new List<AptifriedSavedShoppingCartDto>();
+        private IEnumerable<AptifriedWebShoppingCartDto> GetSavedCarts(int? shoppingCartId) {
+            IList<AptifriedWebShoppingCartDto> savedCarts = new List<AptifriedWebShoppingCartDto>();
 
             if (this.User != null && this.User.Identity.IsAuthenticated) {
 
-                IList<AptifriedSavedShoppingCart> shoppingCarts = null;
+                IList<AptifriedWebShoppingCart> shoppingCarts = null;
 
                 if (shoppingCartId.HasValue)
                     shoppingCarts = GetCarts(shoppingCartId.Value);
@@ -235,7 +235,7 @@ namespace AptifyWebApi.Controllers {
 
                 foreach (var cart in shoppingCarts) {
 
-                    AptifriedSavedShoppingCartDto thisCart = CreateShoppingCartDtoFromCartModel(cart);
+                    AptifriedWebShoppingCartDto thisCart = CreateShoppingCartDtoFromCartModel(cart);
 
                     savedCarts.Add(thisCart);
                 }
@@ -243,9 +243,9 @@ namespace AptifyWebApi.Controllers {
             return savedCarts;
         }
 
-        private AptifriedSavedShoppingCartDto CreateShoppingCartDtoFromCartModel(AptifriedSavedShoppingCart cart) {
+        private AptifriedWebShoppingCartDto CreateShoppingCartDtoFromCartModel(AptifriedWebShoppingCart cart) {
             // move the saved shopping cart from memory into our transfer object
-            AptifriedSavedShoppingCartDto thisCart = Mapper.Map(cart, new AptifriedSavedShoppingCartDto());
+            AptifriedWebShoppingCartDto thisCart = Mapper.Map(cart, new AptifriedWebShoppingCartDto());
 
             // TOOD: Try to move this XML Parsing code over to the automapper config to generate an order 
             // parse the order within the xml over to an order object
@@ -265,24 +265,24 @@ namespace AptifyWebApi.Controllers {
         /// Retrieves shopping carts that are not committed as orders
         /// </summary>
         /// <returns></returns>
-        private IList<AptifriedSavedShoppingCart> GetUncommittedUerSavedShoppingCarts() {
+        private IList<AptifriedWebShoppingCart> GetUncommittedUerSavedShoppingCarts() {
             var shoppingCarts =
                 session.CreateSQLQuery(
                     "select carts.* from vwWebShoppingCarts carts join vwWebUsers users on carts.WebUserID = users.ID " +
                     " where carts.OrderId is null and users.UserID = '" + User.Identity.Name + "'")
-                    .AddEntity("carts", typeof(AptifriedSavedShoppingCart))
-                    .List<AptifriedSavedShoppingCart>();
+                    .AddEntity("carts", typeof(AptifriedWebShoppingCart))
+                    .List<AptifriedWebShoppingCart>();
             
             return shoppingCarts;
         }
 
-        private IList<AptifriedSavedShoppingCart> GetCarts(int shoppingCartId) {
+        private IList<AptifriedWebShoppingCart> GetCarts(int shoppingCartId) {
             var shoppingCarts =
                 session.CreateSQLQuery(
                     "select carts.* from vwWebShoppingCarts carts join vwWebUsers users on carts.WebUserID = users.ID " +
                     " where carts.ID = " + shoppingCartId.ToString() +" and users.UserID = '" + User.Identity.Name + "'")
-                    .AddEntity("carts", typeof(AptifriedSavedShoppingCart))
-                    .List<AptifriedSavedShoppingCart>();
+                    .AddEntity("carts", typeof(AptifriedWebShoppingCart))
+                    .List<AptifriedWebShoppingCart>();
 
             return shoppingCarts;
         }

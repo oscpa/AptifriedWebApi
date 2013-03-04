@@ -11,19 +11,19 @@ using System.Web.Http;
 namespace AptifyWebApi.Controllers {
 
     [Authorize]
-    public class AptifriedSavedCartController : AptifyEnabledApiController {
+    public class AptifriedWebCartController : AptifyEnabledApiController {
 
-        public AptifriedSavedCartController(ISession session) : base(session) { }
+        public AptifriedWebCartController(ISession session) : base(session) { }
 
-        public IList<AptifriedSavedShoppingCartDto> Get() {
+        public IList<AptifriedWebShoppingCartDto> Get() {
             return GetSaveShoppingCarts(null);
         }
 
-        public IList<AptifriedSavedShoppingCartDto> Get(int shoppingCartId) {
+        public IList<AptifriedWebShoppingCartDto> Get(int shoppingCartId) {
             return GetSaveShoppingCarts(shoppingCartId);
         }
 
-        public AptifriedShoppingCartRequestDto Put(AptifriedShoppingCartRequestDto shoppingCartToUpdate) {
+        public AptifriedWebShoppingCartRequestDto Put(AptifriedWebShoppingCartRequestDto shoppingCartToUpdate) {
 
             if (shoppingCartToUpdate == null) 
                 throw new HttpException(500, 
@@ -58,26 +58,26 @@ namespace AptifyWebApi.Controllers {
         }
 
 
-        private IList<AptifriedSavedShoppingCartDto> GetSaveShoppingCarts(int? shoppingCartId) {
-            var resultingShoppingCarts = new List<AptifriedSavedShoppingCartDto>();
+        private IList<AptifriedWebShoppingCartDto> GetSaveShoppingCarts(int? shoppingCartId) {
+            var resultingShoppingCarts = new List<AptifriedWebShoppingCartDto>();
 
             if (shoppingCartId.HasValue) {
                 var shoppingCarts =
                     session.CreateSQLQuery(
                         "select carts.* from vwWebShoppingCarts carts join vwWebUsers users on carts.WebUserID = users.ID " +
                         " where carts.ID = " + shoppingCartId.ToString() + " and users.UserID = '" + User.Identity.Name + "'")
-                        .AddEntity("carts", typeof(AptifriedSavedShoppingCart))
-                        .List<AptifriedSavedShoppingCart>();
-                resultingShoppingCarts = Mapper.Map(shoppingCarts, new List<AptifriedSavedShoppingCartDto>());
+                        .AddEntity("carts", typeof(AptifriedWebShoppingCart))
+                        .List<AptifriedWebShoppingCart>();
+                resultingShoppingCarts = Mapper.Map(shoppingCarts, new List<AptifriedWebShoppingCartDto>());
             } else {
                 var shoppingCarts =
                    session.CreateSQLQuery(
                        "select carts.* from vwWebShoppingCarts carts join vwWebUsers users on carts.WebUserID = users.ID " +
                        " where users.UserID = '" + User.Identity.Name + "'")
-                       .AddEntity("carts", typeof(AptifriedSavedShoppingCart))
-                       .List<AptifriedSavedShoppingCart>();
+                       .AddEntity("carts", typeof(AptifriedWebShoppingCart))
+                       .List<AptifriedWebShoppingCart>();
 
-                resultingShoppingCarts = Mapper.Map(shoppingCarts, new List<AptifriedSavedShoppingCartDto>());
+                resultingShoppingCarts = Mapper.Map(shoppingCarts, new List<AptifriedWebShoppingCartDto>());
             }
             return resultingShoppingCarts;
         }

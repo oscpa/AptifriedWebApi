@@ -362,16 +362,15 @@
     <Compile Include="App_Start\FormatterConfig.cs" />
     <Compile Include="Attributes\AptifriedEntityFieldAttribute.cs" />
     <Compile Include="Controllers\AptifriedCartSubmitController.cs" />
-    <Compile Include="Controllers\AptifriedSavedCartController.cs" />
+    <Compile Include="Controllers\AptifriedWebCartController.cs" />
     <Compile Include="Controllers\AptifyEnabledApiController.cs" />
     <Compile Include="Controllers\AuthorizationController.cs" />
     <Compile Include="Controllers\AptifriedCartController.cs" />
     <Compile Include="Controllers\AptifyClassesController.cs" />
-    <Compile Include="Controllers\OscpaAuthController.cs" />
     <Compile Include="Controllers\AptifriedPaymentTypeController.cs" />
     <Compile Include="Dto\AptifriedPaymentTypeDto.cs" />
-    <Compile Include="Dto\AptifriedShoppingCartProductRequestDto.cs" />
-    <Compile Include="Dto\AptifriedShoppingCartRequestDto.cs" />
+    <Compile Include="Dto\AptifriedWebShoppingCartProductRequestDto.cs" />
+    <Compile Include="Dto\AptifriedWebShoppingCartRequestDto.cs" />
     <Compile Include="Dto\AptifriedAuthorizedRoleDto.cs" />
     <Compile Include="Dto\AptifriedAuthroizedUserDto.cs" />
     <Compile Include="Dto\AptifriedClassExtendedDto.cs" />
@@ -386,9 +385,9 @@
     <Compile Include="Dto\AptifriedOrderDto.cs" />
     <Compile Include="Dto\AptifriedProductDto.cs" />
     <Compile Include="Dto\AptifriedProductPriceDto.cs" />
-    <Compile Include="Dto\AptifriedSavedShoppingCartDto.cs" />
-    <Compile Include="Dto\AptifriedShoppingCartSubmitRequestDto.cs" />
-    <Compile Include="Dto\AptifriedSavedShoppingCartTypeDto.cs" />
+    <Compile Include="Dto\AptifriedWebShoppingCartDto.cs" />
+    <Compile Include="Dto\AptifriedWebShoppingCartSubmitRequestDto.cs" />
+    <Compile Include="Dto\AptifriedWebShoppingCartTypeDto.cs" />
     <Compile Include="Dto\AptifriedWebRoleDto.cs" />
     <Compile Include="Dto\AptifriedWebUserDto.cs" />
     <Compile Include="Dto\AptifriedOrderLineDto.cs" />
@@ -403,7 +402,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AptifriedClassesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -429,12 +427,12 @@
     <Compile Include="Models\AptifriedPersonMap.cs" />
     <Compile Include="Models\AptifriedProductPriceMap.cs" />
     <Compile Include="Attributes\AptifriedEntityAttribute.cs" />
-    <Compile Include="Models\AptifriedSavedShoppingCart.cs" />
-    <Compile Include="Models\AptifriedSavedShoppingCartMap.cs" />
+    <Compile Include="Models\AptifriedWebShoppingCart.cs" />
+    <Compile Include="Models\AptifriedWebShoppingCartMap.cs" />
     <Compile Include="Models\AptifriedSecurityKey.cs" />
     <Compile Include="Models\AptifriedSecurityKeyMap.cs" />
-    <Compile Include="Models\AptifriedSavedShoppingCartType.cs" />
-    <Compile Include="Models\AptifriedSavedShoppingCartTypeMap.cs" />
+    <Compile Include="Models\AptifriedWebShoppingCartType.cs" />
+    <Compile Include="Models\AptifriedWebShoppingCartTypeMap.cs" />
     <Compile Include="Models\AptifriedWebRole.cs" />
     <Compile Include="Models\AptifriedWebRoleMap.cs" />
     <Compile Include="Models\AptifriedWebUser.cs" />

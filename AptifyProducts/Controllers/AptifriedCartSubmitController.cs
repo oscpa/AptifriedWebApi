@@ -18,7 +18,7 @@ namespace AptifyWebApi.Controllers
     {
         public AptifriedCartSubmitController(ISession session) : base(session) { }
 
-        public AptifriedOrderDto Post(AptifriedShoppingCartSubmitRequestDto submitRequest) {
+        public AptifriedOrderDto Post(AptifriedWebShoppingCartSubmitRequestDto submitRequest) {
             AptifriedOrderDto resultingOrder = null;
 
             var existingCarts = GetCarts(submitRequest.SavedShoppingCartId);
@@ -74,13 +74,13 @@ namespace AptifyWebApi.Controllers
             return resultingOrder;
         }
 
-        private IList<AptifriedSavedShoppingCart> GetCarts(int shoppingCartId) {
+        private IList<AptifriedWebShoppingCart> GetCarts(int shoppingCartId) {
             var shoppingCarts =
                 session.CreateSQLQuery(
                     "select carts.* from vwWebShoppingCarts carts join vwWebUsers users on carts.WebUserID = users.ID " +
                     " where carts.ID = " + shoppingCartId.ToString() + " and users.UserID = '" + User.Identity.Name + "'")
-                    .AddEntity("carts", typeof(AptifriedSavedShoppingCart))
-                    .List<AptifriedSavedShoppingCart>();
+                    .AddEntity("carts", typeof(AptifriedWebShoppingCart))
+                    .List<AptifriedWebShoppingCart>();
 
             return shoppingCarts;
         }
