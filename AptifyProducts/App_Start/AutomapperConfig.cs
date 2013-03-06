@@ -29,6 +29,7 @@ namespace AptifyWebApi {
             Mapper.CreateMap<AptifriedWebRole, AptifriedAuthorizedRoleDto>();
             Mapper.CreateMap<AptifriedClassExtended, AptifriedClassExtendedDto>();
             Mapper.CreateMap<AptifriedPerson, AptifriedPersonDto>();
+            Mapper.CreateMap<AptifriedLicenseStatus, AptifriedLicenseStatusDto>();
 
             Mapper.CreateMap<AptifriedPaymentType, AptifriedPaymentTypeDto>();
 
