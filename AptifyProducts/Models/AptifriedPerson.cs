@@ -16,8 +16,8 @@ namespace AptifyWebApi.Models {
 		public virtual string Gender { get; set; }
 		public virtual bool AICPAMember { get; set; }
 		public virtual AptifriedLicenseStatus LicenseStatus { get; set; }
-		/*public virtual string MemberClassificationTypeIDName { get; set; }
-		public virtual string MemberStatusTypeIDName { get; set; }
-		public virtual string Email { get; set; }*/
+		public virtual AptifriedMemberClassificationType MemberClassificationType { get; set; }
+		public virtual AptifriedMemberStatusType MemberStatusType { get; set; }
+		public virtual string Email { get; set; }
     }
 }

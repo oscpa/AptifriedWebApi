@@ -15,10 +15,14 @@ namespace AptifyWebApi.Models {
 			Map(x => x.CPEReportingGroup);
 			Map(x => x.Gender);
 			Map(x => x.AICPAMember).Column("AM4AICPAMember");
+			Map(x => x.Email).Column("Email1");
+
             References(x => x.HomeAddress).Column("HomeAddressID");
             References(x => x.BusinessAddress).Column("AddressID");
             References(x => x.MemberType).Column("MemberTypeID");
 			References(x => x.LicenseStatus).Column("LicenseStatusID");
+			References(x => x.MemberClassificationType).Column("MemberClassificationTypeID");
+			References(x => x.MemberStatusType).Column("MemberStatusTypeID");
             ReadOnly();
         }
     }

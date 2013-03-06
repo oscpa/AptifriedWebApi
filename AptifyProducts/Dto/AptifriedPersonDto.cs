@@ -16,8 +16,8 @@ namespace AptifyWebApi.Dto {
 		public string Gender { get; set; }
 		public bool AICPAMember { get; set; }
 		public AptifriedLicenseStatusDto LicenseStatus { get; set; }
-		/*public string MemberClassificationTypeIDName { get; set; }
-		public string MemberStatusTypeIDName { get; set; }
-		public string Email { get; set; }*/
+		public AptifriedMemberClassificiationTypeDto MemberClassificationType { get; set; }
+		public AptifriedMemberStatusTypeDto MemberStatusType { get; set; }
+		public string Email { get; set; }
     }
 }
