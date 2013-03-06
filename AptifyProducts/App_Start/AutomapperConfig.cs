@@ -15,6 +15,7 @@ namespace AptifyWebApi {
             Mapper.CreateMap<AptifriedCompany, AptifriedCompanyDto>();
             Mapper.CreateMap<AptifriedCourse, AptifriedCourseDto>();
             Mapper.CreateMap<AptifriedMemberType, AptifriedMemberTypeDto>();
+			Mapper.CreateMap<AptifriedLicenseStatus, AptifriedLicenseStatusDto>();
             Mapper.CreateMap<AptifriedProduct, AptifriedProductDto>();
             Mapper.CreateMap<AptifriedProductPrice, AptifriedProductPriceDto>();
             Mapper.CreateMap<AptifriedCredit, AptifriedCreditDto>();

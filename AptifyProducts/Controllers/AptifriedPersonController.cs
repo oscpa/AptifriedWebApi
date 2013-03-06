@@ -8,6 +8,7 @@ using AptifyWebApi.Dto;
 using AptifyWebApi.Models;
 using AutoMapper;
 using NHibernate;
+using NHibernate.OData;
 
 namespace AptifyWebApi.Controllers
 {
@@ -19,8 +20,23 @@ namespace AptifyWebApi.Controllers
 			this.session = session;
 		}
 
-		public AptifriedPersonDto Get() {
-			return null;
+		public IEnumerable<AptifriedPersonDto> Get() {
+			ICriteria criteria;
+			try {
+				String query = Request.RequestUri.Query;
+
+				if (!string.IsNullOrEmpty(query) && query.Substring(0, 1) == @"?") {
+					query = query.Remove(0, 1);
+				}
+
+				criteria = ODataParser.ODataQuery<AptifriedPerson>(session, query);
+			} catch (ODataException exception) {
+				throw new HttpException(500, "Ain't gonna fly", exception);
+			}
+
+			IList<AptifriedPerson> hibernatedDtos = criteria.List<AptifriedPerson>();
+			IList<AptifriedPersonDto> personDtos = Mapper.Map(hibernatedDtos, new List<AptifriedPersonDto>());
+			return personDtos;
 		}
 
 		public AptifriedPersonDto Get(Int32 personId) {

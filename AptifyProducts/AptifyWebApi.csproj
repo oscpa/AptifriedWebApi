@@ -40,168 +40,168 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Aptify.Framework.BusinessLogic.GenericEntity.Generated.Companies">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\Aptify.Framework.BusinessLogic.GenericEntity.Generated.Companies.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\Aptify.Framework.BusinessLogic.GenericEntity.Generated.Companies.dll</HintPath>
     </Reference>
     <Reference Include="Aptify.Framework.BusinessLogic.GenericEntity.Generated.Employees">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\Aptify.Framework.BusinessLogic.GenericEntity.Generated.Employees.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\Aptify.Framework.BusinessLogic.GenericEntity.Generated.Employees.dll</HintPath>
     </Reference>
     <Reference Include="Aptify.Framework.BusinessLogic.GenericEntity.Generated.Orders">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\Aptify.Framework.BusinessLogic.GenericEntity.Generated.Orders.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\Aptify.Framework.BusinessLogic.GenericEntity.Generated.Orders.dll</HintPath>
     </Reference>
     <Reference Include="Aptify.Framework.BusinessLogic.GenericEntity.Generated.Organizations">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\Aptify.Framework.BusinessLogic.GenericEntity.Generated.Organizations.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\Aptify.Framework.BusinessLogic.GenericEntity.Generated.Organizations.dll</HintPath>
     </Reference>
     <Reference Include="Aptify.Framework.BusinessLogic.GenericEntity.Generated.Persons">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\Aptify.Framework.BusinessLogic.GenericEntity.Generated.Persons.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\Aptify.Framework.BusinessLogic.GenericEntity.Generated.Persons.dll</HintPath>
     </Reference>
     <Reference Include="Aptify.Framework.BusinessLogic.GenericEntity.Generated.ScheduledTransactions">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\Aptify.Framework.BusinessLogic.GenericEntity.Generated.ScheduledTransactions.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\Aptify.Framework.BusinessLogic.GenericEntity.Generated.ScheduledTransactions.dll</HintPath>
     </Reference>
     <Reference Include="Aptify.Framework.BusinessLogic.GenericEntity.Generated.Subscriptions">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\Aptify.Framework.BusinessLogic.GenericEntity.Generated.Subscriptions.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\Aptify.Framework.BusinessLogic.GenericEntity.Generated.Subscriptions.dll</HintPath>
     </Reference>
     <Reference Include="AptifyAddressInterface, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyAddressInterface.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\AptifyAddressInterface.dll</HintPath>
     </Reference>
     <Reference Include="AptifyApplication">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyApplication.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\AptifyApplication.dll</HintPath>
     </Reference>
     <Reference Include="AptifyAttributeManagement">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyAttributeManagement.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\AptifyAttributeManagement.dll</HintPath>
     </Reference>
     <Reference Include="AptifyExceptionManagement">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyExceptionManagement.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\AptifyExceptionManagement.dll</HintPath>
     </Reference>
     <Reference Include="AptifyExceptionManagementInterfaces">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyExceptionManagementInterfaces.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\AptifyExceptionManagementInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="AptifyFilterRules">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyFilterRules.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\AptifyFilterRules.dll</HintPath>
     </Reference>
     <Reference Include="AptifyGenericDataServices">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyGenericDataServices.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\AptifyGenericDataServices.dll</HintPath>
     </Reference>
     <Reference Include="AptifyGenericEntity">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyGenericEntity.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\AptifyGenericEntity.dll</HintPath>
     </Reference>
     <Reference Include="AptifyGenericEntityBase">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyGenericEntityBase.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\AptifyGenericEntityBase.dll</HintPath>
     </Reference>
     <Reference Include="AptifyGenericFind, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyGenericFind.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\AptifyGenericFind.dll</HintPath>
     </Reference>
     <Reference Include="AptifyMeetingsEntity">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyMeetingsEntity.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\AptifyMeetingsEntity.dll</HintPath>
     </Reference>
     <Reference Include="AptifyOrdersEntity">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyOrdersEntity.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\AptifyOrdersEntity.dll</HintPath>
     </Reference>
     <Reference Include="AptifyOrdersExtension">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyOrdersExtension.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\AptifyOrdersExtension.dll</HintPath>
     </Reference>
     <Reference Include="AptifyPersonsEntity">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyPersonsEntity.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\AptifyPersonsEntity.dll</HintPath>
     </Reference>
     <Reference Include="AptifyProcessFlowEngine, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyProcessFlowEngine.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\AptifyProcessFlowEngine.dll</HintPath>
     </Reference>
     <Reference Include="AptifyProductPrerequisite, Version=5.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyProductPrerequisite.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\AptifyProductPrerequisite.dll</HintPath>
     </Reference>
     <Reference Include="AptifyReportWizardInterfaces, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyReportWizardInterfaces.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\AptifyReportWizardInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="AptifySalesTax">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifySalesTax.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\AptifySalesTax.dll</HintPath>
     </Reference>
     <Reference Include="AptifySecurityKey, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifySecurityKey.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\AptifySecurityKey.dll</HintPath>
     </Reference>
     <Reference Include="AptifyShippingCalculator">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyShippingCalculator.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\AptifyShippingCalculator.dll</HintPath>
     </Reference>
     <Reference Include="AptifyUtility, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyUtility.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\AptifyUtility.dll</HintPath>
     </Reference>
     <Reference Include="AutoMapper">
       <HintPath>..\packages\AutoMapper.2.2.0\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="BackOrders">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\BackOrders.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\BackOrders.dll</HintPath>
     </Reference>
     <Reference Include="CampaignObject">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\CampaignObject.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\CampaignObject.dll</HintPath>
     </Reference>
     <Reference Include="ChapterAssignmentRules">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\ChapterAssignmentRules.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\ChapterAssignmentRules.dll</HintPath>
     </Reference>
     <Reference Include="CheckCredit">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\CheckCredit.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\CheckCredit.dll</HintPath>
     </Reference>
     <Reference Include="CheckInventory">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\CheckInventory.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\CheckInventory.dll</HintPath>
     </Reference>
     <Reference Include="CheckMeetingInventory">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\CheckMeetingInventory.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\CheckMeetingInventory.dll</HintPath>
     </Reference>
     <Reference Include="ClassRegistrationGE">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\ClassRegistrationGE.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\ClassRegistrationGE.dll</HintPath>
     </Reference>
     <Reference Include="CompanyObject">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\CompanyObject.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\CompanyObject.dll</HintPath>
     </Reference>
     <Reference Include="CurrencyMarkToMarket">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\CurrencyMarkToMarket.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\CurrencyMarkToMarket.dll</HintPath>
     </Reference>
     <Reference Include="CurrencyRetrieval">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\CurrencyRetrieval.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\CurrencyRetrieval.dll</HintPath>
     </Reference>
     <Reference Include="EBusinessBase">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\EBusinessBase.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\EBusinessBase.dll</HintPath>
     </Reference>
     <Reference Include="EBusinessGlobal">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\EBusinessGlobal.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\EBusinessGlobal.dll</HintPath>
     </Reference>
     <Reference Include="ExpandKits">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\ExpandKits.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\ExpandKits.dll</HintPath>
     </Reference>
     <Reference Include="FluentNHibernate">
       <HintPath>..\packages\FluentNHibernate.1.3.0.733\lib\FluentNHibernate.dll</HintPath>
     </Reference>
     <Reference Include="GenerateCOGS">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\GenerateCOGS.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\GenerateCOGS.dll</HintPath>
     </Reference>
     <Reference Include="IAptifyDataServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\IAptifyDataServices.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\IAptifyDataServices.dll</HintPath>
     </Reference>
     <Reference Include="ICheckInventory">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\ICheckInventory.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\ICheckInventory.dll</HintPath>
     </Reference>
     <Reference Include="ICurrencyRetrieval, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\ICurrencyRetrieval.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\ICurrencyRetrieval.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections">
       <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="IGenerateCOGS">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\IGenerateCOGS.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\IGenerateCOGS.dll</HintPath>
     </Reference>
     <Reference Include="IGenerateGL, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\IGenerateGL.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\IGenerateGL.dll</HintPath>
     </Reference>
     <Reference Include="Metadata, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\Metadata.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\Metadata.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Practices.ServiceLocation">
@@ -362,12 +362,14 @@
     <Compile Include="App_Start\FormatterConfig.cs" />
     <Compile Include="Attributes\AptifriedEntityFieldAttribute.cs" />
     <Compile Include="Controllers\AptifriedCartSubmitController.cs" />
+    <Compile Include="Controllers\AptifriedPersonController.cs" />
     <Compile Include="Controllers\AptifriedWebCartController.cs" />
     <Compile Include="Controllers\AptifyEnabledApiController.cs" />
     <Compile Include="Controllers\AuthorizationController.cs" />
     <Compile Include="Controllers\AptifriedCartController.cs" />
     <Compile Include="Controllers\AptifyClassesController.cs" />
     <Compile Include="Controllers\AptifriedPaymentTypeController.cs" />
+    <Compile Include="Dto\AptifriedLicenseStatusDto.cs" />
     <Compile Include="Dto\AptifriedPaymentTypeDto.cs" />
     <Compile Include="Dto\AptifriedWebShoppingCartProductRequestDto.cs" />
     <Compile Include="Dto\AptifriedWebShoppingCartRequestDto.cs" />
@@ -419,6 +421,8 @@
     <Compile Include="Models\AptifriedCreditMap.cs" />
     <Compile Include="Models\AptifriedClassExtended.cs" />
     <Compile Include="Models\AptifriedClassExtendedMap.cs" />
+    <Compile Include="Models\AptifriedLicenseStatus.cs" />
+    <Compile Include="Models\AptifriedLicenseStatusMap.cs" />
     <Compile Include="Models\AptifriedMemberType.cs" />
     <Compile Include="Models\AptifriedMemberTypeMap.cs" />
     <Compile Include="Models\AptifriedPaymentType.cs" />
