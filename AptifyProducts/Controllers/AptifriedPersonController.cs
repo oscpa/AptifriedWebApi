@@ -12,6 +12,7 @@ using NHibernate.OData;
 
 namespace AptifyWebApi.Controllers
 {
+	[System.Web.Http.Authorize]
     public class AptifriedPersonController : ApiController
     {
 		private ISession session;

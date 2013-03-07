@@ -374,6 +374,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\FormatterConfig.cs" />
     <Compile Include="Attributes\AptifriedEntityFieldAttribute.cs" />
+    <Compile Include="Controllers\AptifriedActualPriceController.cs" />
     <Compile Include="Controllers\AptifriedCartSubmitController.cs" />
     <Compile Include="Controllers\AptifriedClassTextSearchController.cs" />
     <Compile Include="Controllers\AptifriedPersonController.cs" />
