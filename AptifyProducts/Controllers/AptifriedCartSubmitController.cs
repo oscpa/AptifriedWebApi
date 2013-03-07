@@ -32,27 +32,26 @@ namespace AptifyWebApi.Controllers {
             if (existingCarts.Count == 0)
                 throw new HttpException(500, "No carts returned");
 
+            OrdersEntity orderProper = null;
+
             if (existingCarts[0].OrderId > 0) {
 
-                orderGe = AptifyApp.GetEntityObject("Orders", existingCarts[0].OrderId);
-                if (((OrdersEntity)orderGe).OrderStatus == OrderStatus.Shipped)
+                orderProper = (OrdersEntity)AptifyApp.GetEntityObject("Orders", existingCarts[0].OrderId);
+                if (orderProper.OrderStatus == OrderStatus.Shipped)
                     throw new HttpException(500, "This cart has already been submitted");
 
             } else {
 
-                //if (string.IsNullOrEmpty(existingCarts[0].XmlData))
-                //    throw new HttpException(500, "This cart doesn't seem to have an order associated with it.");
-
-                //var aptifyXmlParser = new Aptify.Framework.BusinessLogic.GenericEntity.XMLParser();
-                orderGe = AptifyApp.GetEntityObject("Orders", -1);
-
-                //if (!aptifyXmlParser.LoadGEFromXMLString(existingCarts[0].XmlData, ref orderGe))
-                //    throw new HttpException(500, "Could not parse order associated with cart!");
-
+                var cartController = new AptifriedCartController(session);
+                AptifriedWebShoppingCartDto cartResult;
+                cartController.GetOrderEntity(existingCarts[0], out cartResult, out orderProper);
+                
             }
 
-            OrdersEntity orderProper = (OrdersEntity)orderGe;
             orderProper.SetAddValue("OrderDate", DateTime.Now);
+            orderProper.ShipToID = AptifyUser.PersonId;
+            orderProper.BillToID = AptifyUser.PersonId;
+            orderProper.EmployeeID = 1; //ebiz
 
             orderProper.SetAddValue("InitialPaymentAmount", orderProper.GrandTotal);
             orderProper.SetAddValue("OrderSourceID", 4); // hard coded for production/dev of "web" 

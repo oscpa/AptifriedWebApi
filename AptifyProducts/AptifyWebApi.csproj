@@ -430,6 +430,10 @@
     <Compile Include="Models\AptifriedClassExtendedMap.cs" />
     <Compile Include="Models\AptifriedLicenseStatus.cs" />
     <Compile Include="Models\AptifriedLicenseStatusMap.cs" />
+    <Compile Include="Models\AptifriedMemberClassificationType.cs" />
+    <Compile Include="Models\AptifriedMemberClassificationTypeMap.cs" />
+    <Compile Include="Models\AptifriedMemberStatusType.cs" />
+    <Compile Include="Models\AptifriedMemberStatusTypeMap.cs" />
     <Compile Include="Models\AptifriedMemberType.cs" />
     <Compile Include="Models\AptifriedMemberTypeMap.cs" />
     <Compile Include="Models\AptifriedPaymentType.cs" />

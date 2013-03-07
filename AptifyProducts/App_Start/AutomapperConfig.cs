@@ -45,7 +45,9 @@ namespace AptifyWebApi {
 
             Mapper.CreateMap<AptifriedWebShoppingCartType, AptifriedWebShoppingCartTypeDto>();
             Mapper.CreateMap<AptifriedWebShoppingCart, AptifriedWebShoppingCartDto>()
-                .ForMember(dto => dto.Order, m => m.Ignore());
+                .ForMember(dto => dto.Order, m => m.Ignore())
+                .ForMember(dto => dto.RequestedLines, m => m.MapFrom(ao => ao.Lines));
+
             Mapper.CreateMap<AptifriedWebShoppingCartDetails, AptifriedWebShoppingCartProductRequestDto>();
 
             Mapper.AssertConfigurationIsValid();

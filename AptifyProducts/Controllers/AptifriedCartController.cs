@@ -12,6 +12,7 @@ using System.Web.Http;
 using AptifyWebApi.Models;
 using Aptify.Framework.BusinessLogic.GenericEntity;
 using AptifyWebApi.Factories;
+using Aptify.Applications.OrderEntry;
 
 namespace AptifyWebApi.Controllers {
 
@@ -116,24 +117,26 @@ namespace AptifyWebApi.Controllers {
         }
 
         private AptifriedWebShoppingCartDto CreateShoppingCartDtoFromCartModel(AptifriedWebShoppingCart cart) {
-            // move the saved shopping cart from memory into our transfer object
-            AptifriedWebShoppingCartDto thisCart = Mapper.Map(cart, new AptifriedWebShoppingCartDto());
-            AptifyGenericEntityBase orderBase = AptifyApp.GetEntityObject(ORDERS_ENTITY_NAME, -1);
-            var orderObject = (Aptify.Applications.OrderEntry.OrdersEntity)orderBase;
-
-            foreach (var cartLine in cart.Lines) {
-                AddOrderLineSetRegistrant(ref orderObject, cartLine);
-            }
+            AptifriedWebShoppingCartDto resultingCartDto;
+            OrdersEntity orderObject;
+            GetOrderEntity(cart, out resultingCartDto, out orderObject);
             
-            thisCart.Order = Mapper.Map(orderObject, new AptifriedOrderDto());
+            resultingCartDto.Order = Mapper.Map(orderObject, new AptifriedOrderDto());
 
-            return thisCart;
+            return resultingCartDto;
         }
 
-        /// <summary>
-        /// Retrieves shopping carts that are not committed as orders
-        /// </summary>
-        /// <returns></returns>
+        internal void GetOrderEntity(AptifriedWebShoppingCart cart, out AptifriedWebShoppingCartDto thisCart, out OrdersEntity orderProper) {
+            // move the saved shopping cart from memory into our transfer object
+            thisCart = Mapper.Map(cart, new AptifriedWebShoppingCartDto());
+            AptifyGenericEntityBase orderBase = AptifyApp.GetEntityObject(ORDERS_ENTITY_NAME, -1);
+            orderProper = (Aptify.Applications.OrderEntry.OrdersEntity)orderBase;
+
+            foreach (var cartLine in cart.Lines) {
+                AddOrderLineSetRegistrant(ref orderProper, cartLine);
+            }
+        }
+
         private IList<AptifriedWebShoppingCart> GetUncommittedUerSavedShoppingCarts() {
             var shoppingCarts =
                 session.CreateSQLQuery(
@@ -211,8 +214,7 @@ namespace AptifyWebApi.Controllers {
             return CreateShoppingCartDtoFromCartModel(newlyCreatedShoppingCartModel);
         }
 
-        private Aptify.Applications.OrderEntry.OrdersEntity 
-            GetOrderEntity(AptifriedWebShoppingCartRequestDto createRequest) {
+        internal OrdersEntity GetOrderEntity(AptifriedWebShoppingCartRequestDto createRequest) {
 
             AptifyGenericEntityBase orderGe = null;
             
@@ -233,7 +235,7 @@ namespace AptifyWebApi.Controllers {
         }
 
         private void AddOrderLineSetRegistrant(
-            ref Aptify.Applications.OrderEntry.OrdersEntity orderProper,
+            ref OrdersEntity orderProper,
             AptifriedWebShoppingCartDetails requestedLine) {
 
             AptifriedWebShoppingCartProductRequestDto dtoLine = Mapper.Map(requestedLine, new AptifriedWebShoppingCartProductRequestDto());
@@ -241,7 +243,7 @@ namespace AptifyWebApi.Controllers {
         }
 
         private void AddOrderLineSetRegistrant(
-            ref Aptify.Applications.OrderEntry.OrdersEntity orderProper, 
+            ref OrdersEntity orderProper, 
             AptifriedWebShoppingCartProductRequestDto requestedLine) {
 
             var orderLines = orderProper.AddProduct(Convert.ToInt64(requestedLine.ProductId));

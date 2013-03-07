@@ -12,6 +12,7 @@ namespace AptifyWebApi.Dto {
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
         public AptifriedOrderDto Order { get; set; }
+        public IList<AptifriedWebShoppingCartProductRequestDto> RequestedLines { get; set; }
         public int OrderId { get; set; }
 
     }
