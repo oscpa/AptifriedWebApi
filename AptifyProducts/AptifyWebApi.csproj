@@ -157,6 +157,9 @@
     <Reference Include="CompanyObject">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\CompanyObject.dll</HintPath>
     </Reference>
+    <Reference Include="CoursesEntity">
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0\CoursesEntity.dll</HintPath>
+    </Reference>
     <Reference Include="CurrencyMarkToMarket">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\CurrencyMarkToMarket.dll</HintPath>
     </Reference>
@@ -168,6 +171,9 @@
     </Reference>
     <Reference Include="EBusinessGlobal">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\EBusinessGlobal.dll</HintPath>
+    </Reference>
+    <Reference Include="ElectronicPaymentVerisign">
+      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\ElectronicPaymentVerisign.dll</HintPath>
     </Reference>
     <Reference Include="ExpandKits">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\ExpandKits.dll</HintPath>
@@ -243,8 +249,12 @@
     <Reference Include="OSCPAOrderLineGE">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OSCPAOrderLineGE.dll</HintPath>
     </Reference>
-    <Reference Include="Payflow_dotNET">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\Payflow_dotNET.dll</HintPath>
+    <Reference Include="OSCPAPaymentsEntity">
+      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OSCPAPaymentsEntity.dll</HintPath>
+    </Reference>
+    <Reference Include="Payflow_dotNET, Version=4.3.1.0, Culture=neutral, PublicKeyToken=14aa1e8d77f2a97c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0\Payflow_dotNET.dll</HintPath>
     </Reference>
     <Reference Include="PaymentGenerateGL">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\PaymentGenerateGL.dll</HintPath>

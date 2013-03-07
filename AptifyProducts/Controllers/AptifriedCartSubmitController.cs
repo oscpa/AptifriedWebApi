@@ -48,7 +48,9 @@ namespace AptifyWebApi.Controllers {
                 
             }
 
-            orderProper.SetAddValue("OrderDate", DateTime.Now);
+            if ((orderProper.GetValue("OrderDate", true) == null))
+                orderProper.SetAddValue("OrderDate", DateTime.Now);
+
             orderProper.ShipToID = AptifyUser.PersonId;
             orderProper.BillToID = AptifyUser.PersonId;
             orderProper.EmployeeID = 1; //ebiz
