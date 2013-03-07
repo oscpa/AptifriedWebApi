@@ -12,26 +12,26 @@ namespace AptifyWebApi {
         public static void InitializeAutoMapper() {
             Mapper.CreateMap<AptifriedAddress, AptifriedAddressDto>();
             Mapper.CreateMap<AptifriedClass, AptifriedClassDto>();
+			Mapper.CreateMap<AptifriedClassExtended, AptifriedClassExtendedDto>();
             Mapper.CreateMap<AptifriedCompany, AptifriedCompanyDto>();
             Mapper.CreateMap<AptifriedCourse, AptifriedCourseDto>();
+			Mapper.CreateMap<AptifriedLicenseStatus, AptifriedLicenseStatusDto>();
+			Mapper.CreateMap<AptifriedMemberClassificationType, AptifriedMemberClassificiationTypeDto>();
+			Mapper.CreateMap<AptifriedMemberStatusType, AptifriedMemberStatusTypeDto>();
             Mapper.CreateMap<AptifriedMemberType, AptifriedMemberTypeDto>();
+			Mapper.CreateMap<AptifriedLicenseStatus, AptifriedLicenseStatusDto>();
+			Mapper.CreateMap<AptifriedPaymentType, AptifriedPaymentTypeDto>();
+			Mapper.CreateMap<AptifriedPerson, AptifriedPersonDto>();
             Mapper.CreateMap<AptifriedProduct, AptifriedProductDto>();
             Mapper.CreateMap<AptifriedProductPrice, AptifriedProductPriceDto>();
             Mapper.CreateMap<AptifriedCredit, AptifriedCreditDto>();
-
             Mapper.CreateMap<AptifriedWebUser, AptifriedWebUserDto>()
                 .ForMember(x => x.Password, y => y.Ignore());
             Mapper.CreateMap<AptifriedWebUser, AptifriedAuthroizedUserDto>()
                 .ForMember(x => x.Password, y => y.Ignore());
-
             Mapper.CreateMap<AptifriedWebRole, AptifriedWebRoleDto>();
             Mapper.CreateMap<AptifriedWebRole, AptifriedAuthorizedRoleDto>();
-            Mapper.CreateMap<AptifriedClassExtended, AptifriedClassExtendedDto>();
-            Mapper.CreateMap<AptifriedPerson, AptifriedPersonDto>();
-            Mapper.CreateMap<AptifriedLicenseStatus, AptifriedLicenseStatusDto>();
-
-            Mapper.CreateMap<AptifriedPaymentType, AptifriedPaymentTypeDto>();
-
+            
             Mapper.CreateMap<Aptify.Applications.OrderEntry.OrdersEntity, AptifriedOrderDto>()
                 .ForMember(dto => dto.Lines, m => m.ResolveUsing<OrderLinesResolver>()
                     .FromMember(ao => ao.SubTypes["OrderLines"]))
