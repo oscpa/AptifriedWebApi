@@ -8,7 +8,7 @@ namespace AptifyWebApi.Dto {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public AptifriedWebShoppingCartTypeDto Type { get; set; }
+        public AptifriedWebShoppingCartTypeDto ShoppingCartType { get; set; }
         public IList<AptifriedWebShoppingCartProductRequestDto> Products { get; set; }
     }
 }

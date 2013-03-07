@@ -12,7 +12,7 @@ namespace AptifyWebApi.Models {
         public virtual AptifriedWebUser WebUser { get; set; }
         public virtual DateTime DateCreated { get; set; }
         public virtual DateTime DateUpdated { get; set; }
-        public virtual string XmlData { get; set; }
+        public virtual IList<AptifriedWebShoppingCartDetails> Lines { get; set; }
         public virtual int OrderId { get; set; }
     }
 }

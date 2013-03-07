@@ -11,7 +11,6 @@ namespace AptifyWebApi.Dto {
         public AptifriedWebShoppingCartTypeDto Type { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
-        public string XmlData { get; set; }
         public AptifriedOrderDto Order { get; set; }
         public int OrderId { get; set; }
 

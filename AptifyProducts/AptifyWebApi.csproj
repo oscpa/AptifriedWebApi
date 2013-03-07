@@ -228,6 +228,9 @@
     <Reference Include="OrganizationObject">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OrganizationObject.dll</HintPath>
     </Reference>
+    <Reference Include="OSCPA.Campaigns.Tracking">
+      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OSCPA.Campaigns.Tracking.dll</HintPath>
+    </Reference>
     <Reference Include="OSCPACompanyObject">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OSCPACompanyObject.dll</HintPath>
     </Reference>
@@ -434,6 +437,8 @@
     <Compile Include="Models\AptifriedProductPriceMap.cs" />
     <Compile Include="Attributes\AptifriedEntityAttribute.cs" />
     <Compile Include="Models\AptifriedWebShoppingCart.cs" />
+    <Compile Include="Models\AptifriedWebShoppingCartDetails.cs" />
+    <Compile Include="Models\AptifriedWebShoppingCartDetailsMap.cs" />
     <Compile Include="Models\AptifriedWebShoppingCartMap.cs" />
     <Compile Include="Models\AptifriedSecurityKey.cs" />
     <Compile Include="Models\AptifriedSecurityKeyMap.cs" />

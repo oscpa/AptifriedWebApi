@@ -19,11 +19,12 @@ namespace AptifyWebApi.Controllers {
 
         private IList<AptifriedClassTextSearchResultDto> GetSearchResults(string search) {
 
-            string fullTextIndexQuery = "SELECT TOP 100 ct.ID, ct.WebName, idx.[RANK] " +
+            string fullTextIndexQuery = "SELECT ct.ID, ct.WebName, idx.[RANK] " +
                 " FROM freetexttable(idxVwWebSearchIndex, TextContent, :search) idx " +
                 " join dbo.vwWebSearchIndex vw on idx.[KEY] = vw.ID " + 
                 " join dbo.vwClassesTiny ct on ct.ID = vw.EntityRecordID " +
                 " where EntityID = 1527 " +
+                " and ct.StartDate >= GetDate() " +
                 " order by idx.[RANK] desc ";
             var textSearchResult = session.CreateSQLQuery(fullTextIndexQuery)
                 .SetParameter("search", search)
