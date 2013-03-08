@@ -126,6 +126,17 @@ namespace AptifyWebApi.Controllers {
             return resultingCartDto;
         }
 
+
+        internal AptifriedWebShoppingCartDto CreateShoppingCartDtoFromCartModel(AptifriedWebShoppingCart cart, bool loadAptifyOrder) {
+            AptifriedWebShoppingCartDto resultingCartDto;
+            if (loadAptifyOrder) {
+                resultingCartDto = CreateShoppingCartDtoFromCartModel(cart);
+            } else {
+                resultingCartDto = Mapper.Map(cart, new AptifriedWebShoppingCartDto());
+            }
+            return resultingCartDto;
+        }
+
         internal void GetOrderEntity(AptifriedWebShoppingCart cart, out AptifriedWebShoppingCartDto thisCart, out OrdersEntity orderProper) {
             // move the saved shopping cart from memory into our transfer object
             thisCart = Mapper.Map(cart, new AptifriedWebShoppingCartDto());
@@ -214,7 +225,7 @@ namespace AptifyWebApi.Controllers {
                 .SingleOrDefault();
 
 
-            return CreateShoppingCartDtoFromCartModel(newlyCreatedShoppingCartModel);
+            return CreateShoppingCartDtoFromCartModel(newlyCreatedShoppingCartModel, false);
         }
 
         internal OrdersEntity GetOrderEntity(AptifriedWebShoppingCartRequestDto createRequest) {
