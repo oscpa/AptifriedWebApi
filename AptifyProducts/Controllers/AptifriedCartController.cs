@@ -168,15 +168,18 @@ namespace AptifyWebApi.Controllers {
         }
 
         private int GetClassIdFromProductId(int productId) {
-            var classAssociatedWithProduct =
-                session.QueryOver<AptifriedClass>()
-                    .Where(x => x.Product.Id == productId)
-                    .SingleOrDefault();
 
-            if (classAssociatedWithProduct == null)
+            var classesAssociatedWithProduct = session.CreateSQLQuery("Select top 1 class.* from vwClassesTiny class where class.ProductID = :productId")
+                .AddEntity("class", typeof(AptifriedClass))
+                .SetInt32("productId", productId)
+                .List<AptifriedClass>();
+
+            var firstClass = classesAssociatedWithProduct.Single();
+
+            if (firstClass == null)
                 throw new HttpException(500, "No product associated with class!");
 
-            return classAssociatedWithProduct.Id;
+            return firstClass.Id;
         }
 
         private AptifriedWebShoppingCartDto SaveRequestedShoppingCart(AptifriedWebShoppingCartRequestDto request) {
@@ -267,9 +270,6 @@ namespace AptifyWebApi.Controllers {
                             .SetValue("StudentID", requestedLine.RegistrantId);
                         orderLine.ExtendedOrderDetailEntity
                             .SetValue("Status", "Registered");
-                        orderLine.ExtendedOrderDetailEntity
-                            .SetValue("__ExtendedAttributeObjectData",
-                           orderLine.ExtendedOrderDetailEntity.GetObjectData(false));
 
 
                     } else if (orderLine.ExtendedOrderDetailEntity.EntityName == "OrderMeetingDetail" &&
