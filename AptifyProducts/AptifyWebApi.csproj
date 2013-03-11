@@ -378,6 +378,7 @@
     <Compile Include="Controllers\AptifriedCartSubmitController.cs" />
     <Compile Include="Controllers\AptifriedClassTextSearchController.cs" />
     <Compile Include="Controllers\AptifriedMeetingController.cs" />
+    <Compile Include="Controllers\AptifriedMeetingTextSearchController.cs" />
     <Compile Include="Controllers\AptifriedPersonController.cs" />
     <Compile Include="Controllers\AptifriedWebCartController.cs" />
     <Compile Include="Controllers\AptifyEnabledApiController.cs" />
@@ -389,6 +390,7 @@
     <Compile Include="Dto\AptifriedMeetingEductionUnitsDto.cs" />
     <Compile Include="Dto\AptifriedLicenseStatusDto.cs" />
     <Compile Include="Dto\AptifriedMeetingDto.cs" />
+    <Compile Include="Dto\AptifriedMeetingTextSearchResultDto.cs" />
     <Compile Include="Dto\AptifriedMemberClassificiationTypeDto.cs" />
     <Compile Include="Dto\AptifriedMemberStatusTypeDto.cs" />
     <Compile Include="Dto\AptifriedPaymentTypeDto.cs" />
