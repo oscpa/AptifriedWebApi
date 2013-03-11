@@ -17,6 +17,7 @@ namespace AptifyWebApi.Models {
             References(x => x.Course).Column("CourseID");
             References(x => x.Product).Column("ProductID");
             HasMany(x => x.Credits).KeyColumn("ClassID");
+            ReadOnly();
         }
     }
 }

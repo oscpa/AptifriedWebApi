@@ -11,6 +11,7 @@ namespace AptifyWebApi.Models {
 			Id(x => x.Id);
 			Map(x => x.Name);
 			Map(x => x.OldId);
+            ReadOnly();
 		}
 	}
 }

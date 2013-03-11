@@ -27,7 +27,7 @@ namespace AptifyWebApi.Controllers {
             // Use the odata query parsing engine to 
             // try to limit hits to the database.
             var queryString = Request.RequestUri.Query;
-            ICriteria queryCriteria;
+            ICriteria queryCriteria = session.CreateCriteria<AptifriedClass>();
             try {
                 if (!string.IsNullOrEmpty(queryString) && queryString.Contains("?")) {
                     queryString = queryString.Remove(0, 1);
@@ -35,7 +35,6 @@ namespace AptifyWebApi.Controllers {
                 queryCriteria = ODataParser.ODataQuery<AptifriedClass>
                     (session, queryString);
             } catch (NHibernate.OData.ODataException odataException) {
-                queryCriteria = session.CreateCriteria<AptifriedClass>();
                 throw new System.Web.HttpException(500, "Homie don't play that.", odataException);
             }
             var hibernatedCol = queryCriteria.List<AptifriedClass>();

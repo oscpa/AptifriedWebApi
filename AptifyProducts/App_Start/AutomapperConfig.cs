@@ -15,10 +15,19 @@ namespace AptifyWebApi {
 			Mapper.CreateMap<AptifriedClassExtended, AptifriedClassExtendedDto>();
             Mapper.CreateMap<AptifriedCompany, AptifriedCompanyDto>();
             Mapper.CreateMap<AptifriedCourse, AptifriedCourseDto>();
+
 			Mapper.CreateMap<AptifriedLicenseStatus, AptifriedLicenseStatusDto>();
 			Mapper.CreateMap<AptifriedMemberClassificationType, AptifriedMemberClassificiationTypeDto>();
 			Mapper.CreateMap<AptifriedMemberStatusType, AptifriedMemberStatusTypeDto>();
             Mapper.CreateMap<AptifriedMemberType, AptifriedMemberTypeDto>();
+            Mapper.CreateMap<AptifriedMeeting, AptifriedMeetingDto>()
+               .ForMember(dto => dto.MeetingStatusName, m => m.ResolveUsing(ao => ao.Status.Name))
+               .ForMember(dto => dto.MeetingTypeName, m => m.ResolveUsing(ao => ao.Type.Name));
+            Mapper.CreateMap<AptifriedMeetingEductionUnits, AptifriedMeetingEductionUnitsDto>()
+                .ForMember(dto => dto.Code, m => m.ResolveUsing(ao => ao.Category.Code))
+                .ForMember(dto => dto.Name, m => m.ResolveUsing(ao => ao.Category.Name));
+                
+
 			Mapper.CreateMap<AptifriedLicenseStatus, AptifriedLicenseStatusDto>();
 			Mapper.CreateMap<AptifriedPaymentType, AptifriedPaymentTypeDto>();
 			Mapper.CreateMap<AptifriedPerson, AptifriedPersonDto>();
