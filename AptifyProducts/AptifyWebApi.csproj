@@ -474,6 +474,7 @@
     <Compile Include="Models\AptifriedMeetingEductionUnits.cs" />
     <Compile Include="Models\AptifriedMeetingEductionUnitsMap.cs" />
     <Compile Include="Models\AptifriedMeetingMap.cs" />
+    <Compile Include="Models\AptifriedMeetingMediaMap.cs" />
     <Compile Include="Models\AptifriedMeetingStatus.cs" />
     <Compile Include="Models\AptifriedMeetingStatusMap.cs" />
     <Compile Include="Models\AptifriedMeetingType.cs" />
@@ -502,6 +503,7 @@
     <Compile Include="Models\AptifriedWebRoleMap.cs" />
     <Compile Include="Models\AptifriedWebUser.cs" />
     <Compile Include="Models\AptifriedWebUserMap.cs" />
+    <Compile Include="Models\AptifriedMeetingMedia.cs" />
     <Compile Include="Repository\HibernatedAptifriedClassRepository.cs" />
     <Compile Include="Models\AptifriedCompany.cs" />
     <Compile Include="Models\AptifriedCourse.cs" />
