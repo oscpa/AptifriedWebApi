@@ -143,6 +143,9 @@ namespace AptifyWebApi.Controllers {
             AptifyGenericEntityBase orderBase = AptifyApp.GetEntityObject(ORDERS_ENTITY_NAME, -1);
             orderProper = (Aptify.Applications.OrderEntry.OrdersEntity)orderBase;
 
+            // Need to have pricing for the user that is making the request.
+            orderProper.ShipToID = AptifyUser.PersonId;
+            
             foreach (var cartLine in cart.Lines) {
                 AddOrderLineSetRegistrant(ref orderProper, cartLine);
             }
