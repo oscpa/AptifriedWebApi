@@ -11,8 +11,12 @@ namespace AptifyWebApi {
     public class AutomapperConfig {
         public static void InitializeAutoMapper() {
             Mapper.CreateMap<AptifriedAddress, AptifriedAddressDto>();
+
             Mapper.CreateMap<AptifriedClass, AptifriedClassDto>();
 			Mapper.CreateMap<AptifriedClassExtended, AptifriedClassExtendedDto>();
+
+			Mapper.CreateMap<AptifriedCredit, AptifriedCreditDto>();
+
             Mapper.CreateMap<AptifriedCompany, AptifriedCompanyDto>();
             Mapper.CreateMap<AptifriedCourse, AptifriedCourseDto>();
             
@@ -20,48 +24,52 @@ namespace AptifyWebApi {
             Mapper.CreateMap<AptifriedExamQuestion, AptifriedExamQuestionDto>();
 
 			Mapper.CreateMap<AptifriedLicenseStatus, AptifriedLicenseStatusDto>();
-			Mapper.CreateMap<AptifriedMemberClassificationType, AptifriedMemberClassificiationTypeDto>();
-			Mapper.CreateMap<AptifriedMemberStatusType, AptifriedMemberStatusTypeDto>();
-            Mapper.CreateMap<AptifriedMemberType, AptifriedMemberTypeDto>();
+
             Mapper.CreateMap<AptifriedMeeting, AptifriedMeetingDto>()
                .ForMember(dto => dto.MeetingStatusName, m => m.ResolveUsing(ao => ao.Status.Name))
                .ForMember(dto => dto.MeetingTypeName, m => m.ResolveUsing(ao => ao.Type.Name));
+			Mapper.CreateMap<AptifriedMeetingDetail, AptifriedMeetingDetailDto>();
             Mapper.CreateMap<AptifriedMeetingEductionUnits, AptifriedMeetingEductionUnitsDto>()
                 .ForMember(dto => dto.Code, m => m.ResolveUsing(ao => ao.Category.Code))
                 .ForMember(dto => dto.Name, m => m.ResolveUsing(ao => ao.Category.Name));
-                
+			Mapper.CreateMap<AptifriedMeetingStatus, AptifriedMeetingStatusDto>();
 
-			Mapper.CreateMap<AptifriedLicenseStatus, AptifriedLicenseStatusDto>();
+			Mapper.CreateMap<AptifriedMemberClassificationType, AptifriedMemberClassificiationTypeDto>();
+			Mapper.CreateMap<AptifriedMemberStatusType, AptifriedMemberStatusTypeDto>();
+			Mapper.CreateMap<AptifriedMemberType, AptifriedMemberTypeDto>();
+
 			Mapper.CreateMap<AptifriedPaymentType, AptifriedPaymentTypeDto>();
+
 			Mapper.CreateMap<AptifriedPerson, AptifriedPersonDto>();
+
             Mapper.CreateMap<AptifriedProduct, AptifriedProductDto>();
             Mapper.CreateMap<AptifriedProductPrice, AptifriedProductPriceDto>();
-            Mapper.CreateMap<AptifriedCredit, AptifriedCreditDto>();
+            
             Mapper.CreateMap<AptifriedWebUser, AptifriedWebUserDto>()
                 .ForMember(x => x.Password, y => y.Ignore());
             Mapper.CreateMap<AptifriedWebUser, AptifriedAuthroizedUserDto>()
                 .ForMember(x => x.Password, y => y.Ignore());
+
             Mapper.CreateMap<AptifriedWebRole, AptifriedWebRoleDto>();
             Mapper.CreateMap<AptifriedWebRole, AptifriedAuthorizedRoleDto>();
-            
-            Mapper.CreateMap<Aptify.Applications.OrderEntry.OrdersEntity, AptifriedOrderDto>()
-                .ForMember(dto => dto.Lines, m => m.ResolveUsing<OrderLinesResolver>()
-                    .FromMember(ao => ao.SubTypes["OrderLines"]))
-                .ForMember(dto => dto.ShipToPerson, m => m.ResolveUsing<OrderShipToPersonResolver>())
-                .ForMember(dto => dto.ShippingAddress, m => m.ResolveUsing<OrderShipToAddressResolver>())
-                .ForMember(dto => dto.Balance, m => m.MapFrom(ao => ao.Balance))
-                .ForMember(dto => dto.SubTotal, m => m.MapFrom(ao => ao.CALC_SubTotal))
-                .ForMember(dto => dto.ShippingTotal, m => m.MapFrom(ao => ao.CALC_ShippingCharge))
-                .ForMember(dto => dto.Tax, m => m.MapFrom(ao => ao.CALC_SalesTax))
-                .ForMember(dto => dto.GrandTotal, m => m.MapFrom(ao => ao.CALC_GrandTotal));
 
+			Mapper.CreateMap<AptifriedWebShoppingCart, AptifriedWebShoppingCartDto>()
+				.ForMember(dto => dto.Order, m => m.Ignore())
+				.ForMember(dto => dto.RequestedLines, m => m.MapFrom(ao => ao.Lines));
+			Mapper.CreateMap<AptifriedWebShoppingCartDetails, AptifriedWebShoppingCartProductRequestDto>();
             Mapper.CreateMap<AptifriedWebShoppingCartType, AptifriedWebShoppingCartTypeDto>();
-            Mapper.CreateMap<AptifriedWebShoppingCart, AptifriedWebShoppingCartDto>()
-                .ForMember(dto => dto.Order, m => m.Ignore())
-                .ForMember(dto => dto.RequestedLines, m => m.MapFrom(ao => ao.Lines));
 
-            Mapper.CreateMap<AptifriedWebShoppingCartDetails, AptifriedWebShoppingCartProductRequestDto>();
-
+			Mapper.CreateMap<Aptify.Applications.OrderEntry.OrdersEntity, AptifriedOrderDto>()
+				.ForMember(dto => dto.Lines, m => m.ResolveUsing<OrderLinesResolver>()
+					.FromMember(ao => ao.SubTypes["OrderLines"]))
+				.ForMember(dto => dto.ShipToPerson, m => m.ResolveUsing<OrderShipToPersonResolver>())
+				.ForMember(dto => dto.ShippingAddress, m => m.ResolveUsing<OrderShipToAddressResolver>())
+				.ForMember(dto => dto.Balance, m => m.MapFrom(ao => ao.Balance))
+				.ForMember(dto => dto.SubTotal, m => m.MapFrom(ao => ao.CALC_SubTotal))
+				.ForMember(dto => dto.ShippingTotal, m => m.MapFrom(ao => ao.CALC_ShippingCharge))
+				.ForMember(dto => dto.Tax, m => m.MapFrom(ao => ao.CALC_SalesTax))
+				.ForMember(dto => dto.GrandTotal, m => m.MapFrom(ao => ao.CALC_GrandTotal));
+            
             Mapper.AssertConfigurationIsValid();
         }
 

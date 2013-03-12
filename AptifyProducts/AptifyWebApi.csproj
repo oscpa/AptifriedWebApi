@@ -173,7 +173,7 @@
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\EBusinessGlobal.dll</HintPath>
     </Reference>
     <Reference Include="ElectronicPaymentVerisign">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\ElectronicPaymentVerisign.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\ElectronicPaymentVerisign.dll</HintPath>
     </Reference>
     <Reference Include="ExpandKits">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\ExpandKits.dll</HintPath>
@@ -235,7 +235,7 @@
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OrganizationObject.dll</HintPath>
     </Reference>
     <Reference Include="OSCPA.Campaigns.Tracking">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OSCPA.Campaigns.Tracking.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\OSCPA.Campaigns.Tracking.dll</HintPath>
     </Reference>
     <Reference Include="OSCPACompanyObject">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OSCPACompanyObject.dll</HintPath>
@@ -250,7 +250,7 @@
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OSCPAOrderLineGE.dll</HintPath>
     </Reference>
     <Reference Include="OSCPAPaymentsEntity">
-      <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OSCPAPaymentsEntity.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\OSCPAPaymentsEntity.dll</HintPath>
     </Reference>
     <Reference Include="Payflow_dotNET, Version=4.3.1.0, Culture=neutral, PublicKeyToken=14aa1e8d77f2a97c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
