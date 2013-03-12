@@ -380,6 +380,7 @@
     <Compile Include="Controllers\AptifriedClassTextSearchController.cs" />
     <Compile Include="Controllers\AptifriedExamController.cs" />
     <Compile Include="Controllers\AptifriedMeetingController.cs" />
+    <Compile Include="Controllers\AptifriedMeetingDetailController.cs" />
     <Compile Include="Controllers\AptifriedMeetingTextSearchController.cs" />
     <Compile Include="Controllers\AptifriedPersonController.cs" />
     <Compile Include="Controllers\AptifriedWebCartController.cs" />
@@ -393,9 +394,11 @@
     <Compile Include="Dto\AptifriedClassTextSearchResultDto.cs" />
     <Compile Include="Dto\AptifriedExamDto.cs" />
     <Compile Include="Dto\AptifriedExamQuestionDto.cs" />
+    <Compile Include="Dto\AptifriedMeetingDetailDto.cs" />
     <Compile Include="Dto\AptifriedMeetingEductionUnitsDto.cs" />
     <Compile Include="Dto\AptifriedLicenseStatusDto.cs" />
     <Compile Include="Dto\AptifriedMeetingDto.cs" />
+    <Compile Include="Dto\AptifriedMeetingStatusDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTextSearchResultDto.cs" />
     <Compile Include="Dto\AptifriedMemberClassificiationTypeDto.cs" />
     <Compile Include="Dto\AptifriedMemberStatusTypeDto.cs" />
@@ -463,6 +466,8 @@
     <Compile Include="Models\AptifriedLicenseStatus.cs" />
     <Compile Include="Models\AptifriedLicenseStatusMap.cs" />
     <Compile Include="Models\AptifriedMeeting.cs" />
+    <Compile Include="Models\AptifriedMeetingDetail.cs" />
+    <Compile Include="Models\AptifriedMeetingDetailMap.cs" />
     <Compile Include="Models\AptifriedMeetingEductionUnits.cs" />
     <Compile Include="Models\AptifriedMeetingEductionUnitsMap.cs" />
     <Compile Include="Models\AptifriedMeetingMap.cs" />
