@@ -12,6 +12,8 @@ namespace AptifyWebApi {
         public static void InitializeAutoMapper() {
             Mapper.CreateMap<AptifriedAddress, AptifriedAddressDto>();
 
+			Mapper.CreateMap<AptifriedAttendeeStatus, AptifriedAttendeeStatusDto>();
+
             Mapper.CreateMap<AptifriedClass, AptifriedClassDto>();
 			Mapper.CreateMap<AptifriedClassExtended, AptifriedClassExtendedDto>();
 

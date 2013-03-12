@@ -391,6 +391,7 @@
     <Compile Include="Controllers\AptifriedPaymentTypeController.cs" />
     <Compile Include="Dto\AptifriedAnswerSheetAnswerDto.cs" />
     <Compile Include="Dto\AptifriedAnswerSheetDto.cs" />
+    <Compile Include="Dto\AptifriedAttendeeStatusDto.cs" />
     <Compile Include="Dto\AptifriedClassTextSearchResultDto.cs" />
     <Compile Include="Dto\AptifriedExamDto.cs" />
     <Compile Include="Dto\AptifriedExamQuestionDto.cs" />
@@ -448,6 +449,8 @@
     <Compile Include="Models\AptifriedAnswerSheetAnswer.cs" />
     <Compile Include="Models\AptifriedAnswerSheetAnswerMap.cs" />
     <Compile Include="Models\AptifriedAnswerSheetMap.cs" />
+    <Compile Include="Models\AptifriedAttendeeStatus.cs" />
+    <Compile Include="Models\AptifriedAttendeeStatusMap.cs" />
     <Compile Include="Models\AptifriedClass.cs" />
     <Compile Include="Models\AptifriedAddress.cs" />
     <Compile Include="Models\AptifriedClassMap.cs" />

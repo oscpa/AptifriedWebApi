@@ -13,7 +13,7 @@ namespace AptifyWebApi.Dto {
 		public string BadgeCompanyName { get; set; }
 		public string BadgeTitle { get; set; }
 		public string RegistrationType { get; set; }
-		public AptifriedMeetingStatusDto Status { get; set; }
+		public AptifriedAttendeeStatusDto Status { get; set; }
 		public AptifriedProductDto Product { get; set; }
 	}
 }

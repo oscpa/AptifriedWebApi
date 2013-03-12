@@ -13,7 +13,7 @@ namespace AptifyWebApi.Models {
 		public virtual string BadgeCompanyName { get; set; }
 		public virtual string BadgeTitle { get; set; }
 		public virtual string RegistrationType { get; set; }
-		public virtual AptifriedMeetingStatus Status { get; set; }
+		public virtual AptifriedAttendeeStatus Status { get; set; }
 		public virtual AptifriedProduct Product { get; set; }
 	}
 }
