@@ -93,7 +93,10 @@ namespace AptifyWebApi {
                         },
                         Price = currentOrderline.Price,
                         Discount = currentOrderline.Discount,
-                        Extended = currentOrderline.Extended
+                        Extended = currentOrderline.Extended,
+                        RequestedLineId = Convert.ToInt32(currentOrderline.GetValue("__requestedLineId")),
+                        RequestedRegistrantId = Convert.ToInt32(currentOrderline.GetValue("__requestedLineRegistrantId"))
+
                     });
                 }
 

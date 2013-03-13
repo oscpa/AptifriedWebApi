@@ -265,8 +265,11 @@ namespace AptifyWebApi.Controllers {
 
             var orderLines = orderProper.AddProduct(Convert.ToInt64(requestedLine.ProductId));
 
-
             foreach (var orderLine in orderLines) {
+
+                ((AptifyGenericEntityBase)orderLine).SetAddValue("__requestedLineId", requestedLine.Id);
+                ((AptifyGenericEntityBase)orderLine).SetAddValue("__requestedLineRegistrantId", requestedLine.RegistrantId);
+
                 if (orderLine.ProductID == requestedLine.ProductId &&
                     orderLine.ExtendedOrderDetailEntity != null) {
 

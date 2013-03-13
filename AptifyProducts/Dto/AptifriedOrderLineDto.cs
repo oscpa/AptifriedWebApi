@@ -9,5 +9,8 @@ namespace AptifyWebApi.Dto {
         public decimal Price { get; set; }
         public decimal Discount { get; set; }
         public decimal Extended { get; set; }
+
+        public int RequestedLineId { get; set; }
+        public int RequestedRegistrantId { get; set; }
     }
 }
