@@ -401,6 +401,7 @@
     <Compile Include="Dto\AptifriedMeetingDto.cs" />
     <Compile Include="Dto\AptifriedMeetingStatusDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTextSearchResultDto.cs" />
+    <Compile Include="Dto\AptifriedMeetingTypeDto.cs" />
     <Compile Include="Dto\AptifriedMemberClassificiationTypeDto.cs" />
     <Compile Include="Dto\AptifriedMemberStatusTypeDto.cs" />
     <Compile Include="Dto\AptifriedPaymentTypeDto.cs" />
