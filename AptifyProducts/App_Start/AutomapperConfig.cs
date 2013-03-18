@@ -27,9 +27,7 @@ namespace AptifyWebApi {
 
 			Mapper.CreateMap<AptifriedLicenseStatus, AptifriedLicenseStatusDto>();
 
-            Mapper.CreateMap<AptifriedMeeting, AptifriedMeetingDto>()
-               .ForMember(dto => dto.MeetingStatusName, m => m.ResolveUsing(ao => ao.Status.Name))
-               .ForMember(dto => dto.MeetingTypeName, m => m.ResolveUsing(ao => ao.Type.Name));
+            Mapper.CreateMap<AptifriedMeeting, AptifriedMeetingDto>();
 			Mapper.CreateMap<AptifriedMeetingDetail, AptifriedMeetingDetailDto>();
             Mapper.CreateMap<AptifriedMeetingEductionUnits, AptifriedMeetingEductionUnitsDto>()
                 .ForMember(dto => dto.Code, m => m.ResolveUsing(ao => ao.Category.Code))
