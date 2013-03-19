@@ -376,6 +376,7 @@
     <Compile Include="Attributes\AptifriedEntityFieldAttribute.cs" />
     <Compile Include="Controllers\AptifriedActualPriceController.cs" />
     <Compile Include="Controllers\AptifriedAnswerSheetController.cs" />
+    <Compile Include="Controllers\AptifriedCarouselController.cs" />
     <Compile Include="Controllers\AptifriedCartDetailController.cs" />
     <Compile Include="Controllers\AptifriedCartSubmitController.cs" />
     <Compile Include="Controllers\AptifriedClassTextSearchController.cs" />
@@ -393,6 +394,7 @@
     <Compile Include="Dto\AptifriedAnswerSheetAnswerDto.cs" />
     <Compile Include="Dto\AptifriedAnswerSheetDto.cs" />
     <Compile Include="Dto\AptifriedAttendeeStatusDto.cs" />
+    <Compile Include="Dto\AptifriedCarouselElementDto.cs" />
     <Compile Include="Dto\AptifriedClassTextSearchResultDto.cs" />
     <Compile Include="Dto\AptifriedExamDto.cs" />
     <Compile Include="Dto\AptifriedExamQuestionDto.cs" />
@@ -453,6 +455,8 @@
     <Compile Include="Models\AptifriedAnswerSheetMap.cs" />
     <Compile Include="Models\AptifriedAttendeeStatus.cs" />
     <Compile Include="Models\AptifriedAttendeeStatusMap.cs" />
+    <Compile Include="Models\AptifriedCarouselElement.cs" />
+    <Compile Include="Models\AptifriedCarouselElementMap.cs" />
     <Compile Include="Models\AptifriedClass.cs" />
     <Compile Include="Models\AptifriedAddress.cs" />
     <Compile Include="Models\AptifriedClassMap.cs" />
