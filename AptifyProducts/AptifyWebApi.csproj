@@ -403,6 +403,7 @@
     <Compile Include="Controllers\AptifriedMeetingController.cs" />
     <Compile Include="Controllers\AptifriedMeetingDetailController.cs" />
     <Compile Include="Controllers\AptifriedEductionCategoryController.cs" />
+    <Compile Include="Controllers\AptifriedMeetingSearchController.cs" />
     <Compile Include="Controllers\AptifriedMeetingTextSearchController.cs" />
     <Compile Include="Controllers\AptifriedPersonController.cs" />
     <Compile Include="Controllers\AptifriedWebCartController.cs" />
@@ -423,6 +424,7 @@
     <Compile Include="Dto\AptifriedMeetingEductionUnitsDto.cs" />
     <Compile Include="Dto\AptifriedLicenseStatusDto.cs" />
     <Compile Include="Dto\AptifriedMeetingDto.cs" />
+    <Compile Include="Dto\AptifriedMeetingSearchDto.cs" />
     <Compile Include="Dto\AptifriedMeetingStatusDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTextSearchResultDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTypeDto.cs" />
