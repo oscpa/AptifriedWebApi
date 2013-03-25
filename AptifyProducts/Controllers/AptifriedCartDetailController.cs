@@ -64,6 +64,8 @@ namespace AptifyWebApi.Controllers {
             return GetCart(cartId);
         }
 
+
+
         private AptifriedWebShoppingCartDto GetCart(int cartId) {
             var cartReturned = session.QueryOver<AptifriedWebShoppingCart>()
                 .Where(x => x.Id == cartId)
