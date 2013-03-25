@@ -21,8 +21,9 @@ namespace AptifyWebApi.Controllers {
                 StringBuilder searchWhere = new StringBuilder();
                 StringBuilder searchFrom = new StringBuilder();
 
+                // defaults for select and where
                 searchSelect.Append(" Select mt.* ");
-                searchWhere.AppendLine(" where 1=1 ");
+                searchWhere.AppendLine(" where 1=1 and mt.StatusID = 1 ");
 
                 Dictionary<string, object> queryParams = new Dictionary<string, object>();
 
@@ -81,7 +82,26 @@ namespace AptifyWebApi.Controllers {
                     queryParams.Add("zipCode", search.Zip);
                     queryParams.Add("milesDistance", search.MilesDistance);
                 }
-                string fullQuery = searchSelect.ToString() + searchFrom.ToString() + searchWhere.ToString();
+
+                // TODO : UN-hard-code these.. too much maintenance
+                if (!string.IsNullOrEmpty(search.MeetingType)) {
+                    if (search.MeetingType == "InPerson") {
+                        searchWhere.AppendLine(" and mt.MeetingTypeID in (3, 4, 8, 9)");
+                    }
+                    if (search.MeetingType == "OnLine") {
+                        searchWhere.AppendLine(" and mt.MeetingTypeID in (2, 7)");
+                    }
+                    if (search.MeetingType == "SelfStudy") {
+                        searchWhere.AppendLine(" and mt.MeetingTypeID in (5)");
+                    }
+
+
+                }
+
+                string fullQuery =  searchSelect.ToString() + 
+                                    searchFrom.ToString() + 
+                                    searchWhere.ToString();
+
                 var meetingQuery = session.CreateSQLQuery(fullQuery)
                     .AddEntity("mt", typeof(AptifriedMeeting));
                 foreach (string paramKey in queryParams.Keys) {
@@ -96,6 +116,6 @@ namespace AptifyWebApi.Controllers {
             return resultingMeetings;
         }
 
-
+        
     }
 }
