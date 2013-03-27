@@ -17,5 +17,7 @@ namespace AptifyWebApi.Dto {
         public decimal Tax { get; set; }
         public decimal GrandTotal { get; set; }
         public decimal Balance { get; set; }
+
+        public string AptifyLastError { get; set; }
     }
 }

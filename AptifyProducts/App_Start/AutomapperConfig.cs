@@ -61,17 +61,18 @@ namespace AptifyWebApi {
 			Mapper.CreateMap<AptifriedWebShoppingCartDetails, AptifriedWebShoppingCartProductRequestDto>();
             Mapper.CreateMap<AptifriedWebShoppingCartType, AptifriedWebShoppingCartTypeDto>();
 
-			Mapper.CreateMap<Aptify.Applications.OrderEntry.OrdersEntity, AptifriedOrderDto>()
+            Mapper.CreateMap<Aptify.Applications.OrderEntry.OrdersEntity, AptifriedOrderDto>()
                 .ForMember(dto => dto.Id, m => m.MapFrom(ao => ao.RecordID))
-				.ForMember(dto => dto.Lines, m => m.ResolveUsing<OrderLinesResolver>()
-					.FromMember(ao => ao.SubTypes["OrderLines"]))
-				.ForMember(dto => dto.ShipToPerson, m => m.ResolveUsing<OrderShipToPersonResolver>())
-				.ForMember(dto => dto.ShippingAddress, m => m.ResolveUsing<OrderShipToAddressResolver>())
-				.ForMember(dto => dto.Balance, m => m.MapFrom(ao => ao.Balance))
-				.ForMember(dto => dto.SubTotal, m => m.MapFrom(ao => ao.CALC_SubTotal))
-				.ForMember(dto => dto.ShippingTotal, m => m.MapFrom(ao => ao.CALC_ShippingCharge))
-				.ForMember(dto => dto.Tax, m => m.MapFrom(ao => ao.CALC_SalesTax))
-				.ForMember(dto => dto.GrandTotal, m => m.MapFrom(ao => ao.CALC_GrandTotal));
+                .ForMember(dto => dto.Lines, m => m.ResolveUsing<OrderLinesResolver>()
+                    .FromMember(ao => ao.SubTypes["OrderLines"]))
+                .ForMember(dto => dto.ShipToPerson, m => m.ResolveUsing<OrderShipToPersonResolver>())
+                .ForMember(dto => dto.ShippingAddress, m => m.ResolveUsing<OrderShipToAddressResolver>())
+                .ForMember(dto => dto.Balance, m => m.MapFrom(ao => ao.Balance))
+                .ForMember(dto => dto.SubTotal, m => m.MapFrom(ao => ao.CALC_SubTotal))
+                .ForMember(dto => dto.ShippingTotal, m => m.MapFrom(ao => ao.CALC_ShippingCharge))
+                .ForMember(dto => dto.Tax, m => m.MapFrom(ao => ao.CALC_SalesTax))
+                .ForMember(dto => dto.GrandTotal, m => m.MapFrom(ao => ao.CALC_GrandTotal))
+                .ForMember(dto => dto.AptifyLastError, m => m.MapFrom(ao => ao.LastError));
             
             Mapper.AssertConfigurationIsValid();
         }
