@@ -83,6 +83,22 @@ namespace AptifyWebApi.Controllers {
                     queryParams.Add("milesDistance", search.MilesDistance);
                 }
 
+                if (search.Levels != null && search.Levels.Count > 0) {
+                    
+                    StringBuilder levelInList = new StringBuilder();
+                    foreach (int levelId in search.Levels) {
+                        if (levelInList.Length > 0)
+                            levelInList.Append(",");
+                        else
+                            levelInList.Append("0,");
+
+                        levelInList.Append(levelId.ToString());
+                    }
+                    searchWhere.AppendFormat(" and mt.ClassLevelID in ( {0} ) ", 
+                        levelInList.ToString());
+
+                }
+
                 // TODO : UN-hard-code these.. too much maintenance
                 if (!string.IsNullOrEmpty(search.MeetingType)) {
                     if (search.MeetingType == "InPerson") {
@@ -105,7 +121,7 @@ namespace AptifyWebApi.Controllers {
                 var meetingQuery = session.CreateSQLQuery(fullQuery)
                     .AddEntity("mt", typeof(AptifriedMeeting));
                 foreach (string paramKey in queryParams.Keys) {
-                    meetingQuery.SetParameter(paramKey, queryParams[paramKey]);
+                    meetingQuery.SetParameter(paramKey, queryParams[paramKey].ToString());
                 }
 
                 var meetings = meetingQuery.List<AptifriedMeeting>();

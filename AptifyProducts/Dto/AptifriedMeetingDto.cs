@@ -15,6 +15,11 @@ namespace AptifyWebApi.Dto {
 		public TimeSpan OpenTime { get; set; }
         public AptifriedAddressDto Location { get; set; }
 		public IList<AptifriedMeetingEductionUnitsDto> Credits { get; set; }
-		public int MaxRegistrants { get; set; }
+        public int MaxRegistrants { get; set; }
+
+        /// <summary>
+        /// Couldn't strongly type this column becuase we don't enforce referential integrity on it.
+        /// </summary>
+        public int ClassLevelId { get; set; }
     }
 }

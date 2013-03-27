@@ -14,6 +14,7 @@ namespace AptifyWebApi.Models {
             Map(x => x.EndDate);
             Map(x => x.OpenTime)
                 .CustomType("TimeAsTimeSpan");
+            Map(x => x.ClassLevelId);
             References(x => x.Product).Column("ProductID");
             References(x => x.Status).Column("StatusID");
             References(x => x.Type).Column("MeetingTypeID");

@@ -17,5 +17,11 @@ namespace AptifyWebApi.Models {
         public virtual AptifriedAddress Location { get; set; }
         public virtual IList<AptifriedMeetingEductionUnits> Credits { get; set; }
         public virtual int MaxRegistrants { get; set; }
+
+        /// <summary>
+        /// This value could not be strongly typed as there is no referential integrity between class levels and
+        /// meetings, as there are invalid primary keys. worthless.
+        /// </summary>
+        public virtual int ClassLevelId { get; set; }
     }
 }
