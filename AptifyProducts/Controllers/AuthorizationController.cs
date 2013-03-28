@@ -19,6 +19,10 @@ namespace AptifyWebApi.Attributes {
         }
 
         public AptifriedAuthroizedUserDto Get(string uniqueId) {
+            return Get(uniqueId, false);
+        }
+
+        public AptifriedAuthroizedUserDto Get(string uniqueId, bool withPass) {
             AptifriedAuthroizedUserDto resultingUser = null;
             if (string.IsNullOrEmpty(uniqueId))
                 throw new HttpException(500, "Need an id!", new ArgumentException("uniqueId"));
@@ -29,9 +33,20 @@ namespace AptifyWebApi.Attributes {
 
             if (foundUser != null)
                resultingUser =  Mapper.Map(foundUser, new AptifriedAuthroizedUserDto());
-            
-            return resultingUser;
 
+            // Just in case we want to get the password back too- found a use for this when we're forcing auth
+            if (withPass && resultingUser != null) {
+                string encryptedPassword = foundUser.EncryptedPassword;
+
+                int aptifyEbizSecurityKeyId = -1;
+                if (int.TryParse(ConfigurationManager.AppSettings["AptifyEbizSecurityId"], out aptifyEbizSecurityKeyId)) {
+                    var aptifriedSecurityKey = GetAptifySecurityKey(aptifyEbizSecurityKeyId);
+                    resultingUser.Password = DecryptPassword(encryptedPassword, aptifriedSecurityKey.KeyValue); 
+                } else {
+                    throw new ArgumentException("AptifyEbizSecurityId missing from web.config");
+                }
+            }
+            return resultingUser;
         }
 
         [HttpPost]
@@ -46,27 +61,34 @@ namespace AptifyWebApi.Attributes {
                 .SingleOrDefault();
 
             if (foundUser != null) {
+                string encryptedPassword = foundUser.EncryptedPassword;
+                string passwordEnteredByUser = user.Password;
                 int aptifyEbizSecurityKeyId = -1;
                 if (int.TryParse(ConfigurationManager.AppSettings["AptifyEbizSecurityId"], out aptifyEbizSecurityKeyId)) {
 
-                    var aptifriedSecurityKey = session.QueryOver<AptifriedSecurityKey>()
-                        .Where(x => x.Id == aptifyEbizSecurityKeyId)
-                        .SingleOrDefault();
+                    var aptifriedSecurityKey = GetAptifySecurityKey(aptifyEbizSecurityKeyId);
 
-                    if (aptifriedSecurityKey == null)
-                        throw new HttpException(401, "Could not find Security Key to decrypt password.");
-
-                    string decryptedPassword = DecryptPassword(foundUser.EncryptedPassword, aptifriedSecurityKey.KeyValue);
-                    if (decryptedPassword == user.Password) {
+                    string decryptedPassword = DecryptPassword(encryptedPassword, aptifriedSecurityKey.KeyValue);
+                    if (decryptedPassword == passwordEnteredByUser) {
                         resultingUser = Mapper.Map(foundUser, new AptifriedAuthroizedUserDto());
                         resultingUser.Password = decryptedPassword;
-                    } else {
-                        throw new ArgumentException("AptifyEbizSecurityId missing from web.config");
                     }
+                } else {
+                    throw new ArgumentException("AptifyEbizSecurityId missing from web.config");
                 }
             }
 
             return resultingUser;
+        }
+
+        private AptifriedSecurityKey GetAptifySecurityKey(int aptifyEbizSecurityKeyId) {
+            var aptifriedSecurityKey = session.QueryOver<AptifriedSecurityKey>()
+                .Where(x => x.Id == aptifyEbizSecurityKeyId)
+                .SingleOrDefault();
+
+            if (aptifriedSecurityKey == null)
+                throw new HttpException(401, "Could not find Security Key to decrypt password.");
+            return aptifriedSecurityKey;
         }
 
         private string DecryptPassword(string encryptedPassword, string keyValue) {
