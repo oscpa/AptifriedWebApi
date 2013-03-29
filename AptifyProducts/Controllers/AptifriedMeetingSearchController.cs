@@ -64,13 +64,15 @@ namespace AptifyWebApi.Controllers {
                 }
 
                 if (search.CreditTypes != null && search.CreditTypes.Count > 0) {
+                    StringBuilder creditTypeIdBuilder = new StringBuilder();
                     for (int i = 0; i < search.CreditTypes.Count; i++) {
-                        searchWhere.AppendFormat("and mt.ID in(select mtu.MeetingID from dbo.vwMeetingEducationUnits mtu " + 
-                            " where mtu.EducationCategoryID = :categoryId{0} and mtu.EducationUnits > :units{0}) ", i);
+                        if (creditTypeIdBuilder.Length > 0)
+                            creditTypeIdBuilder.Append(",");
 
-                        queryParams.Add("categoryId" + i.ToString(), search.CreditTypes[i].Id);
-                        queryParams.Add("units" + i.ToString(), search.CreditTypes[i].EducationUnits);
+                        creditTypeIdBuilder.Append(search.CreditTypes[i].Id.ToString());
                     }
+                    searchWhere.AppendFormat("and mt.ID in(select mtu.MeetingID from dbo.vwMeetingEducationUnits mtu " +
+                            " where mtu.EducationCategoryID in ({0}) and mtu.EducationUnits >= 1) ", creditTypeIdBuilder.ToString());
                 }
 
                 if (!string.IsNullOrEmpty(search.Zip) && search.MilesDistance > 0) {
