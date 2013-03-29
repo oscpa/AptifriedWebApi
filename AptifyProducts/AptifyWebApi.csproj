@@ -405,6 +405,7 @@
     <Compile Include="Controllers\AptifriedMeetingDetailController.cs" />
     <Compile Include="Controllers\AptifriedEductionCategoryController.cs" />
     <Compile Include="Controllers\AptifriedMeetingSearchController.cs" />
+    <Compile Include="Controllers\AptifriedMeetingSearchCountController.cs" />
     <Compile Include="Controllers\AptifriedMeetingTextSearchController.cs" />
     <Compile Include="Controllers\AptifriedPersonController.cs" />
     <Compile Include="Controllers\AptifriedWebCartController.cs" />
@@ -421,6 +422,7 @@
     <Compile Include="Dto\AptifriedEducationCategoryDto.cs" />
     <Compile Include="Dto\AptifriedExamDto.cs" />
     <Compile Include="Dto\AptifriedExamQuestionDto.cs" />
+    <Compile Include="Dto\AptifriedMeetingCountResultsDto.cs" />
     <Compile Include="Dto\AptifriedMeetingDetailDto.cs" />
     <Compile Include="Dto\AptifriedMeetingEductionUnitsDto.cs" />
     <Compile Include="Dto\AptifriedLicenseStatusDto.cs" />
@@ -457,6 +459,7 @@
     <Compile Include="Dto\AptifriedPersonDto.cs" />
     <Compile Include="Dto\FlattenedClassViewDto.cs" />
     <Compile Include="Factories\AptifriedAuthorizationFactory.cs" />
+    <Compile Include="Factories\MeetingSearchUtils.cs" />
     <Compile Include="Factories\UnityDependencyResolver.cs" />
     <Compile Include="Formatters\JsonpMediaTypeFormatter.cs" />
     <Compile Include="Managers\PerRequestLifetimeManager.cs" />
