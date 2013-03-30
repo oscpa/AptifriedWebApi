@@ -6,6 +6,7 @@ using System.Web;
 namespace AptifyWebApi.Models {
     public class AptifriedExam {
         public virtual int Id { get; set; }
+        public virtual int MeetingId { get; set; }
         public virtual string Name { get; set; }
         public virtual string Status { get; set; }
         public virtual decimal NumberOfQuestions { get; set; }

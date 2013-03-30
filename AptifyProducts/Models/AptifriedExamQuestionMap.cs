@@ -12,6 +12,7 @@ namespace AptifyWebApi.Models {
             Map(x => x.Question);
             Map(x => x.Answer);
             Map(x => x.Type);
+            HasMany(x => x.PossibleAnswers).KeyColumn("ExamQuestionID");
             ReadOnly();
         }
     }

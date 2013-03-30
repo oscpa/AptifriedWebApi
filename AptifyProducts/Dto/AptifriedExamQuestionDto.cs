@@ -9,5 +9,6 @@ namespace AptifyWebApi.Dto {
         public string Type { get; set; }
         public string Question { get; set; }
         public string Answer { get; set; }
+        public IList<AptifriedExamQuestionPossibleAnswersDto> PossibleAnswers { get; set; }
     }
 }

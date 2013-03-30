@@ -6,6 +6,7 @@ using System.Web;
 namespace AptifyWebApi.Dto {
     public class AptifriedExamDto {
         public int Id { get; set; }
+        public int MeetingId { get; set; }
         public string Name { get; set; }
         public string PassType { get; set; }
         public decimal PassingScore { get; set; }

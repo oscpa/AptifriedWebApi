@@ -422,6 +422,7 @@
     <Compile Include="Dto\AptifriedEducationCategoryDto.cs" />
     <Compile Include="Dto\AptifriedExamDto.cs" />
     <Compile Include="Dto\AptifriedExamQuestionDto.cs" />
+    <Compile Include="Dto\AptifriedExamQuestionPossibleAnswersDto.cs" />
     <Compile Include="Dto\AptifriedMeetingCountResultsDto.cs" />
     <Compile Include="Dto\AptifriedMeetingDetailDto.cs" />
     <Compile Include="Dto\AptifriedMeetingEductionUnitsDto.cs" />
@@ -499,6 +500,8 @@
     <Compile Include="Models\AptifriedExamMap.cs" />
     <Compile Include="Models\AptifriedExamQuestion.cs" />
     <Compile Include="Models\AptifriedExamQuestionMap.cs" />
+    <Compile Include="Models\AptifriedExamQuestionPossibleAnswers.cs" />
+    <Compile Include="Models\AptifriedExamQuestionPossibleAnswersMap.cs" />
     <Compile Include="Models\AptifriedLicenseStatus.cs" />
     <Compile Include="Models\AptifriedLicenseStatusMap.cs" />
     <Compile Include="Models\AptifriedMeeting.cs" />

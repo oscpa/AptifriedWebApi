@@ -25,6 +25,7 @@ namespace AptifyWebApi {
             Mapper.CreateMap<AptifriedExam, AptifriedExamDto>();
             Mapper.CreateMap<AptifriedExamQuestion, AptifriedExamQuestionDto>();
             Mapper.CreateMap<AptifriedEducationCategory, AptifriedEducationCategoryDto>();
+            Mapper.CreateMap<AptifriedExamQuestionPossibleAnswers, AptifriedExamQuestionPossibleAnswersDto>();
 
 			Mapper.CreateMap<AptifriedLicenseStatus, AptifriedLicenseStatusDto>();
 
