@@ -13,6 +13,8 @@ namespace AptifyWebApi {
             Mapper.CreateMap<AptifriedAddress, AptifriedAddressDto>();
 
 			Mapper.CreateMap<AptifriedAttendeeStatus, AptifriedAttendeeStatusDto>();
+            Mapper.CreateMap<AptifriedAnswerSheet, AptifriedAnswerSheetDto>();
+            Mapper.CreateMap<AptifriedAnswerSheetAnswer, AptifriedAnswerSheetAnswerDto>();
 
             Mapper.CreateMap<AptifriedClass, AptifriedClassDto>();
 			Mapper.CreateMap<AptifriedClassExtended, AptifriedClassExtendedDto>();
@@ -36,6 +38,11 @@ namespace AptifyWebApi {
                 .ForMember(dto => dto.Name, m => m.ResolveUsing(ao => ao.Category.Name));
 			Mapper.CreateMap<AptifriedMeetingStatus, AptifriedMeetingStatusDto>();
 			Mapper.CreateMap<AptifriedMeetingType, AptifriedMeetingTypeDto>();
+            Mapper.CreateMap<AptifriedMeetingTopicTrack, AptifriedMeetingTopicTrackDto>();
+            Mapper.CreateMap<AptifriedMeetingTopicTrackProduct, AptifriedMeetingTopicTrackProductDto>();
+            Mapper.CreateMap<AptifriedMeetingTimeSpan, AptifriedMeetingTimeSpanDto>();
+            Mapper.CreateMap<AptifriedMeetingTimeSpanProduct, AptifriedMeetingTimeSpanProductDto>();
+
 
 			Mapper.CreateMap<AptifriedMemberClassificationType, AptifriedMemberClassificiationTypeDto>();
 			Mapper.CreateMap<AptifriedMemberStatusType, AptifriedMemberStatusTypeDto>();
@@ -47,6 +54,7 @@ namespace AptifyWebApi {
 
             Mapper.CreateMap<AptifriedProduct, AptifriedProductDto>();
             Mapper.CreateMap<AptifriedProductPrice, AptifriedProductPriceDto>();
+            Mapper.CreateMap<AptifriedProductType, AptifriedProductTypeDto>();
             
             Mapper.CreateMap<AptifriedWebUser, AptifriedWebUserDto>()
                 .ForMember(x => x.Password, y => y.Ignore());

@@ -39,6 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AnswerSheet">
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0\AnswerSheet.dll</HintPath>
+    </Reference>
     <Reference Include="Aptify.Framework.BusinessLogic.GenericEntity.Generated.Companies">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\Aptify.Framework.BusinessLogic.GenericEntity.Generated.Companies.dll</HintPath>
     </Reference>
@@ -407,6 +410,8 @@
     <Compile Include="Controllers\AptifriedMeetingSearchController.cs" />
     <Compile Include="Controllers\AptifriedMeetingSearchCountController.cs" />
     <Compile Include="Controllers\AptifriedMeetingTextSearchController.cs" />
+    <Compile Include="Controllers\AptifriedMeetingTimeSpanController.cs" />
+    <Compile Include="Controllers\AptifriedMeetingTopicTrackController.cs" />
     <Compile Include="Controllers\AptifriedPersonController.cs" />
     <Compile Include="Controllers\AptifriedWebCartController.cs" />
     <Compile Include="Controllers\AptifyEnabledApiController.cs" />
@@ -431,10 +436,15 @@
     <Compile Include="Dto\AptifriedMeetingSearchDto.cs" />
     <Compile Include="Dto\AptifriedMeetingStatusDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTextSearchResultDto.cs" />
+    <Compile Include="Dto\AptifriedMeetingTimeSpanDto.cs" />
+    <Compile Include="Dto\AptifriedMeetingTopicTrackDto.cs" />
+    <Compile Include="Dto\AptifriedMeetingTopicTrackProductDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTypeDto.cs" />
     <Compile Include="Dto\AptifriedMemberClassificiationTypeDto.cs" />
     <Compile Include="Dto\AptifriedMemberStatusTypeDto.cs" />
     <Compile Include="Dto\AptifriedPaymentTypeDto.cs" />
+    <Compile Include="Dto\AptifriedProductTypeDto.cs" />
+    <Compile Include="Dto\AptifriedMeetingTimeSpanProductDto.cs" />
     <Compile Include="Dto\AptifriedWebShoppingCartProductRequestDto.cs" />
     <Compile Include="Dto\AptifriedWebShoppingCartRequestDto.cs" />
     <Compile Include="Dto\AptifriedAuthorizedRoleDto.cs" />
@@ -513,6 +523,12 @@
     <Compile Include="Models\AptifriedMeetingMediaMap.cs" />
     <Compile Include="Models\AptifriedMeetingStatus.cs" />
     <Compile Include="Models\AptifriedMeetingStatusMap.cs" />
+    <Compile Include="Models\AptifriedMeetingTimeSpan.cs" />
+    <Compile Include="Models\AptifriedMeetingTimeSpanMap.cs" />
+    <Compile Include="Models\AptifriedMeetingTopicTrack.cs" />
+    <Compile Include="Models\AptifriedMeetingTopicTrackMap.cs" />
+    <Compile Include="Models\AptifriedMeetingTopicTrackProduct.cs" />
+    <Compile Include="Models\AptifriedMeetingTopicTrackProductMap.cs" />
     <Compile Include="Models\AptifriedMeetingType.cs" />
     <Compile Include="Models\AptifriedMeetingTypeMap.cs" />
     <Compile Include="Models\AptifriedMemberClassificationType.cs" />
@@ -527,6 +543,10 @@
     <Compile Include="Models\AptifriedPersonMap.cs" />
     <Compile Include="Models\AptifriedProductPriceMap.cs" />
     <Compile Include="Attributes\AptifriedEntityAttribute.cs" />
+    <Compile Include="Models\AptifriedProductType.cs" />
+    <Compile Include="Models\AptifriedProductTypeMap.cs" />
+    <Compile Include="Models\AptifriedMeetingTimeSpanProduct.cs" />
+    <Compile Include="Models\AptifriedMeetingTimeSpanProductMap.cs" />
     <Compile Include="Models\AptifriedWebShoppingCart.cs" />
     <Compile Include="Models\AptifriedWebShoppingCartDetails.cs" />
     <Compile Include="Models\AptifriedWebShoppingCartDetailsMap.cs" />

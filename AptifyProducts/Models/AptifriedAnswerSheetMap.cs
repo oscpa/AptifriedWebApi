@@ -12,7 +12,7 @@ namespace AptifyWebApi.Models {
             Map(x => x.DateRecorded);
             Map(x => x.ExamId);
             Map(x => x.PercentScore);
-            Map(x => x.PointScore);
+            Map(x => x.Score);
             Map(x => x.SerialNumber);
             Map(x => x.Status);
             References(x => x.Student).Column("StudentID");

@@ -10,7 +10,7 @@ namespace AptifyWebApi.Models {
         public virtual int ExamId { get; set; }
         public virtual string Status { get; set; }
         public virtual DateTime DateRecorded { get; set; }
-        public virtual decimal PointScore { get; set; }
+        public virtual decimal Score { get; set; }
         public virtual decimal PercentScore { get; set; }
         public virtual string SerialNumber { get; set; }
 

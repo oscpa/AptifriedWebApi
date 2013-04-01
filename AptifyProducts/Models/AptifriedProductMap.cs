@@ -9,11 +9,13 @@ namespace AptifyWebApi.Models {
         public AptifriedProductMap() {
             Table("vwProductsTiny");
             Id(x => x.Id);
-            /*Map(x => x.Name);*/
+            Map(x => x.Name);
             Map(x => x.Code);
             HasMany(x => x.Prices)
                 .Table("vwProductPrices")
                 .KeyColumns.Add("ProductID");
+
+            References(x => x.Type).Column("ProductTypeID");
         }
     }
 }

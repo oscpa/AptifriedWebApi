@@ -11,7 +11,7 @@ namespace AptifyWebApi.Dto {
         public int ExamId { get; set; }
         public string Status { get; set; }
         public DateTime DateRecorded { get; set; }
-        public decimal PointScore { get; set; }
+        public decimal Score { get; set; }
         public decimal PercentScore { get; set; }
         public string SerialNumber { get; set; }
 

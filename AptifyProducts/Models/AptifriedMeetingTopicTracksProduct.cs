@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 
 namespace AptifyWebApi.Models {
-    public class AptifriedProduct {
+    public class AptifriedMeetingTopicTracksProduct {
         public virtual int Id { get; set; }
+        public virtual int Sequence { get; set; }
         public virtual string Name { get; set; }
-        public virtual string Code { get; set; }
-        public virtual IList<AptifriedProductPrice> Prices { get; set; }
-        public virtual AptifriedProductType Type { get; set; }
-
+        public virtual AptifriedProduct Product { get; set; }
     }
 }
