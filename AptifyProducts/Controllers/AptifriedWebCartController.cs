@@ -41,9 +41,14 @@ namespace AptifyWebApi.Controllers {
             }
 
             // TODO: look at moving "Set/add Values" calls into automapper.
-            shoppingCartGe.SetAddValue("Name", shoppingCartToUpdate.Name);
-            shoppingCartGe.SetAddValue("WebShoppingCartTypeID", shoppingCartToUpdate.ShoppingCartType.Id);
-            shoppingCartGe.SetAddValue("Description", shoppingCartToUpdate.ShoppingCartType.Id);
+			if (shoppingCartToUpdate.Name != null)
+	            shoppingCartGe.SetAddValue("Name", shoppingCartToUpdate.Name);
+
+			if (shoppingCartToUpdate.ShoppingCartType != null && shoppingCartToUpdate.ShoppingCartType.Id != null)
+	            shoppingCartGe.SetAddValue("WebShoppingCartTypeID", shoppingCartToUpdate.ShoppingCartType.Id);
+
+			if (shoppingCartToUpdate.Description != null)
+	            shoppingCartGe.SetAddValue("Description", shoppingCartToUpdate.Description);
             // TODO: try to figure out how best to implement sharing shopping carts
             // shoppingCartGe.SetAddValue("WebUserID", ???); 
 
