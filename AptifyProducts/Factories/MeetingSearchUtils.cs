@@ -82,7 +82,7 @@ namespace AptifyWebApi.Factories {
                             " where mtu.EducationCategoryID in ({0}) and mtu.EducationUnits >= 1) ", creditTypeIdBuilder.ToString());
                 }
 
-                if (!string.IsNullOrEmpty(search.Zip) && search.MilesDistance > 0) {
+				if (!string.IsNullOrEmpty(search.Zip) && search.MilesDistance > 0 && search.MeetingType == "InPerson") {
                     searchFrom.AppendLine(" join dbo.vwAddressesTiny at on mt.AddressID = at.ID ");
                     searchWhere.AppendLine("  and exists (select * from fnOSCPAGetZipDistanceWeb(:zipCode, at.PostalCode) dt where dt.Distance <= :milesDistance)");
                     //searchWhere.AppendFormat("  and exists (select * from fnOSCPAGetZipDistanceWeb('{0}', at.PostalCode) dt where dt.Distance <= {1})",
