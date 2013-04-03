@@ -6,11 +6,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Http;
 
 namespace AptifyWebApi.Controllers {
-    [System.Web.Http.Authorize]
-    public class AptifriedConferenceMeetingSessionSesSelController : AptifyEnabledApiController {
-        public AptifriedConferenceMeetingSessionSesSelController(ISession session) : base(session) { }
+    public class AptifriedConferenceMeetingSessionSesSelController : ApiController {
+
+        private ISession session;
+
+        public AptifriedConferenceMeetingSessionSesSelController(ISession session) {
+            this.session = session;
+        }
 
 
         public IList<AptifriedMeetingDto> Get(int parentMeetingId) {
