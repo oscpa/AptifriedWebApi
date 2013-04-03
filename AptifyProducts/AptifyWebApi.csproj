@@ -403,6 +403,8 @@
     <Compile Include="Controllers\AptifriedCartLiteController.cs" />
     <Compile Include="Controllers\AptifriedCartSubmitController.cs" />
     <Compile Include="Controllers\AptifriedClassTextSearchController.cs" />
+    <Compile Include="Controllers\AptifriedConferenceMeetingSessionSesSelController.cs" />
+    <Compile Include="Controllers\AptifriedConferenceMeetingSesSelController.cs" />
     <Compile Include="Controllers\AptifriedExamController.cs" />
     <Compile Include="Controllers\AptifriedMeetingController.cs" />
     <Compile Include="Controllers\AptifriedMeetingDetailController.cs" />
@@ -469,6 +471,9 @@
     <Compile Include="Dto\AptifriedOrderLineDto.cs" />
     <Compile Include="Dto\AptifriedPersonDto.cs" />
     <Compile Include="Dto\FlattenedClassViewDto.cs" />
+    <Compile Include="Dto\SessionSelection\AptifriedCancelledMeetingSessionsDto.cs" />
+    <Compile Include="Dto\SessionSelection\AptifriedMeetingSessionLogDto.cs" />
+    <Compile Include="Dto\SessionSelection\AptifriedNewMeetingSessionDto.cs" />
     <Compile Include="Factories\AptifriedAuthorizationFactory.cs" />
     <Compile Include="Factories\MeetingSearchUtils.cs" />
     <Compile Include="Factories\UnityDependencyResolver.cs" />
@@ -560,6 +565,12 @@
     <Compile Include="Models\AptifriedWebUser.cs" />
     <Compile Include="Models\AptifriedWebUserMap.cs" />
     <Compile Include="Models\AptifriedMeetingMedia.cs" />
+    <Compile Include="Models\SessionSelection\AptifriedCancelledMeetingSessions.cs" />
+    <Compile Include="Models\SessionSelection\AptifriedCancelledMeetingSessionsMap.cs" />
+    <Compile Include="Models\SessionSelection\AptifriedMeetingSessionLog.cs" />
+    <Compile Include="Models\SessionSelection\AptifriedMeetingSessionLogMap.cs" />
+    <Compile Include="Models\SessionSelection\AptifriedNewMeetingSession.cs" />
+    <Compile Include="Models\SessionSelection\AptifriedNewMeetingSessionMap.cs" />
     <Compile Include="Repository\HibernatedAptifriedClassRepository.cs" />
     <Compile Include="Models\AptifriedCompany.cs" />
     <Compile Include="Models\AptifriedCourse.cs" />

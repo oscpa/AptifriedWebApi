@@ -80,6 +80,7 @@ namespace AptifyWebApi.Factories {
                     }
                     searchWhere.AppendFormat("and mt.ID in(select mtu.MeetingID from dbo.vwMeetingEducationUnits mtu " +
                             " where mtu.EducationCategoryID in ({0}) and mtu.EducationUnits >= 1) ", creditTypeIdBuilder.ToString());
+                    
                 }
 
 				if (!string.IsNullOrEmpty(search.Zip) && search.MilesDistance > 0 && search.MeetingType == "InPerson") {

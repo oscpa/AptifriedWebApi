@@ -11,7 +11,7 @@ namespace AptifyWebApi.Models {
             Id(x => x.Id);
             Map(x => x.Sequence);
             Map(x => x.Name);
-            Map(x => x.MeetingID);
+            Map(x => x.MeetingId);
             HasMany(x => x.TopicTrackProduct)
                 .Table("vwOSCPAMeetingTopicTrackProducts")
                 .KeyColumns.Add("OSCPAMeetingTopicTrackID");

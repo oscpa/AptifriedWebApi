@@ -40,6 +40,14 @@ namespace AptifyWebApi {
 			Mapper.CreateMap<AptifriedMeetingType, AptifriedMeetingTypeDto>();
             Mapper.CreateMap<AptifriedMeetingTopicTrack, AptifriedMeetingTopicTrackDto>();
             Mapper.CreateMap<AptifriedMeetingTopicTrackProduct, AptifriedMeetingTopicTrackProductDto>();
+
+            Mapper.CreateMap<Models.SessionSelection.AptifriedMeetingSessionLog,
+                Dto.SessionSelection.AptifriedMeetingSessionLogDto>();
+            Mapper.CreateMap<Models.SessionSelection.AptifriedCancelledMeetingSessions,
+                Dto.SessionSelection.AptifriedCancelledMeetingSessionsDto>();
+            Mapper.CreateMap<Models.SessionSelection.AptifriedNewMeetingSession,
+                Dto.SessionSelection.AptifriedNewMeetingSessionDto>();
+
             Mapper.CreateMap<AptifriedMeetingTimeSpan, AptifriedMeetingTimeSpanDto>();
             Mapper.CreateMap<AptifriedMeetingTimeSpanProduct, AptifriedMeetingTimeSpanProductDto>();
 
@@ -82,7 +90,7 @@ namespace AptifyWebApi {
                 .ForMember(dto => dto.Tax, m => m.MapFrom(ao => ao.CALC_SalesTax))
                 .ForMember(dto => dto.GrandTotal, m => m.MapFrom(ao => ao.CALC_GrandTotal))
                 .ForMember(dto => dto.AptifyLastError, m => m.MapFrom(ao => ao.LastError));
-            
+
             Mapper.AssertConfigurationIsValid();
         }
 
