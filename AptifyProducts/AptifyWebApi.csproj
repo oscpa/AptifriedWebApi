@@ -411,6 +411,7 @@
     <Compile Include="Controllers\AptifriedEductionCategoryController.cs" />
     <Compile Include="Controllers\AptifriedMeetingSearchController.cs" />
     <Compile Include="Controllers\AptifriedMeetingSearchCountController.cs" />
+    <Compile Include="Controllers\AptifriedMeetingSessionLogSesSelController.cs" />
     <Compile Include="Controllers\AptifriedMeetingTextSearchController.cs" />
     <Compile Include="Controllers\AptifriedMeetingTimeSpanController.cs" />
     <Compile Include="Controllers\AptifriedMeetingTopicTrackController.cs" />

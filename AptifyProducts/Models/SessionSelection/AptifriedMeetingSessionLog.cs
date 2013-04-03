@@ -11,5 +11,8 @@ namespace AptifyWebApi.Models.SessionSelection {
         public virtual int BillToCompanyId { get; set; }
         public virtual int ShipToId { get; set; }
         public virtual int ShipToCompanyId { get; set; }
+
+        public virtual IList<AptifriedNewMeetingSession> NewSessions { get; set; }
+        public virtual IList<AptifriedCancelledMeetingSessions> CancelledSessions { get; set; }
     }
 }
