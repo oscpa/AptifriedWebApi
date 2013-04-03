@@ -19,7 +19,7 @@ namespace AptifyWebApi.Attributes {
         }
 
         public AptifriedAuthroizedUserDto Get(string uniqueId) {
-            return Get(uniqueId, false);
+            return Get(uniqueId, true);
         }
 
         public AptifriedAuthroizedUserDto Get(string uniqueId, bool withPass) {
