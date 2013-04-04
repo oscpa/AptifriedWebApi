@@ -14,16 +14,18 @@ namespace AptifyWebApi.Controllers {
 
         public IList<AptifriedMeetingDto> Get(int parentMeetingId) {
 
+            // had to break this out into a query for the function i call. not sure how to wire them up
             string attendanceQuery =
                 " select mt.* " +
-                " from vwMeetingsTiny mt "+
-                " where mt.MeetingTypeID = 6  " +
-                " and	mt.ID in (select MeetingId from dbo.fnOscpaGetChildMeetings(:parentMeetingId)) " +
-                " and	mt.ID in ( " +
+                " from vwMeetingsTiny mt " +
+                " where  " +
+                " mt.ID in ( " +
                 " 	select omd.MeetingID " +
                 " 	from vwordermeetDetail omd " +
-                "	where omd.AttendeeID = :attendeeId and omd.StatusID <> 1) ";
-
+                "   join dbo.vwMeetingsTiny mt on omd.MeetingID = mt.ID " +
+                "	where omd.AttendeeID = :attendeeId and omd.StatusID <> 4 and mt.MeetingTypeID = 6" +
+                "   and mt.ID in (select MeetingId from dbo.fnOscpaGetChildMeetings(:parentMeetingId)) )";
+            
             var meetings = session.CreateSQLQuery(attendanceQuery)
                 .AddEntity("mt", typeof(AptifriedMeeting))
                 .SetInt32("attendeeId", AptifyUser.PersonId)

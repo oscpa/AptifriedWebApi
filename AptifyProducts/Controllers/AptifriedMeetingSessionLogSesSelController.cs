@@ -9,6 +9,7 @@ using AptifyWebApi.Models;
 using AptifyWebApi.Models.SessionSelection;
 using NHibernate.OData;
 using AutoMapper;
+using NHibernate.Criterion;
 
 namespace AptifyWebApi.Controllers {
     [System.Web.Http.Authorize]
@@ -47,20 +48,25 @@ namespace AptifyWebApi.Controllers {
             // we'll assume that this code doesn't need to validate necessary steps to unregister
 
             var sessionChangeEntity = AptifyApp.GetEntityObject(SESSION_CHANGE_ENTITY, -1);
-            sessionChangeEntity.SetValue("BillToID", sessionChanges.BillToId);
-            sessionChangeEntity.SetValue("BillToCompanyID", sessionChanges.BillToCompanyId);
-            sessionChangeEntity.SetValue("ShipToID", sessionChanges.ShipToId);
-            sessionChangeEntity.SetValue("ShipToCompanyID", sessionChanges.ShipToCompanyId);
+            sessionChangeEntity.SetValue("BillToID", AptifyUser.PersonId);
+            //sessionChangeEntity.SetValue("BillToCompanyID", sessionChanges.BillToCompanyId);
+            sessionChangeEntity.SetValue("ShipToID", AptifyUser.PersonId);
+            //sessionChangeEntity.SetValue("ShipToCompanyID", sessionChanges.ShipToCompanyId);
 
             foreach (var cancellation in sessionChanges.CancelledSessions) {
                 var newCancellationEntity = (Aptify.Framework.BusinessLogic.GenericEntity.AptifyGenericEntityBase)
                     sessionChangeEntity.SubTypes[SESSION_CHANGE_CANCELLATION_ENTITY].Add();
-
+                /*
                 newCancellationEntity.SetValue("OrderID", cancellation.OrderId);
                 newCancellationEntity.SetValue("OrderMeetingDetailID", cancellation.OrderMeetingDetailId);
+                */
+
+                var relevantMeetingDetail = GetMeetingDetailRecordForProdcut(cancellation.ProductId);
+                newCancellationEntity.SetValue("OrderID", relevantMeetingDetail.OrderId);
+                newCancellationEntity.SetValue("OrderMeetingDetailID", relevantMeetingDetail.OrderDetailId);
+
                 newCancellationEntity.SetValue("ProductID", cancellation.ProductId);
                 newCancellationEntity.SetValue("StatusID", cancellation.StatusId);
-                newCancellationEntity.Save(false);
             }
 
             foreach (var addition in sessionChanges.NewSessions) {
@@ -73,5 +79,32 @@ namespace AptifyWebApi.Controllers {
 
             return sessionChangeEntity.Save(false);
         }
+
+
+        /// <summary>
+        /// In order to keep clear of maintinaing order information on the client side,
+        /// this function should retrieve the last "not Cancelled" order and Order meeting
+        /// Detail so that the pocess of generating a cancellation can continue.
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        private AptifriedMeetingDetail GetMeetingDetailRecordForProdcut(int productId) {
+            AptifriedMeetingDetail resultingRegistration = null;
+
+            var discoveredOrderMeetingDetail = session.QueryOver<AptifriedMeetingDetail>()
+                .Where(x => x.Status.Id != 4)
+                .Where(x => x.Product.Id == productId)
+                .Where(x => x.Attendee.Id == AptifyUser.PersonId)
+                .List<AptifriedMeetingDetail>();
+
+            if (discoveredOrderMeetingDetail.Count == 1) {
+                resultingRegistration = discoveredOrderMeetingDetail.First();
+            } else {
+                throw new HttpException(500, "Could not find an existing registration for product: " + productId.ToString());
+            }
+
+            return resultingRegistration;
+        }
+        
     }
 }

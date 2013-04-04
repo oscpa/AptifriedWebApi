@@ -15,6 +15,8 @@ namespace AptifyWebApi.Models {
 			Map(x => x.BadgeCompanyName);
 			Map(x => x.BadgeTitle);
 			Map(x => x.RegistrationType);
+            Map(x => x.OrderId);
+            Map(x => x.OrderDetailId);
 			References(x => x.Attendee).Column("AttendeeID");
 			References(x => x.Status).Column("StatusID");
 			References(x => x.Product).Column("ProductID");
