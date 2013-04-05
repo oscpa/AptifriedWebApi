@@ -410,6 +410,7 @@
     <Compile Include="Controllers\AptifriedMeetingController.cs" />
     <Compile Include="Controllers\AptifriedMeetingDetailController.cs" />
     <Compile Include="Controllers\AptifriedEductionCategoryController.cs" />
+    <Compile Include="Controllers\AptifriedMeetingExternalWebMediaContentController.cs" />
     <Compile Include="Controllers\AptifriedMeetingSearchController.cs" />
     <Compile Include="Controllers\AptifriedMeetingSearchCountController.cs" />
     <Compile Include="Controllers\AptifriedMeetingSessionLogSesSelController.cs" />
@@ -437,6 +438,7 @@
     <Compile Include="Dto\AptifriedMeetingEductionUnitsDto.cs" />
     <Compile Include="Dto\AptifriedLicenseStatusDto.cs" />
     <Compile Include="Dto\AptifriedMeetingDto.cs" />
+    <Compile Include="Dto\AptifriedMeetingExternalWebMediaContentDto.cs" />
     <Compile Include="Dto\AptifriedMeetingSearchDto.cs" />
     <Compile Include="Dto\AptifriedMeetingStatusDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTextSearchResultDto.cs" />
@@ -444,6 +446,7 @@
     <Compile Include="Dto\AptifriedMeetingTopicTrackDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTopicTrackProductDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTypeDto.cs" />
+    <Compile Include="Dto\AptifriedMeetingWebMediaTypeDto.cs" />
     <Compile Include="Dto\AptifriedMemberClassificiationTypeDto.cs" />
     <Compile Include="Dto\AptifriedMemberStatusTypeDto.cs" />
     <Compile Include="Dto\AptifriedPaymentTypeDto.cs" />
@@ -526,6 +529,8 @@
     <Compile Include="Models\AptifriedMeetingDetailMap.cs" />
     <Compile Include="Models\AptifriedMeetingEductionUnits.cs" />
     <Compile Include="Models\AptifriedMeetingEductionUnitsMap.cs" />
+    <Compile Include="Models\AptifriedMeetingExternalWebMediaContent.cs" />
+    <Compile Include="Models\AptifriedMeetingExternalWebMediaContentMap.cs" />
     <Compile Include="Models\AptifriedMeetingMap.cs" />
     <Compile Include="Models\AptifriedMeetingMediaMap.cs" />
     <Compile Include="Models\AptifriedMeetingStatus.cs" />
@@ -538,6 +543,8 @@
     <Compile Include="Models\AptifriedMeetingTopicTrackProductMap.cs" />
     <Compile Include="Models\AptifriedMeetingType.cs" />
     <Compile Include="Models\AptifriedMeetingTypeMap.cs" />
+    <Compile Include="Models\AptifriedMeetingWebMediaType.cs" />
+    <Compile Include="Models\AptifriedMeetingWebMediaTypeMap.cs" />
     <Compile Include="Models\AptifriedMemberClassificationType.cs" />
     <Compile Include="Models\AptifriedMemberClassificationTypeMap.cs" />
     <Compile Include="Models\AptifriedMemberStatusType.cs" />

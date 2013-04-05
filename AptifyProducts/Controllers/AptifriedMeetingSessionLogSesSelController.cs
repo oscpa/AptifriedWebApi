@@ -54,27 +54,31 @@ namespace AptifyWebApi.Controllers {
             //sessionChangeEntity.SetValue("ShipToCompanyID", sessionChanges.ShipToCompanyId);
 
             foreach (var cancellation in sessionChanges.CancelledSessions) {
-                var newCancellationEntity = (Aptify.Framework.BusinessLogic.GenericEntity.AptifyGenericEntityBase)
-                    sessionChangeEntity.SubTypes[SESSION_CHANGE_CANCELLATION_ENTITY].Add();
-                /*
-                newCancellationEntity.SetValue("OrderID", cancellation.OrderId);
-                newCancellationEntity.SetValue("OrderMeetingDetailID", cancellation.OrderMeetingDetailId);
-                */
+                if (cancellation.ProductId > 0) {
+                    var newCancellationEntity = (Aptify.Framework.BusinessLogic.GenericEntity.AptifyGenericEntityBase)
+                        sessionChangeEntity.SubTypes[SESSION_CHANGE_CANCELLATION_ENTITY].Add();
+                    /*
+                    newCancellationEntity.SetValue("OrderID", cancellation.OrderId);
+                    newCancellationEntity.SetValue("OrderMeetingDetailID", cancellation.OrderMeetingDetailId);
+                    */
 
-                var relevantMeetingDetail = GetMeetingDetailRecordForProdcut(cancellation.ProductId);
-                newCancellationEntity.SetValue("OrderID", relevantMeetingDetail.OrderId);
-                newCancellationEntity.SetValue("OrderMeetingDetailID", relevantMeetingDetail.OrderDetailId);
+                    var relevantMeetingDetail = GetMeetingDetailRecordForProdcut(cancellation.ProductId);
+                    newCancellationEntity.SetValue("OrderID", relevantMeetingDetail.OrderId);
+                    newCancellationEntity.SetValue("OrderMeetingDetailID", relevantMeetingDetail.OrderDetailId);
 
-                newCancellationEntity.SetValue("ProductID", cancellation.ProductId);
-                newCancellationEntity.SetValue("StatusID", cancellation.StatusId);
+                    newCancellationEntity.SetValue("ProductID", cancellation.ProductId);
+                    newCancellationEntity.SetValue("StatusID", cancellation.StatusId);
+                }
             }
 
             foreach (var addition in sessionChanges.NewSessions) {
-                var newAdditionEnitty = (Aptify.Framework.BusinessLogic.GenericEntity.AptifyGenericEntityBase)
-                    sessionChangeEntity.SubTypes[SESSION_CHANGE_ADDITION_ENTITY].Add();
+                if (addition.ProductId > 0) {
+                    var newAdditionEnitty = (Aptify.Framework.BusinessLogic.GenericEntity.AptifyGenericEntityBase)
+                        sessionChangeEntity.SubTypes[SESSION_CHANGE_ADDITION_ENTITY].Add();
 
-                newAdditionEnitty.SetValue("ProductID", addition.ProductId);
-                newAdditionEnitty.SetValue("AttendeeStatusID", addition.AttendeeStatusId);
+                    newAdditionEnitty.SetValue("ProductID", addition.ProductId);
+                    newAdditionEnitty.SetValue("AttendeeStatusID", addition.AttendeeStatusId);
+                }
             }
 
             return sessionChangeEntity.Save(false);

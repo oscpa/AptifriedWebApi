@@ -36,6 +36,8 @@ namespace AptifyWebApi {
             Mapper.CreateMap<AptifriedMeetingEductionUnits, AptifriedMeetingEductionUnitsDto>()
                 .ForMember(dto => dto.Code, m => m.ResolveUsing(ao => ao.Category.Code))
                 .ForMember(dto => dto.Name, m => m.ResolveUsing(ao => ao.Category.Name));
+            Mapper.CreateMap<AptifriedMeetingExternalWebMediaContent, AptifriedMeetingExternalWebMediaContentDto>();
+            Mapper.CreateMap<AptifriedMeetingWebMediaType, AptifriedMeetingWebMediaTypeDto>();
 			Mapper.CreateMap<AptifriedMeetingStatus, AptifriedMeetingStatusDto>();
 			Mapper.CreateMap<AptifriedMeetingType, AptifriedMeetingTypeDto>();
             Mapper.CreateMap<AptifriedMeetingTopicTrack, AptifriedMeetingTopicTrackDto>();
