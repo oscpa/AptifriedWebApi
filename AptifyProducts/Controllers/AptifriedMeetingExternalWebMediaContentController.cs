@@ -34,8 +34,8 @@ namespace AptifyWebApi.Controllers {
             }
 
             var resultingMedia = queryCriteria.List<AptifriedMeetingExternalWebMediaContent>();
-            mediaContent = Mapper.Map(resultingMedia, new List<AptifriedMeetingExternalWebMediaContentDto>());
-            return mediaContent;
+            var content = Mapper.Map(resultingMedia, new List<AptifriedMeetingExternalWebMediaContentDto>());
+            return content;
         }
     }
 }

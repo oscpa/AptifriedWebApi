@@ -13,8 +13,7 @@ namespace AptifyWebApi.Models {
             References(x => x.MediaType).Column("WebMediaTypeID");
             Map(x => x.IFrameCode);
             Map(x => x.MediaFilePath);
-            Map(x => x.RequireMeetingRegistration)
-                .Access.Property().Default("1");
+            Map(x => x.RequireMeetingRegistration).CustomSqlType("bit");
             Map(x => x.VideoId);
             ReadOnly();
         }
