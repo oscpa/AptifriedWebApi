@@ -9,6 +9,8 @@ namespace AptifyWebApi.Models {
         public AptifriedExamQuestionMap() {
             Table("vwExamQuestions");
             Id(x => x.Id);
+			Map(x => x.Code);
+			Map(x => x.Points);
             Map(x => x.Question);
             Map(x => x.Answer);
             Map(x => x.Type);
