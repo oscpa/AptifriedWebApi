@@ -44,10 +44,45 @@ namespace AptifyWebApi.Controllers {
         }
 
         public AptifriedAnswerSheetDto Post(AptifriedAnswerSheetDto answerSheet) {
-            //TODO: save to aptify and return saved object
-            // We've determined that it's off to the consultans to wire up the process flow that grants credit 
-            // when an exam is passed- we really need to just save the sheet off.
-            return null;
+			// We've determined that it's off to the consultans to wire up the process flow that grants credit 
+			// when an exam is passed- we really need to just save the sheet off.
+
+			if (answerSheet == null) {
+				return null;
+			}
+			
+			var newAnswerSheet = AptifyApp.GetEntityObject("Answer Sheets", -1);
+			newAnswerSheet.SetValue("StudentID", answerSheet.Student.Id);
+			newAnswerSheet.SetValue("Status", answerSheet.Status);
+			newAnswerSheet.SetValue("ExamID", answerSheet.ExamId);
+			newAnswerSheet.SetValue("Score", answerSheet.Score);
+			newAnswerSheet.SetValue("PercentScore", answerSheet.PercentScore);
+			newAnswerSheet.SetValue("DateRecorded", answerSheet.DateRecorded);
+			newAnswerSheet.SetValue("SerialNumber", 0);
+
+			if (newAnswerSheet.Save(false)) {
+				bool saveErrors = true;
+
+				foreach (AptifriedAnswerSheetAnswerDto answer in answerSheet.Answers) {
+					var answerSheetAnswer = newAnswerSheet.SubTypes["AnswerSheetAnswers"].Add();
+					answerSheetAnswer.SetValue("QuestionCode", answer.QuestionCode);
+					answerSheetAnswer.SetValue("StudentAnswer", answer.StudentAnswer);
+					answerSheetAnswer.SetValue("IsCorrect", answer.IsCorrect);
+					answerSheetAnswer.SetValue("PointsEarned", answer.PointsEarned);
+
+					if (!answerSheetAnswer.Save(false)) {
+						saveErrors = true;
+					}
+				}
+
+				if (saveErrors) {
+					return null;
+				} else {
+					return answerSheet;
+				}
+			} else {
+				return null;
+			}
         }
     }
 }
