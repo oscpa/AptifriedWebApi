@@ -5,7 +5,7 @@ using System.Web;
 
 namespace AptifyWebApi.Dto {
     public class AptifriedMeetingSearchDto {
-        public string MeetingType { get; set; }
+        public IList<string> MeetingType { get; set; }
         public IList<int> Levels { get; set; }
         public string SearchText { get; set; }
         public DateTime? StartDate { get; set; }

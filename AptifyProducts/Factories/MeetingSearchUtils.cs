@@ -32,7 +32,7 @@ namespace AptifyWebApi.Factories {
                 } else {
                     searchSelect.Append(" Select mt.* ");
                 }
-                searchWhere.AppendLine(" where 1=1 and mt.StatusID = 1 ");
+                searchWhere.AppendLine(" where 1=1 and mt.StatusID = 1 and mt.WebEnabled = 1 ");
 
                 if (!string.IsNullOrEmpty(search.SearchText)) {
                     //searchFrom.AppendFormat(" From freetexttable(idxVwWebSearchIndex, TextContent, '{0}') idx ",
@@ -83,7 +83,9 @@ namespace AptifyWebApi.Factories {
                     
                 }
 
-				if (!string.IsNullOrEmpty(search.Zip) && search.MilesDistance > 0 && search.MeetingType == "InPerson") {
+				if (!string.IsNullOrEmpty(search.Zip) && search.MilesDistance > 0 
+                    && (search.MeetingType.Contains("InPerson") || search.MeetingType.Contains("All"))) {
+
                     searchFrom.AppendLine(" join dbo.vwAddressesTiny at on mt.AddressID = at.ID ");
                     searchWhere.AppendLine("  and exists (select * from fnOSCPAGetZipDistanceWeb(:zipCode, at.PostalCode) dt where dt.Distance <= :milesDistance)");
                     //searchWhere.AppendFormat("  and exists (select * from fnOSCPAGetZipDistanceWeb('{0}', at.PostalCode) dt where dt.Distance <= {1})",
@@ -110,18 +112,34 @@ namespace AptifyWebApi.Factories {
                 }
 
                 // TODO : UN-hard-code these.. too much maintenance
-                if (!string.IsNullOrEmpty(search.MeetingType)) {
-                    if (search.MeetingType == "InPerson") {
-                        searchWhere.AppendLine(" and mt.MeetingTypeID in (3, 4, 8, 9)");
-                    }
-                    if (search.MeetingType == "OnLine") {
-                        searchWhere.AppendLine(" and mt.MeetingTypeID in (2, 7)");
-                    }
-                    if (search.MeetingType == "SelfStudy") {
-                        searchWhere.AppendLine(" and mt.MeetingTypeID in (5)");
+                if (search.MeetingType != null && search.MeetingType.Count > 0) {
+                    StringBuilder meetingTypesTofilter = new StringBuilder();
+                    foreach (var meetingType in search.MeetingType) {
+                        if (meetingType == "InPerson") {
+                            if (meetingTypesTofilter.Length > 0) {
+                                meetingTypesTofilter.Append(",");
+                            }
+                            meetingTypesTofilter.Append("3, 4, 8, 9");
+                        }
+                        if (meetingType == "OnLine") {
+                            if (meetingTypesTofilter.Length > 0) {
+                                meetingTypesTofilter.Append(",");
+                            }
+                            meetingTypesTofilter.Append("2, 7");
+                        }
+                        if (meetingType == "SelfStudy") {
+                            if (meetingTypesTofilter.Length > 0) {
+                                meetingTypesTofilter.Append(",");
+                            }
+                            meetingTypesTofilter.Append("5");
+                        }
                     }
 
-
+                    searchWhere.AppendFormat(" and mt.MeetingTypeID in ({0})",
+                        meetingTypesTofilter.ToString());
+                } else {
+                    // remove sessions from the list regardless.
+                    searchWhere.Append(" and mt.MeetingTypeID not in (6) ");
                 }
 
                 fullQuery = searchSelect.ToString() +
