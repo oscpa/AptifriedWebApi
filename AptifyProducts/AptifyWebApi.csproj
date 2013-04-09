@@ -450,6 +450,7 @@
     <Compile Include="Dto\AptifriedMemberClassificiationTypeDto.cs" />
     <Compile Include="Dto\AptifriedMemberStatusTypeDto.cs" />
     <Compile Include="Dto\AptifriedPaymentTypeDto.cs" />
+    <Compile Include="Dto\AptifriedProductObjectiveDto.cs" />
     <Compile Include="Dto\AptifriedProductTypeDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTimeSpanProductDto.cs" />
     <Compile Include="Dto\AptifriedWebShoppingCartProductRequestDto.cs" />
@@ -555,6 +556,8 @@
     <Compile Include="Models\AptifriedPaymentTypeMap.cs" />
     <Compile Include="Models\AptifriedPerson.cs" />
     <Compile Include="Models\AptifriedPersonMap.cs" />
+    <Compile Include="Models\AptifriedProductObjective.cs" />
+    <Compile Include="Models\AptifriedProductObjectiveMap.cs" />
     <Compile Include="Models\AptifriedProductPriceMap.cs" />
     <Compile Include="Attributes\AptifriedEntityAttribute.cs" />
     <Compile Include="Models\AptifriedProductType.cs" />
