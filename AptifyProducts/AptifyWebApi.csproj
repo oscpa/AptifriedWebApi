@@ -403,6 +403,7 @@
     <Compile Include="Controllers\AptifriedCartLiteController.cs" />
     <Compile Include="Controllers\AptifriedCartSubmitController.cs" />
     <Compile Include="Controllers\AptifriedClassTextSearchController.cs" />
+    <Compile Include="Controllers\AptifriedCompletedOrderController.cs" />
     <Compile Include="Controllers\AptifriedConferenceAttendanceSesSelController.cs" />
     <Compile Include="Controllers\AptifriedConferenceMeetingSessionSesSelController.cs" />
     <Compile Include="Controllers\AptifriedConferenceMeetingSesSelController.cs" />
@@ -429,6 +430,8 @@
     <Compile Include="Dto\AptifriedAttendeeStatusDto.cs" />
     <Compile Include="Dto\AptifriedCarouselElementDto.cs" />
     <Compile Include="Dto\AptifriedClassTextSearchResultDto.cs" />
+    <Compile Include="Dto\AptifriedCompletedOrderDto.cs" />
+    <Compile Include="Dto\AptifriedCompletedOrderLineDto.cs" />
     <Compile Include="Dto\AptifriedEducationCategoryDto.cs" />
     <Compile Include="Dto\AptifriedExamDto.cs" />
     <Compile Include="Dto\AptifriedExamQuestionDto.cs" />
@@ -552,6 +555,10 @@
     <Compile Include="Models\AptifriedMemberStatusTypeMap.cs" />
     <Compile Include="Models\AptifriedMemberType.cs" />
     <Compile Include="Models\AptifriedMemberTypeMap.cs" />
+    <Compile Include="Models\AptifriedOrder.cs" />
+    <Compile Include="Models\AptifriedOrderLine.cs" />
+    <Compile Include="Models\AptifriedOrderLineMap.cs" />
+    <Compile Include="Models\AptifriedOrderMap.cs" />
     <Compile Include="Models\AptifriedPaymentType.cs" />
     <Compile Include="Models\AptifriedPaymentTypeMap.cs" />
     <Compile Include="Models\AptifriedPerson.cs" />

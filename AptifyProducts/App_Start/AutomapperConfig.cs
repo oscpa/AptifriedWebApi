@@ -81,6 +81,9 @@ namespace AptifyWebApi {
 			Mapper.CreateMap<AptifriedWebShoppingCartDetails, AptifriedWebShoppingCartProductRequestDto>();
             Mapper.CreateMap<AptifriedWebShoppingCartType, AptifriedWebShoppingCartTypeDto>();
 
+            Mapper.CreateMap<AptifriedOrder, AptifriedCompletedOrderDto>();
+            Mapper.CreateMap<AptifriedOrderLine, AptifriedCompletedOrderLineDto>();
+            
             Mapper.CreateMap<Aptify.Applications.OrderEntry.OrdersEntity, AptifriedOrderDto>()
                 .ForMember(dto => dto.Id, m => m.MapFrom(ao => ao.RecordID))
                 .ForMember(dto => dto.Lines, m => m.ResolveUsing<OrderLinesResolver>()
