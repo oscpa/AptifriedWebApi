@@ -23,6 +23,8 @@ namespace AptifyWebApi.Models {
             Map(x => x.WhoShouldPurchase).Column("OSCPAWhoShouldPurchase");
             Map(x => x.Summary).Column("OSCPASummary");
 
+			Map(x => x.IsSold);
+
             References(x => x.Type).Column("ProductTypeID");
         }
     }

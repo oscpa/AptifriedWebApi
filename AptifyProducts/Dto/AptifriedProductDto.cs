@@ -20,5 +20,7 @@ namespace AptifyWebApi.Dto {
 
         public IList<AptifriedProductPriceDto> Prices { get; set; }
         public AptifriedProductTypeDto Type { get; set; }
+
+		public bool IsSold { get; set; }
     }
 }

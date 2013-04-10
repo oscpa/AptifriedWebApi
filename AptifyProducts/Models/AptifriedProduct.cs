@@ -18,5 +18,7 @@ namespace AptifyWebApi.Models {
         public virtual IList<AptifriedProductPrice> Prices { get; set; }
         public virtual AptifriedProductType Type { get; set; }
 
+		public virtual bool IsSold { get; set; }
+
     }
 }
