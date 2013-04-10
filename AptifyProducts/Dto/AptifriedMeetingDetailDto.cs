@@ -15,5 +15,6 @@ namespace AptifyWebApi.Dto {
 		public string RegistrationType { get; set; }
 		public AptifriedAttendeeStatusDto Status { get; set; }
 		public AptifriedProductDto Product { get; set; }
+		public int MeetingId { get; set; }
 	}
 }
