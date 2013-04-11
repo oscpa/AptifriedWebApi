@@ -41,7 +41,7 @@ namespace AptifyWebApi.Controllers {
             try {
                 byte[] content = null;
 
-                if (attachmentId == null)
+                if (attachmentId <= 0)
                     throw new HttpException("Could not find attachment to find.", 
                         new ArgumentException("atachmentToRetrieve"));
 
