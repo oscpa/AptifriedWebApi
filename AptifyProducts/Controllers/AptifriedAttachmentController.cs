@@ -37,15 +37,15 @@ namespace AptifyWebApi.Controllers {
             return attachmentsDto;
         }
 
-        public HttpResponseMessage Post(AptifriedAttachmentDto attachmentToRetrieve) {
+        public HttpResponseMessage Get(int attachmentId) {
             try {
                 byte[] content = null;
 
-                if (attachmentToRetrieve == null)
+                if (attachmentId == null)
                     throw new HttpException("Could not find attachment to find.", 
                         new ArgumentException("atachmentToRetrieve"));
 
-                AptifriedAttachment attachmentProper = GetAttachment(attachmentToRetrieve);
+                AptifriedAttachment attachmentProper = GetAttachment(attachmentId);
 
                 // hack a query to get a quick byte array 
                 var queryResult = session.CreateSQLQuery("select BlobData from vwAttachments where Id = :attachmentId")
@@ -67,9 +67,9 @@ namespace AptifyWebApi.Controllers {
             }
         }
 
-        private AptifriedAttachment GetAttachment(AptifriedAttachmentDto attachmentDto) {
+        private AptifriedAttachment GetAttachment(int attachentId) {
             var attachment = session.QueryOver<AptifriedAttachment>()
-                .Where(x => x.Id == attachmentDto.Id)
+                .Where(x => x.Id == attachentId)
                 .Take(1)
                 .SingleOrDefault();
 
