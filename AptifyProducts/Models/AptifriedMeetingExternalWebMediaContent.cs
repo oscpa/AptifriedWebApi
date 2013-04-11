@@ -13,6 +13,7 @@ namespace AptifyWebApi.Models {
         public virtual string MediaImagePath { get; set; }
         public virtual bool RequireMeetingRegistration { get; set; }
         public virtual string VideoId { get; set; }
-
+		public virtual DateTime CreateDate { get; set; }
+		public virtual DateTime DateRecorded { get; set; }
     }
 }

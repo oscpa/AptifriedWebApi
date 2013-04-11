@@ -21,6 +21,7 @@ namespace AptifyWebApi.Models {
 			References(x => x.Attendee).Column("AttendeeID");
 			References(x => x.Status).Column("StatusID");
 			References(x => x.Product).Column("ProductID");
+			References(x => x.Meeting).Column("MeetingID");
 		}
 	}
 }

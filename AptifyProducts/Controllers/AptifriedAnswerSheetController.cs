@@ -61,10 +61,11 @@ namespace AptifyWebApi.Controllers {
 			newAnswerSheet.SetValue("SerialNumber", 0);
 
 			if (newAnswerSheet.Save(false)) {
-				bool saveErrors = true;
+				bool saveErrors = false;
 
 				foreach (AptifriedAnswerSheetAnswerDto answer in answerSheet.Answers) {
 					var answerSheetAnswer = newAnswerSheet.SubTypes["AnswerSheetAnswers"].Add();
+
 					answerSheetAnswer.SetValue("QuestionCode", answer.QuestionCode);
 					answerSheetAnswer.SetValue("StudentAnswer", answer.StudentAnswer);
 					answerSheetAnswer.SetValue("IsCorrect", answer.IsCorrect);
@@ -73,6 +74,8 @@ namespace AptifyWebApi.Controllers {
 					if (!answerSheetAnswer.Save(false)) {
 						saveErrors = true;
 					}
+
+					newAnswerSheet.Save(false);
 				}
 
 				if (saveErrors) {

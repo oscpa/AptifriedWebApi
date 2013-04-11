@@ -16,5 +16,6 @@ namespace AptifyWebApi.Dto {
 		public AptifriedAttendeeStatusDto Status { get; set; }
 		public AptifriedProductDto Product { get; set; }
 		public int MeetingId { get; set; }
+		public AptifriedMeetingDto Meeting { get; set; }
 	}
 }
