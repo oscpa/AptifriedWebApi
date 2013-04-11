@@ -398,6 +398,7 @@
     <Compile Include="Attributes\AptifriedEntityFieldAttribute.cs" />
     <Compile Include="Controllers\AptifriedActualPriceController.cs" />
     <Compile Include="Controllers\AptifriedAnswerSheetController.cs" />
+    <Compile Include="Controllers\AptifriedAttachmentController.cs" />
     <Compile Include="Controllers\AptifriedCarouselController.cs" />
     <Compile Include="Controllers\AptifriedCartDetailController.cs" />
     <Compile Include="Controllers\AptifriedCartLiteController.cs" />
@@ -427,6 +428,8 @@
     <Compile Include="Controllers\AptifriedPaymentTypeController.cs" />
     <Compile Include="Dto\AptifriedAnswerSheetAnswerDto.cs" />
     <Compile Include="Dto\AptifriedAnswerSheetDto.cs" />
+    <Compile Include="Dto\AptifriedAttachmentCategoryDto.cs" />
+    <Compile Include="Dto\AptifriedAttachmentDto.cs" />
     <Compile Include="Dto\AptifriedAttendeeStatusDto.cs" />
     <Compile Include="Dto\AptifriedCarouselElementDto.cs" />
     <Compile Include="Dto\AptifriedClassTextSearchResultDto.cs" />
@@ -505,6 +508,10 @@
     <Compile Include="Models\AptifriedAnswerSheetAnswer.cs" />
     <Compile Include="Models\AptifriedAnswerSheetAnswerMap.cs" />
     <Compile Include="Models\AptifriedAnswerSheetMap.cs" />
+    <Compile Include="Models\AptifriedAttachment.cs" />
+    <Compile Include="Models\AptifriedAttachmentCategory.cs" />
+    <Compile Include="Models\AptifriedAttachmentCategoryMap.cs" />
+    <Compile Include="Models\AptifriedAttachmentMap.cs" />
     <Compile Include="Models\AptifriedAttendeeStatus.cs" />
     <Compile Include="Models\AptifriedAttendeeStatusMap.cs" />
     <Compile Include="Models\AptifriedCarouselElement.cs" />

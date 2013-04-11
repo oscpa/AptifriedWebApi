@@ -13,6 +13,8 @@ namespace AptifyWebApi {
             Mapper.CreateMap<AptifriedAddress, AptifriedAddressDto>();
 
 			Mapper.CreateMap<AptifriedAttendeeStatus, AptifriedAttendeeStatusDto>();
+            Mapper.CreateMap<AptifriedAttachment, AptifriedAttachmentDto>();
+            Mapper.CreateMap<AptifriedAttachmentCategory, AptifriedAttachmentCategoryDto>();
             Mapper.CreateMap<AptifriedAnswerSheet, AptifriedAnswerSheetDto>();
             Mapper.CreateMap<AptifriedAnswerSheetAnswer, AptifriedAnswerSheetAnswerDto>();
 
