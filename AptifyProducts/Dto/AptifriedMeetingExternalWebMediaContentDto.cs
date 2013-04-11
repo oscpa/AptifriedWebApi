@@ -13,5 +13,7 @@ namespace AptifyWebApi.Dto {
         public string MediaImagePath { get; set; }
         public bool RequireMeetingRegistration { get; set; }
         public string VideoId { get; set; }
+		public DateTime CreateDate { get; set; }
+		public DateTime DateRecorded { get; set; }
     }
 }

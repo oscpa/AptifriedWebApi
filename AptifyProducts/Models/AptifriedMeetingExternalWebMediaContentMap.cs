@@ -15,6 +15,8 @@ namespace AptifyWebApi.Models {
             Map(x => x.MediaFilePath);
             Map(x => x.RequireMeetingRegistration).CustomSqlType("bit");
             Map(x => x.VideoId);
+			Map(x => x.CreateDate);
+			Map(x => x.DateRecorded);
             ReadOnly();
         }
     }

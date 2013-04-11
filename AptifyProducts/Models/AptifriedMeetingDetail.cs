@@ -18,5 +18,6 @@ namespace AptifyWebApi.Models {
         public virtual int OrderId { get; set; }
         public virtual int OrderDetailId { get; set; }
 		public virtual int MeetingId { get; set; }
+		public virtual AptifriedMeeting Meeting { get; set; }
 	}
 }
