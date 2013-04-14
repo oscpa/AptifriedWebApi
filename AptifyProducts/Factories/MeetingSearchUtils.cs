@@ -32,7 +32,7 @@ namespace AptifyWebApi.Factories {
                 } else {
                     searchSelect.Append(" Select mt.* ");
                 }
-                searchWhere.AppendLine(" where 1=1 and mt.StatusID = 1 and mt.WebEnabled = 1 ");
+                searchWhere.AppendLine(" where 1=1 and mt.StatusID = 1 and mt.WebEnabled = 1 and mt.IsSold = 1 ");
 
                 if (!string.IsNullOrEmpty(search.SearchText)) {
                     //searchFrom.AppendFormat(" From freetexttable(idxVwWebSearchIndex, TextContent, '{0}') idx ",
