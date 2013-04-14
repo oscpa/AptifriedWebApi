@@ -20,5 +20,7 @@ namespace AptifyWebApi.Models {
 
 		public virtual bool IsSold { get; set; }
 
+		public virtual bool WebEnabled { get; set; }
+
     }
 }

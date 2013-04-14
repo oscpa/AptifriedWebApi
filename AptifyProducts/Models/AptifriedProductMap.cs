@@ -24,6 +24,7 @@ namespace AptifyWebApi.Models {
             Map(x => x.Summary).Column("OSCPASummary");
 
 			Map(x => x.IsSold);
+			Map(x => x.WebEnabled);
 
             References(x => x.Type).Column("ProductTypeID");
         }

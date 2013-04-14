@@ -22,5 +22,7 @@ namespace AptifyWebApi.Dto {
         public AptifriedProductTypeDto Type { get; set; }
 
 		public bool IsSold { get; set; }
+
+		public bool WebEnabled { get; set; }
     }
 }
