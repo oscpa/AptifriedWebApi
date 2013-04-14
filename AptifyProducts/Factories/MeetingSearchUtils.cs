@@ -26,6 +26,7 @@ namespace AptifyWebApi.Factories {
                 StringBuilder searchSelect = new StringBuilder();
                 StringBuilder searchWhere = new StringBuilder();
                 StringBuilder searchFrom = new StringBuilder();
+                StringBuilder searchOrderBy = new StringBuilder();
 
                 if (justCounts) {
                     searchSelect.Append(" Select count(mt.id) ");
@@ -33,6 +34,8 @@ namespace AptifyWebApi.Factories {
                     searchSelect.Append(" Select mt.* ");
                 }
                 searchWhere.AppendLine(" where 1=1 and mt.StatusID = 1 and mt.WebEnabled = 1 and mt.IsSold = 1 ");
+
+                searchOrderBy.AppendLine(" order by mt.EndDate ");
 
                 if (!string.IsNullOrEmpty(search.SearchText)) {
                     //searchFrom.AppendFormat(" From freetexttable(idxVwWebSearchIndex, TextContent, '{0}') idx ",
@@ -47,7 +50,7 @@ namespace AptifyWebApi.Factories {
                 }
 
                 if (search.StartDate.HasValue && search.EndDate.HasValue) {
-                    searchWhere.AppendLine(" and mt.StartDate between :beginDate and :endDate ");
+                    searchWhere.AppendLine(" and mt.EndDate between :beginDate and :endDate ");
                     //searchWhere.AppendFormat(" and mt.StartDate between '{0}' and '{1}' ",
                     //    search.StartDate.Value,
                     //    search.EndDate.Value.AddHours(23));
@@ -57,13 +60,13 @@ namespace AptifyWebApi.Factories {
                 } else {
 
                     if (search.StartDate.HasValue) {
-                        searchWhere.AppendLine(" and mt.StartDate >= :beginDate ");
+                        searchWhere.AppendLine(" and mt.EndDate >= :beginDate ");
                         //searchWhere.AppendFormat(" and Class.[Start Date] >= '{0}' ",
                         //    search.StartDate.Value);
                         queryParams.Add("beginDate", search.StartDate.Value);
                     }
                     if (search.EndDate.HasValue) {
-                        searchWhere.AppendLine(" and mt.StartDate <= :endDate ");
+                        searchWhere.AppendLine(" and mt.EndDate <= :endDate ");
                         //searchWhere.AppendFormat(" and Class.[Start Date] <= '{0}' ",
                         //    search.EndDate.Value.AddHours(23));
                         queryParams.Add("endDate", search.EndDate.Value);
@@ -144,8 +147,8 @@ namespace AptifyWebApi.Factories {
 
                 fullQuery = searchSelect.ToString() +
                                     searchFrom.ToString() +
-                                    searchWhere.ToString();
-
+                                    searchWhere.ToString() +
+                                    searchOrderBy.ToString();
 
             }
 
