@@ -32,10 +32,9 @@ namespace AptifyWebApi.Factories {
                     searchSelect.Append(" Select count(mt.id) ");
                 } else {
                     searchSelect.Append(" Select mt.* ");
+                    searchOrderBy.AppendLine(" order by mt.EndDate ");
                 }
                 searchWhere.AppendLine(" where 1=1 and mt.StatusID = 1 and mt.WebEnabled = 1 and mt.IsSold = 1 ");
-
-                searchOrderBy.AppendLine(" order by mt.EndDate ");
 
                 if (!string.IsNullOrEmpty(search.SearchText)) {
                     //searchFrom.AppendFormat(" From freetexttable(idxVwWebSearchIndex, TextContent, '{0}') idx ",
