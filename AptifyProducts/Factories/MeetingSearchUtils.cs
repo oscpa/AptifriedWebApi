@@ -104,7 +104,7 @@ namespace AptifyWebApi.Factories {
                         if (levelInList.Length > 0)
                             levelInList.Append(",");
                         else
-                            levelInList.Append("0,");
+                            levelInList.Append("0, 2, ");
 
                         levelInList.Append(levelId.ToString());
                     }

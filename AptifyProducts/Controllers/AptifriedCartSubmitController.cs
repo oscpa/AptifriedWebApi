@@ -55,15 +55,17 @@ namespace AptifyWebApi.Controllers {
             orderProper.BillToID = AptifyUser.PersonId;
             orderProper.EmployeeID = 1; //ebiz
 
-            orderProper.SetAddValue("InitialPaymentAmount", orderProper.GrandTotal);
+            // if it's a free product, then we need to ignore payment.
+            if (orderProper.GrandTotal > 0) {
+                orderProper.SetAddValue("InitialPaymentAmount", orderProper.GrandTotal);
+                orderProper.SetAddValue("PayTypeID", submitRequest.PaymentTypeId);
+                orderProper.SetAddValue("CCAccountNumber", submitRequest.CardNumber);
+                orderProper.SetAddValue("CCExpireDate", GetCreditCardExpirationDate(submitRequest));
+                orderProper.SetAddValue("CCSecurityNumber", submitRequest.CardSvn);
+                orderProper.SetAddValue("PaymentSource", submitRequest.PaymentSource);
+            }
+
             orderProper.SetAddValue("OrderSourceID", 4); // hard coded for production/dev of "web" 
-
-            orderProper.SetAddValue("PayTypeID", submitRequest.PaymentTypeId);
-            orderProper.SetAddValue("CCAccountNumber", submitRequest.CardNumber);
-            orderProper.SetAddValue("CCExpireDate", GetCreditCardExpirationDate(submitRequest));
-            orderProper.SetAddValue("CCSecurityNumber", submitRequest.CardSvn);
-            orderProper.SetAddValue("PaymentSource", submitRequest.PaymentSource);
-
             orderProper.SetAddValue("OrderLevelID", 1);
             orderProper.SetAddValue("OrderLevel", "Regular");
 
