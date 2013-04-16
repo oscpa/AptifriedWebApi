@@ -19,6 +19,7 @@ namespace AptifyWebApi.Dto {
 		public string PreferredAddress { get; set; }
 		public string PreferredBillingAddress { get; set; }
 		public string PreferredShippingAddress { get; set; }
+		public DateTime JoinDate { get; set; }
 
         public AptifriedAddressDto HomeAddress { get; set; }
         public AptifriedAddressDto BusinessAddress { get; set; }
