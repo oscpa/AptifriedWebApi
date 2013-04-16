@@ -26,14 +26,12 @@ namespace AptifyWebApi.Factories {
                 StringBuilder searchSelect = new StringBuilder();
                 StringBuilder searchWhere = new StringBuilder();
                 StringBuilder searchFrom = new StringBuilder();
-                StringBuilder searchOrderBy = new StringBuilder();
+				StringBuilder searchOrderBy = new StringBuilder();
 
                 if (justCounts) {
                     searchSelect.Append(" Select count(mt.id) ");
                 } else {
-                    searchSelect.Append(" Select mt.* ");
-                    searchOrderBy.AppendLine(" order by mt.EndDate ");
-                }
+                    searchSelect.Append(" Select mt.* ");                }
                 searchWhere.AppendLine(" where 1=1 and mt.StatusID = 1 and mt.WebEnabled = 1 and mt.IsSold = 1 ");
 
                 if (!string.IsNullOrEmpty(search.SearchText)) {
@@ -144,10 +142,17 @@ namespace AptifyWebApi.Factories {
                     searchWhere.Append(" and mt.MeetingTypeID not in (6) ");
                 }
 
+				// Sort on relevance if we can, otherwise by the meeting end date
+				if (!string.IsNullOrEmpty(search.SearchText)) {
+					searchOrderBy.Append(" order by idx.rank desc");
+				} else {
+					searchOrderBy.AppendLine(" order by mt.EndDate ");
+				}
+
                 fullQuery = searchSelect.ToString() +
                                     searchFrom.ToString() +
                                     searchWhere.ToString() +
-                                    searchOrderBy.ToString();
+									searchOrderBy.ToString();
 
             }
 

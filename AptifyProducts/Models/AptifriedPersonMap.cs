@@ -23,6 +23,7 @@ namespace AptifyWebApi.Models {
 			Map(x => x.PreferredAddress);
 			Map(x => x.PreferredBillingAddress);
 			Map(x => x.PreferredShippingAddress);
+			Map(x => x.JoinDate);
 
             References(x => x.HomeAddress).Column("HomeAddressID");
             References(x => x.BusinessAddress).Column("AddressID");

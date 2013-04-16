@@ -19,6 +19,7 @@ namespace AptifyWebApi.Models {
 		public virtual string PreferredAddress { get; set; }
 		public virtual string PreferredBillingAddress { get; set; }
 		public virtual string PreferredShippingAddress { get; set; }
+		public virtual DateTime JoinDate { get; set; }
 
         public virtual AptifriedAddress HomeAddress { get; set; }
         public virtual AptifriedAddress BusinessAddress { get; set; }
