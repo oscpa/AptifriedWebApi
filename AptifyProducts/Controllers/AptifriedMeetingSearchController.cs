@@ -16,6 +16,12 @@ namespace AptifyWebApi.Controllers {
         public AptifriedMeetingSearchController(ISession session) : base(session) { }
 
         public IList<AptifriedMeetingDto> Post(AptifriedMeetingSearchDto search) {
+			// If search is null, throw an error
+			if (search == null) {
+				throw new HttpException(500, "Post must contain a search object", new ArgumentException("search"));
+				return null;
+			}
+
             IList<AptifriedMeetingDto> resultingMeetings = new List<AptifriedMeetingDto>();
 
             var queryAndParams = MeetingSearchUtils.BuildFullQuery(search);

@@ -26,6 +26,7 @@ namespace AptifyWebApi.Factories {
                 StringBuilder searchSelect = new StringBuilder();
                 StringBuilder searchWhere = new StringBuilder();
                 StringBuilder searchFrom = new StringBuilder();
+				StringBuilder searchOrderBy = new StringBuilder();
 
                 if (justCounts) {
                     searchSelect.Append(" Select count(mt.id) ");
@@ -142,9 +143,17 @@ namespace AptifyWebApi.Factories {
                     searchWhere.Append(" and mt.MeetingTypeID not in (6) ");
                 }
 
+				// Sort on relevance
+				if (!string.IsNullOrEmpty(search.SearchText)) {
+					searchOrderBy.Append("order by idx.rank desc");
+				} else {
+					searchOrderBy.Append("order by mt.StartDate");
+				}
+
                 fullQuery = searchSelect.ToString() +
                                     searchFrom.ToString() +
-                                    searchWhere.ToString();
+                                    searchWhere.ToString() +
+									searchOrderBy.ToString();
 
 
             }
