@@ -31,7 +31,16 @@ namespace AptifyWebApi.Factories {
                 if (justCounts) {
                     searchSelect.Append(" Select count(mt.id) ");
                 } else {
-                    searchSelect.Append(" Select mt.* ");                }
+                    searchSelect.Append(" Select mt.* ");
+
+                    // Sort on relevance if we can, otherwise by the meeting end date
+                    if (!string.IsNullOrEmpty(search.SearchText)) {
+                        searchOrderBy.Append(" order by idx.rank desc");
+                    } else {
+                        searchOrderBy.AppendLine(" order by mt.EndDate ");
+                    }
+
+                }
                 searchWhere.AppendLine(" where 1=1 and mt.StatusID = 1 and mt.WebEnabled = 1 and mt.IsSold = 1 ");
 
                 if (!string.IsNullOrEmpty(search.SearchText)) {
@@ -141,13 +150,6 @@ namespace AptifyWebApi.Factories {
                     // remove sessions from the list regardless.
                     searchWhere.Append(" and mt.MeetingTypeID not in (6) ");
                 }
-
-				// Sort on relevance if we can, otherwise by the meeting end date
-				if (!string.IsNullOrEmpty(search.SearchText)) {
-					searchOrderBy.Append(" order by idx.rank desc");
-				} else {
-					searchOrderBy.AppendLine(" order by mt.EndDate ");
-				}
 
                 fullQuery = searchSelect.ToString() +
                                     searchFrom.ToString() +
