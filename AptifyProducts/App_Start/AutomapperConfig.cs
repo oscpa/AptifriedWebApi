@@ -68,6 +68,8 @@ namespace AptifyWebApi {
             Mapper.CreateMap<AptifriedProductObjective, AptifriedProductObjectiveDto>();
             Mapper.CreateMap<AptifriedProductPrice, AptifriedProductPriceDto>();
             Mapper.CreateMap<AptifriedProductType, AptifriedProductTypeDto>();
+
+			Mapper.CreateMap<AptifriedVenue, AptifriedVenueDto>();
             
             Mapper.CreateMap<AptifriedWebUser, AptifriedWebUserDto>()
                 .ForMember(x => x.Password, y => y.Ignore());

@@ -459,6 +459,7 @@
     <Compile Include="Dto\AptifriedProductObjectiveDto.cs" />
     <Compile Include="Dto\AptifriedProductTypeDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTimeSpanProductDto.cs" />
+    <Compile Include="Dto\AptifriedVenueDto.cs" />
     <Compile Include="Dto\AptifriedWebShoppingCartProductRequestDto.cs" />
     <Compile Include="Dto\AptifriedWebShoppingCartRequestDto.cs" />
     <Compile Include="Dto\AptifriedAuthorizedRoleDto.cs" />
@@ -578,6 +579,8 @@
     <Compile Include="Models\AptifriedProductTypeMap.cs" />
     <Compile Include="Models\AptifriedMeetingTimeSpanProduct.cs" />
     <Compile Include="Models\AptifriedMeetingTimeSpanProductMap.cs" />
+    <Compile Include="Models\AptifriedVenue.cs" />
+    <Compile Include="Models\AptifriedVenueMap.cs" />
     <Compile Include="Models\AptifriedWebShoppingCart.cs" />
     <Compile Include="Models\AptifriedWebShoppingCartDetails.cs" />
     <Compile Include="Models\AptifriedWebShoppingCartDetailsMap.cs" />
