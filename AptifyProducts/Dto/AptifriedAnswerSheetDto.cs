@@ -14,6 +14,7 @@ namespace AptifyWebApi.Dto {
         public decimal Score { get; set; }
         public decimal PercentScore { get; set; }
         public string SerialNumber { get; set; }
+		public int MeetingId { get; set; }
 
         public IList<AptifriedAnswerSheetAnswerDto> Answers { get; set; }
     }

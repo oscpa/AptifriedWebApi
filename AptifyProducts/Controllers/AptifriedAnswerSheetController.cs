@@ -59,6 +59,7 @@ namespace AptifyWebApi.Controllers {
 			newAnswerSheet.SetValue("PercentScore", answerSheet.PercentScore);
 			newAnswerSheet.SetValue("DateRecorded", answerSheet.DateRecorded);
 			newAnswerSheet.SetValue("SerialNumber", 0);
+			newAnswerSheet.SetValue("MeetingID", answerSheet.MeetingId);
 
 			if (newAnswerSheet.Save(false)) {
 				bool saveErrors = false;
