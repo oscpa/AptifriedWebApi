@@ -17,6 +17,7 @@ namespace AptifyWebApi.Models {
         public virtual AptifriedAddress Location { get; set; }
         public virtual IList<AptifriedMeetingEductionUnits> Credits { get; set; }
         public virtual int MaxRegistrants { get; set; }
+		public virtual AptifriedVenue Venue { get; set; }
 
         /// <summary>
         /// This value could not be strongly typed as there is no referential integrity between class levels and
