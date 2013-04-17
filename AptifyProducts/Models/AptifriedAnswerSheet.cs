@@ -13,6 +13,7 @@ namespace AptifyWebApi.Models {
         public virtual decimal Score { get; set; }
         public virtual decimal PercentScore { get; set; }
         public virtual string SerialNumber { get; set; }
+		public virtual int MeetingId { get; set; }
 
         public virtual IList<AptifriedAnswerSheetAnswer> Answers { get; set; }
     }

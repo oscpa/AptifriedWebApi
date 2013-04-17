@@ -15,6 +15,7 @@ namespace AptifyWebApi.Models {
             Map(x => x.Score);
             Map(x => x.SerialNumber);
             Map(x => x.Status);
+			Map(x => x.MeetingId);
             References(x => x.Student).Column("StudentID");
             HasMany(x => x.Answers).KeyColumn("AnswerSheetID");
             ReadOnly();
