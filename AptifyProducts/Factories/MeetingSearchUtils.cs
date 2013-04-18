@@ -87,8 +87,20 @@ namespace AptifyWebApi.Factories {
 
                         creditTypeIdBuilder.Append(search.CreditTypes[i].Id.ToString());
                     }
-                    searchWhere.AppendFormat("and mt.ID in(select mtu.MeetingID from dbo.vwMeetingEducationUnits mtu " +
-                            " where mtu.EducationCategoryID in ({0}) and mtu.EducationUnits >= 1) ", creditTypeIdBuilder.ToString());
+
+					/**
+					 * This addresses OSCPA/Store-Pathfix#163. If "all" the credit types are populated then we'll
+					 * just forget about this altogether.
+					 * 
+					 * At the same time, we'll look for >= 0 when it isn't everything, so we can support partial
+					 * credits down the line, if that matters.
+					 * **/
+
+					if (search.CreditTypes.Count < 6) {
+						// Not ideal to do it with a hardcoded count, I know
+						searchWhere.AppendFormat("and mt.ID in(select mtu.MeetingID from dbo.vwMeetingEducationUnits mtu " +
+								" where mtu.EducationCategoryID in ({0}) and mtu.EducationUnits >= 0) ", creditTypeIdBuilder.ToString());
+					}
                     
                 }
 
