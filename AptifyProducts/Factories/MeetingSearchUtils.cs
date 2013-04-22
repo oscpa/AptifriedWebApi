@@ -31,7 +31,7 @@ namespace AptifyWebApi.Factories {
                 if (justCounts) {
                     searchSelect.Append(" Select count(mt.id) ");
                 } else {
-                    searchSelect.Append(" Select mt.* ");
+					searchSelect.Append(" Select mt.ID, mt.MeetingTitle, mt.StartDate, mt.EndDate, mt.OpenTime, mt.ClassLevelID, mt.ProductID, mt.StatusID, mt.MeetingTypeID, mt.AddressID, mt.VenueID ");
 
                     // Sort on relevance if we can, otherwise by the meeting end date
                     if (!string.IsNullOrEmpty(search.SearchText)) {
