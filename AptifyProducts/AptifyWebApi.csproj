@@ -286,6 +286,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\PreferredAddress.dll</HintPath>
     </Reference>
+    <Reference Include="ProcessSessionLog__AC">
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0\ProcessSessionLog__AC.dll</HintPath>
+    </Reference>
     <Reference Include="ProductCategoryObject">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\ProductCategoryObject.dll</HintPath>
     </Reference>

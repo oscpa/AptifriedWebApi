@@ -20,10 +20,11 @@ namespace AptifyWebApi.Controllers {
 
         public IList<AptifriedMeetingDto> Get(int parentMeetingId) {
             string parentMeetingQuery =
-                "Select	m.* " +
-                "from	vwMeetings m " +
-                "where	m.MeetingTypeID = 6 " +
-                "and		m.Id in(select MeetingID from fnOscpaGetChildMeetings(:parentMeetingId)) ";
+                " Select	m.* " +
+                " from	vwMeetings m " +
+                " where	m.MeetingTypeID = 6 " +
+                " and		m.Id in(select MeetingID from fnOscpaGetChildMeetings(:parentMeetingId)) " +
+                " order by m.SessionNumber, m.StartDate ";
 
             var meetings = session.CreateSQLQuery(parentMeetingQuery)
                 .AddEntity("m", typeof(AptifriedMeeting))
