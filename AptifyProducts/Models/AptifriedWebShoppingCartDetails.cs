@@ -9,5 +9,6 @@ namespace AptifyWebApi.Models {
         public virtual int WebShoppingCartId { get; set; }
         public virtual int RegistrantId { get; set; }
         public virtual int ProductId { get; set; }
+		public virtual AptifriedCampaign Campaign { get; set; }
     }
 }

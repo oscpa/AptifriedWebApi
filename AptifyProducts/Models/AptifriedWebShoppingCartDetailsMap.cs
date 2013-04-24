@@ -12,6 +12,7 @@ namespace AptifyWebApi.Models {
             Map(x => x.WebShoppingCartId);
             Map(x => x.ProductId);
             Map(x => x.RegistrantId);
+			References(x => x.Campaign).Column("CampaignID");
             ReadOnly();
         }
     }

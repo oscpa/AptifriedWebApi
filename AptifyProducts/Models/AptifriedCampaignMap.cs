@@ -10,6 +10,7 @@ namespace AptifyWebApi.Models {
 			Table("vwCampaigns");
 			Id(x => x.Id);
 			Map(x => x.Code);
+			Map(x => x.Status);
 		}
 	}
 }

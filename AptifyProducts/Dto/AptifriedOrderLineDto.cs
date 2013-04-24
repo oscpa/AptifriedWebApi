@@ -12,5 +12,6 @@ namespace AptifyWebApi.Dto {
 
         public int RequestedLineId { get; set; }
         public int RequestedRegistrantId { get; set; }
+		public AptifriedCampaignDto Campaign { get; set; }
     }
 }

@@ -117,17 +117,20 @@ namespace AptifyWebApi {
 
                 while (orderLineEnumerator.MoveNext()) {
                     var currentOrderline = (Aptify.Applications.OrderEntry.OrderLinesEntity)orderLineEnumerator.Current;
-                    convertedOrderLines.Add(new AptifriedOrderLineDto() {
-                        Product = new AptifriedProductDto() {
-                            Id = Convert.ToInt32(currentOrderline.ProductID)
-                        },
-                        Price = currentOrderline.Price,
-                        Discount = currentOrderline.Discount,
-                        Extended = currentOrderline.Extended,
-                        RequestedLineId = Convert.ToInt32(currentOrderline.GetValue("__requestedLineId")),
-                        RequestedRegistrantId = Convert.ToInt32(currentOrderline.GetValue("__requestedLineRegistrantId"))
+					convertedOrderLines.Add(new AptifriedOrderLineDto() {
+						Product = new AptifriedProductDto() {
+							Id = Convert.ToInt32(currentOrderline.ProductID)
+						},
+						Price = currentOrderline.Price,
+						Discount = currentOrderline.Discount,
+						Extended = currentOrderline.Extended,
+						RequestedLineId = Convert.ToInt32(currentOrderline.GetValue("__requestedLineId")),
+						RequestedRegistrantId = Convert.ToInt32(currentOrderline.GetValue("__requestedLineRegistrantId")),
+						Campaign = new AptifriedCampaignDto() {
+							Id = Convert.ToInt32(currentOrderline.GetValue("__requestedLineCampaignId"))
+						}
 
-                    });
+					});
                 }
 
                 return convertedOrderLines.AsEnumerable();

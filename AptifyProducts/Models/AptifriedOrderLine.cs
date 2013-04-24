@@ -11,5 +11,6 @@ namespace AptifyWebApi.Models {
         public virtual AptifriedProduct Product { get; set; }
         public virtual decimal Price { get; set; }
         public virtual decimal Discount { get; set; }
+		public virtual AptifriedCampaign Campaign { get; set; }
     }
 }

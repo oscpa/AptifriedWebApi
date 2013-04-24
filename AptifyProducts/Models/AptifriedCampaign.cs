@@ -7,5 +7,6 @@ namespace AptifyWebApi.Models {
 	public class AptifriedCampaign {
 		public virtual int Id { get; set; }
 		public virtual string Code { get; set; }
+		public virtual string Status { get; set; }
 	}
 }

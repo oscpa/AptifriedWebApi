@@ -214,6 +214,9 @@ namespace AptifyWebApi.Controllers {
                     aptifyShoppingCartDetail.SetValue("WebShoppingCartID", aptifyShoppingCart.RecordID);
                     aptifyShoppingCartDetail.SetValue("ProductID", requestedLine.ProductId);
                     aptifyShoppingCartDetail.SetValue("RegistrantId", requestedLine.RegistrantId);
+					if (requestedLine.Campaign != null && requestedLine.Campaign.Id > 0) {
+						aptifyShoppingCartDetail.SetValue("CampaignID", requestedLine.Campaign.Id);
+					}
 
                     if (!aptifyShoppingCartDetail.Save(false))
                         throw new HttpException(500, "Could not save shopping cart line. Error: " + aptifyShoppingCartDetail.LastError);
@@ -245,7 +248,7 @@ namespace AptifyWebApi.Controllers {
             orderProper.ShipToID = Convert.ToInt64(AptifyUser.PersonId);
 
             foreach (var requestedLine in createRequest.Products) {
-                AddOrderLineSetRegistrant(ref orderProper, requestedLine);
+                AddOrderLine(ref orderProper, requestedLine);
             }
 
             return orderProper;
@@ -256,56 +259,59 @@ namespace AptifyWebApi.Controllers {
             AptifriedWebShoppingCartDetails requestedLine) {
 
             AptifriedWebShoppingCartProductRequestDto dtoLine = Mapper.Map(requestedLine, new AptifriedWebShoppingCartProductRequestDto());
-            AddOrderLineSetRegistrant(ref orderProper, dtoLine);
+            AddOrderLine(ref orderProper, dtoLine);
         }
 
-        private void AddOrderLineSetRegistrant(
-            ref OrdersEntity orderProper,
-            AptifriedWebShoppingCartProductRequestDto requestedLine) {
-
-            try {
+        private void AddOrderLine(ref OrdersEntity orderProper, AptifriedWebShoppingCartProductRequestDto requestedLine) {
                 var orderLines = orderProper.AddProduct(Convert.ToInt64(requestedLine.ProductId));
 
                 foreach (var orderLine in orderLines) {
 
                     ((AptifyGenericEntityBase)orderLine).SetAddValue("__requestedLineId", requestedLine.Id);
                     ((AptifyGenericEntityBase)orderLine).SetAddValue("__requestedLineRegistrantId", requestedLine.RegistrantId);
+					if (requestedLine.Campaign != null && requestedLine.Campaign.Id > 0) {
+						((AptifyGenericEntityBase)orderLine).SetAddValue("__requestedLineCampaignId", requestedLine.Campaign.Id);
+					}
 
                     if (orderLine.ProductID == requestedLine.ProductId &&
                         orderLine.ExtendedOrderDetailEntity != null) {
-
-                        // hopefully we won't have to run all of this code more than the first time
-                        // we add an order line to the order. Guard all of this logic by looking at
-                        // the registrant.
-
-                        if (orderLine.ExtendedOrderDetailEntity.EntityName == "Class Registrations" &&
-                            Convert.ToInt32(orderLine.ExtendedOrderDetailEntity.GetValue("StudentID")) !=
-                            requestedLine.RegistrantId) {
-
-                            orderLine.ExtendedOrderDetailEntity
-                                .SetValue("ClassID", GetClassIdFromProductId(requestedLine.ProductId));
-                            orderLine.ExtendedOrderDetailEntity
-                                .SetValue("StudentID", requestedLine.RegistrantId);
-                            orderLine.ExtendedOrderDetailEntity
-                                .SetValue("Status", "Registered");
-
-
-                        } else if (orderLine.ExtendedOrderDetailEntity.EntityName == "OrderMeetingDetail" &&
-                            Convert.ToInt32(orderLine.ExtendedOrderDetailEntity.GetValue("AttendeeID")) !=
-                            requestedLine.RegistrantId) {
-
-                            orderLine.ExtendedOrderDetailEntity
-                                .SetValue("AttendeeID", requestedLine.RegistrantId);
-                            orderLine.ExtendedOrderDetailEntity
-                                .SetValue("ProductID", requestedLine.ProductId);
-                            orderLine.ExtendedOrderDetailEntity
-                                .SetValue("RegistrationType", "Pre-Registration"); // TODO: validate that this is the correct with biz                         
-                        }
+							SetRegistrant(requestedLine, orderLine);
                     }
                 }
-            } catch (Exception ex) {
-                throw new HttpException(500, "Exception trying to add registrant to order line.", ex);
-            }
         }
+
+		private void SetRegistrant(AptifriedWebShoppingCartProductRequestDto requestedLine, OrderLinesEntity orderLine) {
+			try {
+				// hopefully we won't have to run all of this code more than the first time
+				// we add an order line to the order. Guard all of this logic by looking at
+				// the registrant.
+
+				if (orderLine.ExtendedOrderDetailEntity.EntityName == "Class Registrations" &&
+					Convert.ToInt32(orderLine.ExtendedOrderDetailEntity.GetValue("StudentID")) !=
+					requestedLine.RegistrantId) {
+
+					orderLine.ExtendedOrderDetailEntity
+						.SetValue("ClassID", GetClassIdFromProductId(requestedLine.ProductId));
+					orderLine.ExtendedOrderDetailEntity
+						.SetValue("StudentID", requestedLine.RegistrantId);
+					orderLine.ExtendedOrderDetailEntity
+						.SetValue("Status", "Registered");
+
+
+				} else if (orderLine.ExtendedOrderDetailEntity.EntityName == "OrderMeetingDetail" &&
+					Convert.ToInt32(orderLine.ExtendedOrderDetailEntity.GetValue("AttendeeID")) !=
+					requestedLine.RegistrantId) {
+
+					orderLine.ExtendedOrderDetailEntity
+						.SetValue("AttendeeID", requestedLine.RegistrantId);
+					orderLine.ExtendedOrderDetailEntity
+						.SetValue("ProductID", requestedLine.ProductId);
+					orderLine.ExtendedOrderDetailEntity
+						.SetValue("RegistrationType", "Pre-Registration"); // TODO: validate that this is the correct with biz                         
+				}
+			} catch (Exception ex) {
+				throw new HttpException(500, "Exception trying to add registrant to order line.", ex);
+			}
+		}
     }
 }
