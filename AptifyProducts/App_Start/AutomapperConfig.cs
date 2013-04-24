@@ -18,6 +18,8 @@ namespace AptifyWebApi {
             Mapper.CreateMap<AptifriedAnswerSheet, AptifriedAnswerSheetDto>();
             Mapper.CreateMap<AptifriedAnswerSheetAnswer, AptifriedAnswerSheetAnswerDto>();
 
+			Mapper.CreateMap<AptifriedCampaign, AptifriedCampaignDto>();
+
             Mapper.CreateMap<AptifriedClass, AptifriedClassDto>();
 			Mapper.CreateMap<AptifriedClassExtended, AptifriedClassExtendedDto>();
 
