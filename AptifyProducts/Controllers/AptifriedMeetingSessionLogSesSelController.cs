@@ -37,12 +37,13 @@ namespace AptifyWebApi.Controllers {
 
         }
 
-        public bool Post(AptifriedMeetingSessionLogDto sessionChanges) {
+        public AptifriedMeetingSessionLogDto Post(AptifriedMeetingSessionLogDto sessionChanges) {
 
             if (sessionChanges == null)
                 throw new HttpException(500, "Session changes was not included.");
 
-            if (sessionChanges.NewSessions == null || sessionChanges.NewSessions.Count == 0)
+            if ((sessionChanges.NewSessions != null && sessionChanges.NewSessions.Count == 0) &&
+                (sessionChanges.CancelledSessions != null && sessionChanges.CancelledSessions.Count == 0))
                 throw new HttpException(500, "No session changes to process.");
 
             // we'll assume that this code doesn't need to validate necessary steps to unregister
@@ -64,10 +65,10 @@ namespace AptifyWebApi.Controllers {
 
                     var relevantMeetingDetail = GetMeetingDetailRecordForProdcut(cancellation.ProductId);
                     newCancellationEntity.SetValue("OrderID", relevantMeetingDetail.OrderId);
-                    newCancellationEntity.SetValue("OrderMeetingDetailID", relevantMeetingDetail.OrderDetailId);
+                    newCancellationEntity.SetValue("OrderMeetingDetailID", relevantMeetingDetail.Id);
 
                     newCancellationEntity.SetValue("ProductID", cancellation.ProductId);
-                    newCancellationEntity.SetValue("StatusID", cancellation.StatusId);
+                    newCancellationEntity.SetValue("StatusID", 4); // hard coded to "Cancelled"
                 }
             }
 
@@ -81,7 +82,12 @@ namespace AptifyWebApi.Controllers {
                 }
             }
 
-            return sessionChangeEntity.Save(false);
+            string errorMessage = string.Empty;
+            if (!sessionChangeEntity.Save(false, ref errorMessage)) {
+                throw new HttpException(500, string.Format("An error occurred trying to process session changes. (Error: {0}) ", errorMessage));
+            }
+
+            return sessionChanges;
         }
 
 
@@ -103,7 +109,9 @@ namespace AptifyWebApi.Controllers {
 
             if (discoveredOrderMeetingDetail.Count == 1) {
                 resultingRegistration = discoveredOrderMeetingDetail.First();
-            } else {
+            } else if (discoveredOrderMeetingDetail.Count > 1) {
+                throw new HttpException(500, "Conflict, found more than one registration for product: " + productId.ToString());
+            } else if (discoveredOrderMeetingDetail.Count == 0) {
                 throw new HttpException(500, "Could not find an existing registration for product: " + productId.ToString());
             }
 
