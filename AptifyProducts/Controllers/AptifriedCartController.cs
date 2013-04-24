@@ -271,6 +271,7 @@ namespace AptifyWebApi.Controllers {
                     ((AptifyGenericEntityBase)orderLine).SetAddValue("__requestedLineRegistrantId", requestedLine.RegistrantId);
 					if (requestedLine.Campaign != null && requestedLine.Campaign.Id > 0) {
 						((AptifyGenericEntityBase)orderLine).SetAddValue("__requestedLineCampaignId", requestedLine.Campaign.Id);
+						((AptifyGenericEntityBase)orderLine).SetAddValue("CampaignCodeID", requestedLine.Campaign.Id);
 					}
 
                     if (orderLine.ProductID == requestedLine.ProductId &&
