@@ -14,6 +14,12 @@ namespace AptifyWebApi.Factories {
         }
 
 
+		private enum KeywordSearchMethodology {
+			METHOD_SIMPLETON,
+			METHOD_INTELLIGENTIA
+		}
+
+
         public static MeetingSearchUtilResults BuildFullQuery(AptifriedMeetingSearchDto search) {
             return BuildFullQuery(search, false);
         }
@@ -23,37 +29,26 @@ namespace AptifyWebApi.Factories {
             Dictionary<string, object> queryParams = new Dictionary<string, object>();
 
             if (search != null) {
-                StringBuilder searchSelect = new StringBuilder();
+                StringBuilder searchSelect = new StringBuilder("select");
                 StringBuilder searchWhere = new StringBuilder();
                 StringBuilder searchFrom = new StringBuilder();
 				StringBuilder searchOrderBy = new StringBuilder();
 
                 if (justCounts) {
-                    searchSelect.Append(" Select count(mt.id) ");
+                    searchSelect.AppendLine(" count(mt.id)");
                 } else {
-					searchSelect.Append(" Select mt.ID, mt.MeetingTitle, mt.StartDate, mt.EndDate, mt.OpenTime, mt.ClassLevelID, mt.ProductID, mt.StatusID, mt.MeetingTypeID, mt.AddressID, mt.VenueID ");
+					searchSelect.AppendLine(" mt.ID, mt.MeetingTitle, mt.StartDate, mt.EndDate, mt.OpenTime, mt.ClassLevelID, mt.ProductID, mt.StatusID, mt.MeetingTypeID, mt.AddressID, mt.VenueID");
 
-                    // Sort on relevance if we can, otherwise by the meeting end date
-                    if (!string.IsNullOrEmpty(search.SearchText)) {
-                        searchOrderBy.Append(" order by idx.rank desc");
-                    } else {
-                        searchOrderBy.AppendLine(" order by mt.EndDate ");
+                    // Sort by the meeting end date unless we're doing a keyword search (logic more complex now)
+                    if (string.IsNullOrEmpty(search.SearchText)) {
+						searchOrderBy.AppendLine(" order by mt.EndDate ");
                     }
 
                 }
                 searchWhere.AppendLine(" where 1=1 and mt.StatusID = 1 and mt.WebEnabled = 1 and mt.IsSold = 1 ");
 
-                if (!string.IsNullOrEmpty(search.SearchText)) {
-                    //searchFrom.AppendFormat(" From freetexttable(idxVwWebSearchIndex, TextContent, '{0}') idx ",
-                    //    search.SearchText);
-                    searchFrom.AppendLine(" From freetexttable(idxVwWebSearchIndex, TextContent, :searchText) idx ");
-                    searchFrom.AppendLine(" join dbo.vwWebSearchIndex vw on idx.[KEY] = vw.ID and vw.EntityID = 980 ");
-                    searchFrom.AppendLine(" join dbo.vwMeetingsTiny mt on mt.ID = vw.EntityRecordID ");
-
-                    queryParams.Add("searchText", search.SearchText);
-                } else {
-                    searchFrom.AppendLine(" From dbo.vwMeetingsTiny mt ");
-                }
+				// Because we are getting SIGNIFICANTLY more complex in our handling of keywords, this has been extracted out into its own method
+				HandleQueryKeywords(search, queryParams, searchFrom, searchOrderBy, KeywordSearchMethodology.METHOD_INTELLIGENTIA, justCounts);
 
                 if (search.StartDate.HasValue && search.EndDate.HasValue) {
                     searchWhere.AppendLine(" and mt.EndDate between :beginDate and :endDate ");
@@ -175,5 +170,108 @@ namespace AptifyWebApi.Factories {
                 QueryParams = queryParams
             };
         }
+
+		private static void HandleQueryKeywords(AptifriedMeetingSearchDto search, Dictionary<string, object> queryParams, StringBuilder searchFrom, StringBuilder searchOrderBy, KeywordSearchMethodology howSmart, bool justCounts) {
+			if (!string.IsNullOrEmpty(search.SearchText)) {
+				if (howSmart == KeywordSearchMethodology.METHOD_SIMPLETON) {
+					//searchFrom.AppendFormat(" From freetexttable(idxVwWebSearchIndex, TextContent, '{0}') idx ",
+					//    search.SearchText);
+					searchFrom.AppendLine(" From freetexttable(idxVwWebSearchIndex, TextContent, :searchText) idx ");
+					searchFrom.AppendLine(" join dbo.vwWebSearchIndex vw on idx.[KEY] = vw.ID and vw.EntityID = 980 ");
+					searchFrom.AppendLine(" join dbo.vwMeetingsTiny mt on mt.ID = vw.EntityRecordID ");
+					queryParams.Add("searchText", search.SearchText);
+				} else if (howSmart == KeywordSearchMethodology.METHOD_INTELLIGENTIA) {
+					/**
+					 * Create from a search string of "term1 term2 ... termn" the string
+					 * "term1 near term2 ... near termn."
+					 * 
+					 * This could more flexibly be generated in the future by doing, e.g.,
+					 * "term1 near term2 weight(x) ...," or other SQL methods.
+					 * 
+					 * http://msdn.microsoft.com/en-us/library/ms189760(v=SQL.90).aspx
+					 **/
+					string searchStringContainsTable = '(' + search.SearchText.Split(' ')
+						.Aggregate(string.Empty, (x, n) => x + (!string.IsNullOrEmpty(x) ? " near " : string.Empty) + n) + ')';
+
+					queryParams.Add("searchStringContainsTables", searchStringContainsTable);
+					queryParams.Add("searchStringFreeTextTables", search.SearchText);
+
+					/**
+					 * Create the names of the tables, each with their own view of the rankings
+					 * based on the search input, and use some arbitrary mappings of how much
+					 * importance each should be judged to have.
+					 * 
+					 * After creating this mapping, create the derived rank calculation in the select above.
+					 * 
+					 * In the future, these should be derived evolutionarily or by some other ML method.
+					 **/
+					IDictionary<string, UInt32> subrankMaps = new Dictionary<string, UInt32> {
+						{"snProductName",			25},
+						{"snSearchableID",			25},
+						{"snWhoShouldPurchase",		1},
+						{"snSummary",				10},
+						{"snObjective",				15},
+						{"snAddtionalInformation",	1},
+						{"snCreditTypes",			1},
+						{"snSpeakers",				25},
+						{"sfProductName",			25},
+						{"sfWhoShouldPurchase",		1},
+						{"sfSummary",				10},
+						{"sfObjective",				15},
+						{"sfAddtionalInformation",	1},
+						{"sfCreditTypes",			1}
+					};
+
+					if (!justCounts) {
+						// We don't need to worry about clobbering any sort logic here because it won't have been defined yet
+						searchOrderBy.AppendLine("order by");
+
+						LinkedList<string> rankStatements = new LinkedList<string>();
+						IEnumerator<KeyValuePair<string, uint>> rankEnumer = subrankMaps.GetEnumerator();
+						while (rankEnumer.MoveNext()) {
+							rankStatements.AddLast(rankEnumer.Current.Value + " * isnull(" + rankEnumer.Current.Key + ".Rank, 0)");
+						}
+						searchOrderBy.AppendLine(rankStatements.Aggregate(string.Empty, (x, n) => x + (!string.IsNullOrEmpty(x) ? " + " : string.Empty) + n));
+
+						searchOrderBy.AppendLine("desc, mt.EndDate");
+					}
+
+					searchFrom.AppendLine("from vwMeetingsTiny mt");
+					searchFrom.AppendLine("inner join vwStoreSearches s on s.ProductID = mt.ProductID");
+
+					searchFrom.AppendLine("LEFT JOIN CONTAINSTABLE(idxvwStoreSearch, ProductName, :searchStringContainsTables  ) snProductName on snProductName.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN CONTAINSTABLE(idxvwStoreSearch, WhoShouldPurchase, :searchStringContainsTables  ) snWhoShouldPurchase on snWhoShouldPurchase.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN CONTAINSTABLE(idxvwStoreSearch, Summary, :searchStringContainsTables  ) snSummary on snSummary.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN CONTAINSTABLE(idxvwStoreSearch, Objective, :searchStringContainsTables  ) snObjective on snObjective.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN CONTAINSTABLE(idxvwStoreSearch, AddtionalInformation, :searchStringContainsTables  ) snAddtionalInformation on snAddtionalInformation.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN CONTAINSTABLE(idxvwStoreSearch, MeetingType, :searchStringContainsTables  ) snMeetingType on snMeetingType.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN CONTAINSTABLE(idxvwStoreSearch, Level, :searchStringContainsTables  ) snLevel on snLevel.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN CONTAINSTABLE(idxvwStoreSearch, CreditTypes, :searchStringContainsTables ) snCreditTypes on snCreditTypes.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN CONTAINSTABLE(idxvwStoreSearch, Speakers, :searchStringContainsTables  ) snSpeakers on snSpeakers.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN CONTAINSTABLE(idxvwStoreSearch, Vendor, :searchStringContainsTables  ) snVendor on snVendor.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN CONTAINSTABLE(idxvwStoreSearch, VenueCity, :searchStringContainsTables  ) snVenueCity on snVenueCity.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN CONTAINSTABLE(idxvwStoreSearch, VenueName, :searchStringContainsTables  ) snVenueName on snVenueName.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN CONTAINSTABLE(idxvwStoreSearch, WebKeyWords, :searchStringContainsTables  ) snWebKeyWords on snWebKeyWords.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN CONTAINSTABLE(idxvwStoreSearch, SearchableID, :searchStringContainsTables  ) snSearchableID on snSearchableID.[KEY] = s.ID");
+
+					searchFrom.AppendLine("LEFT JOIN FREETEXTTABLE(idxvwStoreSearch, ProductName, :searchStringFreeTextTables) sfProductName on sfProductName.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN FREETEXTTABLE(idxvwStoreSearch, WhoShouldPurchase, :searchStringFreeTextTables  ) sfWhoShouldPurchase on sfWhoShouldPurchase.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN FREETEXTTABLE(idxvwStoreSearch, Summary, :searchStringFreeTextTables  ) sfSummary on sfSummary.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN FREETEXTTABLE(idxvwStoreSearch, Objective, :searchStringFreeTextTables  ) sfObjective on sfObjective.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN FREETEXTTABLE(idxvwStoreSearch, AddtionalInformation, :searchStringFreeTextTables  ) sfAddtionalInformation on sfAddtionalInformation.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN FREETEXTTABLE(idxvwStoreSearch, MeetingType, :searchStringFreeTextTables  ) sfMeetingType on sfMeetingType.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN FREETEXTTABLE(idxvwStoreSearch, Level, :searchStringFreeTextTables  ) sfLevel on sfLevel.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN FREETEXTTABLE(idxvwStoreSearch, CreditTypes, :searchStringFreeTextTables ) sfCreditTypes on sfCreditTypes.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN FREETEXTTABLE(idxvwStoreSearch, Speakers, :searchStringFreeTextTables  ) sfSpeakers on sfSpeakers.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN FREETEXTTABLE(idxvwStoreSearch, Vendor, :searchStringFreeTextTables  ) sfVendor on sfVendor.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN FREETEXTTABLE(idxvwStoreSearch, VenueCity, :searchStringFreeTextTables  ) sfVenueCity on sfVenueCity.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN FREETEXTTABLE(idxvwStoreSearch, VenueName, :searchStringFreeTextTables  ) sfVenueName on sfVenueName.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN FREETEXTTABLE(idxvwStoreSearch, WebKeyWords, :searchStringFreeTextTables  ) sfWebKeyWords on sfWebKeyWords.[KEY] = s.ID");
+					searchFrom.AppendLine("LEFT JOIN FREETEXTTABLE(idxvwStoreSearch, SearchableID, :searchStringFreeTextTables  ) sfSearchableID on sfSearchableID.[KEY] = s.ID");
+				}
+			} else {
+				searchFrom.AppendLine(" From dbo.vwMeetingsTiny mt ");
+			}
+		}
     }
 }
