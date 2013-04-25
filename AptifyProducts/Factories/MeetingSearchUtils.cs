@@ -45,7 +45,14 @@ namespace AptifyWebApi.Factories {
                     }
 
                 }
-                searchWhere.AppendLine(" where 1=1 and mt.StatusID = 1 and mt.WebEnabled = 1 and mt.IsSold = 1 ");
+                searchWhere.AppendLine(" where mt.StatusID = 1 and mt.WebEnabled = 1 and mt.IsSold = 1 ");
+
+				/**
+				 * Ensure that things that have started aren't displayed, unless they're self-study products
+				 * (which go on forever) -- so we do a really stupid comparison on them, to ensure they
+				 * start on or after when they start.
+				 **/
+				searchWhere.AppendLine(" and mt.StartDate >= case when mt.MeetingTypeID <> 5 then getdate() else mt.StartDate end ");
 
 				// Because we are getting SIGNIFICANTLY more complex in our handling of keywords, this has been extracted out into its own method
 				HandleQueryKeywords(search, queryParams, searchFrom, searchOrderBy, KeywordSearchMethodology.METHOD_INTELLIGENTIA, justCounts);
@@ -219,7 +226,12 @@ namespace AptifyWebApi.Factories {
 						{"sfSummary",				10},
 						{"sfObjective",				15},
 						{"sfAddtionalInformation",	1},
-						{"sfCreditTypes",			1}
+						{"sfCreditTypes",			1},
+						{"snVenueName",				1},
+						{"snVenueCity",				10},
+						{"snVendor",				3},
+						{"snWebKeywords",			30},
+						{"sfMeetingType",			5}
 					};
 
 					if (!justCounts) {
