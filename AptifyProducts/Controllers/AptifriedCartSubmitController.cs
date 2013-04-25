@@ -10,6 +10,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using Aptify.Framework.BusinessLogic.GenericEntity;
 
 namespace AptifyWebApi.Controllers {
     [Authorize]
@@ -47,6 +48,16 @@ namespace AptifyWebApi.Controllers {
                 cartController.GetOrderEntity(existingCarts[0], out cartResult, out orderProper);
                 
             }
+
+			// Consume all the campaign codes in orderProper if they're on any lines
+			foreach (OrderLinesEntity line in orderProper.OrderLinesObject()) {
+				if (line.CampaignCodeID > -1) {
+					AptifyGenericEntityBase campaign = AptifyApp.GetEntityObject("Campaigns", line.CampaignCodeID);
+					if (campaign != null && campaign.RecordID > -1) {
+
+					}
+				}
+			}
 
             if ((orderProper.GetValue("OrderDate", true) == null))
                 orderProper.SetAddValue("OrderDate", DateTime.Now);

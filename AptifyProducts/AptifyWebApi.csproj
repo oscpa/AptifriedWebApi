@@ -436,6 +436,8 @@
     <Compile Include="Dto\AptifriedAttachmentDto.cs" />
     <Compile Include="Dto\AptifriedAttendeeStatusDto.cs" />
     <Compile Include="Dto\AptifriedCampaignDto.cs" />
+    <Compile Include="Dto\AptifriedCampaignListDetailDto.cs" />
+    <Compile Include="Models\AptifriedCampaignListDetailMap.cs" />
     <Compile Include="Dto\AptifriedCarouselElementDto.cs" />
     <Compile Include="Dto\AptifriedClassTextSearchResultDto.cs" />
     <Compile Include="Dto\AptifriedCompletedOrderDto.cs" />
@@ -521,6 +523,7 @@
     <Compile Include="Models\AptifriedAttendeeStatus.cs" />
     <Compile Include="Models\AptifriedAttendeeStatusMap.cs" />
     <Compile Include="Models\AptifriedCampaign.cs" />
+    <Compile Include="Models\AptifriedCampaignListDetail.cs" />
     <Compile Include="Models\AptifriedCampaignMap.cs" />
     <Compile Include="Models\AptifriedCarouselElement.cs" />
     <Compile Include="Models\AptifriedCarouselElementMap.cs" />
