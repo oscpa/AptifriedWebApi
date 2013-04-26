@@ -37,6 +37,33 @@ namespace AptifyWebApi.Controllers {
             return attachmentsDto;
         }
 
+        public IEnumerable<AptifriedAttachmentDto> Get(int parentProductId, bool recursive) {
+
+            IList<AptifriedAttachment> attachments = null;
+            if (recursive) {
+
+                attachments = session.CreateSQLQuery(" select  at.ID , at.Name , at.Description , at.CategoryID , at.Category , at.EntityID , at.Entity , at.RecordID , at.LocalFileName , at.DateCreated , at.WhoCreated , at.DateUpdated , at.WhoUpdated , at.Status , at.CheckedOutByID , at.CheckedOutBy , at.DateCheckedOut , at.Compressed , at.BlobData , at.Comments " +
+                    " from dbo.vwAttachments at  " +
+                    " where at.EntityID = 926 " +
+                    " and at.RecordId in (select * from dbo.fnOscpaGetChildMeetingsProductID(:parentProductId)) ")
+                    .AddEntity("at", typeof(AptifriedAttachment))
+                    .SetInt32("parentProductId", parentProductId)
+                    .List<AptifriedAttachment>();
+
+            } else {
+
+                attachments = session.QueryOver<AptifriedAttachment>()
+                    .Where(x => x.EntityId == 926)
+                    .And(x => x.RecordId == parentProductId)
+                    .List<AptifriedAttachment>();
+            }
+
+            IList<AptifriedAttachmentDto> resultingAttachments = new List<AptifriedAttachmentDto>();
+            resultingAttachments = Mapper.Map(attachments, new List<AptifriedAttachmentDto>());
+            return resultingAttachments;
+
+        }
+
         public HttpResponseMessage Get(int attachmentId) {
             try {
                 byte[] content = null;
