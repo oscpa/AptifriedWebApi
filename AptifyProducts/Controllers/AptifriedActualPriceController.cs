@@ -19,6 +19,8 @@ namespace AptifyWebApi.Controllers {
 
 			var orderObj = (Aptify.Applications.OrderEntry.OrdersEntity) AptifyApp.GetEntityObject("Orders", -1);
 
+			orderObj.EmployeeID = 1; // Aptify_Ebiz
+
             if (AptifyUser != null) {
                 orderObj.ShipToID = AptifyUser.PersonId;
             }

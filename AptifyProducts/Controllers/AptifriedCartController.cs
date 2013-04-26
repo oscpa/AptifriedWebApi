@@ -144,6 +144,7 @@ namespace AptifyWebApi.Controllers {
             orderProper = (Aptify.Applications.OrderEntry.OrdersEntity)orderBase;
 
             // Need to have pricing for the user that is making the request.
+			orderProper.EmployeeID = 1; // Aptify_Ebiz
             orderProper.ShipToID = AptifyUser.PersonId;
             
             foreach (var cartLine in cart.Lines) {
@@ -245,6 +246,7 @@ namespace AptifyWebApi.Controllers {
 
             orderGe = AptifyApp.GetEntityObject("Orders", orderId);
             var orderProper = (Aptify.Applications.OrderEntry.OrdersEntity)orderGe;
+			orderProper.EmployeeID = 1; // Aptify_Ebiz
             orderProper.ShipToID = Convert.ToInt64(AptifyUser.PersonId);
 
             foreach (var requestedLine in createRequest.Products) {
