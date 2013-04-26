@@ -139,6 +139,10 @@
     <Reference Include="BackOrders">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\BackOrders.dll</HintPath>
     </Reference>
+    <Reference Include="CampaignCalculateDiscount, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\CampaignCalculateDiscount.dll</HintPath>
+    </Reference>
     <Reference Include="CampaignObject">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\CampaignObject.dll</HintPath>
     </Reference>
@@ -248,6 +252,10 @@
     </Reference>
     <Reference Include="OrganizationObject">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OrganizationObject.dll</HintPath>
+    </Reference>
+    <Reference Include="OSCPA.Campaigns.CampaignCalculateDiscount, Version=5.5.0.23, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 sql-dev\OSCPA.Campaigns.CampaignCalculateDiscount.dll</HintPath>
     </Reference>
     <Reference Include="OSCPA.Campaigns.Tracking">
       <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\OSCPA.Campaigns.Tracking.dll</HintPath>
