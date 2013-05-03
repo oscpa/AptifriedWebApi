@@ -53,6 +53,8 @@ namespace AptifyWebApi.Attributes {
         public AptifriedAuthroizedUserDto Post(AptifriedWebUserDto user) {
             AptifriedAuthroizedUserDto resultingUser = new AptifriedAuthroizedUserDto();
 
+			HttpException badLoginException = new HttpException(401, "Password does not match or user not found");
+
             if (user == null)
                 throw new HttpException(401, "User is not present", new ArgumentException("user"));
 
@@ -60,23 +62,27 @@ namespace AptifyWebApi.Attributes {
                 .Where(x => x.UserName == user.UserName)
                 .SingleOrDefault();
 
-            if (foundUser != null) {
-                string encryptedPassword = foundUser.EncryptedPassword;
-                string passwordEnteredByUser = user.Password;
-                int aptifyEbizSecurityKeyId = -1;
-                if (int.TryParse(ConfigurationManager.AppSettings["AptifyEbizSecurityId"], out aptifyEbizSecurityKeyId)) {
+			if (foundUser != null) {
+				string encryptedPassword = foundUser.EncryptedPassword;
+				string passwordEnteredByUser = user.Password;
+				int aptifyEbizSecurityKeyId = -1;
+				if (int.TryParse(ConfigurationManager.AppSettings["AptifyEbizSecurityId"], out aptifyEbizSecurityKeyId)) {
 
-                    var aptifriedSecurityKey = GetAptifySecurityKey(aptifyEbizSecurityKeyId);
+					var aptifriedSecurityKey = GetAptifySecurityKey(aptifyEbizSecurityKeyId);
 
-                    string decryptedPassword = DecryptPassword(encryptedPassword, aptifriedSecurityKey.KeyValue);
-                    if (decryptedPassword == passwordEnteredByUser) {
-                        resultingUser = Mapper.Map(foundUser, new AptifriedAuthroizedUserDto());
-                        resultingUser.Password = decryptedPassword;
-                    }
-                } else {
-                    throw new ArgumentException("AptifyEbizSecurityId missing from web.config");
-                }
-            }
+					string decryptedPassword = DecryptPassword(encryptedPassword, aptifriedSecurityKey.KeyValue);
+					if (decryptedPassword == passwordEnteredByUser) {
+						resultingUser = Mapper.Map(foundUser, new AptifriedAuthroizedUserDto());
+						resultingUser.Password = decryptedPassword;
+					} else {
+						throw badLoginException;
+					}
+				} else {
+					throw new ArgumentException("AptifyEbizSecurityId missing from web.config");
+				}
+			} else {
+				throw badLoginException;
+			}
 
             return resultingUser;
         }
