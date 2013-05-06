@@ -245,7 +245,7 @@ namespace AptifyWebApi.Factories {
 						}
 						searchOrderBy.AppendLine(rankStatements.Aggregate(string.Empty, (x, n) => x + (!string.IsNullOrEmpty(x) ? " + " : string.Empty) + n));
 
-						searchOrderBy.AppendLine("desc, mt.StartDate");
+						searchOrderBy.AppendLine("desc, mt.StartDate, isnull(mt.ParentID, 0) asc");
 					}
 
 					searchFrom.AppendLine("from vwMeetingsTiny mt");
