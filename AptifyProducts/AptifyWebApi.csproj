@@ -266,6 +266,9 @@
     <Reference Include="OSCPADiscountPricing">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OSCPADiscountPricing.dll</HintPath>
     </Reference>
+    <Reference Include="OSCPAMeetingSessionLogEntity">
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0_3\OSCPAMeetingSessionLogEntity.dll</HintPath>
+    </Reference>
     <Reference Include="OSCPAOrderEntityObject">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OSCPAOrderEntityObject.dll</HintPath>
     </Reference>
@@ -427,6 +430,8 @@
     <Compile Include="Controllers\AptifriedMeetingExternalWebMediaContentController.cs" />
     <Compile Include="Controllers\AptifriedMeetingSearchController.cs" />
     <Compile Include="Controllers\AptifriedMeetingSearchCountController.cs" />
+    <Compile Include="Controllers\AptifriedMeetingSessionLogSesSelBaseController.cs" />
+    <Compile Include="Controllers\AptifriedMeetingSessionLogSesSelConflictCheckController.cs" />
     <Compile Include="Controllers\AptifriedMeetingSessionLogSesSelController.cs" />
     <Compile Include="Controllers\AptifriedMeetingTextSearchController.cs" />
     <Compile Include="Controllers\AptifriedMeetingTimeSpanController.cs" />
