@@ -39,9 +39,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AnswerSheet">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\AnswerSheet.dll</HintPath>
-    </Reference>
     <Reference Include="Aptify.Framework.BusinessLogic.GenericEntity.Generated.Companies">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\Aptify.Framework.BusinessLogic.GenericEntity.Generated.Companies.dll</HintPath>
     </Reference>
@@ -139,10 +136,6 @@
     <Reference Include="BackOrders">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\BackOrders.dll</HintPath>
     </Reference>
-    <Reference Include="CampaignCalculateDiscount, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\CampaignCalculateDiscount.dll</HintPath>
-    </Reference>
     <Reference Include="CampaignObject">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\CampaignObject.dll</HintPath>
     </Reference>
@@ -178,9 +171,6 @@
     </Reference>
     <Reference Include="EBusinessGlobal">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\EBusinessGlobal.dll</HintPath>
-    </Reference>
-    <Reference Include="ElectronicPaymentVerisign">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\ElectronicPaymentVerisign.dll</HintPath>
     </Reference>
     <Reference Include="ExpandKits">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\ExpandKits.dll</HintPath>
@@ -253,13 +243,6 @@
     <Reference Include="OrganizationObject">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OrganizationObject.dll</HintPath>
     </Reference>
-    <Reference Include="OSCPA.Campaigns.CampaignCalculateDiscount, Version=5.5.0.23, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 sql-dev\OSCPA.Campaigns.CampaignCalculateDiscount.dll</HintPath>
-    </Reference>
-    <Reference Include="OSCPA.Campaigns.Tracking">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\OSCPA.Campaigns.Tracking.dll</HintPath>
-    </Reference>
     <Reference Include="OSCPACompanyObject">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OSCPACompanyObject.dll</HintPath>
     </Reference>
@@ -267,16 +250,13 @@
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OSCPADiscountPricing.dll</HintPath>
     </Reference>
     <Reference Include="OSCPAMeetingSessionLogEntity">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0_3\OSCPAMeetingSessionLogEntity.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0\OSCPAMeetingSessionLogEntity.dll</HintPath>
     </Reference>
     <Reference Include="OSCPAOrderEntityObject">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OSCPAOrderEntityObject.dll</HintPath>
     </Reference>
     <Reference Include="OSCPAOrderLineGE">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OSCPAOrderLineGE.dll</HintPath>
-    </Reference>
-    <Reference Include="OSCPAPaymentsEntity">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0 Dev\OSCPAPaymentsEntity.dll</HintPath>
     </Reference>
     <Reference Include="Payflow_dotNET, Version=4.3.1.0, Culture=neutral, PublicKeyToken=14aa1e8d77f2a97c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

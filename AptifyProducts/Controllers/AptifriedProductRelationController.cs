@@ -22,7 +22,7 @@ namespace AptifyWebApi.Controllers {
                 if (!string.IsNullOrEmpty(queryString) && queryString.Contains("?")) {
                     queryString = queryString.Remove(0, 1);
                 }
-                queryCriteria = ODataParser.ODataQuery<AptifriedExam>
+                queryCriteria = ODataParser.ODataQuery<AptifriedProductRelation>
                     (session, queryString);
             } catch (NHibernate.OData.ODataException odataException) {
                 throw new System.Web.HttpException(500, "Homie definitely don't play that, bro", odataException);
