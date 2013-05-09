@@ -437,6 +437,7 @@
     <Compile Include="Controllers\AptifriedMeetingTimeSpanController.cs" />
     <Compile Include="Controllers\AptifriedMeetingTopicTrackController.cs" />
     <Compile Include="Controllers\AptifriedPersonController.cs" />
+    <Compile Include="Controllers\AptifriedProductRelationController.cs" />
     <Compile Include="Controllers\AptifriedWebCartController.cs" />
     <Compile Include="Controllers\AptifyEnabledApiController.cs" />
     <Compile Include="Controllers\AuthorizationController.cs" />
@@ -450,6 +451,8 @@
     <Compile Include="Dto\AptifriedAttendeeStatusDto.cs" />
     <Compile Include="Dto\AptifriedCampaignDto.cs" />
     <Compile Include="Dto\AptifriedCampaignListDetailDto.cs" />
+    <Compile Include="Dto\AptifriedProductRelationDto.cs" />
+    <Compile Include="Dto\AptifriedProductRelationshipTypeDto.cs" />
     <Compile Include="Models\AptifriedCampaignListDetailMap.cs" />
     <Compile Include="Dto\AptifriedCarouselElementDto.cs" />
     <Compile Include="Dto\AptifriedClassTextSearchResultDto.cs" />
@@ -598,6 +601,10 @@
     <Compile Include="Models\AptifriedProductObjectiveMap.cs" />
     <Compile Include="Models\AptifriedProductPriceMap.cs" />
     <Compile Include="Attributes\AptifriedEntityAttribute.cs" />
+    <Compile Include="Models\AptifriedProductRelation.cs" />
+    <Compile Include="Models\AptifriedProductRelationMap.cs" />
+    <Compile Include="Models\AptifriedProductRelationshipType.cs" />
+    <Compile Include="Models\AptifriedProductRelationshipTypeMap.cs" />
     <Compile Include="Models\AptifriedProductType.cs" />
     <Compile Include="Models\AptifriedProductTypeMap.cs" />
     <Compile Include="Models\AptifriedMeetingTimeSpanProduct.cs" />
