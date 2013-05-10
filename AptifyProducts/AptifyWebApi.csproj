@@ -417,6 +417,7 @@
     <Compile Include="Controllers\AptifriedMeetingTimeSpanController.cs" />
     <Compile Include="Controllers\AptifriedMeetingTopicTrackController.cs" />
     <Compile Include="Controllers\AptifriedPersonController.cs" />
+    <Compile Include="Controllers\AptifriedProductAttachmentWithThumbnailsController.cs" />
     <Compile Include="Controllers\AptifriedProductRelationController.cs" />
     <Compile Include="Controllers\AptifriedWebCartController.cs" />
     <Compile Include="Controllers\AptifyEnabledApiController.cs" />
@@ -577,6 +578,8 @@
     <Compile Include="Models\AptifriedPaymentTypeMap.cs" />
     <Compile Include="Models\AptifriedPerson.cs" />
     <Compile Include="Models\AptifriedPersonMap.cs" />
+    <Compile Include="Models\AptifriedProductAttachmentWithThumbnail.cs" />
+    <Compile Include="Models\AptifriedProductAttachmentWithThumbnailMap.cs" />
     <Compile Include="Models\AptifriedProductObjective.cs" />
     <Compile Include="Models\AptifriedProductObjectiveMap.cs" />
     <Compile Include="Models\AptifriedProductPriceMap.cs" />
