@@ -432,6 +432,7 @@
     <Compile Include="Dto\AptifriedAttendeeStatusDto.cs" />
     <Compile Include="Dto\AptifriedCampaignDto.cs" />
     <Compile Include="Dto\AptifriedCampaignListDetailDto.cs" />
+    <Compile Include="Dto\AptifriedProductAttachmentWithThumbnailDto.cs" />
     <Compile Include="Dto\AptifriedProductRelationDto.cs" />
     <Compile Include="Dto\AptifriedProductRelationshipTypeDto.cs" />
     <Compile Include="Models\AptifriedCampaignListDetailMap.cs" />
