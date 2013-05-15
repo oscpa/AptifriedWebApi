@@ -48,7 +48,7 @@ namespace AptifyWebApi.Controllers {
 			// when an exam is passed- we really need to just save the sheet off.
 
 			if (answerSheet == null) {
-				return null;
+                throw new HttpException(500, "Missing answer sheet when trying to post scores.");
 			}
 			
 			var newAnswerSheet = AptifyApp.GetEntityObject("Answer Sheets", -1);
@@ -61,32 +61,25 @@ namespace AptifyWebApi.Controllers {
 			newAnswerSheet.SetValue("SerialNumber", 0);
 			newAnswerSheet.SetValue("MeetingID", answerSheet.MeetingId);
 
-			if (newAnswerSheet.Save(false)) {
-				bool saveErrors = false;
+			foreach (AptifriedAnswerSheetAnswerDto answer in answerSheet.Answers) {
+				var answerSheetAnswer = newAnswerSheet.SubTypes["AnswerSheetAnswers"].Add();
 
-				foreach (AptifriedAnswerSheetAnswerDto answer in answerSheet.Answers) {
-					var answerSheetAnswer = newAnswerSheet.SubTypes["AnswerSheetAnswers"].Add();
-
-					answerSheetAnswer.SetValue("QuestionCode", answer.QuestionCode);
-					answerSheetAnswer.SetValue("StudentAnswer", answer.StudentAnswer);
-					answerSheetAnswer.SetValue("IsCorrect", answer.IsCorrect);
-					answerSheetAnswer.SetValue("PointsEarned", answer.PointsEarned);
-
-					if (!answerSheetAnswer.Save(false)) {
-						saveErrors = true;
-					}
-
-					newAnswerSheet.Save(false);
-				}
-
-				if (saveErrors) {
-					return null;
-				} else {
-					return answerSheet;
-				}
-			} else {
-				return null;
+				answerSheetAnswer.SetValue("QuestionCode", answer.QuestionCode);
+				answerSheetAnswer.SetValue("StudentAnswer", answer.StudentAnswer);
+				answerSheetAnswer.SetValue("IsCorrect", answer.IsCorrect);
+				answerSheetAnswer.SetValue("PointsEarned", answer.PointsEarned);
 			}
+
+            string saveErrorMessage = string.Empty;
+
+            if (newAnswerSheet.Save(false, ref saveErrorMessage)) {
+                answerSheet.Id = Convert.ToInt32(newAnswerSheet.RecordID);
+            } else {
+                throw new HttpException(500, "Failed to save answer sheet, Error was: " + saveErrorMessage);
+            }
+
+            return answerSheet;
+
         }
     }
 }
