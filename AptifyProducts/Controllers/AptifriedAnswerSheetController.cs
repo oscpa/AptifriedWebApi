@@ -70,12 +70,10 @@ namespace AptifyWebApi.Controllers {
 				answerSheetAnswer.SetValue("PointsEarned", answer.PointsEarned);
 			}
 
-            string saveErrorMessage = string.Empty;
-
-            if (newAnswerSheet.Save(false, ref saveErrorMessage)) {
+            if (newAnswerSheet.Save(false)) {
                 answerSheet.Id = Convert.ToInt32(newAnswerSheet.RecordID);
             } else {
-                throw new HttpException(500, "Failed to save answer sheet, Error was: " + saveErrorMessage);
+                throw new HttpException(500, "Failed to save answer sheet, Error was: " + newAnswerSheet.LastError);
             }
 
             return answerSheet;
