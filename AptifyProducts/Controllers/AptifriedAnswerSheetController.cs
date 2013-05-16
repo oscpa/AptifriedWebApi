@@ -55,9 +55,9 @@ namespace AptifyWebApi.Controllers {
 			newAnswerSheet.SetValue("StudentID", answerSheet.Student.Id);
 			newAnswerSheet.SetValue("Status", answerSheet.Status);
 			newAnswerSheet.SetValue("ExamID", answerSheet.ExamId);
-			newAnswerSheet.SetValue("Score", answerSheet.Score);
-			newAnswerSheet.SetValue("PercentScore", answerSheet.PercentScore);
-			newAnswerSheet.SetValue("DateRecorded", answerSheet.DateRecorded);
+            newAnswerSheet.SetValue("Score", decimal.Round(answerSheet.Score));
+			newAnswerSheet.SetValue("PercentScore", decimal.Round(answerSheet.PercentScore, 2));
+			newAnswerSheet.SetValue("DateRecorded", DateTime.Now);
 			newAnswerSheet.SetValue("SerialNumber", 0);
 			newAnswerSheet.SetValue("MeetingID", answerSheet.MeetingId);
 
