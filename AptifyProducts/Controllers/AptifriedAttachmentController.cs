@@ -85,6 +85,8 @@ namespace AptifyWebApi.Controllers {
 
                 HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
                 result.Content = new ByteArrayContent(content);
+
+                result.Content.Headers.Add("X-Content-Type-Options", "nosniff");
                 result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                 result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
                 result.Content.Headers.ContentDisposition.FileName = attachmentProper.Name;
