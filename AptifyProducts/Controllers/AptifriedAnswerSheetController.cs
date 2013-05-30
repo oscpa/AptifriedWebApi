@@ -48,45 +48,36 @@ namespace AptifyWebApi.Controllers {
 			// when an exam is passed- we really need to just save the sheet off.
 
 			if (answerSheet == null) {
-				return null;
+                throw new HttpException(500, "Missing answer sheet when trying to post scores.");
 			}
 			
 			var newAnswerSheet = AptifyApp.GetEntityObject("Answer Sheets", -1);
 			newAnswerSheet.SetValue("StudentID", answerSheet.Student.Id);
 			newAnswerSheet.SetValue("Status", answerSheet.Status);
 			newAnswerSheet.SetValue("ExamID", answerSheet.ExamId);
-			newAnswerSheet.SetValue("Score", answerSheet.Score);
-			newAnswerSheet.SetValue("PercentScore", answerSheet.PercentScore);
-			newAnswerSheet.SetValue("DateRecorded", answerSheet.DateRecorded);
+            newAnswerSheet.SetValue("Score", decimal.Round(answerSheet.Score));
+			newAnswerSheet.SetValue("PercentScore", decimal.Round(answerSheet.PercentScore, 2));
+			newAnswerSheet.SetValue("DateRecorded", DateTime.Now);
 			newAnswerSheet.SetValue("SerialNumber", 0);
 			newAnswerSheet.SetValue("MeetingID", answerSheet.MeetingId);
 
-			if (newAnswerSheet.Save(false)) {
-				bool saveErrors = false;
+			foreach (AptifriedAnswerSheetAnswerDto answer in answerSheet.Answers) {
+				var answerSheetAnswer = newAnswerSheet.SubTypes["AnswerSheetAnswers"].Add();
 
-				foreach (AptifriedAnswerSheetAnswerDto answer in answerSheet.Answers) {
-					var answerSheetAnswer = newAnswerSheet.SubTypes["AnswerSheetAnswers"].Add();
-
-					answerSheetAnswer.SetValue("QuestionCode", answer.QuestionCode);
-					answerSheetAnswer.SetValue("StudentAnswer", answer.StudentAnswer);
-					answerSheetAnswer.SetValue("IsCorrect", answer.IsCorrect);
-					answerSheetAnswer.SetValue("PointsEarned", answer.PointsEarned);
-
-					if (!answerSheetAnswer.Save(false)) {
-						saveErrors = true;
-					}
-
-					newAnswerSheet.Save(false);
-				}
-
-				if (saveErrors) {
-					return null;
-				} else {
-					return answerSheet;
-				}
-			} else {
-				return null;
+				answerSheetAnswer.SetValue("QuestionCode", answer.QuestionCode);
+				answerSheetAnswer.SetValue("StudentAnswer", answer.StudentAnswer);
+				answerSheetAnswer.SetValue("IsCorrect", answer.IsCorrect);
+				answerSheetAnswer.SetValue("PointsEarned", answer.PointsEarned);
 			}
+
+            if (newAnswerSheet.Save(false)) {
+                answerSheet.Id = Convert.ToInt32(newAnswerSheet.RecordID);
+            } else {
+                throw new HttpException(500, "Failed to save answer sheet, Error was: " + newAnswerSheet.LastError);
+            }
+
+            return answerSheet;
+
         }
     }
 }

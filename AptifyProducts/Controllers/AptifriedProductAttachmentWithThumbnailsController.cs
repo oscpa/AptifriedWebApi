@@ -1,5 +1,8 @@
-﻿using AptifyWebApi.Models;
+﻿using AptifyWebApi.Dto;
+using AptifyWebApi.Models;
+using AutoMapper;
 using NHibernate;
+using NHibernate.OData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +15,29 @@ using System.Web.Http;
 namespace AptifyWebApi.Controllers {
     public class AptifriedProductAttachmentWithThumbnailsController : AptifyEnabledApiController {
         public AptifriedProductAttachmentWithThumbnailsController(ISession session) : base(session) { }
+
+        public IList<AptifriedProductAttachmentWithThumbnailDto> Get() {
+            // Use the odata query parsing engine to 
+            // try to limit hits to the database.
+            var queryString = Request.RequestUri.Query;
+            ICriteria queryCriteria = session.CreateCriteria<AptifriedProductAttachmentWithThumbnail>();
+            try {
+                if (!string.IsNullOrEmpty(queryString) && queryString.Contains("?")) {
+                    queryString = queryString.Remove(0, 1);
+                }
+                queryCriteria = ODataParser.ODataQuery<AptifriedProductAttachmentWithThumbnail>
+                    (session, queryString);
+            } catch (NHibernate.OData.ODataException odataException) {
+                throw new System.Web.HttpException(500, "Homie don't play that.", odataException);
+            }
+            var hibernatedCol = queryCriteria.List<AptifriedProductAttachmentWithThumbnail>();
+            IList<AptifriedProductAttachmentWithThumbnailDto> attDto = 
+                new List<AptifriedProductAttachmentWithThumbnailDto>();
+            attDto = Mapper.Map(hibernatedCol, 
+                new List<AptifriedProductAttachmentWithThumbnailDto>());
+            return attDto;
+
+        }
 
         public HttpResponseMessage Get(int productAttachmentWithThumbNailId, bool thumbNail) {
             try {

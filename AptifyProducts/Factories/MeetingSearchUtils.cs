@@ -58,7 +58,12 @@ namespace AptifyWebApi.Factories {
 				HandleQueryKeywords(search, queryParams, searchFrom, searchOrderBy, KeywordSearchMethodology.METHOD_INTELLIGENTIA, justCounts);
 
                 if (search.StartDate.HasValue && search.EndDate.HasValue) {
-                    searchWhere.AppendLine(" and mt.EndDate between :beginDate and :endDate ");
+
+                    // for self study we need to hold off on between should they meet the self study class type
+                    searchWhere.AppendLine(" and mt.EndDate between Case When mt.MeetingTypeID <> 5 Then :beginDate Else mt.EndDate End " +
+                        "and " + 
+                        " Case When mt.MeetingTypeID <> 5 Then :endDate Else mt.EndDate End ");
+
                     //searchWhere.AppendFormat(" and mt.StartDate between '{0}' and '{1}' ",
                     //    search.StartDate.Value,
                     //    search.EndDate.Value.AddHours(23));
