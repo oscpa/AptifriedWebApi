@@ -29,7 +29,8 @@ namespace AptifyWebApi.Controllers {
 
             shoppingCartLine.SetValue("ProductID", cartLine.ProductId);
             shoppingCartLine.SetValue("RegistrantID", cartLine.RegistrantId);
-			shoppingCartLine.SetValue("CampaignID", cartLine.Campaign.Id);
+			if (cartLine.Campaign != null && cartLine.Campaign.Id > 0)
+				shoppingCartLine.SetValue("CampaignID", cartLine.Campaign.Id);
 
             if (!shoppingCartLine.Save(false)) {
                 throw new HttpException(500, "Error saving cart line update: " + shoppingCartLine.LastError);
