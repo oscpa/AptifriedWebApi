@@ -42,14 +42,21 @@ namespace AptifyWebApi.Controllers {
 
 
         /// <summary>
-        /// Saves an education unit (with a few caviats) and returns the education unit with a new id.
+        /// Saves an education unit (with a few caveat) and returns the education unit with a new id.
         /// </summary>
         /// <param name="educationUnit"></param>
         /// <returns></returns>
         public AptifriedEducationUnitDto Post(AptifriedEducationUnitDto educationUnit) {
 
             try {
-                var educationUnitEntity = AptifyApp.GetEntityObject("Education Unit", -1);
+
+                // Allow for updates to existing CPE
+                int theRecordId = -1;
+                if (educationUnit.Id > 0) 
+                    theRecordId = educationUnit.Id;
+
+                var educationUnitEntity = AptifyApp.GetEntityObject("Education Unit", theRecordId);
+
                 educationUnitEntity.SetAddValue("PersonID", educationUnit.Person.Id);
                 educationUnitEntity.SetAddValue("DateEarned", educationUnit.DateEarned);
                 educationUnitEntity.SetAddValue("DateExpires", educationUnit.DateExpires);
@@ -59,6 +66,9 @@ namespace AptifyWebApi.Controllers {
                 educationUnitEntity.SetAddValue("Source", educationUnit.Source);
                 educationUnitEntity.SetAddValue("ExternalSource", educationUnit.ExternalSource);
                 educationUnitEntity.SetAddValue("ExternalSourceDescription", educationUnit.ExternalSourceDescription);
+                educationUnitEntity.SetAddValue("ExternalCPECity", educationUnit.ExternalCPECity);
+                educationUnitEntity.SetAddValue("ExternalCPEInstructor", educationUnit.ExternalCPEInstructor);
+                educationUnitEntity.SetAddValue("ExternalCPESponsor", educationUnit.ExternalCPESponsor);
 
                 // Don't let people do this. They could grant credit to themselves and verify it.
                 //educationUnitEntity.SetAddValue("ExternalSourceVerified", educationUnit.ExternalSourceVerified);
