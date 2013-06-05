@@ -23,6 +23,7 @@ namespace AptifyWebApi {
 
             Mapper.CreateMap<AptifriedClass, AptifriedClassDto>();
 			Mapper.CreateMap<AptifriedClassExtended, AptifriedClassExtendedDto>();
+            Mapper.CreateMap<AptifriedCpeCreditAdjustmentType, AptifriedCpeCreditAdjustmentTypeDto>();
 
 			Mapper.CreateMap<AptifriedCredit, AptifriedCreditDto>();
 
@@ -33,6 +34,7 @@ namespace AptifyWebApi {
             Mapper.CreateMap<AptifriedExamQuestion, AptifriedExamQuestionDto>();
             Mapper.CreateMap<AptifriedEducationCategory, AptifriedEducationCategoryDto>();
             Mapper.CreateMap<AptifriedExamQuestionPossibleAnswers, AptifriedExamQuestionPossibleAnswersDto>();
+            Mapper.CreateMap<AptifriedEducationUnit, AptifriedEducationUnitDto>();
 
 			Mapper.CreateMap<AptifriedLicenseStatus, AptifriedLicenseStatusDto>();
 

@@ -404,6 +404,7 @@
     <Compile Include="Controllers\AptifriedConferenceAttendanceSesSelController.cs" />
     <Compile Include="Controllers\AptifriedConferenceMeetingSessionSesSelController.cs" />
     <Compile Include="Controllers\AptifriedConferenceMeetingSesSelController.cs" />
+    <Compile Include="Controllers\AptifriedEducationUnitController.cs" />
     <Compile Include="Controllers\AptifriedExamController.cs" />
     <Compile Include="Controllers\AptifriedMeetingController.cs" />
     <Compile Include="Controllers\AptifriedMeetingDetailController.cs" />
@@ -433,6 +434,9 @@
     <Compile Include="Dto\AptifriedAttendeeStatusDto.cs" />
     <Compile Include="Dto\AptifriedCampaignDto.cs" />
     <Compile Include="Dto\AptifriedCampaignListDetailDto.cs" />
+    <Compile Include="Dto\AptifriedCpeCreditAdjustmentTypeDto.cs" />
+    <Compile Include="Dto\AptifriedEducationUnitAggregateDto.cs" />
+    <Compile Include="Dto\AptifriedEducationUnitDto.cs" />
     <Compile Include="Dto\AptifriedProductAttachmentWithThumbnailDto.cs" />
     <Compile Include="Dto\AptifriedProductRelationDto.cs" />
     <Compile Include="Dto\AptifriedProductRelationshipTypeDto.cs" />
@@ -531,12 +535,16 @@
     <Compile Include="Models\AptifriedClassMap.cs" />
     <Compile Include="Models\AptifriedCompanyMap.cs" />
     <Compile Include="Models\AptifriedCourseMap.cs" />
+    <Compile Include="Models\AptifriedCpeCreditAdjustmentType.cs" />
+    <Compile Include="Models\AptifriedCpeCreditAdjustmentTypeMap.cs" />
     <Compile Include="Models\AptifriedCredit.cs" />
     <Compile Include="Models\AptifriedCreditMap.cs" />
     <Compile Include="Models\AptifriedClassExtended.cs" />
     <Compile Include="Models\AptifriedClassExtendedMap.cs" />
     <Compile Include="Models\AptifriedEducationCategory.cs" />
     <Compile Include="Models\AptifriedEducationCategoryMap.cs" />
+    <Compile Include="Models\AptifriedEducationUnit.cs" />
+    <Compile Include="Models\AptifriedEducationUnitMap.cs" />
     <Compile Include="Models\AptifriedExam.cs" />
     <Compile Include="Models\AptifriedExamMap.cs" />
     <Compile Include="Models\AptifriedExamQuestion.cs" />
