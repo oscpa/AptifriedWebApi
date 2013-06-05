@@ -123,7 +123,6 @@ namespace AptifyWebApi.Controllers {
             }
 
             return resultingData;
-;
         }
 
         
