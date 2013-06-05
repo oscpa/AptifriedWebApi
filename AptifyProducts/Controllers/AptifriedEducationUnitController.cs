@@ -15,6 +15,10 @@ namespace AptifyWebApi.Controllers {
         public AptifriedEducationUnitController(ISession session) : base(session) { }
 
 
+        /// <summary>
+        ///  Basic getter for odata queries to the education units.
+        /// </summary>
+        /// <returns></returns>
         public IList<AptifriedEducationUnitDto> Get() {
 
             var queryString = Request.RequestUri.Query;
@@ -36,6 +40,12 @@ namespace AptifyWebApi.Controllers {
             return educationUnits;
         }
 
+
+        /// <summary>
+        /// Saves an education unit (with a few caviats) and returns the education unit with a new id.
+        /// </summary>
+        /// <param name="educationUnit"></param>
+        /// <returns></returns>
         public AptifriedEducationUnitDto Post(AptifriedEducationUnitDto educationUnit) {
 
             try {
@@ -68,6 +78,45 @@ namespace AptifyWebApi.Controllers {
             // if we've reached here, the dto passed in should now have an "Id" that is the database identifier
             return educationUnit;
         }
+
+        /// <summary>
+        /// Returns the trascript formatted credits aggregate education units.
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns></returns>
+        public IList<AptifriedEducationUnitAggregateDto> GetAggregateCredits(int personId, DateTime startDate, DateTime endDate, bool includeExternal) {
+
+            List<AptifriedEducationUnitAggregateDto> resultingData = new List<AptifriedEducationUnitAggregateDto>();
+
+            string transcriptQuery = "select  Name , Location , Type , Credit , Dates , ProductID " +
+                " from fnOscpaTranscriptGetEducationUnitAggregate(:personId, :startDate, :endDate, :includeExternal, default, default) ";
+
+            var transcriptData = session.CreateSQLQuery(transcriptQuery)
+                .SetParameter("personId", personId)
+                .SetParameter("startDate", startDate)
+                .SetParameter("endDate", endDate)
+                .SetParameter("includeExternal", includeExternal)
+                .List();
+
+            foreach (object[] row in transcriptData) {
+                resultingData.Add(new AptifriedEducationUnitAggregateDto() {
+                    Name = Convert.ToString(row[0]),
+                    Location = Convert.ToString(row[1]),
+                    CreditTypeCode = Convert.ToString(row[2]),
+                    Credits = Convert.ToDecimal(row[3]),
+                    FormattedDates = Convert.ToString(row[4]),
+                    ProductId = Convert.ToInt32(row[5])
+                });
+                    
+            }
+
+            return resultingData;
+;
+        }
+
+        
 
     }
 }
