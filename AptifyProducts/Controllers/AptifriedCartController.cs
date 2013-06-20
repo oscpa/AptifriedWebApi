@@ -267,20 +267,22 @@ namespace AptifyWebApi.Controllers {
         private void AddOrderLine(ref OrdersEntity orderProper, AptifriedWebShoppingCartProductRequestDto requestedLine) {
                 var orderLines = orderProper.AddProduct(Convert.ToInt64(requestedLine.ProductId));
 
-                foreach (var orderLine in orderLines) {
+				if (orderLines != null) {
+					foreach (var orderLine in orderLines) {
 
-                    ((AptifyGenericEntityBase)orderLine).SetAddValue("__requestedLineId", requestedLine.Id);
-                    ((AptifyGenericEntityBase)orderLine).SetAddValue("__requestedLineRegistrantId", requestedLine.RegistrantId);
-					if (requestedLine.Campaign != null && requestedLine.Campaign.Id > 0) {
-						((AptifyGenericEntityBase)orderLine).SetAddValue("__requestedLineCampaignId", requestedLine.Campaign.Id);
-						((AptifyGenericEntityBase)orderLine).SetAddValue("CampaignCodeID", requestedLine.Campaign.Id);
-					}
+						((AptifyGenericEntityBase)orderLine).SetAddValue("__requestedLineId", requestedLine.Id);
+						((AptifyGenericEntityBase)orderLine).SetAddValue("__requestedLineRegistrantId", requestedLine.RegistrantId);
+						if (requestedLine.Campaign != null && requestedLine.Campaign.Id > 0) {
+							((AptifyGenericEntityBase)orderLine).SetAddValue("__requestedLineCampaignId", requestedLine.Campaign.Id);
+							((AptifyGenericEntityBase)orderLine).SetAddValue("CampaignCodeID", requestedLine.Campaign.Id);
+						}
 
-                    if (orderLine.ProductID == requestedLine.ProductId &&
-                        orderLine.ExtendedOrderDetailEntity != null) {
+						if (orderLine.ProductID == requestedLine.ProductId &&
+							orderLine.ExtendedOrderDetailEntity != null) {
 							SetRegistrant(requestedLine, orderLine);
-                    }
-                }
+						}
+					}
+				}
         }
 
 		private void SetRegistrant(AptifriedWebShoppingCartProductRequestDto requestedLine, OrderLinesEntity orderLine) {
