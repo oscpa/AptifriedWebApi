@@ -73,7 +73,7 @@ namespace AptifyWebApi.Controllers
 			if (gePerson != null) {
 				gePerson.SetValue("FirstName", requestPerson.FirstName);
 				gePerson.SetValue("LastName", requestPerson.LastName);
-				gePerson.SetValue("Email", requestPerson.Email);
+				gePerson.SetValue("Email1", requestPerson.Email);
 
 				if (!gePerson.Save(false)) {
 					throw new HttpException(500, "Error saving new person object: " + gePerson.LastUserError);
