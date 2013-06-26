@@ -21,6 +21,7 @@ namespace AptifyWebApi.Controllers {
 			}
 
 			webUserGE.SetValue("UserID", webUserDto.UserName);
+			webUserGE.SetValue("PWD", webUserDto.Password);
 			webUserGE.SetValue("FirstName", webUserDto.FirstName);
 			webUserGE.SetValue("LastName", webUserDto.LastName);
 			webUserGE.SetValue("Email", webUserDto.Email);
