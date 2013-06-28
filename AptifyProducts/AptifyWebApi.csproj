@@ -442,6 +442,7 @@
     <Compile Include="Dto\AptifriedProductAttachmentWithThumbnailDto.cs" />
     <Compile Include="Dto\AptifriedProductRelationDto.cs" />
     <Compile Include="Dto\AptifriedProductRelationshipTypeDto.cs" />
+    <Compile Include="Dto\AptifriedWebNotificationDto.cs" />
     <Compile Include="Models\AptifriedCampaignListDetailMap.cs" />
     <Compile Include="Dto\AptifriedCarouselElementDto.cs" />
     <Compile Include="Dto\AptifriedClassTextSearchResultDto.cs" />
@@ -606,6 +607,8 @@
     <Compile Include="Models\AptifriedMeetingTimeSpanProductMap.cs" />
     <Compile Include="Models\AptifriedVenue.cs" />
     <Compile Include="Models\AptifriedVenueMap.cs" />
+    <Compile Include="Models\AptifriedWebNotification.cs" />
+    <Compile Include="Models\AptifriedWebNotificationMap.cs" />
     <Compile Include="Models\AptifriedWebShoppingCart.cs" />
     <Compile Include="Models\AptifriedWebShoppingCartDetails.cs" />
     <Compile Include="Models\AptifriedWebShoppingCartDetailsMap.cs" />

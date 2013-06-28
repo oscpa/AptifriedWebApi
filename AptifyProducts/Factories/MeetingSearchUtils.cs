@@ -241,16 +241,19 @@ namespace AptifyWebApi.Factories {
 
 					if (!justCounts) {
 						// We don't need to worry about clobbering any sort logic here because it won't have been defined yet
-						searchOrderBy.AppendLine("order by");
+						//searchOrderBy.AppendLine("order by");
 
-						LinkedList<string> rankStatements = new LinkedList<string>();
-						IEnumerator<KeyValuePair<string, uint>> rankEnumer = subrankMaps.GetEnumerator();
-						while (rankEnumer.MoveNext()) {
-							rankStatements.AddLast(rankEnumer.Current.Value + " * isnull(" + rankEnumer.Current.Key + ".Rank, 0)");
-						}
-						searchOrderBy.AppendLine(rankStatements.Aggregate(string.Empty, (x, n) => x + (!string.IsNullOrEmpty(x) ? " + " : string.Empty) + n));
+						//LinkedList<string> rankStatements = new LinkedList<string>();
+						//IEnumerator<KeyValuePair<string, uint>> rankEnumer = subrankMaps.GetEnumerator();
+						//while (rankEnumer.MoveNext()) {
+						//	rankStatements.AddLast(rankEnumer.Current.Value + " * isnull(" + rankEnumer.Current.Key + ".Rank, 0)");
+						//}
+						//searchOrderBy.AppendLine(rankStatements.Aggregate(string.Empty, (x, n) => x + (!string.IsNullOrEmpty(x) ? " + " : string.Empty) + n));
 
-						searchOrderBy.AppendLine("desc, mt.StartDate, isnull(mt.ParentID, 0) asc");
+						//searchOrderBy.AppendLine("desc, mt.StartDate, isnull(mt.ParentID, 0) asc");
+
+						// June 28, 2013 - JP on behalf of everyone in the entire universe -- order by date because it is very extremely super important
+						searchOrderBy.AppendLine("order by mt.EndDate");
 					}
 
 					searchFrom.AppendLine("from vwMeetingsTiny mt");
