@@ -55,7 +55,7 @@ namespace AptifyWebApi.Factories {
 				searchWhere.AppendLine(" and mt.StartDate >= case when mt.MeetingTypeID <> 5 then getdate() else mt.StartDate end ");
 
 				// Because we are getting SIGNIFICANTLY more complex in our handling of keywords, this has been extracted out into its own method
-				HandleQueryKeywords(search, queryParams, searchFrom, searchOrderBy, KeywordSearchMethodology.METHOD_INTELLIGENTIA, justCounts);
+				HandleQueryKeywords(search, queryParams, searchFrom, searchOrderBy, searchWhere, KeywordSearchMethodology.METHOD_INTELLIGENTIA, justCounts);
 
                 if (search.StartDate.HasValue && search.EndDate.HasValue) {
 
@@ -183,7 +183,7 @@ namespace AptifyWebApi.Factories {
             };
         }
 
-		private static void HandleQueryKeywords(AptifriedMeetingSearchDto search, Dictionary<string, object> queryParams, StringBuilder searchFrom, StringBuilder searchOrderBy, KeywordSearchMethodology howSmart, bool justCounts) {
+		private static void HandleQueryKeywords(AptifriedMeetingSearchDto search, Dictionary<string, object> queryParams, StringBuilder searchFrom, StringBuilder searchOrderBy, StringBuilder searchWhere, KeywordSearchMethodology howSmart, bool justCounts) {
 			if (!string.IsNullOrEmpty(search.SearchText)) {
 				if (howSmart == KeywordSearchMethodology.METHOD_SIMPLETON) {
 					//searchFrom.AppendFormat(" From freetexttable(idxVwWebSearchIndex, TextContent, '{0}') idx ",
@@ -241,19 +241,26 @@ namespace AptifyWebApi.Factories {
 
 					if (!justCounts) {
 						// We don't need to worry about clobbering any sort logic here because it won't have been defined yet
-						//searchOrderBy.AppendLine("order by");
+						searchOrderBy.AppendLine("order by");
 
-						//LinkedList<string> rankStatements = new LinkedList<string>();
-						//IEnumerator<KeyValuePair<string, uint>> rankEnumer = subrankMaps.GetEnumerator();
-						//while (rankEnumer.MoveNext()) {
-						//	rankStatements.AddLast(rankEnumer.Current.Value + " * isnull(" + rankEnumer.Current.Key + ".Rank, 0)");
-						//}
-						//searchOrderBy.AppendLine(rankStatements.Aggregate(string.Empty, (x, n) => x + (!string.IsNullOrEmpty(x) ? " + " : string.Empty) + n));
+						LinkedList<string> rankStatements = new LinkedList<string>();
+						IEnumerator<KeyValuePair<string, uint>> rankEnumer = subrankMaps.GetEnumerator();
+						while (rankEnumer.MoveNext()) {
+							rankStatements.AddLast(rankEnumer.Current.Value + " * isnull(" + rankEnumer.Current.Key + ".rank, 0)");
+						}
+						String rankString = rankStatements.Aggregate(String.Empty, (x, n) => x + (!String.IsNullOrEmpty(x) ? " + " : String.Empty) + n);
+						searchOrderBy.AppendLine(rankString);
 
-						//searchOrderBy.AppendLine("desc, mt.StartDate, isnull(mt.ParentID, 0) asc");
+						// 7/1/2013 -- removing "hasparent" because we decided we don't want it anymore after we decided we wanted it
+						//searchOrderBy.AppendLine("desc, mt.startdate, isnull(mt.parentid, 0) asc");
+						searchOrderBy.AppendLine("desc, mt.startdate");
 
 						// June 28, 2013 - JP on behalf of everyone in the entire universe -- order by date because it is very extremely super important
-						searchOrderBy.AppendLine("order by mt.EndDate");
+						//searchOrderBy.AppendLine("order by mt.EndDate");
+
+						// Filter out where relevance < epsilon
+						float epsilon = 0;
+						searchWhere.AppendLine("and " + rankString + " > " + epsilon.ToString());
 					}
 
 					searchFrom.AppendLine("from vwMeetingsTiny mt");
