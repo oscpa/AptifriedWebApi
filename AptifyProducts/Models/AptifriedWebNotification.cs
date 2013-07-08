@@ -9,5 +9,7 @@ namespace AptifyWebApi.Models {
 		public virtual DateTime DateCreated { get; set; }
 		public virtual String Name { get; set; }
 		public virtual String Description { get; set; }
+		public virtual bool Seen { get; set; }
+		public virtual int PersonId { get; set; }
 	}
 }

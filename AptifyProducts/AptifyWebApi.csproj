@@ -423,6 +423,7 @@
     <Compile Include="Controllers\AptifriedProductAttachmentWithThumbnailsController.cs" />
     <Compile Include="Controllers\AptifriedProductRelationController.cs" />
     <Compile Include="Controllers\AptifriedWebCartController.cs" />
+    <Compile Include="Controllers\AptifriedWebNotificationController.cs" />
     <Compile Include="Controllers\AptifriedWebUserController.cs" />
     <Compile Include="Controllers\AptifyEnabledApiController.cs" />
     <Compile Include="Controllers\AuthorizationController.cs" />

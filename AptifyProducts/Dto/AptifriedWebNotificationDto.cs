@@ -9,5 +9,7 @@ namespace AptifyWebApi.Dto {
 		public DateTime DateCreated { get; set; }
 		public String Name { get; set; }
 		public String Description { get; set; }
+		public bool Seen { get; set; }
+		public int PersonId { get; set; }
 	}
 }

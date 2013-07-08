@@ -32,7 +32,7 @@ namespace AptifyWebApi.Controllers {
 		}
 
 		public void Post(AptifriedWebNotificationDto dto) {
-			if (dto == null || dto.Id < 1) {
+			if (dto == null) {
 				throw new HttpException(500, "No notification DTO or no DTO ID field, yo");
 			}
 
