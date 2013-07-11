@@ -42,7 +42,7 @@ namespace AptifyWebApi.Controllers {
             IList<AptifriedAttachment> attachments = null;
             if (recursive) {
 
-                attachments = session.CreateSQLQuery(" select  at.ID , at.Name , at.Description , at.CategoryID , at.Category , at.EntityID , at.Entity , at.RecordID , at.LocalFileName , at.DateCreated , at.WhoCreated , at.DateUpdated , at.WhoUpdated , at.Status , at.CheckedOutByID , at.CheckedOutBy , at.DateCheckedOut , at.Compressed , at.BlobData , at.Comments " +
+                attachments = session.CreateSQLQuery(" select  at.ID , at.Name , at.CategoryID , at.Category , at.EntityID , at.RecordID , at.DateCreated , at.Status " +
                     " from dbo.vwAttachments at  " +
                     " where at.EntityID = 926 " +
                     " and at.RecordId in (select * from dbo.fnOscpaGetChildMeetingsProductID(:parentProductId)) ")

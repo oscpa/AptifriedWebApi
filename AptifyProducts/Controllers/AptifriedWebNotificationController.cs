@@ -45,10 +45,16 @@ namespace AptifyWebApi.Controllers {
 			if (id == -1) {
 				geNotification.SetValue("DateCreated", DateTime.Now);
 			}
-			geNotification.SetValue("Name", dto.Name);
-			geNotification.SetValue("Description", dto.Description);
+			if (!string.IsNullOrEmpty(dto.Name)) {
+				geNotification.SetValue("Name", dto.Name);
+			}
+			if (!string.IsNullOrEmpty(dto.Description)) {
+				geNotification.SetValue("Description", dto.Description);
+			}
 			geNotification.SetValue("Seen", dto.Seen);
-			geNotification.SetValue("PersonID", dto.PersonId);
+			if (dto.PersonId > 0) {
+				geNotification.SetValue("PersonID", dto.PersonId);
+			}
 
 			if (!geNotification.Save(false)) {
 				throw new HttpException(500, "Error saving entity: " + geNotification.LastUserError);
