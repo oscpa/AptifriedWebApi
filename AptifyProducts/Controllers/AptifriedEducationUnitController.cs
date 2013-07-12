@@ -100,8 +100,10 @@ namespace AptifyWebApi.Controllers {
 
             List<AptifriedEducationUnitAggregateDto> resultingData = new List<AptifriedEducationUnitAggregateDto>();
 
-            string transcriptQuery = "select  Name , Location , Type , Credit , Dates , ProductID " +
-                " from fnOscpaTranscriptGetEducationUnitAggregate(:personId, :startDate, :endDate, :includeExternal, default, default) ";
+           // string transcriptQuery = "select  Name , Location , Type , Credit , Dates , ProductID " +
+                //" from fnOscpaTranscriptGetEducationUnitAggregate(:personId, :startDate, :endDate, :includeExternal, default, default) ";
+
+            string transcriptQuery = "SELECT Name,Location,Type,SUM(Credit),Dates FROM fnOscpaTranscriptGetEducationUnitAggregate(:personId, :startDate, :endDate, :includeExternal, default, default) Group BY Name,Location,Type,Dates";
 
             var transcriptData = session.CreateSQLQuery(transcriptQuery)
                 .SetParameter("personId", personId)
@@ -117,7 +119,7 @@ namespace AptifyWebApi.Controllers {
                     CreditTypeCode = Convert.ToString(row[2]),
                     Credits = Convert.ToDecimal(row[3]),
                     FormattedDates = Convert.ToString(row[4]),
-                    ProductId = Convert.ToInt32(row[5])
+                    //ProductId = Convert.ToInt32(row[5])
                 });
                     
             }
