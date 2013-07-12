@@ -13,5 +13,6 @@ namespace AptifyWebApi.Models {
         public virtual int RecordId { get; set; }
         public virtual DateTime DateCreated { get; set; }
         public virtual string Status { get; set; }
+		public virtual byte[] BlobData { get; set; }
     }
 }

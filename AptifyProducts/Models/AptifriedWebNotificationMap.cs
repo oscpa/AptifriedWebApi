@@ -12,6 +12,8 @@ namespace AptifyWebApi.Models {
 			Map(x => x.DateCreated);
 			Map(x => x.Name);
 			Map(x => x.Description);
+			Map(x => x.Seen);
+			Map(x => x.PersonId).Column("PersonID");
 		}
 	}
 }

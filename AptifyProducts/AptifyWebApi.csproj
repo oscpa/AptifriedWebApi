@@ -405,6 +405,7 @@
     <Compile Include="Controllers\AptifriedConferenceAttendanceSesSelController.cs" />
     <Compile Include="Controllers\AptifriedConferenceMeetingSessionSesSelController.cs" />
     <Compile Include="Controllers\AptifriedConferenceMeetingSesSelController.cs" />
+    <Compile Include="Controllers\AptifriedCPECertificateController.cs" />
     <Compile Include="Controllers\AptifriedEducationUnitController.cs" />
     <Compile Include="Controllers\AptifriedExamController.cs" />
     <Compile Include="Controllers\AptifriedMeetingController.cs" />
@@ -423,6 +424,7 @@
     <Compile Include="Controllers\AptifriedProductAttachmentWithThumbnailsController.cs" />
     <Compile Include="Controllers\AptifriedProductRelationController.cs" />
     <Compile Include="Controllers\AptifriedWebCartController.cs" />
+    <Compile Include="Controllers\AptifriedWebNotificationController.cs" />
     <Compile Include="Controllers\AptifriedWebUserController.cs" />
     <Compile Include="Controllers\AptifyEnabledApiController.cs" />
     <Compile Include="Controllers\AuthorizationController.cs" />
@@ -436,6 +438,7 @@
     <Compile Include="Dto\AptifriedAttendeeStatusDto.cs" />
     <Compile Include="Dto\AptifriedCampaignDto.cs" />
     <Compile Include="Dto\AptifriedCampaignListDetailDto.cs" />
+    <Compile Include="Dto\AptifriedCPECertificateDto.cs" />
     <Compile Include="Dto\AptifriedCpeCreditAdjustmentTypeDto.cs" />
     <Compile Include="Dto\AptifriedEducationUnitAggregateDto.cs" />
     <Compile Include="Dto\AptifriedEducationUnitDto.cs" />

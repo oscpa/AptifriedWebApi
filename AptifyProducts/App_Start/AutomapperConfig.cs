@@ -65,6 +65,8 @@ namespace AptifyWebApi {
 			Mapper.CreateMap<AptifriedMemberStatusType, AptifriedMemberStatusTypeDto>();
 			Mapper.CreateMap<AptifriedMemberType, AptifriedMemberTypeDto>();
 
+			Mapper.CreateMap<AptifriedWebNotification, AptifriedWebNotificationDto>();
+
 			Mapper.CreateMap<AptifriedPaymentType, AptifriedPaymentTypeDto>();
 
 			Mapper.CreateMap<AptifriedPerson, AptifriedPersonDto>();
