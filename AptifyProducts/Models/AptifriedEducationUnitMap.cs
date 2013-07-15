@@ -1,12 +1,15 @@
-﻿using FluentNHibernate.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿#region using
 
-namespace AptifyWebApi.Models {
-    public class AptifriedEducationUnitMap : ClassMap<AptifriedEducationUnit> {
-        public AptifriedEducationUnitMap() {
+using FluentNHibernate.Mapping;
+
+#endregion
+
+namespace AptifyWebApi.Models.Aptifried
+{
+    public class AptifriedEducationUnitMap : ClassMap<AptifriedEducationUnit>
+    {
+        public AptifriedEducationUnitMap()
+        {
             Table("vwEducationUnits");
             Id(x => x.Id);
             References(x => x.Person).Column("PersonID");

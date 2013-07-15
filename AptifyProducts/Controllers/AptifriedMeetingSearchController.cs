@@ -1,45 +1,44 @@
-﻿using AptifyWebApi.Dto;
-using AptifyWebApi.Models;
-using AptifyWebApi.Factories;
-using AutoMapper;
-using NHibernate;
+﻿#region using
+
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web;
+using AptifyWebApi.Dto;
+using AptifyWebApi.Helpers;
+using AptifyWebApi.Models.Dto.Meeting;
+using AptifyWebApi.Repository;
+using AutoMapper;
+using NHibernate;
 
+#endregion
 
-namespace AptifyWebApi.Controllers {
-    public class AptifriedMeetingSearchController : AptifyEnabledApiController {
-
-        public AptifriedMeetingSearchController(ISession session) : base(session) { }
-
-        public IList<AptifriedMeetingDto> Post(AptifriedMeetingSearchDto search) {
-			// If search is null, throw an error
-			if (search == null) {
-				throw new HttpException(500, "Post must contain a search object", new ArgumentException("search"));
-				return null;
-			}
-
-            IList<AptifriedMeetingDto> resultingMeetings = new List<AptifriedMeetingDto>();
-
-            var queryAndParams = MeetingSearchUtils.BuildFullQuery(search);
-
-            var meetingQuery = session.CreateSQLQuery(queryAndParams.FullQuery)
-                .AddEntity("mt", typeof(AptifriedMeeting));
-
-            foreach (string paramKey in queryAndParams.QueryParams.Keys) {
-                meetingQuery.SetParameter(paramKey, queryAndParams.QueryParams[paramKey].ToString());
-            }
-
-            var meetings = meetingQuery.List<AptifriedMeeting>();
-            resultingMeetings = Mapper.Map(meetings, new List<AptifriedMeetingDto>());
-
-            return resultingMeetings;
+namespace AptifyWebApi.Controllers
+{
+    public class AptifriedMeetingSearchController : AptifyEnabledApiController
+    {
+        public AptifriedMeetingSearchController(ISession session) : base(session)
+        {
         }
 
+        public AptifriedMeetingSearchDto Get()
+        {
+            return new AptifriedMeetingSearchDto
+                {
+                    MeetingTypes = session.GetInitMeetingTypeDto()
+                };
+        }
 
+        public IList<AptifriedMeetingDto> Post(AptifriedMeetingSearchDto search)
+        {
+            // If search is null, throw an error
+            if (search.IsNull())
+                throw new HttpException(500, "Post must contain a search object", new ArgumentException("search"));
 
+            var res = new SearchRepository(session).Search(search, true);
+
+            var results = Mapper.Map(res, new List<AptifriedMeetingDto>());
+
+            return results;
+        }
     }
 }

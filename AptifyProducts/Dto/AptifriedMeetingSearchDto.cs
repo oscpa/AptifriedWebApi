@@ -1,11 +1,18 @@
-﻿using System;
+﻿#region using
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using AptifyWebApi.Helpers;
+using AptifyWebApi.Models.Dto.Meeting;
 
-namespace AptifyWebApi.Dto {
-    public class AptifriedMeetingSearchDto {
-        public IList<string> MeetingType { get; set; }
+#endregion
+
+namespace AptifyWebApi.Dto
+{
+    public class AptifriedMeetingSearchDto
+    {
+        public IList<AptifriedMeetingTypeDto> MeetingTypes { get; set; }
         public IList<int> Levels { get; set; }
         public string SearchText { get; set; }
         public DateTime? StartDate { get; set; }
@@ -13,6 +20,36 @@ namespace AptifyWebApi.Dto {
         public IList<AptifriedMeetingEductionUnitsDto> CreditTypes { get; set; }
         public int MilesDistance { get; set; }
         public string Zip { get; set; }
-        
+
+        public bool IsDateSearch
+        {
+            get { return StartDate.HasValue | EndDate.HasValue; }
+        }
+
+        public bool HasCreditTypes
+        {
+            get { return CreditTypes != null && CreditTypes.Any(); }
+        }
+
+        public bool IsKeywordSearch
+        {
+            get { return !string.IsNullOrWhiteSpace(SearchText); }
+        }
+
+        public bool IsZipSearch
+        {
+            get { return !Zip.IsNull() && MilesDistance > 0; }
+        }
+
+        public bool HasLevels
+        {
+            get { return Levels != null && Levels.Any(); }
+        }
+
+        public bool HasMeetingTypes
+        {
+            //initialized && has types
+            get { return !MeetingTypes.IsNull() && MeetingTypes.Any(); }
+        }
     }
 }

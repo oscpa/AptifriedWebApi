@@ -130,8 +130,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyUtility.dll</HintPath>
     </Reference>
-    <Reference Include="AutoMapper">
-      <HintPath>..\packages\AutoMapper.2.2.0\lib\net40\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="BackOrders">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\BackOrders.dll</HintPath>
@@ -207,13 +208,13 @@
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\Metadata.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Data.Edm, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Data.Edm, Version=5.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Data.Edm.5.2.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+      <HintPath>packages\Microsoft.Data.Edm.5.5.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Data.OData, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Data.OData, Version=5.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Data.OData.5.2.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+      <HintPath>packages\Microsoft.Data.OData.5.5.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -228,8 +229,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate">
-      <HintPath>..\packages\NHibernate.3.3.2.4000\lib\Net35\NHibernate.dll</HintPath>
+    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\NHibernate.3.3.3.4000\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate.OData">
       <HintPath>..\packages\NHibernate.OData.0.2.4.0\lib\net35\NHibernate.OData.dll</HintPath>
@@ -306,9 +308,9 @@
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Spatial, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Spatial, Version=5.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\System.Spatial.5.2.0\lib\net40\System.Spatial.dll</HintPath>
+      <HintPath>packages\System.Spatial.5.5.0\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -442,10 +444,16 @@
     <Compile Include="Dto\AptifriedCpeCreditAdjustmentTypeDto.cs" />
     <Compile Include="Dto\AptifriedEducationUnitAggregateDto.cs" />
     <Compile Include="Dto\AptifriedEducationUnitDto.cs" />
+    <Compile Include="Dto\AptifriedMeetingSearchDto.cs" />
+    <Compile Include="Dto\AptifriedMeetingTypeDto.cs" />
     <Compile Include="Dto\AptifriedProductAttachmentWithThumbnailDto.cs" />
     <Compile Include="Dto\AptifriedProductRelationDto.cs" />
     <Compile Include="Dto\AptifriedProductRelationshipTypeDto.cs" />
     <Compile Include="Dto\AptifriedWebNotificationDto.cs" />
+    <Compile Include="Helpers\BaseHelper.cs" />
+    <Compile Include="Helpers\EnumHelper.cs" />
+    <Compile Include="Helpers\SearchHelper.cs" />
+    <Compile Include="Helpers\WebConfigHelper.cs" />
     <Compile Include="Models\AptifriedCampaignListDetailMap.cs" />
     <Compile Include="Dto\AptifriedCarouselElementDto.cs" />
     <Compile Include="Dto\AptifriedClassTextSearchResultDto.cs" />
@@ -461,13 +469,11 @@
     <Compile Include="Dto\AptifriedLicenseStatusDto.cs" />
     <Compile Include="Dto\AptifriedMeetingDto.cs" />
     <Compile Include="Dto\AptifriedMeetingExternalWebMediaContentDto.cs" />
-    <Compile Include="Dto\AptifriedMeetingSearchDto.cs" />
     <Compile Include="Dto\AptifriedMeetingStatusDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTextSearchResultDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTimeSpanDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTopicTrackDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTopicTrackProductDto.cs" />
-    <Compile Include="Dto\AptifriedMeetingTypeDto.cs" />
     <Compile Include="Dto\AptifriedMeetingWebMediaTypeDto.cs" />
     <Compile Include="Dto\AptifriedMemberClassificiationTypeDto.cs" />
     <Compile Include="Dto\AptifriedMemberStatusTypeDto.cs" />
@@ -504,7 +510,6 @@
     <Compile Include="Dto\SessionSelection\AptifriedMeetingSessionLogDto.cs" />
     <Compile Include="Dto\SessionSelection\AptifriedNewMeetingSessionDto.cs" />
     <Compile Include="Factories\AptifriedAuthorizationFactory.cs" />
-    <Compile Include="Factories\MeetingSearchUtils.cs" />
     <Compile Include="Factories\UnityDependencyResolver.cs" />
     <Compile Include="Formatters\JsonpMediaTypeFormatter.cs" />
     <Compile Include="Managers\PerRequestLifetimeManager.cs" />
@@ -631,6 +636,8 @@
     <Compile Include="Models\SessionSelection\AptifriedMeetingSessionLogMap.cs" />
     <Compile Include="Models\SessionSelection\AptifriedNewMeetingSession.cs" />
     <Compile Include="Models\SessionSelection\AptifriedNewMeetingSessionMap.cs" />
+    <Compile Include="Models\Shared\EnumsAndConstantsToAvoidDatabaseChanges.cs" />
+    <Compile Include="Repository\BaseRepository.cs" />
     <Compile Include="Repository\HibernatedAptifriedClassRepository.cs" />
     <Compile Include="Models\AptifriedCompany.cs" />
     <Compile Include="Models\AptifriedCourse.cs" />
@@ -640,6 +647,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\IAptifriedClassRepository.cs" />
     <Compile Include="Repository\NHibernateSessionManager.cs" />
+    <Compile Include="Repository\SearchRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />

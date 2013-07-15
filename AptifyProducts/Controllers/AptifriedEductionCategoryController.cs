@@ -1,5 +1,6 @@
 ﻿using AptifyWebApi.Dto;
 using AptifyWebApi.Models;
+using AptifyWebApi.Models.Aptifried;
 using AutoMapper;
 using NHibernate;
 using System;
