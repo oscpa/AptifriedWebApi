@@ -1,32 +1,30 @@
-﻿using AptifyWebApi.Attributes;
-using NHibernate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Web;
+﻿#region using
+
 using System.Web.Mvc;
+using NHibernate;
 
-namespace AptifyWebApi.Controllers {
-    public class HomeController : Controller {
+#endregion
 
+namespace AptifyWebApi.Controllers
+{
+    public class HomeController : Controller
+    {
         private ISession session;
 
-        public HomeController(ISession session) {
+        public HomeController(ISession session)
+        {
             this.session = session;
         }
 
-        
-        public ActionResult Index() {
+
+        public ActionResult Index()
+        {
             return View();
         }
 
-        public ActionResult SendAuthOver() {
-     
-
+        public ActionResult SendAuthOver()
+        {
             return View();
-
         }
     }
 }

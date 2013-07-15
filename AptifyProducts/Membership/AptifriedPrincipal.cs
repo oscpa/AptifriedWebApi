@@ -1,25 +1,29 @@
-﻿using AptifyWebApi.Factories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿#region using
+
 using System.Security.Principal;
-using System.Web;
+using AptifyWebApi.Repository;
 
-namespace AptifyWebApi.Membership {
-    public class AptifriedPrincipal : IPrincipal {
+#endregion
 
-        public AptifriedPrincipal(AptifriedIdentity identity) {
+namespace AptifyWebApi.Membership
+{
+    public class AptifriedPrincipal : IPrincipal
+    {
+        private readonly AptifriedIdentity identity;
+
+        public AptifriedPrincipal(AptifriedIdentity identity)
+        {
             this.identity = identity;
         }
 
-        private AptifriedIdentity identity;
-
-        public IIdentity Identity {
+        public IIdentity Identity
+        {
             get { return identity; }
         }
 
-        public bool IsInRole(string role) {
-            return AptifriedAuthorizationFactory.IsUserInRole(this.identity.Name, role);
+        public bool IsInRole(string role)
+        {
+            return AptifriedAuthorizationFactory.IsUserInRole(identity.Name, role);
         }
     }
 }

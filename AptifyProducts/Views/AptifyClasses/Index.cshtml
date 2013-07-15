@@ -9,7 +9,9 @@
     function viewModel() {
         var self = this;
         self.classes = ko.observableArray();
-    };
+    }
+
+    ;
 
     function searchClasses() {
 
@@ -21,24 +23,24 @@
             + "$orderby=Name desc"
             + "&$format=json"; // json request
 
-        $.getJSON(query, function (data) {
+        $.getJSON(query, function(data) {
             catchBinding(data, false);
         });
 
     }
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         var classPath = '@ViewBag.RouteUri';
-       
-        $.getJSON(classPath, function (data) {
+
+        $.getJSON(classPath, function(data) {
             catchBinding(data, true);
         });
     });
 
     function catchBinding(data, rebindData) {
-        
+
         viewModel.classes = data;
-        if (rebindData === true){
+        if (rebindData === true) {
             bindViewModel();
         }
     }
@@ -80,9 +82,8 @@
 
             <label for="textFilter">Name</label>
             <input id="textFilter" type="text">
-            <input type="button" id="btnLookup" value="Search" onclick="searchClasses()" />
+            <input type="button" id="btnLookup" value="Search" onclick=" searchClasses() " />
         </div>
     </div> 
 
 </div>
-

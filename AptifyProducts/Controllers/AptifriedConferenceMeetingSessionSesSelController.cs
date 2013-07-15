@@ -1,24 +1,30 @@
-﻿using AptifyWebApi.Dto;
+﻿#region using
+
+using System.Collections.Generic;
+using System.Web.Http;
 using AptifyWebApi.Models;
+using AptifyWebApi.Models.Dto;
+using AptifyWebApi.Models.Dto.Meeting;
+using AptifyWebApi.Models.Meeting;
 using AutoMapper;
 using NHibernate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
 
-namespace AptifyWebApi.Controllers {
-    public class AptifriedConferenceMeetingSessionSesSelController : ApiController {
+#endregion
 
-        private ISession session;
+namespace AptifyWebApi.Controllers
+{
+    public class AptifriedConferenceMeetingSessionSesSelController : ApiController
+    {
+        private readonly ISession session;
 
-        public AptifriedConferenceMeetingSessionSesSelController(ISession session) {
+        public AptifriedConferenceMeetingSessionSesSelController(ISession session)
+        {
             this.session = session;
         }
 
 
-        public IList<AptifriedMeetingDto> Get(int parentMeetingId) {
+        public IList<AptifriedMeetingDto> Get(int parentMeetingId)
+        {
             string parentMeetingQuery =
                 " Select	m.* " +
                 " from	vwMeetings m " +
@@ -27,9 +33,9 @@ namespace AptifyWebApi.Controllers {
                 " order by m.SessionNumber, m.StartDate ";
 
             var meetings = session.CreateSQLQuery(parentMeetingQuery)
-                .AddEntity("m", typeof(AptifriedMeeting))
-                .SetInt32("parentMeetingId", parentMeetingId)
-                .List<AptifriedMeeting>();
+                                  .AddEntity("m", typeof (AptifriedMeeting))
+                                  .SetInt32("parentMeetingId", parentMeetingId)
+                                  .List<AptifriedMeeting>();
 
 
             return Mapper.Map(meetings, new List<AptifriedMeetingDto>());

@@ -3,34 +3,34 @@
     Layout = "~/Views/Shared/_LayoutPageOscpaFineCitizens.cshtml";
 }
 
-@model IEnumerable<AptifyWebApi.Dto.AptifriedClassDto>
+@model IEnumerable<AptifyWebApi.Models.Dto.AptifriedClassDto>
 @Scripts.Render("~/bundles/barcode")
  
 
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('div.code39').barcode({ code: 'code39' });
     });
 </script>
 
-<table style="width:100%">
+<table style="width: 100%">
 
-@foreach (var classModel in Model) {
-    
-    <tr>
-        <td>
-             @classModel.Name
-        </td>
-        <td>
+    @foreach (var classModel in Model)
+    {
+        <tr>
+            <td>
+                @classModel.Name
+            </td>
+            <td>
            
-            <div class="code39" style="width:150px;height:20px;" >
-                @classModel.Id
-            </div>
-        </td>
-        <td>
-            <div style="border-width:1px;border-color:black;border-style:solid;width:10px;height10px;">&nbsp;</div>
-        </td>
-    </tr>
-}
+                <div class="code39" style="width: 150px; height: 20px;" >
+                    @classModel.Id
+                </div>
+            </td>
+            <td>
+                <div style="border-width: 1px; border-color: black; border-style: solid; width: 10px; height10px;">&nbsp;</div>
+            </td>
+        </tr>
+    }
 
 </table>

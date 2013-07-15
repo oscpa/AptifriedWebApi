@@ -1,30 +1,40 @@
-﻿using NHibernate;
-using System;
+﻿#region using
+
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
-using AptifyWebApi.Dto;
 using AptifyWebApi.Models;
-using NHibernate.OData;
+using AptifyWebApi.Models.Dto;
+using AptifyWebApi.Models.Dto.Meeting;
+using AptifyWebApi.Models.Meeting;
 using AutoMapper;
+using NHibernate;
+using NHibernate.OData;
 
+#endregion
 
-namespace AptifyWebApi.Controllers {
-    public class AptifriedMeetingTopicTrackController : AptifyEnabledApiController {
-        public AptifriedMeetingTopicTrackController(ISession session) : base(session) { }
+namespace AptifyWebApi.Controllers
+{
+    public class AptifriedMeetingTopicTrackController : AptifyEnabledApiController
+    {
+        public AptifriedMeetingTopicTrackController(ISession session) : base(session)
+        {
+        }
 
-        public IList<AptifriedMeetingTopicTrackDto> Get() {
-
+        public IList<AptifriedMeetingTopicTrackDto> Get()
+        {
             var queryString = Request.RequestUri.Query;
             ICriteria queryCriteria = session.CreateCriteria<AptifriedMeetingTopicTrack>();
-            try {
-                if (!string.IsNullOrEmpty(queryString) && queryString.Contains("?")) {
+            try
+            {
+                if (!string.IsNullOrEmpty(queryString) && queryString.Contains("?"))
+                {
                     queryString = queryString.Remove(0, 1);
                 }
-                queryCriteria = ODataParser.ODataQuery<AptifriedMeetingTopicTrack>
-                    (session, queryString);
-            } catch (NHibernate.OData.ODataException odataException) {
-                throw new System.Web.HttpException(500, "Homie don't play that.", odataException);
+                queryCriteria = session.ODataQuery<AptifriedMeetingTopicTrack>(queryString);
+            }
+            catch (ODataException odataException)
+            {
+                throw new HttpException(500, "Homie don't play that.", odataException);
             }
             var hibernatedCol = queryCriteria.List<AptifriedMeetingTopicTrack>();
             IList<AptifriedMeetingTopicTrackDto> tracksDto = new List<AptifriedMeetingTopicTrackDto>();

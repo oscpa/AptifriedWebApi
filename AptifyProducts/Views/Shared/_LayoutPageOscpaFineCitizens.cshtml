@@ -1,70 +1,72 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-<head runat="server">
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, target-densitydpi=device-dpi, initial-scale=1, maximum-scale=1">
-    <title>@ViewBag.Title</title>
-    <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-	<script type="text/javascript" src="//use.typekit.net/vpo0tix.js"></script>
-	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-    @Styles.Render("~/content/themes/OscpaFineCitizens")
+    <head runat="server">
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, target-densitydpi=device-dpi, initial-scale=1, maximum-scale=1">
+        <title>@ViewBag.Title</title>
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="//use.typekit.net/vpo0tix.js"></script>
+        <script type="text/javascript"> try {
+        Typekit.load();
+    } catch(e) {
+    } </script>
+        @Styles.Render("~/content/themes/OscpaFineCitizens")
 
 
-    @Scripts.Render("~/bundles/knockout")
-    @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jquery")
-</head>
-<body>
+        @Scripts.Render("~/bundles/knockout")
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/jquery")
+    </head>
+    <body>
 
-    <div id="outer">
-		<div id="container">
+        <div id="outer">
+            <div id="container">
 
-            <header style="height:25em;">
+                <header style="height: 25em;">
 			
-                	@RenderSection("social_links", false)
-				<ul class="search inline-list">
-					<li>@RenderSection("cart", false)</li>
-					<li>@RenderSection("sign_in", false)</li>
-					<li class='searchBox'>@RenderSection("search", false) </li>
-				</ul>
-				@RenderSection("quick_links", false)
-				@RenderSection("main_menu", false)
-				@RenderSection("mobile_main_menu", false)
-				<a href="/">
-				<div class="logo"></div>
-				</a>
-			</header>
-			<section id="header_image">
-				<div class="header_show">
-					@RenderSection("header_image", false)
-				</div>
-			</section>
-			<div id="main_content">
-				<section class="content">
-					<article class="CTA">
-						@RenderSection("CTA", false)
-					</article>
-					<article class="wide_ad">
-						@RenderSection("wide_ad",false)
-					</article>
-					<article class="stories">
-						@RenderBody()
-					</article>
-				</section>
-				<footer>
-					<section>
-						<div class="footer_logo"></div>
-						<div class="divider"></div>
-						<div class="contentSizer">@RenderSection("footer_content", false)</div>
-						<div class="advertise">@RenderSection("advertise", false)</div>
-					</section>
-				</footer>
-			</div>
-		</div>
-    </div>
-</body>
+                    @RenderSection("social_links", false)
+                    <ul class="search inline-list">
+                        <li>@RenderSection("cart", false)</li>
+                        <li>@RenderSection("sign_in", false)</li>
+                        <li class='searchBox'>@RenderSection("search", false) </li>
+                    </ul>
+                    @RenderSection("quick_links", false)
+                    @RenderSection("main_menu", false)
+                    @RenderSection("mobile_main_menu", false)
+                    <a href="/">
+                        <div class="logo"></div>
+                    </a>
+                </header>
+                <section id="header_image">
+                    <div class="header_show">
+                        @RenderSection("header_image", false)
+                    </div>
+                </section>
+                <div id="main_content">
+                    <section class="content">
+                        <article class="CTA">
+                            @RenderSection("CTA", false)
+                        </article>
+                        <article class="wide_ad">
+                            @RenderSection("wide_ad", false)
+                        </article>
+                        <article class="stories">
+                            @RenderBody()
+                        </article>
+                    </section>
+                    <footer>
+                        <section>
+                            <div class="footer_logo"></div>
+                            <div class="divider"></div>
+                            <div class="contentSizer">@RenderSection("footer_content", false)</div>
+                            <div class="advertise">@RenderSection("advertise", false)</div>
+                        </section>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
-

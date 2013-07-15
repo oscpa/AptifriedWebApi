@@ -1,39 +1,48 @@
-﻿using AptifyWebApi.Dto;
+﻿#region using
+
+using System.Collections.Generic;
+using System.Web;
+using System.Web.Http;
 using AptifyWebApi.Models;
+using AptifyWebApi.Models.Aptifried;
+using AptifyWebApi.Models.Dto;
 using AutoMapper;
 using NHibernate;
 using NHibernate.OData;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
-namespace AptifyWebApi.Controllers {
-    [System.Web.Http.Authorize]
-    public class AptifriedExamController : AptifyEnabledApiController {
+#endregion
 
-        public AptifriedExamController(ISession session) : base(session) { }
+namespace AptifyWebApi.Controllers
+{
+    [Authorize]
+    public class AptifriedExamController : AptifyEnabledApiController
+    {
+        public AptifriedExamController(ISession session) : base(session)
+        {
+        }
 
-        public IList<AptifriedExamDto> Get() {
-
+        public IList<AptifriedExamDto> Get()
+        {
             // Use the odata query parsing engine to 
             // try to limit hits to the database.
             var queryString = Request.RequestUri.Query;
             ICriteria queryCriteria = session.CreateCriteria<AptifriedExam>();
-            try {
-                if (!string.IsNullOrEmpty(queryString) && queryString.Contains("?")) {
+            try
+            {
+                if (!string.IsNullOrEmpty(queryString) && queryString.Contains("?"))
+                {
                     queryString = queryString.Remove(0, 1);
                 }
-                queryCriteria = ODataParser.ODataQuery<AptifriedExam>
-                    (session, queryString);
-            } catch (NHibernate.OData.ODataException odataException) {
-                throw new System.Web.HttpException(500, "Homie don't play that.", odataException);
+                queryCriteria = session.ODataQuery<AptifriedExam>(queryString);
+            }
+            catch (ODataException odataException)
+            {
+                throw new HttpException(500, "Homie don't play that.", odataException);
             }
             var hibernatedCol = queryCriteria.List<AptifriedExam>();
             IList<AptifriedExamDto> examDto = new List<AptifriedExamDto>();
             examDto = Mapper.Map(hibernatedCol, new List<AptifriedExamDto>());
             return examDto;
         }
-
     }
 }

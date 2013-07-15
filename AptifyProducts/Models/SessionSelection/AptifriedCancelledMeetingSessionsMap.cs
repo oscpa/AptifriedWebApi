@@ -1,12 +1,15 @@
-﻿using FluentNHibernate.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿#region using
 
-namespace AptifyWebApi.Models.SessionSelection {
-    public class AptifriedCancelledMeetingSessionsMap : ClassMap<AptifriedCancelledMeetingSessions> {
-        public AptifriedCancelledMeetingSessionsMap() {
+using FluentNHibernate.Mapping;
+
+#endregion
+
+namespace AptifyWebApi.Models.SessionSelection
+{
+    public class AptifriedCancelledMeetingSessionsMap : ClassMap<AptifriedCancelledMeetingSessions>
+    {
+        public AptifriedCancelledMeetingSessionsMap()
+        {
             Table("vwOSCPACancelledMeetingSessions");
             Id(x => x.Id);
             Map(x => x.Sequence);

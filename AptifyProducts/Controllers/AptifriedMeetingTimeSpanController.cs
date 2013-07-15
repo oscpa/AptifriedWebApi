@@ -1,28 +1,40 @@
-﻿using AptifyWebApi.Dto;
+﻿#region using
+
+using System.Collections.Generic;
+using System.Web;
 using AptifyWebApi.Models;
+using AptifyWebApi.Models.Dto;
+using AptifyWebApi.Models.Dto.Meeting;
+using AptifyWebApi.Models.Meeting;
 using AutoMapper;
 using NHibernate;
 using NHibernate.OData;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
-namespace AptifyWebApi.Controllers {
-    public class AptifriedMeetingTimeSpanController : AptifyEnabledApiController {
-        public AptifriedMeetingTimeSpanController(ISession session) : base(session) { }
+#endregion
 
-        public IList<AptifriedMeetingTimeSpanDto> Get() {
+namespace AptifyWebApi.Controllers
+{
+    public class AptifriedMeetingTimeSpanController : AptifyEnabledApiController
+    {
+        public AptifriedMeetingTimeSpanController(ISession session) : base(session)
+        {
+        }
+
+        public IList<AptifriedMeetingTimeSpanDto> Get()
+        {
             var queryString = Request.RequestUri.Query;
             ICriteria queryCriteria = session.CreateCriteria<AptifriedMeetingTimeSpan>();
-            try {
-                if (!string.IsNullOrEmpty(queryString) && queryString.Contains("?")) {
+            try
+            {
+                if (!string.IsNullOrEmpty(queryString) && queryString.Contains("?"))
+                {
                     queryString = queryString.Remove(0, 1);
                 }
-                queryCriteria = ODataParser.ODataQuery<AptifriedMeetingTimeSpan>
-                    (session, queryString);
-            } catch (NHibernate.OData.ODataException odataException) {
-                throw new System.Web.HttpException(500, "Homie don't play that.", odataException);
+                queryCriteria = session.ODataQuery<AptifriedMeetingTimeSpan>(queryString);
+            }
+            catch (ODataException odataException)
+            {
+                throw new HttpException(500, "Homie don't play that.", odataException);
             }
             var hibernatedCol = queryCriteria.List<AptifriedMeetingTimeSpan>();
             IList<AptifriedMeetingTimeSpanDto> timeSlotsDto = new List<AptifriedMeetingTimeSpanDto>();

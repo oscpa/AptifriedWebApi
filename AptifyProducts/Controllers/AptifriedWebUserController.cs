@@ -1,38 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿#region using
+
 using System.Web;
 using Aptify.Framework.BusinessLogic.GenericEntity;
-using AptifyWebApi.Dto;
+using AptifyWebApi.Models.Dto;
 using NHibernate;
 
-namespace AptifyWebApi.Controllers {
-	public class AptifriedWebUserController : AptifyEnabledApiController {
-		public AptifriedWebUserController(ISession session) : base(session) { }
+#endregion
 
-		public AptifriedWebUserDto Put(AptifriedWebUserDto webUserDto) {
-			return createWebUser(webUserDto);
-		}
+namespace AptifyWebApi.Controllers
+{
+    public class AptifriedWebUserController : AptifyEnabledApiController
+    {
+        public AptifriedWebUserController(ISession session) : base(session)
+        {
+        }
 
-		private AptifriedWebUserDto createWebUser(AptifriedWebUserDto webUserDto) {
-			AptifyGenericEntityBase webUserGE = AptifyApp.GetEntityObject("Web Users", -1);
-			if (webUserGE == null) {
-				throw new HttpException(500, "Error creating new web user");
-			}
+        public AptifriedWebUserDto Put(AptifriedWebUserDto webUserDto)
+        {
+            return createWebUser(webUserDto);
+        }
 
-			webUserGE.SetValue("UserID", webUserDto.UserName);
-			webUserGE.SetValue("PWD", webUserDto.Password);
-			webUserGE.SetValue("FirstName", webUserDto.FirstName);
-			webUserGE.SetValue("LastName", webUserDto.LastName);
-			webUserGE.SetValue("Email", webUserDto.Email);
-			webUserGE.SetValue("Disabled", false);
-			webUserGE.SetValue("LinkID", webUserDto.LinkId);
+        private AptifriedWebUserDto createWebUser(AptifriedWebUserDto webUserDto)
+        {
+            AptifyGenericEntityBase webUserGE = AptifyApp.GetEntityObject("Web Users", -1);
+            if (webUserGE == null)
+            {
+                throw new HttpException(500, "Error creating new web user");
+            }
 
-			if (!webUserGE.Save(false)) {
-				throw new HttpException(500, "Error saving new web user: " + webUserGE.LastUserError);
-			}
+            webUserGE.SetValue("UserID", webUserDto.UserName);
+            webUserGE.SetValue("PWD", webUserDto.Password);
+            webUserGE.SetValue("FirstName", webUserDto.FirstName);
+            webUserGE.SetValue("LastName", webUserDto.LastName);
+            webUserGE.SetValue("Email", webUserDto.Email);
+            webUserGE.SetValue("Disabled", false);
+            webUserGE.SetValue("LinkID", webUserDto.LinkId);
 
-			return webUserDto;
-		}
-	}
+            if (!webUserGE.Save(false))
+            {
+                throw new HttpException(500, "Error saving new web user: " + webUserGE.LastUserError);
+            }
+
+            return webUserDto;
+        }
+    }
 }

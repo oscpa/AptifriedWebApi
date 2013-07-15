@@ -1,84 +1,110 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿#region using
+
+using System;
+using System.Configuration;
+using System.Net;
 using System.Net.Mail;
 using System.Web;
-using AptifyWebApi.Dto;
+using AptifyWebApi.Models.Dto;
 using NHibernate;
 
-namespace AptifyWebApi.Controllers {
-	public class AptifriedAccountCreationController : AptifyEnabledApiController {
-		public AptifriedAccountCreationController(ISession session) : base(session) { }
+#endregion
 
-		public AptifriedPersonDto Put(AptifriedPersonDto personDto) {
-			return createPersonAndWebUser(personDto);
-		}
+namespace AptifyWebApi.Controllers
+{
+    public class AptifriedAccountCreationController : AptifyEnabledApiController
+    {
+        public AptifriedAccountCreationController(ISession session) : base(session)
+        {
+        }
 
-		private AptifriedPersonDto createPersonAndWebUser(AptifriedPersonDto personDto) {
-			AptifriedPersonController personController = new AptifriedPersonController(session);
-			AptifriedPersonDto createdPersonDto = personController.Put(personDto);
+        public AptifriedPersonDto Put(AptifriedPersonDto personDto)
+        {
+            return createPersonAndWebUser(personDto);
+        }
 
-			if (createdPersonDto != null) {
-				AptifriedWebUserController webUserController = new AptifriedWebUserController(session);
+        private AptifriedPersonDto createPersonAndWebUser(AptifriedPersonDto personDto)
+        {
+            var personController = new AptifriedPersonController(session);
+            AptifriedPersonDto createdPersonDto = personController.Put(personDto);
 
-				String password = getNewPassword(16);
+            if (createdPersonDto != null)
+            {
+                var webUserController = new AptifriedWebUserController(session);
 
-				AptifriedWebUserDto createdWebUserDto = webUserController.Put(
-					new AptifriedWebUserDto() {
-						LinkId = createdPersonDto.Id,
-						Email = createdPersonDto.Email,
-						UserName = createdPersonDto.Email,
-						Password = password,
-						FirstName = createdPersonDto.FirstName,
-						LastName = createdPersonDto.LastName
-					}
-				);
+                String password = getNewPassword(16);
 
-				if (createdPersonDto != null) {
-					if (sendEmail(createdPersonDto.Email, password)) {
-						return createdPersonDto;
-					}
-				}
-			}
+                AptifriedWebUserDto createdWebUserDto = webUserController.Put(
+                    new AptifriedWebUserDto
+                        {
+                            LinkId = createdPersonDto.Id,
+                            Email = createdPersonDto.Email,
+                            UserName = createdPersonDto.Email,
+                            Password = password,
+                            FirstName = createdPersonDto.FirstName,
+                            LastName = createdPersonDto.LastName
+                        }
+                    );
 
-			return null;
-		}
+                if (createdPersonDto != null)
+                {
+                    if (sendEmail(createdPersonDto.Email, password))
+                    {
+                        return createdPersonDto;
+                    }
+                }
+            }
 
-		private bool sendEmail(string email, string password) {
-			SmtpClient client = new SmtpClient();
-			MailMessage msg = new MailMessage();
+            return null;
+        }
 
-			msg.To.Add(new MailAddress(email));
-			msg.From = new MailAddress("website@ohiocpa.net");
-			msg.Subject = "OSCPA Store Account Successfully Created!";
-			msg.Body = "Thank you for creating an account at the OSCPA Store. Please log in using your email address as your username and your temporary password, which should be changed immediately: " + password;
-			msg.IsBodyHtml = false;
+        private bool sendEmail(string email, string password)
+        {
+            var client = new SmtpClient();
+            var msg = new MailMessage();
 
-			string defCreds = System.Configuration.ConfigurationManager.AppSettings["UseDefaultCredentials"];
-			if (string.Compare(defCreds, string.Empty) == 0) {
-				client.UseDefaultCredentials = false;
-			} else {
-				client.UseDefaultCredentials = Convert.ToBoolean(defCreds);
-			}
+            msg.To.Add(new MailAddress(email));
+            msg.From = new MailAddress("website@ohiocpa.net");
+            msg.Subject = "OSCPA Store Account Successfully Created!";
+            msg.Body =
+                "Thank you for creating an account at the OSCPA Store. Please log in using your email address as your username and your temporary password, which should be changed immediately: " +
+                password;
+            msg.IsBodyHtml = false;
 
-			if (!client.UseDefaultCredentials) {
-				System.Net.NetworkCredential basicAuth = new System.Net.NetworkCredential(System.Configuration.ConfigurationManager.AppSettings["MailUserName"], System.Configuration.ConfigurationManager.AppSettings["MailPassword"]);
-				client.Credentials = basicAuth;
-			}
+            string defCreds = ConfigurationManager.AppSettings["UseDefaultCredentials"];
+            if (string.Compare(defCreds, string.Empty) == 0)
+            {
+                client.UseDefaultCredentials = false;
+            }
+            else
+            {
+                client.UseDefaultCredentials = Convert.ToBoolean(defCreds);
+            }
 
-			client.Host = "mail.ohiocpa.net";
+            if (!client.UseDefaultCredentials)
+            {
+                var basicAuth = new NetworkCredential(ConfigurationManager.AppSettings["MailUserName"],
+                                                      ConfigurationManager.AppSettings["MailPassword"]);
+                client.Credentials = basicAuth;
+            }
 
-			try {
-				client.Send(msg);
-			} catch (Exception e) {
-				throw new HttpException(500, e.Message);
-			}
+            client.Host = "mail.ohiocpa.net";
 
-			return true;
-		}
+            try
+            {
+                client.Send(msg);
+            }
+            catch (Exception e)
+            {
+                throw new HttpException(500, e.Message);
+            }
 
-		private string getNewPassword(int length) {
-			return System.Web.Security.Membership.GeneratePassword(length, (int) Math.Floor((double) length / 4));
-		}
-	}
+            return true;
+        }
+
+        private string getNewPassword(int length)
+        {
+            return System.Web.Security.Membership.GeneratePassword(length, (int) Math.Floor((double) length/4));
+        }
+    }
 }

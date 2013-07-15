@@ -1,36 +1,48 @@
-﻿using AptifyWebApi.Dto;
+﻿#region using
+
+using System.Collections.Generic;
+using System.Web;
+using System.Web.Http;
 using AptifyWebApi.Models;
+using AptifyWebApi.Models.Aptifried;
+using AptifyWebApi.Models.Dto;
 using AutoMapper;
 using NHibernate;
+using NHibernate.Criterion;
 using NHibernate.OData;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
-namespace AptifyWebApi.Controllers {
-    [System.Web.Http.Authorize]
-    public class AptifriedCompletedOrderController : AptifyEnabledApiController {
-        public AptifriedCompletedOrderController(ISession session) : base(session) { }
-        
-        public IEnumerable<AptifriedCompletedOrderDto> Get() {
+#endregion
 
+namespace AptifyWebApi.Controllers
+{
+    [Authorize]
+    public class AptifriedCompletedOrderController : AptifyEnabledApiController
+    {
+        public AptifriedCompletedOrderController(ISession session) : base(session)
+        {
+        }
+
+        public IEnumerable<AptifriedCompletedOrderDto> Get()
+        {
             // Use the odata query parsing engine to 
             // try to limit hits to the database.
             var queryString = Request.RequestUri.Query;
             ICriteria queryCriteria = session.CreateCriteria<AptifriedOrder>();
-            try {
-                if (!string.IsNullOrEmpty(queryString) && queryString.Contains("?")) {
+            try
+            {
+                if (!string.IsNullOrEmpty(queryString) && queryString.Contains("?"))
+                {
                     queryString = queryString.Remove(0, 1);
                 }
-                queryCriteria = ODataParser.ODataQuery<AptifriedOrder>
-                    (session, queryString);
-            } catch (NHibernate.OData.ODataException odataException) {
-                throw new System.Web.HttpException(500, "Homie don't play that.", odataException);
+                queryCriteria = session.ODataQuery<AptifriedOrder>(queryString);
+            }
+            catch (ODataException odataException)
+            {
+                throw new HttpException(500, "Homie don't play that.", odataException);
             }
 
             // only allow orders that are associated with the requesting user.
-            queryCriteria.Add(NHibernate.Criterion.Expression.Eq("ShipToPerson.Id", AptifyUser.PersonId));
+            queryCriteria.Add(Restrictions.Eq("ShipToPerson.Id", AptifyUser.PersonId));
 
 
             var hibernatedCol = queryCriteria.List<AptifriedOrder>();

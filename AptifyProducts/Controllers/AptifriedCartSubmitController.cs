@@ -1,28 +1,37 @@
-﻿using Aptify.Applications.OrderEntry;
-using AptifyWebApi.Dto;
-using AptifyWebApi.Models;
-using AutoMapper;
-using NHibernate;
+﻿#region using
+
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using Aptify.Applications.OrderEntry;
+using Aptify.Framework.BusinessLogic.GenericEntity;
+using AptifyWebApi.Models;
+using AptifyWebApi.Models.Aptifried;
+using AptifyWebApi.Models.Dto;
+using AutoMapper;
+using NHibernate;
 
-namespace AptifyWebApi.Controllers {
+#endregion
+
+namespace AptifyWebApi.Controllers
+{
     [Authorize]
-    public class AptifriedCartSubmitController : AptifyEnabledApiController {
-        public AptifriedCartSubmitController(ISession session) : base(session) { }
+    public class AptifriedCartSubmitController : AptifyEnabledApiController
+    {
+        public AptifriedCartSubmitController(ISession session) : base(session)
+        {
+        }
 
-        public AptifriedOrderDto Post(AptifriedWebShoppingCartSubmitRequestDto submitRequest) {
+        public AptifriedOrderDto Post(AptifriedWebShoppingCartSubmitRequestDto submitRequest)
+        {
             AptifriedOrderDto resultingOrder = null;
-            Aptify.Framework.BusinessLogic.GenericEntity.AptifyGenericEntityBase orderGe = null;
-            Aptify.Framework.BusinessLogic.GenericEntity.AptifyGenericEntityBase webShoppingCartGe = null;
+            AptifyGenericEntityBase orderGe = null;
+            AptifyGenericEntityBase webShoppingCartGe = null;
 
             if (submitRequest == null)
-                throw new HttpException(500, "Post must contain the submitRequest", new ArgumentException("submitRequest"));
+                throw new HttpException(500, "Post must contain the submitRequest",
+                                        new ArgumentException("submitRequest"));
 
             var existingCarts = GetCarts(submitRequest.SavedShoppingCartId);
 
@@ -34,18 +43,17 @@ namespace AptifyWebApi.Controllers {
 
             OrdersEntity orderProper = null;
 
-            if (existingCarts[0].OrderId > 0) {
-
-                orderProper = (OrdersEntity)AptifyApp.GetEntityObject("Orders", existingCarts[0].OrderId);
+            if (existingCarts[0].OrderId > 0)
+            {
+                orderProper = (OrdersEntity) AptifyApp.GetEntityObject("Orders", existingCarts[0].OrderId);
                 if (orderProper.OrderStatus == OrderStatus.Shipped)
                     throw new HttpException(500, "This cart has already been submitted");
-
-            } else {
-
+            }
+            else
+            {
                 var cartController = new AptifriedCartController(session);
                 AptifriedWebShoppingCartDto cartResult;
                 cartController.GetOrderEntity(existingCarts[0], out cartResult, out orderProper);
-                
             }
 
             if ((orderProper.GetValue("OrderDate", true) == null))
@@ -56,7 +64,8 @@ namespace AptifyWebApi.Controllers {
             orderProper.EmployeeID = 1; //ebiz
 
             // if it's a free product, then we need to ignore payment.
-            if (orderProper.GrandTotal > 0) {
+            if (orderProper.GrandTotal > 0)
+            {
                 orderProper.SetAddValue("InitialPaymentAmount", orderProper.GrandTotal);
                 orderProper.SetAddValue("PayTypeID", submitRequest.PaymentTypeId);
                 orderProper.SetAddValue("CCAccountNumber", submitRequest.CardNumber);
@@ -69,7 +78,8 @@ namespace AptifyWebApi.Controllers {
             orderProper.SetAddValue("OrderLevelID", 1);
             orderProper.SetAddValue("OrderLevel", "Regular");
 
-            if (((Aptify.Framework.BusinessLogic.GenericEntity.AptifyGenericEntityBase)orderProper).Save(false)) {
+            if (((AptifyGenericEntityBase) orderProper).Save(false))
+            {
                 webShoppingCartGe = AptifyApp.GetEntityObject("Web Shopping Carts", existingCarts[0].Id);
 
                 if (webShoppingCartGe.RecordID != existingCarts[0].Id)
@@ -80,18 +90,26 @@ namespace AptifyWebApi.Controllers {
                 if (!webShoppingCartGe.Save(false))
                     throw new HttpException(500, "Could not associate saved cart with newly generated order.");
 
-                if (orderProper.get_AvailableForShipping(true) == OrdersEntity.AutoShippingAvailabilityTypes.FullOrder) {
-
-                    if (orderProper.ShipEntireOrder(false)) {
+                if (orderProper.get_AvailableForShipping(true) == OrdersEntity.AutoShippingAvailabilityTypes.FullOrder)
+                {
+                    if (orderProper.ShipEntireOrder(false))
+                    {
                         resultingOrder = Mapper.Map(orderProper, new AptifriedOrderDto());
-                    } else {
-                        throw new HttpException(500, "Could not ship order. Exception on order shipment wrapped in this exception.",
-                            new ApplicationException(orderProper.LastError));
                     }
-                } else {
+                    else
+                    {
+                        throw new HttpException(500,
+                                                "Could not ship order. Exception on order shipment wrapped in this exception.",
+                                                new ApplicationException(orderProper.LastError));
+                    }
+                }
+                else
+                {
                     throw new HttpException(500, "Full Order not available for shipment.");
                 }
-            } else {
+            }
+            else
+            {
                 throw new HttpException(500, "Could not save new before shipment. Error is: " + orderProper.LastError);
             }
 
@@ -99,23 +117,25 @@ namespace AptifyWebApi.Controllers {
         }
 
 
-
-        private static DateTime GetCreditCardExpirationDate(AptifriedWebShoppingCartSubmitRequestDto submitRequest) {
+        private static DateTime GetCreditCardExpirationDate(AptifriedWebShoppingCartSubmitRequestDto submitRequest)
+        {
             return new DateTime(
-                                submitRequest.CardExpirationYear,
-                                submitRequest.CardExpirationMonth,
-                                DateTime.DaysInMonth(
-                                    submitRequest.CardExpirationYear,
-                                    submitRequest.CardExpirationMonth));
+                submitRequest.CardExpirationYear,
+                submitRequest.CardExpirationMonth,
+                DateTime.DaysInMonth(
+                    submitRequest.CardExpirationYear,
+                    submitRequest.CardExpirationMonth));
         }
 
-        private IList<AptifriedWebShoppingCart> GetCarts(int shoppingCartId) {
+        private IList<AptifriedWebShoppingCart> GetCarts(int shoppingCartId)
+        {
             var shoppingCarts =
                 session.CreateSQLQuery(
                     "select carts.* from vwWebShoppingCarts carts join vwWebUsers users on carts.WebUserID = users.ID " +
-                    " where carts.ID = " + shoppingCartId.ToString() + " and users.UserID = '" + User.Identity.Name + "'")
-                    .AddEntity("carts", typeof(AptifriedWebShoppingCart))
-                    .List<AptifriedWebShoppingCart>();
+                    " where carts.ID = " + shoppingCartId.ToString() + " and users.UserID = '" + User.Identity.Name +
+                    "'")
+                       .AddEntity("carts", typeof (AptifriedWebShoppingCart))
+                       .List<AptifriedWebShoppingCart>();
 
             return shoppingCarts;
         }

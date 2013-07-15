@@ -1,22 +1,29 @@
-﻿using AptifyWebApi.Dto;
-using AptifyWebApi.Models;
-using NHibernate;
+﻿#region using
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
+using System.Web.Http;
+using AptifyWebApi.Models;
+using AptifyWebApi.Models.Aptifried;
+using AptifyWebApi.Models.Dto;
+using AutoMapper;
+using NHibernate;
 
-namespace AptifyWebApi.Controllers {
+#endregion
 
-    [System.Web.Http.Authorize]
-    public class AptifriedCartDetailController : AptifyEnabledApiController {
-
-        public AptifriedCartDetailController(ISession session) : base(session) { }
-
+namespace AptifyWebApi.Controllers
+{
+    [Authorize]
+    public class AptifriedCartDetailController : AptifyEnabledApiController
+    {
         private const string SHOPPING_CART_DETAIL_ENTITYNAME = "Web Shopping Cart Details";
 
-        public AptifriedWebShoppingCartDto Post(AptifriedWebShoppingCartProductRequestDto cartLine) {
+        public AptifriedCartDetailController(ISession session) : base(session)
+        {
+        }
 
+        public AptifriedWebShoppingCartDto Post(AptifriedWebShoppingCartProductRequestDto cartLine)
+        {
             if (cartLine == null)
                 throw new HttpException(500, "Missing cart Line");
 
@@ -29,30 +36,32 @@ namespace AptifyWebApi.Controllers {
 
             shoppingCartLine.SetValue("ProductID", cartLine.ProductId);
             shoppingCartLine.SetValue("RegistrantID", cartLine.RegistrantId);
-			if (cartLine.Campaign != null && cartLine.Campaign.Id > 0)
-				shoppingCartLine.SetValue("CampaignID", cartLine.Campaign.Id);
+            if (cartLine.Campaign != null && cartLine.Campaign.Id > 0)
+                shoppingCartLine.SetValue("CampaignID", cartLine.Campaign.Id);
 
-            if (!shoppingCartLine.Save(false)) {
+            if (!shoppingCartLine.Save(false))
+            {
                 throw new HttpException(500, "Error saving cart line update: " + shoppingCartLine.LastError);
             }
 
             return GetCart(cartId);
-
         }
 
-        public AptifriedWebShoppingCartDto Delete(AptifriedWebShoppingCartProductRequestDto cartLine) {
+        public AptifriedWebShoppingCartDto Delete(AptifriedWebShoppingCartProductRequestDto cartLine)
+        {
             if (cartLine == null)
                 throw new HttpException(500, "Cart Line object missing.");
 
             return Delete(cartLine.Id);
         }
 
-        public AptifriedWebShoppingCartDto Delete(int webShoppingCartDetailId) {
+        public AptifriedWebShoppingCartDto Delete(int webShoppingCartDetailId)
+        {
             if (webShoppingCartDetailId < 0)
                 throw new HttpException(500, "Invalid webShoppingCartDetailId: " + webShoppingCartDetailId.ToString());
 
             var shoppingCartLine = AptifyApp.GetEntityObject(
-                SHOPPING_CART_DETAIL_ENTITYNAME, 
+                SHOPPING_CART_DETAIL_ENTITYNAME,
                 Convert.ToInt64(webShoppingCartDetailId));
 
             if (shoppingCartLine.RecordID != webShoppingCartDetailId)
@@ -67,13 +76,13 @@ namespace AptifyWebApi.Controllers {
         }
 
 
-
-        private AptifriedWebShoppingCartDto GetCart(int cartId) {
+        private AptifriedWebShoppingCartDto GetCart(int cartId)
+        {
             var cartReturned = session.QueryOver<AptifriedWebShoppingCart>()
-                .Where(x => x.Id == cartId)
-                .SingleOrDefault();
+                                      .Where(x => x.Id == cartId)
+                                      .SingleOrDefault();
 
-            return AutoMapper.Mapper.Map(cartReturned, new AptifriedWebShoppingCartDto());
+            return Mapper.Map(cartReturned, new AptifriedWebShoppingCartDto());
         }
     }
 }

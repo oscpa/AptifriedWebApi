@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿#region using
 
-namespace AptifyWebApi.Models.SessionSelection {
-    public class AptifriedMeetingSessionLog {
+using System.Collections.Generic;
+
+#endregion
+
+namespace AptifyWebApi.Models.SessionSelection
+{
+    public class AptifriedMeetingSessionLog
+    {
         public virtual int Id { get; set; }
 
         public virtual int BillToId { get; set; }

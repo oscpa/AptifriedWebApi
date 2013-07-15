@@ -1,31 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿#region using
+
 using System.Security.Principal;
-using System.Web;
 
-namespace AptifyWebApi.Membership {
-    public class AptifriedIdentity : IIdentity {
+#endregion
 
-        public AptifriedIdentity(bool isAuthenticated, string name) {
-            this.authenticationType = "Aptifried";
-            this.isAuthticated = isAuthenticated;
+namespace AptifyWebApi.Membership
+{
+    public class AptifriedIdentity : IIdentity
+    {
+        private readonly string authenticationType;
+        private readonly bool isAuthticated;
+        private readonly string name;
+
+        public AptifriedIdentity(bool isAuthenticated, string name)
+        {
+            authenticationType = "Aptifried";
+            isAuthticated = isAuthenticated;
             this.name = name;
         }
 
-        private string authenticationType;
-        private bool isAuthticated;
-        private string name;
-
-        public string AuthenticationType {
+        public string AuthenticationType
+        {
             get { return authenticationType; }
         }
 
-        public bool IsAuthenticated {
+        public bool IsAuthenticated
+        {
             get { return isAuthticated; }
         }
 
-        public string Name {
+        public string Name
+        {
             get { return name; }
         }
     }

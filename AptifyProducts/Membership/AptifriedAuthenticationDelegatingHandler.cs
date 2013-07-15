@@ -1,21 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿#region using
+
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
-using AptifyWebApi.Factories;
+using AptifyWebApi.Repository;
 
-namespace AptifyWebApi.Membership {
-    public class AptifriedAuthenticationDelegatingHandler : DelegatingHandler {
+#endregion
 
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) {
+namespace AptifyWebApi.Membership
+{
+    public class AptifriedAuthenticationDelegatingHandler : DelegatingHandler
+    {
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+                                                               CancellationToken cancellationToken)
+        {
             AptifriedPrincipal principal;
-            if (AptifriedAuthorizationFactory.TryGetAuthorization(request, out principal)) {
+            if (AptifriedAuthorizationFactory.TryGetAuthorization(request, out principal))
+            {
                 Thread.CurrentPrincipal = principal;
-                if (HttpContext.Current != null) {
+                if (HttpContext.Current != null)
+                {
                     HttpContext.Current.User = principal;
                 }
             }

@@ -1,15 +1,16 @@
-﻿using AptifyWebApi.Models;
-using NHibernate;
-using System;
+﻿#region using
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AptifyWebApi.Models;
+using AptifyWebApi.Models.Aptifried;
+using NHibernate;
 
-namespace AptifyWebApi.Repository {
-    interface IAptifriedClassRepository {
+#endregion
 
-
+namespace AptifyWebApi.Repository
+{
+    internal interface IAptifriedClassRepository
+    {
         IEnumerable<AptifriedClass> GetDecendants(int classId);
 
         IEnumerable<AptifriedClass> Get(ICriteria criteria);
