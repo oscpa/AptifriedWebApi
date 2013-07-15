@@ -1,31 +1,28 @@
-﻿#region using
-
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Web;
-using System.Web.Http;
+﻿using AptifyWebApi.Dto;
 using AptifyWebApi.Models;
 using AptifyWebApi.Models.Aptifried;
 using AptifyWebApi.Models.Dto;
 using AutoMapper;
 using NHibernate;
 using NHibernate.OData;
-
-#endregion
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Web;
+using System.Web.Http;
 
 namespace AptifyWebApi.Controllers
 {
     public class AptifriedAttachmentController : AptifyEnabledApiController
     {
-        public AptifriedAttachmentController(ISession session) : base(session)
-        {
-        }
+        public AptifriedAttachmentController(ISession session) : base(session) { }
 
         public IEnumerable<AptifriedAttachmentDto> Get()
         {
+
             var queryString = Request.RequestUri.Query;
             ICriteria queryCriteria = session.CreateCriteria<AptifriedAttachment>();
             try
@@ -34,11 +31,14 @@ namespace AptifyWebApi.Controllers
                 {
                     queryString = queryString.Remove(0, 1);
                 }
-                queryCriteria = session.ODataQuery<AptifriedAttachment>(queryString);
+                queryCriteria = ODataParser.ODataQuery<AptifriedAttachment>
+                    (session, queryString);
+
+
             }
-            catch (ODataException odataException)
+            catch (NHibernate.OData.ODataException odataException)
             {
-                throw new HttpException(500, "Homie don't play that.", odataException);
+                throw new System.Web.HttpException(500, "Homie don't play that.", odataException);
             }
             var hibernatedCol = queryCriteria.List<AptifriedAttachment>();
             IList<AptifriedAttachmentDto> attachmentsDto = new List<AptifriedAttachmentDto>();
@@ -48,9 +48,10 @@ namespace AptifyWebApi.Controllers
 
         public IEnumerable<AptifriedAttachmentDto> Get(int parentProductId, bool recursive)
         {
+
             IList<AptifriedAttachment> attachments = null;
-<<<<<<< HEAD
-            if (recursive) {
+            if (recursive)
+            {
 
                 attachments = session.CreateSQLQuery(" select  at.ID , at.Name , at.CategoryID , at.Category , at.EntityID , at.RecordID , at.DateCreated , at.Status " +
                     " from dbo.vwAttachments at  " +
@@ -60,33 +61,20 @@ namespace AptifyWebApi.Controllers
                     .SetInt32("parentProductId", parentProductId)
                     .List<AptifriedAttachment>();
 
-            } else {
-
-=======
-            if (recursive)
-            {
-                attachments =
-                    session.CreateSQLQuery(
-                        " select  at.ID , at.Name , at.Description , at.CategoryID , at.Category , at.EntityID , at.Entity , at.RecordID , at.LocalFileName , at.DateCreated , at.WhoCreated , at.DateUpdated , at.WhoUpdated , at.Status , at.CheckedOutByID , at.CheckedOutBy , at.DateCheckedOut , at.Compressed , at.BlobData , at.Comments " +
-                        " from dbo.vwAttachments at  " +
-                        " where at.EntityID = 926 " +
-                        " and at.RecordId in (select * from dbo.fnOscpaGetChildMeetingsProductID(:parentProductId)) ")
-                           .AddEntity("at", typeof (AptifriedAttachment))
-                           .SetInt32("parentProductId", parentProductId)
-                           .List<AptifriedAttachment>();
             }
             else
             {
->>>>>>> origin/ac-init
+
                 attachments = session.QueryOver<AptifriedAttachment>()
-                                     .Where(x => x.EntityId == 926)
-                                     .And(x => x.RecordId == parentProductId)
-                                     .List<AptifriedAttachment>();
+                    .Where(x => x.EntityId == 926)
+                    .And(x => x.RecordId == parentProductId)
+                    .List<AptifriedAttachment>();
             }
 
             IList<AptifriedAttachmentDto> resultingAttachments = new List<AptifriedAttachmentDto>();
             resultingAttachments = Mapper.Map(attachments, new List<AptifriedAttachmentDto>());
             return resultingAttachments;
+
         }
 
         public HttpResponseMessage Get(int attachmentId)
@@ -97,21 +85,21 @@ namespace AptifyWebApi.Controllers
 
                 if (attachmentId <= 0)
                     throw new HttpException("Could not find attachment to find.",
-                                            new ArgumentException("atachmentToRetrieve"));
+                        new ArgumentException("atachmentToRetrieve"));
 
                 AptifriedAttachment attachmentProper = GetAttachment(attachmentId);
 
                 // hack a query to get a quick byte array 
                 var queryResult = session.CreateSQLQuery("select BlobData from vwAttachments where Id = :attachmentId")
-                                         .SetInt32("attachmentId", attachmentProper.Id)
-                                         .List();
+                    .SetInt32("attachmentId", attachmentProper.Id)
+                    .List();
 
                 if (queryResult != null && queryResult.Count == 1)
                 {
-                    content = (byte[]) queryResult[0];
+                    content = (byte[])queryResult[0];
                 }
 
-                var result = new HttpResponseMessage(HttpStatusCode.OK);
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
                 result.Content = new ByteArrayContent(content);
 
                 result.Content.Headers.Add("X-Content-Type-Options", "nosniff");
@@ -129,9 +117,9 @@ namespace AptifyWebApi.Controllers
         private AptifriedAttachment GetAttachment(int attachentId)
         {
             var attachment = session.QueryOver<AptifriedAttachment>()
-                                    .Where(x => x.Id == attachentId)
-                                    .Take(1)
-                                    .SingleOrDefault();
+                .Where(x => x.Id == attachentId)
+                .Take(1)
+                .SingleOrDefault();
 
             return attachment;
         }

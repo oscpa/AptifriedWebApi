@@ -6,12 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Aptify.Applications.OrderEntry;
 using Aptify.Framework.BusinessLogic.GenericEntity;
-using AptifyWebApi.Dto;
-using AptifyWebApi.Dto.SessionSelection;
 using AptifyWebApi.Models;
 using AptifyWebApi.Models.Aptifried;
 using AptifyWebApi.Models.Dto;
 using AptifyWebApi.Models.Dto.Meeting;
+using AptifyWebApi.Models.Dto.SessionSelection;
+using AptifyWebApi.Models.Meeting;
 using AptifyWebApi.Models.SessionSelection;
 using AutoMapper;
 

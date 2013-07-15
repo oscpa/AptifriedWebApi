@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 ﻿#region using
 
 using System;
@@ -42,7 +42,8 @@ namespace AptifyWebApi.Helpers
             return attribute.Days;
         }
 
-        public static EnumsAndConstantsToAvoidDatabaseChanges.MeetingTypeCategory CategoryId(this EnumsAndConstantsToAvoidDatabaseChanges.MeetingType enumVal)
+        public static EnumsAndConstantsToAvoidDatabaseChanges.MeetingTypeCategory CategoryId(
+            this EnumsAndConstantsToAvoidDatabaseChanges.MeetingType enumVal)
         {
             var attribute = enumVal.GetAttributeOfType<MeetingTypeCategoryAttr>();
 
@@ -52,7 +53,9 @@ namespace AptifyWebApi.Helpers
 
         public static IEnumerable<int> GetMeetingTypeIdsByCategoryDescription(string mTypeDesc)
         {
-            var categoryId = (EnumsAndConstantsToAvoidDatabaseChanges.MeetingTypeCategory) Enum.Parse(typeof (EnumsAndConstantsToAvoidDatabaseChanges.MeetingTypeCategory), mTypeDesc, true);
+            var categoryId =
+                (EnumsAndConstantsToAvoidDatabaseChanges.MeetingTypeCategory)
+                Enum.Parse(typeof (EnumsAndConstantsToAvoidDatabaseChanges.MeetingTypeCategory), mTypeDesc, true);
 
             return
                 Enum.GetValues(typeof (EnumsAndConstantsToAvoidDatabaseChanges.MeetingType))
@@ -96,80 +99,4 @@ namespace AptifyWebApi.Helpers
 
         #endregion
     }
-=======
-﻿#region using
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using AptifyWebApi.Models.Shared;
-
-#endregion
-
-namespace AptifyWebApi.Helpers
-{
-    public static class EnumHelper
-    {
-        public static T GetAttributeOfType<T>(this Enum enumVal) where T : Attribute
-        {
-            var type = enumVal.GetType();
-            var memInfo = type.GetMember(enumVal.ToString());
-            var attributes = memInfo[0].GetCustomAttributes(typeof (T), false);
-            return (T) attributes[0];
-        }
-
-        public static string Description(this Enum enumVal)
-        {
-            var attribute = enumVal.GetAttributeOfType<DescriptionAttribute>();
-
-            return attribute == null ? String.Empty : attribute.Description;
-        }
-
-        public static int CountAll<T>()
-        {
-            return Enum.GetValues(typeof (T)).Length;
-        }
-
-        #region Mapping Table Needed
-
-        public static Enums.MeetingTypeCategory CategoryId(this Enums.MeetingType enumVal)
-        {
-            var attribute = enumVal.GetAttributeOfType<MeetingTypeCategoryAttr>();
-
-            return attribute.MeetingTypeCategory;
-        }
-
-
-        public static IEnumerable<int> GetMeetingTypeIdsByCategoryDescription(string mTypeDesc)
-        {
-            var categoryId = (Enums.MeetingTypeCategory) Enum.Parse(typeof (Enums.MeetingTypeCategory), mTypeDesc, true);
-
-            return
-                Enum.GetValues(typeof (Enums.MeetingType))
-                    .Cast<Enums.MeetingType>()
-                    .Where(m => m.CategoryId() == categoryId)
-                    .ToList()
-                    .Cast<int>();
-        }
-
-        [AttributeUsage(AttributeTargets.Field)]
-        public class MeetingTypeCategoryAttr : Attribute
-        {
-            private readonly Enums.MeetingTypeCategory _meetingTypeCategory;
-
-            public MeetingTypeCategoryAttr(Enums.MeetingTypeCategory mCat)
-            {
-                _meetingTypeCategory = mCat;
-            }
-
-            public Enums.MeetingTypeCategory MeetingTypeCategory
-            {
-                get { return _meetingTypeCategory; }
-            }
-        }
-
-        #endregion
-    }
->>>>>>> origin/ac-init
 }

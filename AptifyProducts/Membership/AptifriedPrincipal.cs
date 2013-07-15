@@ -1,6 +1,7 @@
 ﻿#region using
 
 using System.Security.Principal;
+using AptifyWebApi.Factories;
 using AptifyWebApi.Repository;
 
 #endregion

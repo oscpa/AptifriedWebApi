@@ -1,0 +1,12 @@
+﻿namespace AptifyWebApi.Models.Dto
+{
+    public class AptifriedEducationUnitAggregateDto
+    {
+        public string Name { get; set; }
+        public int ProductId { get; set; }
+        public string Location { get; set; }
+        public string CreditTypeCode { get; set; }
+        public decimal Credits { get; set; }
+        public string FormattedDates { get; set; }
+    }
+}

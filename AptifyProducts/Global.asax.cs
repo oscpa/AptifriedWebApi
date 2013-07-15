@@ -1,4 +1,11 @@
-<<<<<<< HEAD
+
+﻿using System;
+﻿using System.Web;
+﻿using System.Web.Http;
+﻿using System.Web.Http.Dispatcher;
+﻿using System.Web.Mvc;
+﻿using System.Web.Optimization;
+﻿using System.Web.Routing;
 ﻿using Aptify.Framework.Web.eBusiness;
 using AptifyWebApi.App_Start;
 using AptifyWebApi.Factories;
@@ -10,23 +17,9 @@ using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using Microsoft.Practices.Unity;
 using NHibernate;
-=======
+
 ﻿#region using
 
->>>>>>> origin/ac-init
-using System;
-using System.Web;
-using System.Web.Http;
-using System.Web.Http.Dispatcher;
-using System.Web.Mvc;
-using System.Web.Optimization;
-using System.Web.Routing;
-using AptifyWebApi.App_Start;
-using AptifyWebApi.Managers;
-using AptifyWebApi.Membership;
-using AptifyWebApi.Repository;
-using Microsoft.Practices.Unity;
-using NHibernate;
 
 #endregion
 

@@ -1,36 +1,22 @@
-<<<<<<< HEAD
-﻿using AptifyWebApi.Dto;
-using AptifyWebApi.Models;
-using AptifyWebApi.Models.Aptifried;
-using AutoMapper;
-using NHibernate;
-using NHibernate.OData;
-=======
-﻿#region using
-
->>>>>>> origin/ac-init
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
+using AptifyWebApi.Dto;
 using AptifyWebApi.Models;
 using AptifyWebApi.Models.Aptifried;
 using AptifyWebApi.Models.Dto;
 using AutoMapper;
 using NHibernate;
 using NHibernate.OData;
-
-#endregion
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Http;
 
 namespace AptifyWebApi.Controllers
 {
     [Authorize]
     public class AptifriedEducationUnitController : AptifyEnabledApiController
     {
-        public AptifriedEducationUnitController(ISession session) : base(session)
-        {
-        }
+        public AptifriedEducationUnitController(ISession session) : base(session) { }
 
 
         /// <summary>
@@ -39,6 +25,7 @@ namespace AptifyWebApi.Controllers
         /// <returns></returns>
         public IList<AptifriedEducationUnitDto> Get()
         {
+
             var queryString = Request.RequestUri.Query;
             ICriteria queryCriteria = session.CreateCriteria<AptifriedEducationUnit>();
             try
@@ -47,11 +34,13 @@ namespace AptifyWebApi.Controllers
                 {
                     queryString = queryString.Remove(0, 1);
                 }
-                queryCriteria = session.ODataQuery<AptifriedEducationUnit>(queryString);
+                queryCriteria = ODataParser.ODataQuery<AptifriedEducationUnit>
+                    (session, queryString);
+
             }
-            catch (ODataException odataException)
+            catch (NHibernate.OData.ODataException odataException)
             {
-                throw new HttpException(500, "Homie don't play that.", odataException);
+                throw new System.Web.HttpException(500, "Homie don't play that.", odataException);
             }
 
             var hibernatedCol = queryCriteria.List<AptifriedEducationUnit>();
@@ -68,8 +57,10 @@ namespace AptifyWebApi.Controllers
         /// <returns></returns>
         public AptifriedEducationUnitDto Post(AptifriedEducationUnitDto educationUnit)
         {
+
             try
             {
+
                 // Allow for updates to existing CPE
                 int theRecordId = -1;
                 if (educationUnit.Id > 0)
@@ -98,12 +89,11 @@ namespace AptifyWebApi.Controllers
                 string entityError = string.Empty;
                 if (!educationUnitEntity.Save(false, ref entityError))
                 {
-                    throw new ApplicationException(string.Format(
-                        "Could not save new credit. Entity save error was: {0}", entityError));
+                    throw new ApplicationException(string.Format("Could not save new credit. Entity save error was: {0}", entityError));
                 }
                 else
                 {
-                    educationUnit.Id = Convert.ToInt32(educationUnitEntity.RecordID);
+                    educationUnit.Id = System.Convert.ToInt32(educationUnitEntity.RecordID);
                 }
             }
             catch (Exception ex)
@@ -122,15 +112,13 @@ namespace AptifyWebApi.Controllers
         /// <param name="startDate"></param>
         /// <param name="endDate"></param>
         /// <returns></returns>
-        public IList<AptifriedEducationUnitAggregateDto> GetAggregateCredits(int personId, DateTime startDate,
-                                                                             DateTime endDate, bool includeExternal)
+        public IList<AptifriedEducationUnitAggregateDto> GetAggregateCredits(int personId, DateTime startDate, DateTime endDate, bool includeExternal)
         {
+
+            List<AptifriedEducationUnitAggregateDto> resultingData = new List<AptifriedEducationUnitAggregateDto>();
+
             // string transcriptQuery = "select  Name , Location , Type , Credit , Dates , ProductID " +
             //" from fnOscpaTranscriptGetEducationUnitAggregate(:personId, :startDate, :endDate, :includeExternal, default, default) ";
-
-<<<<<<< HEAD
-           // string transcriptQuery = "select  Name , Location , Type , Credit , Dates , ProductID " +
-                //" from fnOscpaTranscriptGetEducationUnitAggregate(:personId, :startDate, :endDate, :includeExternal, default, default) ";
 
             string transcriptQuery = "SELECT Name,Location,Type,SUM(Credit),Dates FROM fnOscpaTranscriptGetEducationUnitAggregate(:personId, :startDate, :endDate, :includeExternal, default, default) Group BY Name,Location,Type,Dates";
 
@@ -141,8 +129,10 @@ namespace AptifyWebApi.Controllers
                 .SetParameter("includeExternal", includeExternal)
                 .List();
 
-            foreach (object[] row in transcriptData) {
-                resultingData.Add(new AptifriedEducationUnitAggregateDto() {
+            foreach (object[] row in transcriptData)
+            {
+                resultingData.Add(new AptifriedEducationUnitAggregateDto()
+                {
                     Name = Convert.ToString(row[0]),
                     Location = Convert.ToString(row[1]),
                     CreditTypeCode = Convert.ToString(row[2]),
@@ -150,34 +140,13 @@ namespace AptifyWebApi.Controllers
                     FormattedDates = Convert.ToString(row[4]),
                     //ProductId = Convert.ToInt32(row[5])
                 });
-                    
+
             }
 
             return resultingData;
-=======
-            const string transcriptQuery =
-                "SELECT Name,Location,Type,SUM(Credit),Dates FROM fnOscpaTranscriptGetEducationUnitAggregate(:personId, :startDate, :endDate, :includeExternal, default, default) " +
-                "Group BY Name,Location,Type,Dates";
-
-            var transcriptData = session.CreateSQLQuery(transcriptQuery)
-                                        .SetParameter("personId", personId)
-                                        .SetParameter("startDate", startDate)
-                                        .SetParameter("endDate", endDate)
-                                        .SetParameter("includeExternal", includeExternal)
-                                        .List();
-
-
-            return (from object[] row in transcriptData
-                    select new AptifriedEducationUnitAggregateDto
-                        {
-                            Name = Convert.ToString(row[0]),
-                            Location = Convert.ToString(row[1]),
-                            CreditTypeCode = Convert.ToString(row[2]),
-                            Credits = Convert.ToDecimal(row[3]),
-                            FormattedDates = Convert.ToString(row[4]),
-                            //ProductId = Convert.ToInt32(row[5])
-                        }).ToList();
->>>>>>> origin/ac-init
         }
+
+
+
     }
 }

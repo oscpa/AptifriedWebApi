@@ -3735,7 +3735,7 @@ function $CompileProvider($provide) {
 
     return compile;
 
-    //================================
+    //====
 
     function compile($compileNodes, transcludeFn, maxPriority) {
       if (!($compileNodes instanceof jqLite)) {

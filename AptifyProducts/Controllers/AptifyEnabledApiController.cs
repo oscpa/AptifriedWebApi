@@ -2,6 +2,7 @@
 
 using System.Web.Http;
 using Aptify.Framework.Application;
+using AptifyWebApi.Factories;
 using AptifyWebApi.Models;
 using AptifyWebApi.Models.Aptifried;
 using AptifyWebApi.Models.Dto;

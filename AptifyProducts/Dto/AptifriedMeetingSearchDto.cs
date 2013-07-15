@@ -4,11 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AptifyWebApi.Helpers;
-using AptifyWebApi.Models.Dto.Meeting;
 
 #endregion
 
-namespace AptifyWebApi.Dto
+namespace AptifyWebApi.Models.Dto.Meeting
 {
     public class AptifriedMeetingSearchDto
     {
