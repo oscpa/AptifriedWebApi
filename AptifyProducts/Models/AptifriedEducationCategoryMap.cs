@@ -10,7 +10,8 @@ namespace AptifyWebApi.Models {
             Table("vwEducationCategories");
             Id(x => x.Id);
             Map(x => x.Name);
-            Map(x => x.Code); 
+            Map(x => x.Code);
+			Map(x => x.Status);
             ReadOnly();
         }
     }
