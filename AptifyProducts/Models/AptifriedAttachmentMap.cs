@@ -1,15 +1,12 @@
-﻿#region using
+﻿using FluentNHibernate.Mapping;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
-using FluentNHibernate.Mapping;
-
-#endregion
-
-namespace AptifyWebApi.Models.Aptifried
-{
-    public class AptifriedAttachmentMap : ClassMap<AptifriedAttachment>
-    {
-        public AptifriedAttachmentMap()
-        {
+namespace AptifyWebApi.Models {
+    public class AptifriedAttachmentMap : ClassMap<AptifriedAttachment>{
+        public AptifriedAttachmentMap() {
             Table("vwAttachments");
             Id(x => x.Id);
             References(x => x.Category).Column("CategoryID");
@@ -18,6 +15,7 @@ namespace AptifyWebApi.Models.Aptifried
             Map(x => x.Name);
             Map(x => x.RecordId);
             Map(x => x.Status);
+            Map(x => x.BlobData).CustomSqlType("varbinary(2147483647)").Length(int.MaxValue);
             ReadOnly();
         }
     }

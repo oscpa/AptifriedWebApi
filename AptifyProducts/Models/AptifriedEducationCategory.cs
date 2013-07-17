@@ -1,20 +1,13 @@
-﻿using AptifyWebApi.Models.Shared;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-namespace AptifyWebApi.Models.Aptifried
-{
-    public class AptifriedEducationCategory
-    {
+namespace AptifyWebApi.Models {
+    public class AptifriedEducationCategory {
         public virtual int Id { get; set; }
         public virtual string Name { get; set; }
         public virtual string Code { get; set; }
-        public virtual string Status { get; set; }
-
-        public bool IsActive
-        {
-            get
-            {
-                return Status.ToLowerInvariant().Contains(EnumsAndConstantsToAvoidDatabaseChanges.EducationCategoryStatusActive);
-            }
-        }
+		public virtual string Status { get; set; }
     }
 }

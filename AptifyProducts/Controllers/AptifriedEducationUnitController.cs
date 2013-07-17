@@ -66,7 +66,7 @@ namespace AptifyWebApi.Controllers
                 if (educationUnit.Id > 0)
                     theRecordId = educationUnit.Id;
 
-                var educationUnitEntity = AptifyApp.GetEntityObject("Education Unit", theRecordId);
+                var educationUnitEntity = AptifyApp.GetEntityObject("Education Units", theRecordId);
 
                 educationUnitEntity.SetAddValue("PersonID", educationUnit.Person.Id);
                 educationUnitEntity.SetAddValue("DateEarned", educationUnit.DateEarned);
@@ -82,9 +82,12 @@ namespace AptifyWebApi.Controllers
                 educationUnitEntity.SetAddValue("ExternalCPESponsor", educationUnit.ExternalCPESponsor);
 
                 // Don't let people do this. They could grant credit to themselves and verify it.
-                //educationUnitEntity.SetAddValue("ExternalSourceVerified", educationUnit.ExternalSourceVerified);
-                //educationUnitEntity.SetAddValue("MeetingID", educationUnit.Meeting.Id):
-                //educationUnitEntity.SetAddValue("Deactivate", educationUnit.Deactivate);
+				// Response: But Joel, if we don't do it, they'll never be able to add external credits!
+				if (educationUnit.Source.Equals("External")) {
+					educationUnitEntity.SetAddValue("ExternalSourceVerified", educationUnit.ExternalSourceVerified);
+					//educationUnitEntity.SetAddValue("MeetingID", educationUnit.Meeting.Id):
+					educationUnitEntity.SetAddValue("Deactivate", educationUnit.Deactivate);
+				}
 
                 string entityError = string.Empty;
                 if (!educationUnitEntity.Save(false, ref entityError))
@@ -104,6 +107,23 @@ namespace AptifyWebApi.Controllers
             // if we've reached here, the dto passed in should now have an "Id" that is the database identifier
             return educationUnit;
         }
+
+		public bool Delete(int educationUnitId) {
+			if (educationUnitId < 1) {
+				throw new HttpException(500, "No ID given");
+			}
+
+			var educationUnitEntity = AptifyApp.GetEntityObject("Education Units", educationUnitId);
+			if (educationUnitEntity == null) {
+				throw new HttpException(500, "Error loading up Education Units GE");
+			}
+
+			if (!educationUnitEntity.Delete()) {
+				throw new HttpException(500, "Error deleting entity: " + educationUnitEntity.LastUserError);
+			}
+
+			return true;
+		}
 
         /// <summary>
         /// Returns the trascript formatted credits aggregate education units.

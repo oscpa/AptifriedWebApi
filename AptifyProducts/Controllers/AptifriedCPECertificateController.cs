@@ -42,6 +42,28 @@ namespace AptifyWebApi.Controllers {
 				throw new HttpException(500, "Error decoding base 64 data to byte array");
 			}
 
+			using (var transaction = session.BeginTransaction())
+			{
+				//WBN: Refactor this out to a base/CpeCert repo
+				try
+				{
+					var q = session.QueryOver<AptifriedAttachment>().Where(x => x.Id == entityObj.RecordID).SingleOrDefault<AptifriedAttachment>();
+
+					q.BlobData = dataBytes;
+				   
+					transaction.Commit();
+				}
+				catch (Exception ex)
+				{
+					var e = ex.ToString();
+
+					transaction.Rollback();
+
+					throw new HttpException(500, "Warning: no entities updated when inserting blob into attachments entity");
+				}
+			}
+
+			/*
 			var query = session.CreateSQLQuery("update vwAttachments set BlobData = :data where ID = :id")
 				.SetInt64("id", entityObj.RecordID)
 				.SetBinary("data", dataBytes);
@@ -49,6 +71,7 @@ namespace AptifyWebApi.Controllers {
 			if (query.ExecuteUpdate() < 1) {
 				throw new HttpException(500, "Warning: no entities updated when inserting blob into attachments entity");
 			}
+			 */
 
 			return cpeDto.Attachment;
 		}

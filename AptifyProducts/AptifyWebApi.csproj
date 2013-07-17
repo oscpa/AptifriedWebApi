@@ -70,6 +70,19 @@
     <Reference Include="AptifyAttributeManagement">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyAttributeManagement.dll</HintPath>
     </Reference>
+    <Reference Include="AptifyConnectionState, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Bootfiles\AptifyConnectionState.dll</HintPath>
+    </Reference>
+    <Reference Include="AptifyEventFire">
+      <HintPath>..\..\..\Program Files\Aptify 5.0\AptifyEventFire.dll</HintPath>
+    </Reference>
+    <Reference Include="AptifyExcelIntegration">
+      <HintPath>..\..\..\Program Files\Aptify 5.0\AptifyExcelIntegration.dll</HintPath>
+    </Reference>
+    <Reference Include="AptifyExcelWizard">
+      <HintPath>..\..\..\Program Files\Aptify 5.0\AptifyExcelWizard.dll</HintPath>
+    </Reference>
     <Reference Include="AptifyExceptionManagement">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyExceptionManagement.dll</HintPath>
     </Reference>
@@ -92,8 +105,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyGenericFind.dll</HintPath>
     </Reference>
+    <Reference Include="AptifyLogin">
+      <HintPath>bin\Bootfiles\AptifyLogin.dll</HintPath>
+    </Reference>
     <Reference Include="AptifyMeetingsEntity">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyMeetingsEntity.dll</HintPath>
+    </Reference>
+    <Reference Include="AptifyObjectRepository">
+      <HintPath>bin\Bootfiles\AptifyObjectRepository.dll</HintPath>
     </Reference>
     <Reference Include="AptifyOrdersEntity">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyOrdersEntity.dll</HintPath>
@@ -125,6 +144,9 @@
     </Reference>
     <Reference Include="AptifyShippingCalculator">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyShippingCalculator.dll</HintPath>
+    </Reference>
+    <Reference Include="AptifySQLDataServices">
+      <HintPath>bin\Bootfiles\AptifySQLDataServices.dll</HintPath>
     </Reference>
     <Reference Include="AptifyUtility, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -185,6 +207,9 @@
     <Reference Include="IAptifyDataServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\IAptifyDataServices.dll</HintPath>
+    </Reference>
+    <Reference Include="IAptifyTaskTrayIcon">
+      <HintPath>bin\Bootfiles\IAptifyTaskTrayIcon.dll</HintPath>
     </Reference>
     <Reference Include="ICheckInventory">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\ICheckInventory.dll</HintPath>
