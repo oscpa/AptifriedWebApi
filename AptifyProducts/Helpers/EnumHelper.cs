@@ -1,11 +1,11 @@
 
 ﻿#region using
 
+using AptifyWebApi.Models.Shared;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using AptifyWebApi.Models.Shared;
 
 #endregion
 

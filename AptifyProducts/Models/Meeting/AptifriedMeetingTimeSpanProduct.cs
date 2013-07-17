@@ -1,6 +1,4 @@
-﻿using AptifyWebApi.Models.Aptifried;
-
-namespace AptifyWebApi.Models.Meeting
+﻿namespace AptifyWebApi.Models.Meeting
 {
     public class AptifriedMeetingTimeSpanProduct
     {

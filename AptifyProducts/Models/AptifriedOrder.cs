@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace AptifyWebApi.Models.Aptifried
+namespace AptifyWebApi.Models
 {
     public class AptifriedOrder
     {

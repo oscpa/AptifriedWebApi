@@ -3,7 +3,6 @@
 
 using System.Linq;
 using AptifyWebApi.Dto;
-using AptifyWebApi.Models.Dto.Meeting;
 using AptifyWebApi.Repository;
 using NHibernate;
 
@@ -24,10 +23,10 @@ namespace AptifyWebApi.Controllers
             var res = new SearchRepository(session).Search(search, false);
 
             return new AptifriedMeetingCountResultsDto
-                {
-                    SearchEntered = search,
-                    Count = res.Count()
-                };
+            {
+                SearchEntered = search,
+                Count = res.Count()
+            };
         }
     }
 }

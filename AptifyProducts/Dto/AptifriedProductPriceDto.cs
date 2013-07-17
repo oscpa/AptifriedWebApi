@@ -4,7 +4,7 @@ using AptifyWebApi.Attributes;
 
 #endregion
 
-namespace AptifyWebApi.Models.Dto
+namespace AptifyWebApi.Dto
 {
     [AptifriedEntity(Name = "ProductPrices")]
     public class AptifriedProductPriceDto

@@ -1,4 +1,4 @@
-﻿namespace AptifyWebApi.Models.Aptifried
+﻿namespace AptifyWebApi.Models
 {
     public class AptifriedCredit
     {

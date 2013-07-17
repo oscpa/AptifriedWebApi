@@ -1,20 +1,19 @@
+﻿
+ #region using
 
-﻿#region using
-
+using AptifyWebApi.Dto;
+using AptifyWebApi.Models;
+using AptifyWebApi.Models.Meeting;
+using AptifyWebApi.Models.Shared;
+using NHibernate;
+using NHibernate.Criterion;
+using NHibernate.Linq;
+using NHibernate.Transform;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using AptifyWebApi.Dto;
-using AptifyWebApi.Models;
-using AptifyWebApi.Models.Aptifried;
-using AptifyWebApi.Models.Dto.Meeting;
-using AptifyWebApi.Models.Meeting;
-using NHibernate;
-using NHibernate.Criterion;
-using NHibernate.Linq;
-using NHibernate.Transform;
 using Expression = System.Linq.Expressions.Expression;
 
 #endregion
@@ -43,10 +42,22 @@ namespace AptifyWebApi.Helpers
             return queryable.Where(predicate);
         }
 
-        public static BinaryExpression AndAlso<T>(this Expression<Func<T, bool>> predicate,
-                                                  Expression<Func<T, bool>> predicate2)
+        public static Expression<Func<T, bool>> AndAlso<T>(this Expression<Func<T, bool>> expr1, Expression<Func<T, bool>> expr2)
         {
-            return Expression.AndAlso(predicate, predicate2);
+            // need to detect whether they use the same
+            // parameter instance; if not, they need fixing
+            ParameterExpression param = expr1.Parameters[0];
+            if (ReferenceEquals(param, expr2.Parameters[0]))
+            {
+                // simple version
+                return Expression.Lambda<Func<T, bool>>(
+                    Expression.AndAlso(expr1.Body, expr2.Body), param);
+            }
+            // otherwise, keep expr1 "as is" and invoke expr2
+            return Expression.Lambda<Func<T, bool>>(
+                Expression.AndAlso(
+                    expr1.Body,
+                    Expression.Invoke(expr2, param)), param);
         }
 
 
@@ -54,7 +65,7 @@ namespace AptifyWebApi.Helpers
         {
             //TODO: Refactor out sql
             var zips = session.CreateSQLQuery(
-                string.Format(@"SELECT * FROM [dbo].[fnOSCPAGetZipDistanceWeb]({0},{1})",
+                String.Format(@"SELECT * FROM [dbo].[fnOSCPAGetZipDistanceWeb]({0},{1})",
                               startZip, endZip)).AddEntity(typeof (float)).List<float>();
 
             return zips;
@@ -62,7 +73,20 @@ namespace AptifyWebApi.Helpers
 
         public static int GetActiveDbMeetingTypesCount(this ISession session)
         {
-            return session.GetActiveDbMeetingTypes().Count;
+            var r = session.GetActiveDbMeetingTypes().Count;
+
+            return r;
+        }
+
+        public static AptifriedMeetingTypeDto GetMeetingTypeDtoByName(this ISession session, string meetingTypeDescription)
+        {
+            var meetings = session.GetAllMeetingTypeDto();
+
+            var m = meetings.SingleOrDefault(x => x.Name.ToLowerInvariant()
+                                                   .Equals(
+                                                       meetingTypeDescription.ToLowerInvariant()));
+
+            return m;
         }
 
         public static IList<AptifriedMeetingType> GetActiveDbMeetingTypes(this ISession session)
@@ -84,7 +108,7 @@ namespace AptifyWebApi.Helpers
             return qry;
         }
 
-        public static IList<AptifriedMeetingTypeDto> GetInitMeetingTypeDto(this ISession session)
+        public static IList<AptifriedMeetingTypeDto> GetAllMeetingTypeDto(this ISession session)
         {
             var inUse = session.GetActiveDbMeetingTypes();
 
@@ -97,22 +121,24 @@ namespace AptifyWebApi.Helpers
                 }).ToList();
         }
 
-        public static IList<AptifriedEducationCategory> GetActiveDbEducationCategoryNames(this ISession session)
+        public static List<AptifriedEducationCategory> GetActiveDbEducationCategories(this ISession session)
         {
-            //get all meeting types currently used by a meeting
-            var inUseIds = session.QueryOver<AptifriedEducationUnit>().TransformUsing(Transformers.DistinctRootEntity)
-                                  .Select(x => x.EducationCategory.Id).List<int>();
+            var qry = session.Query<AptifriedEducationCategory>()
+                             .Where(
+                                 x =>
+                                 x.Status.ToLowerInvariant()
+                                  .Equals(
+                                      EnumsAndConstantsToAvoidDatabaseChanges.EducationCategoryStatusActive
+                                                                             .ToLowerInvariant()));
 
-            var qry = session.QueryOver<AptifriedEducationCategory>()
-                             .WhereRestrictionOn(x => x.Id.IsIn(inUseIds.ToArray()) && x.IsActive)
-                             .As<IList<AptifriedEducationCategory>>();
-
-            return qry;
+            return qry.ToList();
         }
 
         public static int GetActiveDbEducationCategoryCount(this ISession session)
         {
-            return session.GetActiveDbEducationCategoryNames().Count;
+            var r = session.GetActiveDbEducationCategories().Count();
+
+            return r;
         }
 
 
@@ -126,7 +152,7 @@ namespace AptifyWebApi.Helpers
 
 
             //No keyword search for you!
-            if (string.IsNullOrWhiteSpace(searchText))
+            if (String.IsNullOrWhiteSpace(searchText))
                 return res;
 
             var searchBase = new StringBuilder();
@@ -149,7 +175,7 @@ namespace AptifyWebApi.Helpers
            * In the future, these should be derived evolutionarily or by some other ML method.
            **/
 
-            IDictionary<string, UInt32> subrankMaps = new Dictionary<string, UInt32>
+            IDictionary<string, uint> subrankMaps = new Dictionary<string, uint>
                 {
                     {"ProductName", 25},
                     {"SearchableID", 25},
@@ -175,34 +201,34 @@ namespace AptifyWebApi.Helpers
                          * 
                          * http://msdn.microsoft.com/en-us/library/ms189760(v=SQL.90).aspx
                          **/
-            var searchStringContainsTable = string.Format("'({0})'",
+            var searchStringContainsTable = String.Format("'({0})'",
                                                           searchText.Split(' ')
-                                                                    .Aggregate(string.Empty, (x, n) =>
+                                                                    .Aggregate(String.Empty, (x, n) =>
                                                                                              x +
-                                                                                             (!string.IsNullOrEmpty(x)
+                                                                                             (!String.IsNullOrEmpty(x)
                                                                                                   ? " near "
-                                                                                                  : string.Empty) + n));
+                                                                                                  : String.Empty) + n));
 
-            var searchStringFreeTextTables = string.Format("'{0}'", searchText);
+            var searchStringFreeTextTables = String.Format("'{0}'", searchText);
 
             if (useKeywordRanking)
             {
-                var rankString = string.Concat(GetRankString(subrankMaps, PrefixContains), " + ",
+                var rankString = String.Concat(GetRankString(subrankMaps, PrefixContains), " + ",
                                                GetRankString(subrankMaps, PrefixFreeText));
 
                 // Filter out where relevance < epsilon
                 const float epsilon = 0;
-                searchWhere.AppendLine(string.Format("where {0} > {1}", rankString, epsilon));
+                searchWhere.AppendLine(String.Format("where {0} > {1}", rankString, epsilon));
 
                 // We don't need to worry about clobbering any sort logic here because it won't have been defined yet
-                searchOrderBy.AppendLine(string.Format("order by {0} desc, mt.startdate", rankString));
+                searchOrderBy.AppendLine(String.Format("order by {0} desc, mt.startdate", rankString));
             }
 
             searchBase.BuildContainsTableJoins(searchStringContainsTable, subrankMaps);
             searchBase.BuildFreeTextTableJoins(searchStringFreeTextTables, subrankMaps);
 
 
-            var qry = string.Concat(searchBase, searchWhere, searchOrderBy);
+            var qry = String.Concat(searchBase, searchWhere, searchOrderBy);
 
             var meetingQuery = session.CreateSQLQuery(qry)
                                       .AddEntity("mt", typeof (T));
@@ -232,7 +258,7 @@ namespace AptifyWebApi.Helpers
             while (rankEnumer.MoveNext())
             {
                 sb.AppendLine(
-                    string.Format("LEFT JOIN {0}TABLE(idxVwStoreSearch, {3}, {1} ) {2}{3} on {2}{3}.[KEY] = s.ID",
+                    String.Format("LEFT JOIN {0}TABLE(idxVwStoreSearch, {3}, {1} ) {2}{3} on {2}{3}.[KEY] = s.ID",
                                   searchContainsOrFreeText, searchText, prefix, rankEnumer.Current.Key));
             }
         }
@@ -242,7 +268,7 @@ namespace AptifyWebApi.Helpers
             var rankStatements = new LinkedList<string>();
 
             foreach (var pair in subrankMaps)
-                rankStatements.AddLast(string.Format("{0} * ISNULL({1}{2}.rank,0)", pair.Value, prefix, pair.Key));
+                rankStatements.AddLast(String.Format("{0} * ISNULL({1}{2}.rank,0)", pair.Value, prefix, pair.Key));
 
             var rankString = rankStatements.Aggregate(String.Empty,
                                                       (x, n) =>
@@ -250,6 +276,5 @@ namespace AptifyWebApi.Helpers
 
             return rankString;
         }
-
     }
 }

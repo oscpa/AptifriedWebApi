@@ -4,7 +4,7 @@ using FluentNHibernate.Mapping;
 
 #endregion
 
-namespace AptifyWebApi.Models.Aptifried
+namespace AptifyWebApi.Models
 {
     public class AptifriedVenueMap : ClassMap<AptifriedVenue>
     {

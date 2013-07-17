@@ -2,9 +2,8 @@
 
 using System.Collections.Generic;
 using System.Web;
+using AptifyWebApi.Dto;
 using AptifyWebApi.Models;
-using AptifyWebApi.Models.Dto;
-using AptifyWebApi.Models.Dto.Meeting;
 using AptifyWebApi.Models.Meeting;
 using AutoMapper;
 using NHibernate;

@@ -1,66 +1,75 @@
 ﻿#region using
 
+using AptifyWebApi.Dto;
+using AptifyWebApi.Helpers;
+using AptifyWebApi.Models.Shared;
+using NHibernate;
+using NHibernate.Linq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using AptifyWebApi.Helpers;
-using AptifyWebApi.Models.Shared;
-using NHibernate;
-using NHibernate.Linq;
-
-using MeetingSearchDto = AptifyWebApi.Models.Dto.Meeting.AptifriedMeetingSearchDto;
 using Meeting = AptifyWebApi.Models.Meeting.AptifriedMeeting;
+using MeetingSearchDto = AptifyWebApi.Dto.AptifriedMeetingSearchDto;
+
 #endregion
 
 //TODO: Filter - Date sort order (from search obj)
+//TODO: Export search to excel
 
 namespace AptifyWebApi.Repository
 {
     public class SearchRepository : BaseRepository
     {
-        protected readonly MeetingSearchDto SParams;
-
-        public SearchRepository(ISession session) : base(session){}
+        public SearchRepository(ISession session) : base(session) { }
 
         public IList<Meeting> Search(MeetingSearchDto sParams,
                                               bool useKeywordRanking)
         {
+            sParams.ConvertStringMeetingTypesToMeetingTypeObjects(Session);
+
             //base: filter out any non-active items 
-             Expression<Func<Meeting, bool>> filterExpr = x => x.Status.Id == 1 && x.Product.WebEnabled && x.Product.IsSold;
+            Expression<Func<Meeting, bool>> filterExpr = x => x.Status.Id == 1 && x.Product.WebEnabled && x.Product.IsSold;
 
             if (sParams.IsDateSearch)
                 filterExpr.AndAlso(DateFilter(sParams));
-        
+
             //if credit type search and not all types selected
             if (sParams.HasCreditTypes && sParams.CreditTypes.Count() < Session.GetActiveDbEducationCategoryCount())
                 filterExpr.AndAlso(CreditTypeFilter(sParams));
 
 
             //TODO: Gut enum
-            if (sParams.IsZipSearch &&
-                (sParams.MeetingTypes.Any(x => x.Description.Equals(EnumsAndConstantsToAvoidDatabaseChanges.MeetingTypeCategory.InPerson.Description()))) ||
-                 sParams.MeetingTypes.Count() == Session.GetActiveDbMeetingTypesCount())
+            if (sParams.IsZipSearch && sParams.HasMeetingTypes)
             {
-                filterExpr.AndAlso(ZipCodeFilter(sParams));
+                var isIn =
+                    sParams.MeetingTypesObjList.Any(
+                        x =>
+                        x.Description.Equals(
+                            EnumsAndConstantsToAvoidDatabaseChanges.MeetingTypeCategory.InPerson.Description()));
+
+                if (isIn || sParams.MeetingTypesObjList.Count() == Session.GetActiveDbMeetingTypesCount())
+                    filterExpr.AndAlso(ZipCodeFilter(sParams));
 
             }
+
 
             if (sParams.HasLevels)
                 filterExpr.AndAlso(LevelsFilter(sParams));
 
             filterExpr.AndAlso(MeetingTypesFilter(sParams));
-              
+
+            var res = Session.Query<Meeting>();
+
             //apply keyword search and filter
-            var res =
-                Session.Query<Meeting>()
-                       .Keyword(Session, sParams.SearchText, useKeywordRanking)
-                       .Filter(filterExpr);
+            if (useKeywordRanking)
+                res = res.Keyword(Session, sParams.SearchText, true);
+
+            res = res.Filter(filterExpr);
 
             //if results !ranked by keyword and !start/end date search, orderby date desc
             return !useKeywordRanking ? res.OrderByDescending(x => x.EndDate).ToList() : res.ToList();
-
         }
 
 
@@ -75,17 +84,17 @@ namespace AptifyWebApi.Repository
 
             return expr;
         }
-        
+
         private Expression<Func<Meeting, bool>> MeetingTypesFilter(MeetingSearchDto sParams)
         {
             Expression<Func<Meeting, bool>> expr;
 
             //TODO: Gut enum use
-            if (sParams.HasMeetingTypes && sParams.MeetingTypes.Count < Session.GetActiveDbMeetingTypesCount())
+            if (sParams.HasMeetingTypes && sParams.MeetingTypesObjList.Count < Session.GetActiveDbMeetingTypesCount())
             {
                 var meetingTypeIds = new List<int>();
 
-                foreach (var mType in sParams.MeetingTypes)
+                foreach (var mType in sParams.MeetingTypesObjList)
                     meetingTypeIds.AddRange(EnumHelper.GetMeetingTypeIdsByCategoryDescription(mType.Name));
 
                 expr = x => meetingTypeIds.Contains(x.Id);
@@ -115,25 +124,25 @@ namespace AptifyWebApi.Repository
 
         private static Expression<Func<Meeting, bool>> DateFilter(MeetingSearchDto sParams)
         {
-                //set to handle only start, only end or ranged date filter
-                var sDate = sParams.StartDate.HasValue ? sParams.StartDate.Value : DateTime.Now;
-                var eDate = sParams.EndDate.HasValue ? sParams.EndDate.Value : DateTime.MaxValue;
+            //set to handle only start, only end or ranged date filter
+            var sDate = sParams.StartDate.HasValue ? sParams.StartDate.Value : DateTime.Now;
+            var eDate = sParams.EndDate.HasValue ? sParams.EndDate.Value : DateTime.MaxValue;
 
             //TODO: Gut enum
-                //filter endDates that fall outside the specified range
-                //exclude self study
+            //filter endDates that fall outside the specified range
+            //exclude self study
 
-                Expression<Func<Meeting, bool>> expr = x => 
-                                    x.EndDate.IsInRange(sDate, eDate) |
-                                    x.StartDate.GetLengthInDays(eDate) >=
-                                    EnumsAndConstantsToAvoidDatabaseChanges.MeetingType.SelfStudy.GetMinDays();
-                                  //x.Id == (int) EnumsAndConstantsToAvoidDatabaseChanges.MeetingType.SelfStudy;
-                return expr;
+            Expression<Func<Meeting, bool>> expr = x =>
+                                x.EndDate.IsInRange(sDate, eDate) |
+                                x.StartDate.GetLengthInDays(eDate) >=
+                                EnumsAndConstantsToAvoidDatabaseChanges.MeetingType.SelfStudy.GetMinDays();
+            //x.Id == (int) EnumsAndConstantsToAvoidDatabaseChanges.MeetingType.SelfStudy;
+            return expr;
         }
         #endregion
     }
 
-//end class
+    //end class
 }
 
 //end namespace

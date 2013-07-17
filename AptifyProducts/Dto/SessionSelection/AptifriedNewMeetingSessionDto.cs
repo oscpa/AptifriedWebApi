@@ -1,4 +1,4 @@
-﻿namespace AptifyWebApi.Models.Dto.SessionSelection
+﻿namespace AptifyWebApi.Dto.SessionSelection
 {
     public class AptifriedNewMeetingSessionDto
     {

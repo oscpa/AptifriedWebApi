@@ -5,7 +5,7 @@ using System.Configuration;
 using System.Net;
 using System.Net.Mail;
 using System.Web;
-using AptifyWebApi.Models.Dto;
+using AptifyWebApi.Dto;
 using NHibernate;
 
 #endregion

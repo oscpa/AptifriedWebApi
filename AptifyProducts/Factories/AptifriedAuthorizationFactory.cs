@@ -1,7 +1,6 @@
 ﻿using Aptify.Framework.DataServices;
 using AptifyWebApi.Membership;
 using AptifyWebApi.Models;
-using AptifyWebApi.Models.Aptifried;
 using NHibernate;
 using System;
 using System.Collections.Generic;

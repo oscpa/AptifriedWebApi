@@ -6,9 +6,8 @@ using System.Web;
 using System.Web.Http;
 using Aptify.Applications.OrderEntry;
 using Aptify.Framework.BusinessLogic.GenericEntity;
+using AptifyWebApi.Dto;
 using AptifyWebApi.Models;
-using AptifyWebApi.Models.Aptifried;
-using AptifyWebApi.Models.Dto;
 using AutoMapper;
 using NHibernate;
 

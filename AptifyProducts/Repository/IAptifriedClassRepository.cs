@@ -2,7 +2,6 @@
 
 using System.Collections.Generic;
 using AptifyWebApi.Models;
-using AptifyWebApi.Models.Aptifried;
 using NHibernate;
 
 #endregion

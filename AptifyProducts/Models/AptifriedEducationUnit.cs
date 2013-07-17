@@ -5,7 +5,7 @@ using AptifyWebApi.Models.Meeting;
 
 #endregion
 
-namespace AptifyWebApi.Models.Aptifried
+namespace AptifyWebApi.Models
 {
     public class AptifriedEducationUnit
     {

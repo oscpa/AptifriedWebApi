@@ -1,9 +1,8 @@
 ﻿#region using
 
 using System.Collections.Generic;
-using AptifyWebApi.Models.Dto;
-using AptifyWebApi.Models.Dto.Meeting;
-using AptifyWebApi.Models.Dto.SessionSelection;
+using AptifyWebApi.Dto;
+using AptifyWebApi.Dto.SessionSelection;
 using NHibernate;
 
 #endregion

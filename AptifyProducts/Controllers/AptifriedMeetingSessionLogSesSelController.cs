@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Http;
-using AptifyWebApi.Models.Dto.SessionSelection;
+using AptifyWebApi.Dto.SessionSelection;
 using AptifyWebApi.Models.SessionSelection;
 using AutoMapper;
 using NHibernate;

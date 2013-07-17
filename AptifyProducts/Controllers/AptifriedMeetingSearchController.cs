@@ -4,9 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.Web;
+using System.Web.Mvc;
 using AptifyWebApi.Dto;
 using AptifyWebApi.Helpers;
-using AptifyWebApi.Models.Dto.Meeting;
 using AptifyWebApi.Repository;
 using AutoMapper;
 using NHibernate;
@@ -21,17 +21,18 @@ namespace AptifyWebApi.Controllers
         {
         }
 
+        [HttpGet]
         public AptifriedMeetingSearchDto Get()
         {
             var msDto = new AptifriedMeetingSearchDto
-                {
-                    MeetingTypes = session.GetInitMeetingTypeDto()
-                };
-
+            {
+                MeetingTypesObjList = session.GetAllMeetingTypeDto()
+            };
 
             return msDto;
         }
 
+        [HttpPost]
         public IList<AptifriedMeetingDto> Post(AptifriedMeetingSearchDto search)
         {
             // If search is null, throw an error

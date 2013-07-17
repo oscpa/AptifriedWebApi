@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Web;
-using AptifyWebApi.Models.Dto;
+using AptifyWebApi.Dto;
 using NHibernate;
 
 #endregion

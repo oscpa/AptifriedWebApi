@@ -1,4 +1,4 @@
-﻿namespace AptifyWebApi.Models.Dto
+﻿namespace AptifyWebApi.Dto
 {
     public class AptifriedAuthorizedRoleDto
     {

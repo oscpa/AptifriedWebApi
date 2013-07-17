@@ -42,8 +42,6 @@ In addition to the features above, we have included fixes for the following nota
 - Fixes a regression in 5.4 where ODataLib started writing unnecessary type information in certain instances
 - Fixes an issue where the WCF DS client would sometimes not dispose the response if the response had no content
 - Improves a number of errors and error messages</releaseNotes>
-    <copyright />
-    <language />
     <tags>wcf data services odata odatalib edmlib spatial ado.net ef entity framework open protocol wcfds wcfdataservices dataservices</tags>
     <dependencies>
       <dependency id="System.Spatial" version="[5.5.0]" />

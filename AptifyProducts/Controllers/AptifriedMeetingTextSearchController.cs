@@ -4,8 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using AptifyWebApi.Models.Dto;
-using AptifyWebApi.Models.Dto.Meeting;
+using AptifyWebApi.Dto;
 using NHibernate;
 
 #endregion

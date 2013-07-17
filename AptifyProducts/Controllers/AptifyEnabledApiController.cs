@@ -2,10 +2,9 @@
 
 using System.Web.Http;
 using Aptify.Framework.Application;
+using AptifyWebApi.Dto;
 using AptifyWebApi.Factories;
 using AptifyWebApi.Models;
-using AptifyWebApi.Models.Aptifried;
-using AptifyWebApi.Models.Dto;
 using AptifyWebApi.Repository;
 using AutoMapper;
 using NHibernate;

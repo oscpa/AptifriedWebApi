@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using AptifyWebApi.Dto;
 using AptifyWebApi.Models;
-using AptifyWebApi.Models.Dto;
 using NHibernate;
 
 namespace AptifyWebApi.Controllers {

@@ -1,10 +1,8 @@
 ﻿#region using
 
 using System.Collections.Generic;
+using AptifyWebApi.Dto;
 using AptifyWebApi.Models;
-using AptifyWebApi.Models.Aptifried;
-using AptifyWebApi.Models.Dto;
-using AptifyWebApi.Models.Dto.Meeting;
 using AptifyWebApi.Models.Meeting;
 using AutoMapper;
 using NHibernate;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace AptifyWebApi.Models.Dto.SessionSelection
+namespace AptifyWebApi.Dto.SessionSelection
 {
     public class AptifriedMeetingSessionLogDto
     {

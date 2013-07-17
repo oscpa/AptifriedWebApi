@@ -12,5 +12,15 @@ namespace AptifyWebApi.Helpers
         {
             get { return ConfigurationManager.AppSettings["DefaultConnection"]; }
         }
+
+        public static string AptifyDbServer
+        {
+            get { return ConfigurationManager.AppSettings["AptifyDBServer"]; }
+        }
+
+        public static string AptifyEntitiesDb
+        {
+            get { return ConfigurationManager.AppSettings["AptifyEntitiesDB"]; }
+        }
     }
 }

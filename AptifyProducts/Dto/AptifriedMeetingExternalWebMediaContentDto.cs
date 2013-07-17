@@ -4,7 +4,7 @@ using System;
 
 #endregion
 
-namespace AptifyWebApi.Models.Dto.Meeting
+namespace AptifyWebApi.Dto
 {
     public class AptifriedMeetingExternalWebMediaContentDto
     {

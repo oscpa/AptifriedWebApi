@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using AptifyWebApi.Models.Dto;
+using AptifyWebApi.Dto;
 using AptifyWebApi.Repository;
 using AutoMapper;
 using NHibernate;

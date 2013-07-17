@@ -1,6 +1,4 @@
-﻿using AptifyWebApi.Models.Dto.Meeting;
-
-namespace AptifyWebApi.Models.Dto
+﻿namespace AptifyWebApi.Dto
 {
     public class AptifriedCarouselElementDto
     {

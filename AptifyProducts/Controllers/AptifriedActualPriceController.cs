@@ -3,7 +3,7 @@
 using System;
 using System.Web;
 using Aptify.Applications.OrderEntry;
-using AptifyWebApi.Models.Dto;
+using AptifyWebApi.Dto;
 using AutoMapper;
 using NHibernate;
 

@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AptifyWebApi.Models;
-using AptifyWebApi.Models.Aptifried;
 using NHibernate;
 using NHibernate.Linq;
 

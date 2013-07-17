@@ -1,8 +1,7 @@
 ﻿#region using
 
 using System.Collections.Generic;
-using AptifyWebApi.Models.Aptifried;
-using AptifyWebApi.Models.Dto;
+using AptifyWebApi.Dto;
 using AptifyWebApi.Models;
 using AutoMapper;
 using NHibernate;

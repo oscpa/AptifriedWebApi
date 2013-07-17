@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace AptifyWebApi.Models.Dto
+namespace AptifyWebApi.Dto
 {
     public class AptifriedCampaignDto
     {

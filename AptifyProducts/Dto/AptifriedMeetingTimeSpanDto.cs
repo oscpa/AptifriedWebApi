@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace AptifyWebApi.Models.Dto.Meeting
+namespace AptifyWebApi.Dto
 {
     public class AptifriedMeetingTimeSpanDto
     {

@@ -1,11 +1,10 @@
 ﻿#region using
 
 using System;
-using AptifyWebApi.Models.Dto.Meeting;
 
 #endregion
 
-namespace AptifyWebApi.Models.Dto
+namespace AptifyWebApi.Dto
 {
     public class AptifriedEducationUnitDto
     {

@@ -2,7 +2,7 @@
 
 using System.Web;
 using Aptify.Framework.BusinessLogic.GenericEntity;
-using AptifyWebApi.Models.Dto;
+using AptifyWebApi.Dto;
 using NHibernate;
 
 #endregion

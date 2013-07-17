@@ -13,7 +13,7 @@ using Newtonsoft.Json.Converters;
 
 #endregion
 
-namespace AptifyWebApi.Helpers
+namespace AptifyWebApi.Formatters
 {
     public class JsonpMediaTypeFormatter : JsonMediaTypeFormatter
     {
