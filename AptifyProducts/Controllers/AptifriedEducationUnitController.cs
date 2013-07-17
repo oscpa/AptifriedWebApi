@@ -55,7 +55,7 @@ namespace AptifyWebApi.Controllers {
                 if (educationUnit.Id > 0) 
                     theRecordId = educationUnit.Id;
 
-                var educationUnitEntity = AptifyApp.GetEntityObject("Education Unit", theRecordId);
+                var educationUnitEntity = AptifyApp.GetEntityObject("Education Units", theRecordId);
 
                 educationUnitEntity.SetAddValue("PersonID", educationUnit.Person.Id);
                 educationUnitEntity.SetAddValue("DateEarned", educationUnit.DateEarned);
@@ -71,9 +71,12 @@ namespace AptifyWebApi.Controllers {
                 educationUnitEntity.SetAddValue("ExternalCPESponsor", educationUnit.ExternalCPESponsor);
 
                 // Don't let people do this. They could grant credit to themselves and verify it.
-                //educationUnitEntity.SetAddValue("ExternalSourceVerified", educationUnit.ExternalSourceVerified);
-                //educationUnitEntity.SetAddValue("MeetingID", educationUnit.Meeting.Id):
-                //educationUnitEntity.SetAddValue("Deactivate", educationUnit.Deactivate);
+				// Response: But Joel, if we don't do it, they'll never be able to add external credits!
+				if (educationUnit.Source.Equals("External")) {
+					educationUnitEntity.SetAddValue("ExternalSourceVerified", educationUnit.ExternalSourceVerified);
+					//educationUnitEntity.SetAddValue("MeetingID", educationUnit.Meeting.Id):
+					educationUnitEntity.SetAddValue("Deactivate", educationUnit.Deactivate);
+				}
 
                 string entityError = string.Empty;
                 if (!educationUnitEntity.Save(false, ref entityError)) {
