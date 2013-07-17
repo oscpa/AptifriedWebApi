@@ -1,3 +1,4 @@
 packages/*
+*.suo
 .DS_Store
 ._.DS_Store
