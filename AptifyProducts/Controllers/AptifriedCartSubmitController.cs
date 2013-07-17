@@ -25,7 +25,6 @@ namespace AptifyWebApi.Controllers
         public AptifriedOrderDto Post(AptifriedWebShoppingCartSubmitRequestDto submitRequest)
         {
             AptifriedOrderDto resultingOrder = null;
-            AptifyGenericEntityBase orderGe = null;
             AptifyGenericEntityBase webShoppingCartGe = null;
 
             if (submitRequest == null)

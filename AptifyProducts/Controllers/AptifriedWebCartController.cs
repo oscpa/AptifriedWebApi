@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.Http;
 using AptifyWebApi.Dto;
+using AptifyWebApi.Helpers;
 using AptifyWebApi.Models;
 using AutoMapper;
 using NHibernate;
@@ -54,7 +55,7 @@ namespace AptifyWebApi.Controllers
             if (shoppingCartToUpdate.Name != null)
                 shoppingCartGe.SetAddValue("Name", shoppingCartToUpdate.Name);
 
-            if (shoppingCartToUpdate.ShoppingCartType != null && shoppingCartToUpdate.ShoppingCartType.Id != null)
+            if (shoppingCartToUpdate.ShoppingCartType != null && !shoppingCartToUpdate.ShoppingCartType.Id.IsNull())
                 shoppingCartGe.SetAddValue("WebShoppingCartTypeID", shoppingCartToUpdate.ShoppingCartType.Id);
 
             if (shoppingCartToUpdate.Description != null)

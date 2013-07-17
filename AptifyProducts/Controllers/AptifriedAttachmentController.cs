@@ -106,7 +106,7 @@ namespace AptifyWebApi.Controllers
                 result.Content.Headers.ContentDisposition.FileName = attachmentProper.Name;
                 return result;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }

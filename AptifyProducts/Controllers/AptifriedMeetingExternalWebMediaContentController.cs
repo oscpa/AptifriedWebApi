@@ -24,8 +24,6 @@ namespace AptifyWebApi.Controllers
 
         public IList<AptifriedMeetingExternalWebMediaContentDto> Get()
         {
-            IList<AptifriedMeetingExternalWebMediaContentDto> mediaContent = null;
-
             var queryString = Request.RequestUri.Query;
             ICriteria queryCriteria = session.CreateCriteria<AptifriedMeetingExternalWebMediaContent>();
             try

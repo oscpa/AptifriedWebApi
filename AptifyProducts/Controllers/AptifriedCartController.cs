@@ -224,8 +224,6 @@ namespace AptifyWebApi.Controllers
 
         private AptifriedWebShoppingCartDto SaveRequestedShoppingCart(AptifriedWebShoppingCartRequestDto request)
         {
-            AptifriedWebShoppingCartDto cartDto = null;
-
             var aptifyShoppingCart = AptifyApp.GetEntityObject(WEB_SHOPPING_CART_ENTITY_NAME, request.Id);
             aptifyShoppingCart.SetValue("Name", request.Name);
             aptifyShoppingCart.SetValue("Description", request.Description);

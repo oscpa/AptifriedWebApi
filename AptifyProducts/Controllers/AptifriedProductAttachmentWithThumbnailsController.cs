@@ -101,7 +101,7 @@ namespace AptifyWebApi.Controllers
                                                                          : attachmentProper.FileName;
                 return result;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }
