@@ -1,5 +1,5 @@
-
-﻿#region using
+﻿
+ #region using
 
 using AptifyWebApi.Models.Shared;
 using System;

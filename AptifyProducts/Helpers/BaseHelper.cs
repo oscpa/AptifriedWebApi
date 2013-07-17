@@ -1,5 +1,5 @@
-
-﻿namespace AptifyWebApi.Helpers
+﻿
+ namespace AptifyWebApi.Helpers
 {
     public static class BaseHelper
     {
