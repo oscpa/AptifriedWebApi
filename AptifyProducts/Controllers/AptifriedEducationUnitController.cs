@@ -92,6 +92,23 @@ namespace AptifyWebApi.Controllers {
             return educationUnit;
         }
 
+		public bool Delete(int educationUnitId) {
+			if (educationUnitId < 1) {
+				throw new HttpException(500, "No ID given");
+			}
+
+			var educationUnitEntity = AptifyApp.GetEntityObject("Education Units", educationUnitId);
+			if (educationUnitEntity == null) {
+				throw new HttpException(500, "Error loading up Education Units GE");
+			}
+
+			if (!educationUnitEntity.Delete()) {
+				throw new HttpException(500, "Error deleting entity: " + educationUnitEntity.LastUserError);
+			}
+
+			return true;
+		}
+
         /// <summary>
         /// Returns the trascript formatted credits aggregate education units.
         /// </summary>
