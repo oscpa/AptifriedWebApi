@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Http;
 using AptifyWebApi.Dto;
 using AptifyWebApi.Models;
 using NHibernate;
@@ -13,7 +14,15 @@ namespace AptifyWebApi.Controllers {
 
 		public AptifriedCPECertificateController(ISession session) : base(session) { }
 
-		public AptifriedAttachmentDto Post(AptifriedCPECertificateDto cpeDto) {
+
+		[HttpPost]
+		public AptifriedAttachmentDto Delete(AptifriedAttachmentDto cpeDto)
+		{
+		    throw new NotImplementedException();
+		}
+
+		[HttpPost]
+		public AptifriedAttachmentDto Update(AptifriedCPECertificateDto cpeDto) {
 			if (cpeDto == null || cpeDto.Base64Data == null || cpeDto.Base64Data.Length < 1 || string.IsNullOrEmpty(cpeDto.Attachment.Name)) {
 				throw new HttpException(500, "No file data to upload or no file name given");
 			}
@@ -61,16 +70,6 @@ namespace AptifyWebApi.Controllers {
 					throw new HttpException(500, "Warning: no entities updated when inserting blob into attachments entity");
 				}
 			}
-
-			/*
-			var query = session.CreateSQLQuery("update vwAttachments set BlobData = :data where ID = :id")
-				.SetInt64("id", entityObj.RecordID)
-				.SetBinary("data", dataBytes);
-
-			if (query.ExecuteUpdate() < 1) {
-				throw new HttpException(500, "Warning: no entities updated when inserting blob into attachments entity");
-			}
-			 */
 
 			return cpeDto.Attachment;
 		}
