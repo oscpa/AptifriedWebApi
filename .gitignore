@@ -1,6 +1,12 @@
-packages/*
-obj/*
-*.csproj.user
+[Oo]bj
+[Bb]in
+*.user
 *.suo
-.DS_Store
-._.DS_Store
+*.[Cc]ache
+*.bak
+*.ncb
+*.log 
+*.DS_Store
+[Tt]humbs.db 
+_ReSharper.*
+*.resharper
