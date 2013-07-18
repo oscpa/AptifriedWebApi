@@ -39,6 +39,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ActiproSoftware.Shared, Version=1.0.73.0, Culture=neutral, PublicKeyToken=36ff2196ab5654b9">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ActiproSoftware.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiproSoftware.SyntaxEditor, Version=3.0.181.0, Culture=neutral, PublicKeyToken=c4cd476ffc9028b7">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ActiproSoftware.SyntaxEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiproSoftware.WinUICore, Version=1.0.73.0, Culture=neutral, PublicKeyToken=1eba893a2bc55de5">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ActiproSoftware.WinUICore.dll</HintPath>
+    </Reference>
+    <Reference Include="AnswerSheet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\AnswerSheet.dll</HintPath>
+    </Reference>
     <Reference Include="Aptify.Framework.BusinessLogic.GenericEntity.Generated.Companies">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\Aptify.Framework.BusinessLogic.GenericEntity.Generated.Companies.dll</HintPath>
     </Reference>
@@ -70,6 +86,13 @@
     <Reference Include="AptifyAttributeManagement">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyAttributeManagement.dll</HintPath>
     </Reference>
+    <Reference Include="AptifyConnectionState, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\AptifyConnectionState.dll</HintPath>
+    </Reference>
+    <Reference Include="AptifyEventFire">
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0\AptifyEventFire.dll</HintPath>
+    </Reference>
     <Reference Include="AptifyExceptionManagement">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyExceptionManagement.dll</HintPath>
     </Reference>
@@ -92,8 +115,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyGenericFind.dll</HintPath>
     </Reference>
+    <Reference Include="AptifyLicensingManager, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\AptifyLicensingManager.dll</HintPath>
+    </Reference>
+    <Reference Include="AptifyLogin">
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0\AptifyLogin.dll</HintPath>
+    </Reference>
     <Reference Include="AptifyMeetingsEntity">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyMeetingsEntity.dll</HintPath>
+    </Reference>
+    <Reference Include="AptifyObjectRepository">
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0\AptifyObjectRepository.dll</HintPath>
     </Reference>
     <Reference Include="AptifyOrdersEntity">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyOrdersEntity.dll</HintPath>
@@ -125,6 +158,9 @@
     </Reference>
     <Reference Include="AptifyShippingCalculator">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyShippingCalculator.dll</HintPath>
+    </Reference>
+    <Reference Include="AptifySQLDataServices">
+      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0\AptifySQLDataServices.dll</HintPath>
     </Reference>
     <Reference Include="AptifyUtility, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -1110,13 +1146,13 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>62371</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:61739/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>True</UseCustomServer>
+          <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>http://localhost:8088</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
