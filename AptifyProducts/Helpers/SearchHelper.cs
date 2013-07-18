@@ -92,13 +92,18 @@ namespace AptifyWebApi.Helpers
         public static IList<AptifriedMeetingType> GetActiveDbMeetingTypes(this ISession session)
         {
             //get all meeting types currently used by a meeting
-            var inUseIds = session.QueryOver<AptifriedMeeting>().TransformUsing(Transformers.DistinctRootEntity)
-                                  .Select(x => x.Type.Id).List<int>();
+            var inUse = session.QueryOver<AptifriedMeeting>()
+                               .TransformUsing(Transformers.DistinctRootEntity)
+                               .Select(x => x.Type.Id);
 
-            var qry = session.QueryOver<AptifriedMeetingType>()
-                             .WhereRestrictionOn(x => x.Id.IsIn(inUseIds.ToArray())).As<IList<AptifriedMeetingType>>();
+            var y = inUse.List<AptifriedMeeting>();
+            
+            //var qry = session.QueryOver<AptifriedMeetingType>()
+             //                .WhereRestrictionOn(x => x.Id.IsIn(inUseIds)).As<IList<AptifriedMeetingType>>();
 
-            return qry;
+            //return qry;
+
+            return null;
         }
 
         public static IList<AptifriedMeetingType> GetAllDbMeetingTypes(this ISession session)

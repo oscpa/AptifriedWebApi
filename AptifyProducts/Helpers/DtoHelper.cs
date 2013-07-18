@@ -12,6 +12,7 @@ namespace AptifyWebApi.Helpers
     {
         public static AptifriedMeetingSearchDto ConvertStringMeetingTypesToMeetingTypeObjects(this AptifriedMeetingSearchDto sParam, ISession session) 
         { 
+            if(sParam.MeetingType.IsNotNull())
             foreach (var mt in sParam.MeetingType)
             {
                 sParam.MeetingTypesObjList.Add(session.GetMeetingTypeDtoByName(mt));
