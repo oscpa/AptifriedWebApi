@@ -1,28 +1,53 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
 using AptifyWebApi.Dto;
+using AptifyWebApi.Helpers;
 using AptifyWebApi.Models;
 using NHibernate;
 
 namespace AptifyWebApi.Controllers {
-	[System.Web.Http.Authorize]
+	[Authorize]
 	public class AptifriedCPECertificateController : AptifyEnabledApiController {
 		private const int PERSONS_ENTITY_ID = 1006;
 
 		public AptifriedCPECertificateController(ISession session) : base(session) { }
 
+        [HttpDelete]
+	    public bool Delete(int attachmentId)
+	    {
+	        using (var transaction = session.BeginTransaction())
+	        {
+	            try
+	            {
+	                var d =
+	                    session.QueryOver<AptifriedAttachment>()
+	                           .Where(x => x.Id == attachmentId)
+	                           .SingleOrDefault<AptifriedAttachment>();
+
+	                //session.Delete(d);
+
+	                session.Flush();
+
+	                transaction.Commit();
+
+	                return true;
+	            }
+	            catch (Exception ex)
+	            {
+	                transaction.Rollback();
+
+	                throw new HttpException(500, "Warning: no entities updated when inserting blob into attachments entity", ex.InnerException);
+	            }
+	        }
+	    }
 
 		[HttpPost]
-		public AptifriedAttachmentDto Delete(AptifriedAttachmentDto cpeDto)
-		{
-		    throw new NotImplementedException();
-		}
-
-		[HttpPost]
-		public AptifriedAttachmentDto Update(AptifriedCPECertificateDto cpeDto) {
+		public AptifriedAttachmentDto Post(AptifriedCPECertificateDto cpeDto) {
 			if (cpeDto == null || cpeDto.Base64Data == null || cpeDto.Base64Data.Length < 1 || string.IsNullOrEmpty(cpeDto.Attachment.Name)) {
 				throw new HttpException(500, "No file data to upload or no file name given");
 			}
@@ -50,28 +75,57 @@ namespace AptifyWebApi.Controllers {
 				throw new HttpException(500, "Error decoding base 64 data to byte array");
 			}
 
-			using (var transaction = session.BeginTransaction())
-			{
 				//WBN: Refactor this out to a base/CpeCert repo
-				try
-				{
-					var q = session.QueryOver<AptifriedAttachment>().Where(x => x.Id == entityObj.RecordID).SingleOrDefault<AptifriedAttachment>();
 
-					q.BlobData = dataBytes;
-				   
-					transaction.Commit();
-				}
-				catch (Exception ex)
-				{
-					var e = ex.ToString();
+		    using (var transaction = session.BeginTransaction())
+		    {
+		        try
+		        {
+		            var q =
+		                session.QueryOver<AptifriedAttachment>()
+		                       .Where(x => x.Id == entityObj.RecordID)
+		                       .SingleOrDefault<AptifriedAttachment>();
 
-					transaction.Rollback();
+		            q.BlobData = dataBytes;
 
-					throw new HttpException(500, "Warning: no entities updated when inserting blob into attachments entity");
-				}
-			}
+		            session.Save(q);
+		        }
+		        catch (Exception ex)
+		        {
+		            var e = ex.ToString();
+
+		            throw new HttpException(500, "Warning: no entities updated when inserting blob into attachments entity");
+		        }
+		    }
+		    //InsertDataIntoDatabaseDirectlyDueToHibernateBug(entityObj.RecordID, dataBytes);
 
 			return cpeDto.Attachment;
 		}
+
+	    private static void InsertDataIntoDatabaseDirectlyDueToHibernateBug(long recordId, IEnumerable dataBytes)
+	    {
+
+            const string sqlUpdate = "update vwAttachments set BlobData = :data where ID = :id";
+
+            var conn = new SqlConnection(WebConfigHelper.DefaultConnectionString);
+           conn.Open();
+            try
+            {
+                var cmd = new SqlCommand(sqlUpdate, conn);
+                cmd.Parameters.AddWithValue("@id", recordId);
+                cmd.Parameters.AddWithValue("@data", dataBytes);
+                cmd.ExecuteNonQuery();
+
+                cmd.Dispose();
+            }
+            catch (Exception ex)
+            {
+                throw new HttpException(500, "Warning: no entities updated when inserting blob into attachments entity");
+            }
+            finally
+            {
+                conn.Close();
+            }
+	    }
 	}
 }

@@ -67,6 +67,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyAddressInterface.dll</HintPath>
     </Reference>
+    <Reference Include="AptifyAlerts">
+      <HintPath>..\..\AptifyAlerts.dll</HintPath>
+    </Reference>
     <Reference Include="AptifyApplication">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyApplication.dll</HintPath>
     </Reference>
@@ -671,6 +674,7 @@
     <Compile Include="Models\SessionSelection\AptifriedNewMeetingSession.cs" />
     <Compile Include="Models\SessionSelection\AptifriedNewMeetingSessionMap.cs" />
     <Compile Include="Models\Shared\EnumsAndConstantsToAvoidDatabaseChanges.cs" />
+    <Compile Include="Models\Shared\MsSqlDialectExtend.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
     <Compile Include="Repository\HibernatedAptifriedClassRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -27,38 +27,36 @@ namespace AptifyWebApi.Repository
         public IList<Meeting> Search(MeetingSearchDto sParams,
                                               bool useKeywordRanking)
         {
-            sParams.ConvertStringMeetingTypesToMeetingTypeObjects(Session);
-
             //base: filter out any non-active items 
             Expression<Func<Meeting, bool>> filterExpr = x => x.Status.Id == 1 && x.Product.WebEnabled && x.Product.IsSold;
 
             if (sParams.IsDateSearch)
-                filterExpr.AndAlso(DateFilter(sParams));
+                filterExpr = filterExpr.And(DateFilter(sParams));
 
             //if credit type search and not all types selected
             if (sParams.HasCreditTypes && sParams.CreditTypes.Count() < Session.GetActiveDbEducationCategoryCount())
-                filterExpr.AndAlso(CreditTypeFilter(sParams));
+                filterExpr = filterExpr.And(CreditTypeFilter(sParams));
 
 
             //TODO: Gut enum
             if (sParams.IsZipSearch && sParams.HasMeetingTypes)
             {
                 var isIn =
-                    sParams.MeetingTypesObjList.Any(
+                    sParams.MeetingTypes.Any(
                         x =>
-                        x.Description.Equals(
+                        x.Name.Equals(
                             EnumsAndConstantsToAvoidDatabaseChanges.MeetingTypeCategory.InPerson.Description()));
 
-                if (isIn || sParams.MeetingTypesObjList.Count() == Session.GetActiveDbMeetingTypesCount())
-                    filterExpr.AndAlso(ZipCodeFilter(sParams));
+                if (isIn || sParams.MeetingTypes.Count() == Session.GetActiveDbMeetingTypesCount())
+                    filterExpr = filterExpr.And(ZipCodeFilter(sParams));
 
             }
 
 
             if (sParams.HasLevels)
-                filterExpr.AndAlso(LevelsFilter(sParams));
+                filterExpr = filterExpr.And(LevelsFilter(sParams));
 
-            filterExpr.AndAlso(MeetingTypesFilter(sParams));
+            filterExpr = filterExpr.And(MeetingTypesFilter(sParams));
 
             var res = Session.Query<Meeting>();
 
@@ -90,11 +88,11 @@ namespace AptifyWebApi.Repository
             Expression<Func<Meeting, bool>> expr;
 
             //TODO: Gut enum use
-            if (sParams.HasMeetingTypes && sParams.MeetingTypesObjList.Count < Session.GetActiveDbMeetingTypesCount())
+            if (sParams.HasMeetingTypes && sParams.MeetingTypes.Count < Session.GetActiveDbMeetingTypesCount())
             {
                 var meetingTypeIds = new List<int>();
 
-                foreach (var mType in sParams.MeetingTypesObjList)
+                foreach (var mType in sParams.MeetingTypes)
                     meetingTypeIds.AddRange(EnumHelper.GetMeetingTypeIdsByCategoryDescription(mType.Name));
 
                 expr = x => meetingTypeIds.Contains(x.Id);

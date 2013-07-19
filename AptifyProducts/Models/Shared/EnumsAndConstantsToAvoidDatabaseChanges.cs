@@ -27,7 +27,7 @@ namespace AptifyWebApi.Models.Shared
         {
             [Description("InPerson")] InPerson = 1,
             [Description("OnLine")] Online = 2,
-            [Description("SelfStudy")] SelfStudy = 3
+            [Description("Self-Study")] SelfStudy = 3
         }
 
         //Column as bit in database would be ideal.

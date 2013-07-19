@@ -26,7 +26,7 @@ namespace AptifyWebApi.Controllers
         {
             var msDto = new AptifriedMeetingSearchDto
             {
-                MeetingTypesObjList = session.GetAllMeetingTypeDto()
+                MeetingTypes = session.GetAllMeetingTypeDto()
             };
 
             return msDto;
@@ -39,6 +39,19 @@ namespace AptifyWebApi.Controllers
             if (search.IsNull())
                 throw new HttpException(500, "Post must contain a search object", new ArgumentException("search"));
 
+            var list = new List<string>();
+            list.Add("Standard");
+            list.Add("Webcast");
+            list.Add("Conference");
+            list.Add("On-Site");
+            list.Add("Self-Study");
+            list.Add("Session");
+            list.Add("Webinar");
+            list.Add("Seminar");
+            list.Add("Networking");
+            list.Add("Other");
+            
+            
             var res = new SearchRepository(session).Search(search, true);
 
             var results = Mapper.Map(res, new List<AptifriedMeetingDto>());
