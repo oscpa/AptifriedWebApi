@@ -41,15 +41,15 @@
   <ItemGroup>
     <Reference Include="ActiproSoftware.Shared, Version=1.0.73.0, Culture=neutral, PublicKeyToken=36ff2196ab5654b9">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\ActiproSoftware.Shared.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\Aptify 5.0 DEV\ActiproSoftware.Shared.dll</HintPath>
     </Reference>
     <Reference Include="ActiproSoftware.SyntaxEditor, Version=3.0.181.0, Culture=neutral, PublicKeyToken=c4cd476ffc9028b7">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\ActiproSoftware.SyntaxEditor.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\Aptify 5.0 DEV\ActiproSoftware.SyntaxEditor.dll</HintPath>
     </Reference>
     <Reference Include="ActiproSoftware.WinUICore, Version=1.0.73.0, Culture=neutral, PublicKeyToken=1eba893a2bc55de5">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\ActiproSoftware.WinUICore.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\Aptify 5.0 DEV\ActiproSoftware.WinUICore.dll</HintPath>
     </Reference>
     <Reference Include="AnswerSheet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -79,6 +79,9 @@
     <Reference Include="AptifyAddressInterface, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyAddressInterface.dll</HintPath>
+    </Reference>
+    <Reference Include="AptifyAlerts">
+      <HintPath>..\..\..\..\..\..\Program Files\Aptify 5.0 DEV\AptifyAlerts.dll</HintPath>
     </Reference>
     <Reference Include="AptifyApplication">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyApplication.dll</HintPath>
@@ -317,6 +320,9 @@
     <Reference Include="PreferredAddress, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\PreferredAddress.dll</HintPath>
+    </Reference>
+    <Reference Include="ProcessFlowDebugHarness">
+      <HintPath>..\..\..\..\..\..\Program Files\Aptify 5.0 DEV\ProcessFlowDebugHarness.dll</HintPath>
     </Reference>
     <Reference Include="ProcessSessionLog__AC">
       <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0\ProcessSessionLog__AC.dll</HintPath>
