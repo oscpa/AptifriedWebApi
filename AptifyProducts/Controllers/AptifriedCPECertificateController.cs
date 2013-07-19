@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Aptify.Framework.DataServices;
 using AptifyWebApi.Dto;
 using AptifyWebApi.Models;
 using NHibernate;
@@ -33,6 +34,9 @@ namespace AptifyWebApi.Controllers {
 
 			if (!entityObj.Save(false)) {
 				throw new HttpException(500, "Dat is wack: " + entityObj.LastUserError);
+			} else {
+				// Return the ID, as a courtesy
+				cpeDto.Attachment.Id = Convert.ToInt32(entityObj.RecordID);
 			}
 
 			byte[] dataBytes = Convert.FromBase64String(cpeDto.Base64Data);
@@ -41,26 +45,35 @@ namespace AptifyWebApi.Controllers {
 				throw new HttpException(500, "Error decoding base 64 data to byte array");
 			}
 
-            using (var transaction = session.BeginTransaction())
-            {
-                //WBN: Refactor this out to a base/CpeCert repo
-                try
-                {
-                    var q = session.QueryOver<AptifriedAttachment>().Where(x => x.Id == entityObj.RecordID).SingleOrDefault<AptifriedAttachment>();
+			// Let's do this with straight up aptify DA
+			var aptifyDA = new DataAction(AptifyApp.UserCredentials);
+			aptifyDA.ExecuteNonQueryParametrized("update vwAttachments set BlobData = @data where ID = @id",
+				System.Data.CommandType.Text,
+				new System.Data.SqlClient.SqlParameter[] {
+					new System.Data.SqlClient.SqlParameter("@id", entityObj.RecordID),
+					new System.Data.SqlClient.SqlParameter("@data", dataBytes)
+				});
 
-                    q.BlobData = dataBytes;
+			//using (var transaction = session.BeginTransaction())
+			//{
+			//	//WBN: Refactor this out to a base/CpeCert repo
+			//	try
+			//	{
+			//		var q = session.QueryOver<AptifriedAttachment>().Where(x => x.Id == entityObj.RecordID).SingleOrDefault<AptifriedAttachment>();
+
+			//		q.BlobData = dataBytes;
                    
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    var e = ex.ToString();
+			//		transaction.Commit();
+			//	}
+			//	catch (Exception ex)
+			//	{
+			//		var e = ex.ToString();
 
-                    transaction.Rollback();
+			//		transaction.Rollback();
 
-                    throw new HttpException(500, "Warning: no entities updated when inserting blob into attachments entity");
-                }
-            }
+			//		throw new HttpException(500, "Warning: no entities updated when inserting blob into attachments entity");
+			//	}
+			//}
 
             /*
 			var query = session.CreateSQLQuery("update vwAttachments set BlobData = :data where ID = :id")
