@@ -15,7 +15,7 @@ namespace AptifyWebApi.Models {
             Map(x => x.Name);
             Map(x => x.RecordId);
             Map(x => x.Status);
-			Map(x => x.BlobData).CustomSqlType("varbinary(max)").Length(int.MaxValue);
+            Map(x => x.BlobData).CustomSqlType("varbinary(2147483647)").Length(int.MaxValue);
             ReadOnly();
         }
     }
