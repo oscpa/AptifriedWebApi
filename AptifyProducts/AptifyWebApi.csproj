@@ -201,6 +201,9 @@
     <Reference Include="EBusinessGlobal">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\EBusinessGlobal.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="ExpandKits">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\ExpandKits.dll</HintPath>
     </Reference>
@@ -309,6 +312,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\PreferredAddress.dll</HintPath>
     </Reference>
+    <Reference Include="ProcessFlowDebugHarness">
+      <HintPath>..\..\ProcessFlowDebugHarness.dll</HintPath>
+    </Reference>
     <Reference Include="ProcessSessionLog__AC">
       <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0\ProcessSessionLog__AC.dll</HintPath>
     </Reference>
@@ -338,6 +344,8 @@
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Spatial, Version=5.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\System.Spatial.5.5.0\lib\net40\System.Spatial.dll</HintPath>
@@ -673,12 +681,16 @@
     <Compile Include="Models\SessionSelection\AptifriedMeetingSessionLogMap.cs" />
     <Compile Include="Models\SessionSelection\AptifriedNewMeetingSession.cs" />
     <Compile Include="Models\SessionSelection\AptifriedNewMeetingSessionMap.cs" />
+    <Compile Include="Models\Shared\AptifyContext.cs" />
+    <Compile Include="Models\Shared\BaseModel.cs" />
     <Compile Include="Models\Shared\EnumsAndConstantsToAvoidDatabaseChanges.cs" />
     <Compile Include="Models\Shared\MsSqlDialectExtend.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
+    <Compile Include="Repository\NhibernateBaseRepository.cs" />
     <Compile Include="Repository\HibernatedAptifriedClassRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\IAptifriedClassRepository.cs" />
+    <Compile Include="Repository\EntityBaseRepository.cs" />
     <Compile Include="Repository\NHibernateSessionManager.cs" />
     <Compile Include="Repository\SearchRepository.cs" />
   </ItemGroup>
@@ -932,6 +944,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

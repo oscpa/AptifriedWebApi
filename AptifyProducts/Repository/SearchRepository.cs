@@ -2,40 +2,47 @@
 
 using AptifyWebApi.Dto;
 using AptifyWebApi.Helpers;
+using AptifyWebApi.Models.Meeting;
 using AptifyWebApi.Models.Shared;
 using NHibernate;
-using NHibernate.Linq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using Meeting = AptifyWebApi.Models.Meeting.AptifriedMeeting;
-using MeetingSearchDto = AptifyWebApi.Dto.AptifriedMeetingSearchDto;
 
 #endregion
 
+//TODO: Call search arameter URL on frontend
 //TODO: Filter - Date sort order (from search obj)
+//TODO: Sub-Grouping
 //TODO: Export search to excel
 
 namespace AptifyWebApi.Repository
 {
-    public class SearchRepository : BaseRepository
+    public class SearchRepository<T, TD> : NHibernateBaseRepository<ISession, T>
+        where T : AptifriedMeeting
+        where TD : AptifriedMeetingSearchDto
     {
         public SearchRepository(ISession session) : base(session) { }
 
-        public IList<Meeting> Search(MeetingSearchDto sParams,
-                                              bool useKeywordRanking)
+        public IList<T> Search(TD sParams, bool useKeywordRanking)
         {
+
             //base: filter out any non-active items 
-            Expression<Func<Meeting, bool>> filterExpr = x => x.Status.Id == 1 && x.Product.WebEnabled && x.Product.IsSold;
+            var filterList = new List<Expression<Func<T, bool>>> ();
+
+            Expression<Func<T, bool>> filterExpr = x => x.Status.Id == 1 && x.Product.WebEnabled && x.Product.IsSold;
+
+            
+            filterList.Add(filterExpr);
 
             if (sParams.IsDateSearch)
-                filterExpr = filterExpr.And(DateFilter(sParams));
+                filterList.Add(DateFilter(sParams));
 
             //if credit type search and not all types selected
-            if (sParams.HasCreditTypes && sParams.CreditTypes.Count() < Session.GetActiveDbEducationCategoryCount())
-                filterExpr = filterExpr.And(CreditTypeFilter(sParams));
+            if (sParams.HasCreditTypes && sParams.CreditTypes.Count() < Context.GetActiveDbEducationCategoryCount())
+                 filterList.Add(CreditTypeFilter(sParams));
 
 
             //TODO: Gut enum
@@ -47,53 +54,56 @@ namespace AptifyWebApi.Repository
                         x.Name.Equals(
                             EnumsAndConstantsToAvoidDatabaseChanges.MeetingTypeCategory.InPerson.Description()));
 
-                if (isIn || sParams.MeetingTypes.Count() == Session.GetActiveDbMeetingTypesCount())
-                    filterExpr = filterExpr.And(ZipCodeFilter(sParams));
+                if (isIn || sParams.MeetingTypes.Count() == Context.GetActiveDbMeetingTypesCount())
+                    filterList.Add(ZipCodeFilter(sParams));
 
             }
 
 
             if (sParams.HasLevels)
-                filterExpr = filterExpr.And(LevelsFilter(sParams));
+                filterList.Add(LevelsFilter(sParams));
 
-            filterExpr = filterExpr.And(MeetingTypesFilter(sParams));
+            filterList.Add(MeetingTypesFilter(sParams));
 
-            var res = Session.Query<Meeting>();
+            filterExpr = filterList.Aggregate(filterExpr, (current, expression) => current.AndCombine(expression));
 
-            //apply keyword search and filter
-            if (useKeywordRanking)
-                res = res.Keyword(Session, sParams.SearchText, true);
+            var qRes = Context.QueryOver<T>();
+            var res = new List<T>();
 
-            res = res.Filter(filterExpr);
+            if (sParams.IsKeywordSearch)
+                res =  qRes.Keyword(Context, sParams.SearchText, useKeywordRanking) as List<T>;
+
+            res = new List<T>(res.Filter(filterExpr));
 
             //if results !ranked by keyword and !start/end date search, orderby date desc
-            return !useKeywordRanking ? res.OrderByDescending(x => x.EndDate).ToList() : res.ToList();
+            return !useKeywordRanking ? res.OrderByDescending(x => x.EndDate).ToList() : res;
         }
 
 
         #region Filters
 
-        private Expression<Func<Meeting, bool>> ZipCodeFilter(MeetingSearchDto sParams)
+        private Expression<Func<T, bool>> ZipCodeFilter(TD sParams)
         {
-            var zips = Session.GetZipDistanceWeb(sParams.Zip,
+            var zips = Context.GetZipDistanceWeb(sParams.Zip,
                                                      sParams.MilesDistance.ToString(CultureInfo.InvariantCulture));
 
-            Expression<Func<Meeting, bool>> expr = x => zips.Contains(x.Location.Id);
+            Expression<Func<T, bool>> expr = x => zips.Contains(x.Location.Id);
 
             return expr;
         }
 
-        private Expression<Func<Meeting, bool>> MeetingTypesFilter(MeetingSearchDto sParams)
+        private Expression<Func<T, bool>> MeetingTypesFilter(TD sParams)
         {
-            Expression<Func<Meeting, bool>> expr;
+            Expression<Func<T, bool>> expr;
 
+            //TODO: Use meeting type objects
             //TODO: Gut enum use
-            if (sParams.HasMeetingTypes && sParams.MeetingTypes.Count < Session.GetActiveDbMeetingTypesCount())
+            if (sParams.HasMeetingTypes && sParams.MeetingType.Count < Context.GetActiveDbMeetingTypesCount())
             {
                 var meetingTypeIds = new List<int>();
 
-                foreach (var mType in sParams.MeetingTypes)
-                    meetingTypeIds.AddRange(EnumHelper.GetMeetingTypeIdsByCategoryDescription(mType.Name));
+                foreach (var mType in sParams.MeetingType)
+                    meetingTypeIds.AddRange(EnumHelper.GetMeetingTypeIdsByCategoryDescription(mType));
 
                 expr = x => meetingTypeIds.Contains(x.Id);
             }
@@ -103,24 +113,24 @@ namespace AptifyWebApi.Repository
             return expr;
         }
 
-        private static Expression<Func<Meeting, bool>> LevelsFilter(MeetingSearchDto sParams)
+        private static Expression<Func<T, bool>> LevelsFilter(TD sParams)
         {
-            Expression<Func<Meeting, bool>> expr = x => sParams.Levels.Contains(x.ClassLevelId);
+            Expression<Func<T, bool>> expr = x => sParams.Levels.Contains(x.ClassLevelId);
 
             return expr;
         }
 
-        private static Expression<Func<Meeting, bool>> CreditTypeFilter(MeetingSearchDto sParams)
+        private static Expression<Func<T, bool>> CreditTypeFilter(TD sParams)
         {
             //grab selected ids
             var creditTypeIds = sParams.CreditTypes.Select(x => x.Id).Distinct();
 
-            Expression<Func<Meeting, bool>> expr = x => x.Credits.Any(y => creditTypeIds.Contains(y.Id));
+            Expression<Func<T, bool>> expr = x => x.Credits.Any(y => creditTypeIds.Contains(y.Id));
 
             return expr;
         }
 
-        private static Expression<Func<Meeting, bool>> DateFilter(MeetingSearchDto sParams)
+        private static Expression<Func<T, bool>> DateFilter(TD sParams)
         {
             //set to handle only start, only end or ranged date filter
             var sDate = sParams.StartDate.HasValue ? sParams.StartDate.Value : DateTime.Now;
@@ -130,14 +140,26 @@ namespace AptifyWebApi.Repository
             //filter endDates that fall outside the specified range
             //exclude self study
 
-            Expression<Func<Meeting, bool>> expr = x =>
-                                x.EndDate.IsInRange(sDate, eDate) |
-                                x.StartDate.GetLengthInDays(eDate) >=
-                                EnumsAndConstantsToAvoidDatabaseChanges.MeetingType.SelfStudy.GetMinDays();
+
+            const int minDays = 7; // EnumsAndConstantsToAvoidDatabaseChanges.MeetingType.SelfStudy.GetMinDays();
+            
+            //Using IsInRange extension method not supported
+            //nor is GetLengthInDays
+            Expression<Func<T, bool>> expr = x =>
+                                                   (x.EndDate >= sDate && x.EndDate <= eDate) |
+                                                   (x.StartDate - eDate).TotalDays >= minDays;
+                               
             //x.Id == (int) EnumsAndConstantsToAvoidDatabaseChanges.MeetingType.SelfStudy;
             return expr;
         }
         #endregion
+
+        public T GetSingle(int id)
+        {
+            Expression<Func<T, bool>> expr = x => x.Id == id;
+
+            return FindBy(expr).Single();
+        }
     }
 
     //end class

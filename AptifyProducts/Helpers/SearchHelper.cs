@@ -1,6 +1,8 @@
 ﻿
  #region using
 
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using AptifyWebApi.Dto;
 using AptifyWebApi.Models;
 using AptifyWebApi.Models.Meeting;
@@ -14,12 +16,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using Remotion.Linq.Parsing.ExpressionTreeVisitors;
 using Expression = System.Linq.Expressions.Expression;
 
 #endregion
 
 namespace AptifyWebApi.Helpers
 {
+    /*
     public class ParameterRebinder : ExpressionVisitor
     {
         private readonly Dictionary<ParameterExpression, ParameterExpression> map;
@@ -56,17 +60,17 @@ namespace AptifyWebApi.Helpers
             return Expression.Lambda<T>(merge(first.Body, secondBody), first.Parameters);
         }
 
-        public static Expression<Func<T, bool>> And<T>(this Expression<Func<T, bool>> first, Expression<Func<T, bool>> second)
+        public static Expression<Func<T, bool>> AndAlso<T>(this Expression<Func<T, bool>> first, Expression<Func<T, bool>> second)
         {
-            return first.Compose(second, Expression.And);
+            return first.Compose(second, Expression.AndAlso);
         }
 
-        public static Expression<Func<T, bool>> Or<T>(this Expression<Func<T, bool>> first, Expression<Func<T, bool>> second)
+        public static Expression<Func<T, bool>> OrElse<T>(this Expression<Func<T, bool>> first, Expression<Func<T, bool>> second)
         {
-            return first.Compose(second, Expression.Or);
+            return first.Compose(second, Expression.OrElse);
         }
     }
-
+    */
     public static class SearchHelper
     {
         private const string PrefixContains = "cn";
@@ -84,9 +88,9 @@ namespace AptifyWebApi.Helpers
             return days;
         }
 
-        public static IQueryable<T> Filter<T>(this IQueryable<T> queryable, Expression<Func<T, bool>> predicate)
+        public static IQueryable<T> Filter<T>(this IList<T> lst, Expression<Func<T, bool>> predicate) where T : class
         {
-            return queryable.Where(predicate);
+            return lst.AsQueryable().Where(predicate);
         }
 
        
@@ -100,12 +104,16 @@ namespace AptifyWebApi.Helpers
             return zips;
         }
 
+       
+
         public static int GetActiveDbMeetingTypesCount(this ISession session)
         {
             var r = session.GetActiveDbMeetingTypes().Count;
 
             return r;
         }
+
+      
 
         public static IList<AptifriedMeetingType> GetActiveDbMeetingTypes(this ISession session)
         {
@@ -118,6 +126,8 @@ namespace AptifyWebApi.Helpers
             return qry.List<AptifriedMeetingType>();
 
         }
+
+       
 
         public static IList<AptifriedMeetingType> GetAllDbMeetingTypes(this ISession session)
         {
@@ -152,6 +162,7 @@ namespace AptifyWebApi.Helpers
             return qry.ToList();
         }
 
+      
         public static int GetActiveDbEducationCategoryCount(this ISession session)
         {
             var r = session.GetActiveDbEducationCategories().Count();
@@ -160,8 +171,9 @@ namespace AptifyWebApi.Helpers
         }
 
 
-        public static IQueryable<T> Keyword<T>(this IQueryable<T> res, ISession session, string searchText,
-                                               bool useKeywordRanking)
+
+        public static IList<T> Keyword<T>(this IQueryOver<T> res, ISession session, string searchText,
+                                                bool useKeywordRanking)
         {
             //WBN: Refactor out sql
             //Tell NH3 about freetext/contains sql functions and refactor to something like:
@@ -171,7 +183,7 @@ namespace AptifyWebApi.Helpers
 
             //No keyword search for you!
             if (String.IsNullOrWhiteSpace(searchText))
-                return res;
+                return res.List<T>();
 
             var searchBase = new StringBuilder();
             var searchWhere = new StringBuilder();
@@ -249,11 +261,9 @@ namespace AptifyWebApi.Helpers
             var qry = String.Concat(searchBase, searchWhere, searchOrderBy);
 
             var meetingQuery = session.CreateSQLQuery(qry)
-                                      .AddEntity("mt", typeof (T));
+                                      .AddEntity("mt", typeof(T));
 
-            var meetings = meetingQuery.List<T>().AsQueryable();
-
-            return meetings;
+            return meetingQuery.List<T>();
         }
 
         private static void BuildContainsTableJoins(this StringBuilder sb, string searchText,

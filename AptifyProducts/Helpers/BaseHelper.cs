@@ -1,5 +1,9 @@
 ﻿
- namespace AptifyWebApi.Helpers
+ using System;
+ using System.Linq.Expressions;
+ using Remotion.Linq.Parsing.ExpressionTreeVisitors;
+
+namespace AptifyWebApi.Helpers
 {
     public static class BaseHelper
     {
@@ -8,14 +12,33 @@
             return Equals(obj, default(T));
         }
 
+
         public static bool IsNotNull<T>(this T obj)
         {
             return !obj.IsNull();
         }
 
+
         public static T NullableToNon<T>(this T? obj) where T : struct
         {
             return obj.HasValue ? (T) obj : default(T);
         }
+
+
+        public static Expression<Func<T, bool>> AndCombine<T>(this Expression<Func<T, bool>> expr1, Expression<Func<T, bool>> expr2)
+        {
+            var adaptedExpr2Body = ReplacingExpressionTreeVisitor.Replace(expr2.Parameters[0],expr1.Parameters[0],expr2.Body);
+            
+            return Expression.Lambda<Func<T, bool>>(Expression.AndAlso(expr1.Body, adaptedExpr2Body),expr1.Parameters);
+        }
+
+
+        public static Expression<Func<T, bool>> OrCombine<T>(this Expression<Func<T, bool>> expr1, Expression<Func<T, bool>> expr2)
+        {
+            var adaptedExpr2Body = ReplacingExpressionTreeVisitor.Replace(expr2.Parameters[0],expr1.Parameters[0],expr2.Body);
+        
+            return Expression.Lambda<Func<T, bool>>(Expression.OrElse(expr1.Body, adaptedExpr2Body), expr1.Parameters);
+        }
+
     }
 }

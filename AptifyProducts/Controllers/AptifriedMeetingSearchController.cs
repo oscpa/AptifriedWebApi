@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 using AptifyWebApi.Dto;
 using AptifyWebApi.Helpers;
+using AptifyWebApi.Models.Meeting;
+using AptifyWebApi.Models.Shared;
 using AptifyWebApi.Repository;
 using AutoMapper;
 using NHibernate;
@@ -35,24 +37,28 @@ namespace AptifyWebApi.Controllers
         [HttpPost]
         public IList<AptifriedMeetingDto> Post(AptifriedMeetingSearchDto search)
         {
+#if DEBUG
+            var list = new List<string>
+                {
+                    "Standard",
+                    "Webcast",
+                    "Conference",
+                    "On-Site",
+                    "Self-Study",
+                    "Session",
+                    "Webinar",
+                    "Seminar",
+                    "Networking",
+                    "Other"
+                };
+#endif
+
+
             // If search is null, throw an error
             if (search.IsNull())
                 throw new HttpException(500, "Post must contain a search object", new ArgumentException("search"));
 
-            var list = new List<string>();
-            list.Add("Standard");
-            list.Add("Webcast");
-            list.Add("Conference");
-            list.Add("On-Site");
-            list.Add("Self-Study");
-            list.Add("Session");
-            list.Add("Webinar");
-            list.Add("Seminar");
-            list.Add("Networking");
-            list.Add("Other");
-            
-            
-            var res = new SearchRepository(session).Search(search, true);
+            var res = new SearchRepository<AptifriedMeeting, AptifriedMeetingSearchDto>(session).Search(search, false);
 
             var results = Mapper.Map(res, new List<AptifriedMeetingDto>());
 

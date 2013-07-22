@@ -7,7 +7,7 @@ using NHibernate.Dialect;
 
 namespace AptifyWebApi.Models.Shared
 {
-    public class MsSqlDialectExtend : MsSql2008Dialect
+    public class MsSqlDialectExtend : MsSql2012Dialect
    
 {
     protected override void RegisterLargeObjectTypeMappings()

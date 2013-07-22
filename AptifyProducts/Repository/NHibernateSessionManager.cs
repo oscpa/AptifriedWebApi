@@ -25,24 +25,24 @@ namespace AptifyWebApi.Repository
 
         public ISessionFactory CreateSessionFactory()
         {
-            if (_factory == null)
-            {
-                _factory = Fluently.Configure()
-                                   .Database(MsSqlConfiguration.MsSql2008
-                                                               .ConnectionString(c =>
-                                                                                 c.Server(
-                                                                                     ConfigurationManager.AppSettings[
-                                                                                         "AptifyDBServer"])
-                                                                                  .Database(
-                                                                                      ConfigurationManager.AppSettings[
-                                                                                          "AptifyEntitiesDB"])
-                                                                                  .TrustedConnection()))
-                                   .Mappings(x => x
-                                                      .FluentMappings.AddFromAssembly(Assembly.GetExecutingAssembly()))
-                                   .BuildSessionFactory();
-            }
-
-            return _factory;
+            return _factory ?? (_factory = Fluently.Configure()
+                                                   .Database(MsSqlConfiguration.MsSql2008
+                                                                               .ConnectionString(c =>
+                                                                                                 c.Server(
+                                                                                                     ConfigurationManager
+                                                                                                         .AppSettings[
+                                                                                                             "AptifyDBServer"
+                                                                                                         ])
+                                                                                                  .Database(
+                                                                                                      ConfigurationManager
+                                                                                                          .AppSettings[
+                                                                                                              "AptifyEntitiesDB"
+                                                                                                          ])
+                                                                                                  .TrustedConnection()))
+                                                   .Mappings(x => x
+                                                                      .FluentMappings.AddFromAssembly(
+                                                                          Assembly.GetExecutingAssembly()))
+                                                   .BuildSessionFactory());
         }
 
         private sealed class nested

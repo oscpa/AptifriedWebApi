@@ -1,8 +1,11 @@
 ﻿
  #region using
 
+using System.Collections.Generic;
 using System.Linq;
 using AptifyWebApi.Dto;
+using AptifyWebApi.Models.Meeting;
+using AptifyWebApi.Models.Shared;
 using AptifyWebApi.Repository;
 using NHibernate;
 
@@ -20,7 +23,7 @@ namespace AptifyWebApi.Controllers
 
         public AptifriedMeetingCountResultsDto Post(AptifriedMeetingSearchDto search)
         {
-            var res = new SearchRepository(session).Search(search, false);
+           var res = new SearchRepository<AptifriedMeeting,AptifriedMeetingSearchDto>(session).Search(search, false);
 
             return new AptifriedMeetingCountResultsDto
             {

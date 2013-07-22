@@ -2,12 +2,13 @@
 
 using System;
 using System.Collections.Generic;
+using AptifyWebApi.Models.Shared;
 
 #endregion
 
 namespace AptifyWebApi.Models.Meeting
 {
-    public class AptifriedMeeting
+    public class AptifriedMeeting : IBaseModel
     {
         public virtual int Id { get; set; }
         public virtual string MeetingTitle { get; set; }
