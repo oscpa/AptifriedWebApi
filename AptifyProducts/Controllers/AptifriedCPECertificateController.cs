@@ -75,5 +75,10 @@ namespace AptifyWebApi.Controllers {
 
 			return cpeDto.Attachment;
 		}
+
+		public bool Delete(int personId, int attachmentId) {
+			var atts = new AptifyAttachments(AptifyApp, "Persons", personId);
+			return atts.DeleteAttachment(attachmentId);
+		}
 	}
 }
