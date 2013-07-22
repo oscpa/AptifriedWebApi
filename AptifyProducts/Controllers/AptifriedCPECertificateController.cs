@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web;
+using Aptify.Framework.Application;
 using Aptify.Framework.DataServices;
 using AptifyWebApi.Dto;
 using AptifyWebApi.Models;
@@ -45,45 +48,30 @@ namespace AptifyWebApi.Controllers {
 				throw new HttpException(500, "Error decoding base 64 data to byte array");
 			}
 
-			// Let's do this with straight up aptify DA
-			var aptifyDA = new DataAction(AptifyApp.UserCredentials);
-			aptifyDA.ExecuteNonQueryParametrized("update vwAttachments set BlobData = @data where ID = @id",
-				System.Data.CommandType.Text,
-				new System.Data.SqlClient.SqlParameter[] {
-					new System.Data.SqlClient.SqlParameter("@id", entityObj.RecordID),
-					new System.Data.SqlClient.SqlParameter("@data", dataBytes)
-				});
+			string tempPath = null;
+			try {
+				tempPath = Path.Combine(new String[] { Path.GetTempPath(), cpeDto.Attachment.Name });
+				File.WriteAllBytes(tempPath, dataBytes);
 
-			//using (var transaction = session.BeginTransaction())
-			//{
-			//	//WBN: Refactor this out to a base/CpeCert repo
-			//	try
-			//	{
-			//		var q = session.QueryOver<AptifriedAttachment>().Where(x => x.Id == entityObj.RecordID).SingleOrDefault<AptifriedAttachment>();
+				var atts = new AptifyAttachments(AptifyApp, "Persons", cpeDto.Attachment.RecordId);
 
-			//		q.BlobData = dataBytes;
-                   
-			//		transaction.Commit();
-			//	}
-			//	catch (Exception ex)
-			//	{
-			//		var e = ex.ToString();
-
-			//		transaction.Rollback();
-
-			//		throw new HttpException(500, "Warning: no entities updated when inserting blob into attachments entity");
-			//	}
-			//}
-
-            /*
-			var query = session.CreateSQLQuery("update vwAttachments set BlobData = :data where ID = :id")
-				.SetInt64("id", entityObj.RecordID)
-				.SetBinary("data", dataBytes);
-
-			if (query.ExecuteUpdate() < 1) {
-				throw new HttpException(500, "Warning: no entities updated when inserting blob into attachments entity");
+				atts.UpdateFile(Convert.ToInt32(entityObj.RecordID), tempPath);
+			} catch (IOException ex) {
+				throw new HttpException(500, "We got issues writing the temp files, yo", ex);
+			} finally {
+				if (tempPath != null && File.Exists(tempPath)) {
+					File.Delete(tempPath);
+				}
 			}
-             */
+
+			//// Let's do this with straight up aptify DA
+			//var aptifyDA = new DataAction(AptifyApp.UserCredentials);
+			//aptifyDA.ExecuteNonQueryParametrized("update Attachment set BlobData = @data where ID = @id",
+			//	System.Data.CommandType.Text,
+			//	new System.Data.SqlClient.SqlParameter[] {
+			//		new System.Data.SqlClient.SqlParameter("@id", entityObj.RecordID),
+			//		new System.Data.SqlClient.SqlParameter("@data", dataBytes)
+			//	});
 
 			return cpeDto.Attachment;
 		}
