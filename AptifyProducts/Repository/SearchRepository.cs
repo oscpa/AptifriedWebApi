@@ -52,7 +52,7 @@ namespace AptifyWebApi.Repository
                     sParams.MeetingTypes.Any(
                         x =>
                         x.Name.Equals(
-                            EnumsAndConstantsToAvoidDatabaseChanges.MeetingTypeCategory.InPerson.Description()));
+                            EnumsAndConstantsToAvoidDatabaseChanges.MeetingTypeCategory.InPerson));
 
                 if (isIn || sParams.MeetingTypes.Count() == Context.GetActiveDbMeetingTypesCount())
                     filterList.Add(ZipCodeFilter(sParams));
@@ -72,7 +72,7 @@ namespace AptifyWebApi.Repository
 
             res = sParams.IsKeywordSearch ? qRes.Keyword(Context, sParams.SearchText, useKeywordRanking) as List<T> : qRes.List<T>();
 
-            res = new List<T>(res.Filter(filterExpr));
+            res = res.Filter(filterExpr).ToList<T>();
 
             //if results !ranked by keyword and !start/end date search, orderby date desc
             return !useKeywordRanking ? res.OrderByDescending(x => x.EndDate).ToList() : res;
@@ -102,7 +102,7 @@ namespace AptifyWebApi.Repository
                 var meetingTypeIds = new List<int>();
 
                 foreach (var mType in sParams.MeetingType)
-                    meetingTypeIds.AddRange(EnumHelper.GetMeetingTypeIdsByCategoryDescription(mType));
+                    meetingTypeIds.Add(EnumHelper.GetMeetingTypeIdByName(mType));
 
                 expr = x => meetingTypeIds.Contains(x.Id);
             }

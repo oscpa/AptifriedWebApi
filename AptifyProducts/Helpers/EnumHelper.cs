@@ -65,6 +65,14 @@ namespace AptifyWebApi.Helpers
                     .Cast<int>();
         }
 
+        public static int GetMeetingTypeIdByName(string mTypeName)
+        {
+            var id = (EnumsAndConstantsToAvoidDatabaseChanges.MeetingType)
+                Enum.Parse(typeof(EnumsAndConstantsToAvoidDatabaseChanges.MeetingType), mTypeName, true);
+
+            return (int)id;
+        }
+
         [AttributeUsage(AttributeTargets.Field)]
         public class MeetingTypeCategoryAttr : Attribute
         {
