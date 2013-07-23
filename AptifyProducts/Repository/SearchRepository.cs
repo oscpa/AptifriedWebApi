@@ -68,10 +68,9 @@ namespace AptifyWebApi.Repository
             filterExpr = filterList.Aggregate(filterExpr, (current, expression) => current.AndCombine(expression));
 
             var qRes = Context.QueryOver<T>();
-            var res = new List<T>();
+            IList<T> res;
 
-            if (sParams.IsKeywordSearch)
-                res =  qRes.Keyword(Context, sParams.SearchText, useKeywordRanking) as List<T>;
+            res = sParams.IsKeywordSearch ? qRes.Keyword(Context, sParams.SearchText, useKeywordRanking) as List<T> : qRes.List<T>();
 
             res = new List<T>(res.Filter(filterExpr));
 
