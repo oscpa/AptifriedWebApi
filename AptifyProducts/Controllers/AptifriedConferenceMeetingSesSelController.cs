@@ -29,7 +29,7 @@ namespace AptifyWebApi.Controllers {
 				" WHERE P.ID IN " +
 				"	(	Select ProductID " +
 				"		from aptify.dbo.vwOrderMeetDetail " +
-				"		where AttendeeID = :attendee AND StatusID <> 4 " +
+				"		where AttendeeID = :attendee AND StatusID in (1, 2, 8, 9, 10) " +
 				"		AND ProductID IN (SELECT ParentID From Aptify.dbo.vwProducts Where ProductTypeID=1)) " +
 				"and P.IsSold = 1 " +
 				"and m.MeetingTypeID = 3 " +
