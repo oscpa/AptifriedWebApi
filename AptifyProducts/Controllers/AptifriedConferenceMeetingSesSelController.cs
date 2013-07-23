@@ -17,6 +17,7 @@ namespace AptifyWebApi.Controllers {
 
             // Shamelessly lifted from spOSCPAMtgWizardGetEligibleMtg
 
+
 			/**
 			 * JP - 7/23/13 - Fused with CJ's code; see https://github.com/oscpa/Store-Pathfix/issues/350
 			 * Don'tchall love inline SQL? Gag.
