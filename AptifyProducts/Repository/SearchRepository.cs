@@ -63,7 +63,7 @@ namespace AptifyWebApi.Repository
             if (sParams.HasLevels)
                 filterList.Add(LevelsFilter(sParams));
 
-            filterList.Add(MeetingTypesFilter(sParams));
+            //filterList.Add(MeetingTypesFilter(sParams));
 
             filterExpr = filterList.Aggregate(filterExpr, (current, expression) => current.AndCombine(expression));
 
