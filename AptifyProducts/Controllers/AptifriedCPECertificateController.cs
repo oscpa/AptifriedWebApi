@@ -17,7 +17,15 @@ namespace AptifyWebApi.Controllers {
 
 		public AptifriedCPECertificateController(ISession session) : base(session) { }
 
-		public AptifriedAttachmentDto Post(AptifriedCPECertificateDto cpeDto) {
+		public AptifriedCPECertificateDto Post(AptifriedCPECertificateDto cpeDto) {
+			return InternalPost(cpeDto);
+		}
+
+		public bool Delete(int personId, int attachmentId) {
+			return InternalDelete(personId, attachmentId);
+		}
+
+		private AptifriedCPECertificateDto InternalPost(AptifriedCPECertificateDto cpeDto) {
 			if (cpeDto == null || cpeDto.Base64Data == null || cpeDto.Base64Data.Length < 1 || string.IsNullOrEmpty(cpeDto.Attachment.Name)) {
 				throw new HttpException(500, "No file data to upload or no file name given");
 			}
@@ -64,19 +72,10 @@ namespace AptifyWebApi.Controllers {
 				}
 			}
 
-			//// Let's do this with straight up aptify DA
-			//var aptifyDA = new DataAction(AptifyApp.UserCredentials);
-			//aptifyDA.ExecuteNonQueryParametrized("update Attachment set BlobData = @data where ID = @id",
-			//	System.Data.CommandType.Text,
-			//	new System.Data.SqlClient.SqlParameter[] {
-			//		new System.Data.SqlClient.SqlParameter("@id", entityObj.RecordID),
-			//		new System.Data.SqlClient.SqlParameter("@data", dataBytes)
-			//	});
-
-			return cpeDto.Attachment;
+			return cpeDto;
 		}
 
-		public bool Delete(int personId, int attachmentId) {
+		private bool InternalDelete(int personId, int attachmentId) {
 			var atts = new AptifyAttachments(AptifyApp, "Persons", personId);
 			return atts.DeleteAttachment(attachmentId);
 		}
