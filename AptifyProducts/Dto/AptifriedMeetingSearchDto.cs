@@ -11,7 +11,7 @@ namespace AptifyWebApi.Dto
 {
     public class AptifriedMeetingSearchDto
     {
-            public IList<string> MeetingType { get; set; }
+            public IList<int> MeetingType { get; set; }
             public IList<AptifriedMeetingTypeDto> MeetingTypes { get; set; }
             public IList<int> Levels { get; set; }
             public string SearchText { get; set; }

@@ -41,12 +41,16 @@ namespace AptifyWebApi.Helpers
             return days;
         }
 
+        public static IQueryable<T> Filter<T>(this IQueryable<T> lst, Expression<Func<T, bool>> predicate) where T : class
+        {
+            return lst.Where(predicate);
+        }
+
         public static IQueryable<T> Filter<T>(this IList<T> lst, Expression<Func<T, bool>> predicate) where T : class
         {
             return lst.AsQueryable().Where(predicate);
         }
 
-       
         public static IList<float> GetZipDistanceWeb(this ISession session, string startZip, string endZip)
         {
             //TODO: Refactor out sql
@@ -72,7 +76,7 @@ namespace AptifyWebApi.Helpers
         {
             var inUse =
                 session.CreateSQLQuery(
-                    "select distinct MeetingTypeId from Aptify.[dbo].vwmeetingstiny where MeetingTypeId is not null").List<int>();
+                    "select distinct MeetingTypeId from Aptify.[dbo].vwmeetingstiny where MeetingTypeId is not null and DATEDIFF(d, StartDate, GETDATE()) >= 0").List<int>();
 
             var qry = session.QueryOver<AptifriedMeetingType>().Where(x => x.Id.IsIn(inUse.ToArray()));
 
@@ -125,7 +129,7 @@ namespace AptifyWebApi.Helpers
 
 
 
-        public static IList<T> Keyword<T>(this IQueryOver<T> res, ISession session, string searchText,
+        public static IList<T> Keyword<T>(this IList<T> res, ISession session, string searchText,
                                                 bool useKeywordRanking)
         {
             //WBN: Refactor out sql
@@ -136,7 +140,7 @@ namespace AptifyWebApi.Helpers
 
             //No keyword search for you!
             if (String.IsNullOrWhiteSpace(searchText))
-                return res.List<T>();
+                return res;
 
             var searchBase = new StringBuilder();
             var searchWhere = new StringBuilder();
@@ -256,6 +260,19 @@ namespace AptifyWebApi.Helpers
                                                       x + (!String.IsNullOrEmpty(x) ? " + " : String.Empty) + n);
 
             return rankString;
+        }
+
+        public static IList<int> GetMeetingIdsInEducationUnitCategories(this ISession session, AptifriedMeetingSearchDto sParams)
+        {
+             var ids = sParams.CreditTypes.Select(x => x.Id).ToList();
+
+                    var mIds =
+                session.CreateSQLQuery(
+                  "SELECT mt.Id from [Aptify].[dbo].[vwEducationUnits] eu join [Aptify].[dbo].[vwEducationCategories]ec on ec.ID = eu.EducationCategoryID join [Aptify].[dbo].[vwMeetingsTiny] mt on eu.MeetingID = mt.ID where ec.ID in (:ids)")
+                  .SetParameterList("ids",ids).List<int>();
+
+            return mIds;
+
         }
     }
 }
