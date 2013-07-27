@@ -1,6 +1,7 @@
 ﻿
  #region using
 
+using System.Collections;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using AptifyWebApi.Dto;
@@ -51,14 +52,18 @@ namespace AptifyWebApi.Helpers
             return lst.AsQueryable().Where(predicate);
         }
 
-        public static IList<float> GetZipDistanceWeb(this ISession session, string startZip, string endZip)
+        public static IList GetMeetingIdByZipDistance(this ISession session, string postalCode, string milesDistance)
         {
-            //TODO: Refactor out sql
-            var zips = session.CreateSQLQuery(
-                String.Format(@"SELECT * FROM [dbo].[fnOSCPAGetZipDistanceWeb]({0},{1})",
-                              startZip, endZip)).AddEntity(typeof (float)).List<float>();
+            var sql = String.Format(
+                @"select mt.ID from [Aptify].[dbo].[vwAddressesTiny] at join [Aptify].[dbo].[vwMeetingsTiny] mt on mt.AddressID = at.ID where exists (select * from [Aptify].[dbo].[fnOSCPAGetZipDistanceWeb]({0},at.PostalCode) dt where dt.Distance <= {1}) and mt.IsSold = 1 and mt.WebEnabled = 1",
+                postalCode, milesDistance);
 
-            return zips;
+           
+
+            //TODO: Refactor out sql
+            var addrIds = session.CreateSQLQuery(sql).List();
+
+            return addrIds;
         }
 
        
@@ -75,8 +80,12 @@ namespace AptifyWebApi.Helpers
         public static IList<AptifriedMeetingType> GetActiveDbMeetingTypes(this ISession session)
         {
             var inUse =
-                session.CreateSQLQuery(
-                    "select distinct MeetingTypeId from Aptify.[dbo].vwmeetingstiny where MeetingTypeId is not null and DATEDIFF(d, StartDate, GETDATE()) >= 0").List<int>();
+                /*
+                session.QueryOver<AptifriedMeeting>()
+                    .Where(x => x.Type != null && DateTime.Now.Subtract(x.StartDate).Days == 0)
+                    .Select(x => x.Type.Id).List<int>();
+                    */
+                   session.CreateSQLQuery("select distinct MeetingTypeId from Aptify.[dbo].vwmeetingstiny where MeetingTypeId is not null and DATEDIFF(d, StartDate, GETDATE()) >= 0").List<int>();
 
             var qry = session.QueryOver<AptifriedMeetingType>().Where(x => x.Id.IsIn(inUse.ToArray()));
 

@@ -11,7 +11,6 @@ namespace AptifyWebApi.Dto
 {
     public class AptifriedMeetingSearchDto
     {
-            public IList<int> MeetingType { get; set; }
             public IList<AptifriedMeetingTypeDto> MeetingTypes { get; set; }
             public IList<int> Levels { get; set; }
             public string SearchText { get; set; }
@@ -49,7 +48,7 @@ namespace AptifyWebApi.Dto
             public bool HasMeetingTypes
             {
                 //initialized && has types
-                get { return !MeetingType.IsNull() && MeetingType.Any(); }
+                get { return !MeetingTypes.IsNull() && MeetingTypes.Any(); }
             }
 
 

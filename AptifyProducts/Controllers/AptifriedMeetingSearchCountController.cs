@@ -4,6 +4,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AptifyWebApi.Dto;
+using AptifyWebApi.Helpers;
 using AptifyWebApi.Models.Meeting;
 using AptifyWebApi.Models.Shared;
 using AptifyWebApi.Repository;
@@ -28,7 +29,7 @@ namespace AptifyWebApi.Controllers
             return new AptifriedMeetingCountResultsDto
             {
                 SearchEntered = search,
-                Count = res.Count()
+                Count = res.IsNotNull() ? res.Count() : 0
             };
         }
     }

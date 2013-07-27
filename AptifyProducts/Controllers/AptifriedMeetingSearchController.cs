@@ -8,7 +8,6 @@ using System.Web.Mvc;
 using AptifyWebApi.Dto;
 using AptifyWebApi.Helpers;
 using AptifyWebApi.Models.Meeting;
-using AptifyWebApi.Models.Shared;
 using AptifyWebApi.Repository;
 using AutoMapper;
 using NHibernate;
@@ -37,23 +36,6 @@ namespace AptifyWebApi.Controllers
         [HttpPost]
         public IList<AptifriedMeetingDto> Post(AptifriedMeetingSearchDto search)
         {
-#if DEBUG
-            var list = new List<string>
-                {
-                    "Standard",
-                    "Webcast",
-                    "Conference",
-                    "On-Site",
-                    "Self-Study",
-                    "Session",
-                    "Webinar",
-                    "Seminar",
-                    "Networking",
-                    "Other"
-                };
-#endif
-
-
             // If search is null, throw an error
             if (search.IsNull())
                 throw new HttpException(500, "Post must contain a search object", new ArgumentException("search"));

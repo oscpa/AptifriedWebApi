@@ -1,4 +1,5 @@
-﻿#region using
+﻿
+#region using
 
 using System.Collections;
 using AptifyWebApi.Dto;
@@ -16,10 +17,13 @@ using NHibernate.Criterion;
 
 #endregion
 
-//TODO: Call search arameter URL on frontend
-//TODO: Filter - Date sort order (from search obj)
 //TODO: Sub-Grouping
 //TODO: Export search to excel
+//TODO: Initial search: Default to distance based on profile info, order by date
+//TODO: Call search parameter URL on frontend
+
+//TODO: Filter - Date sort order (from search obj)
+
 
 namespace AptifyWebApi.Repository
 {
@@ -34,7 +38,6 @@ namespace AptifyWebApi.Repository
 
             //base: filter out any non-active items 
             //var filterList = new List<Expression<Func<T, bool>>>();
-
             Expression<Func<T, bool>> filterExpr = x => x.Status.Id == 1 && x.Product.WebEnabled && x.Product.IsSold;
 
             var qRes = Context.QueryOver<T>().List<T>();
@@ -42,8 +45,6 @@ namespace AptifyWebApi.Repository
             var res = sParams.IsKeywordSearch 
                 ? qRes.Keyword(Context, sParams.SearchText, useKeywordRanking).AsQueryable().Filter(filterExpr)
                 : qRes.Filter(filterExpr);
-
-            qRes.Clear();
 
             if (sParams.IsDateSearch)
                  res = DateFilter(res, sParams);
@@ -54,20 +55,8 @@ namespace AptifyWebApi.Repository
 
 
             //TODO: Gut enum
-            if (sParams.IsZipSearch) // && sParams.HasMeetingTypes)
-            {
-                /*
-                var isIn =
-                    sParams.MeetingType.Where(
-                        x =>
-                        x == 
-                            EnumsAndConstantsToAvoidDatabaseChanges.MeetingTypeCategory.InPerson.Description()));
-
-                if (isIn || sParams.MeetingTypes.Count() == Context.GetActiveDbMeetingTypesCount())
-                                      */
+            if (sParams.IsZipSearch)
                 res = ZipCodeFilter(res, sParams);
-
-            }
 
 
             if (sParams.HasLevels)
@@ -77,10 +66,13 @@ namespace AptifyWebApi.Repository
 
             //filterExpr = filterList.Aggregate(filterExpr, (current, expression) => current.AndCombine(expression));
 
-       
+           //if results !ranked by keyword and !start/end date search, orderby date desc
+            res = !useKeywordRanking ? res.OrderByDescending(x => x.EndDate) : res;
 
-            //if results !ranked by keyword and !start/end date search, orderby date desc
-            return !useKeywordRanking ? res.OrderByDescending(x => x.EndDate) : res;
+            //TODO: Add parentId to meeting model
+            //return res.GroupBy(x => x.ParentId ?? -1);
+
+            return res;
         }
 
 
@@ -88,10 +80,10 @@ namespace AptifyWebApi.Repository
 
         private IQueryable<T> ZipCodeFilter(IQueryable<T> res, TD sParams)
         {
-            var zips = Context.GetZipDistanceWeb(sParams.Zip,
+            var addressIdsByZip = Context.GetMeetingIdByZipDistance(sParams.Zip,
                                                      sParams.MilesDistance.ToString(CultureInfo.InvariantCulture));
 
-            Expression<Func<T, bool>> expr = x => zips.Contains(x.Location.Id);
+            Expression<Func<T, bool>> expr = x => addressIdsByZip.Contains(x.Id);
 
             return res.Filter(expr);
         }
@@ -100,11 +92,10 @@ namespace AptifyWebApi.Repository
         {
             Expression<Func<T, bool>> expr;
 
-            //TODO: Use meeting type objects
             //TODO: Gut enum use
-            if (sParams.HasMeetingTypes && sParams.MeetingType.Count < Context.GetActiveDbMeetingTypesCount())
+            if (sParams.HasMeetingTypes && sParams.MeetingTypes.Count < Context.GetActiveDbMeetingTypesCount())
             {
-                expr = x => sParams.MeetingType.Contains(x.Id);
+                expr = x => sParams.MeetingTypes.Any(y => x.Type != null && y.Id == x.Type.Id);
             }
             else
                 expr = x => x.Id != (int)EnumsAndConstantsToAvoidDatabaseChanges.MeetingType.Session;
@@ -135,26 +126,22 @@ namespace AptifyWebApi.Repository
             var sDate = sParams.StartDate.HasValue ? sParams.StartDate.Value : DateTime.Now;
             var eDate = sParams.EndDate.HasValue ? sParams.EndDate.Value : DateTime.MaxValue;
 
-            //TODO: Gut enum
             //filter endDates that fall outside the specified range
             //exclude self study
 
-
-            const int minDays = 7; // EnumsAndConstantsToAvoidDatabaseChanges.MeetingType.SelfStudy.GetMinDays();
+            //TODO: Remove hardcode. Store business rules in db?
+            var minDays = EnumsAndConstantsToAvoidDatabaseChanges.MeetingType.SelfStudy.GetMinDays();
             
             //Using IsInRange extension method not supported
             //nor is GetLengthInDays
             Expression<Func<T, bool>> expr = x =>
                                              (x.EndDate >= sDate && x.EndDate <= eDate);
 
-            Expression<Func<T, bool>> expr2 = x =>
-            ((x.StartDate - eDate).TotalDays >= minDays);
-
+            //self study (lengh >= 7 days)
+            Expression<Func<T, bool>> expr2 = x => (x.StartDate - eDate).TotalDays >= minDays;
             expr = expr.OrCombine(expr2);
 
             return res.Filter(expr);
-
-            //x.Id == (int) EnumsAndConstantsToAvoidDatabaseChanges.MeetingType.SelfStudy;
         }
 
 
