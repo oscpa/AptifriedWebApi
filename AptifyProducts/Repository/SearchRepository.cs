@@ -20,7 +20,8 @@ using NHibernate.Criterion;
 //TODO: Sub-Grouping
 //TODO: Export search to excel
 //TODO: Initial search: Default to distance based on profile info, order by date
-//TODO: Call search parameter URL on frontend
+
+//IN: TEST: Call search parameter URL on frontend
 
 //TODO: Filter - Date sort order (from search obj)
 
@@ -68,9 +69,6 @@ namespace AptifyWebApi.Repository
 
            //if results !ranked by keyword and !start/end date search, orderby date desc
             res = !useKeywordRanking ? res.OrderByDescending(x => x.EndDate) : res;
-
-            //TODO: Add parentId to meeting model
-            //return res.GroupBy(x => x.ParentId ?? -1);
 
             return res;
         }
@@ -130,7 +128,7 @@ namespace AptifyWebApi.Repository
             //exclude self study
 
             //TODO: Remove hardcode. Store business rules in db?
-            var minDays = EnumsAndConstantsToAvoidDatabaseChanges.MeetingType.SelfStudy.GetMinDays();
+            //var minDays = EnumsAndConstantsToAvoidDatabaseChanges.MeetingType.SelfStudy.GetMinDays();
             
             //Using IsInRange extension method not supported
             //nor is GetLengthInDays
@@ -138,8 +136,8 @@ namespace AptifyWebApi.Repository
                                              (x.EndDate >= sDate && x.EndDate <= eDate);
 
             //self study (lengh >= 7 days)
-            Expression<Func<T, bool>> expr2 = x => (x.StartDate - eDate).TotalDays >= minDays;
-            expr = expr.OrCombine(expr2);
+            //Expression<Func<T, bool>> expr2 = x => (x.StartDate - eDate).TotalDays >= minDays;
+            //expr = expr.OrCombine(expr2);
 
             return res.Filter(expr);
         }

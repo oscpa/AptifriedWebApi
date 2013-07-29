@@ -102,7 +102,7 @@ namespace AptifyWebApi.Helpers
             return qry;
         }
 
-        public static IList<AptifriedMeetingTypeDto> GetAllMeetingTypeDto(this ISession session)
+        public static IList<AptifriedMeetingTypeDto> GetActiveMeetingTypeDto(this ISession session)
         {
             var inUse = session.GetActiveDbMeetingTypes();
 

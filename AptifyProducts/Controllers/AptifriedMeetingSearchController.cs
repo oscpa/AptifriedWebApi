@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AptifyWebApi.Dto;
@@ -27,14 +28,14 @@ namespace AptifyWebApi.Controllers
         {
             var msDto = new AptifriedMeetingSearchDto
             {
-                MeetingTypes = session.GetAllMeetingTypeDto()
+                MeetingTypes = session.GetActiveMeetingTypeDto()
             };
 
             return msDto;
         }
 
         [HttpPost]
-        public IList<AptifriedMeetingDto> Post(AptifriedMeetingSearchDto search)
+        public List<AptifriedMeetingDto> Post(AptifriedMeetingSearchDto search)
         {
             // If search is null, throw an error
             if (search.IsNull())
@@ -45,6 +46,8 @@ namespace AptifyWebApi.Controllers
             var results = Mapper.Map(res, new List<AptifriedMeetingDto>());
 
             return results;
+            //GroupBy done here because automapper doesn't support IEnum<IGroup<...
+            //return results.GroupBy(x => x.ParentId);
         }
     }
 }

@@ -21,7 +21,8 @@ namespace AptifyWebApi.Dto
         public IList<AptifriedMeetingEductionUnitsDto> Credits { get; set; }
         public int MaxRegistrants { get; set; }
         public AptifriedVenueDto Venue { get; set; }
-
+        public int? ParentId { get; set; }
+    
         /// <summary>
         /// Couldn't strongly type this column becuase we don't enforce referential integrity on it.
         /// </summary>
