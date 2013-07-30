@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AptifyWebApi.Dto;
@@ -41,7 +40,7 @@ namespace AptifyWebApi.Controllers
             if (search.IsNull())
                 throw new HttpException(500, "Post must contain a search object", new ArgumentException("search"));
 
-            var res = new SearchRepository<AptifriedMeeting, AptifriedMeetingSearchDto>(session).Search(search, false);
+            var res = new SearchRepository<AptifriedMeeting, AptifriedMeetingSearchDto>(session).Search(search, search.IsKeywordSearch);
 
             var results = Mapper.Map(res, new List<AptifriedMeetingDto>());
 

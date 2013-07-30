@@ -58,7 +58,9 @@ namespace AptifyWebApi.App_Start
             Mapper.CreateMap<AptifriedMeetingWebMediaType, AptifriedMeetingWebMediaTypeDto>();
             Mapper.CreateMap<AptifriedMeetingStatus, AptifriedMeetingStatusDto>();
             Mapper.CreateMap<AptifriedMeetingType, AptifriedMeetingTypeDto>()
-                  .ForMember(dest => dest.HasMeetings, src => src.Ignore());
+                .ForMember(dest => dest.HasMeetings, src => src.Ignore());
+            Mapper.CreateMap<AptifriedMeetingTypeGroup, AptifriedMeetingTypeGroupDto>();
+            
             Mapper.CreateMap<AptifriedMeetingTopicTrack, AptifriedMeetingTopicTrackDto>();
             Mapper.CreateMap<AptifriedMeetingTopicTrackProduct, AptifriedMeetingTopicTrackProductDto>();
 

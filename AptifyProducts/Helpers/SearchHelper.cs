@@ -8,6 +8,7 @@ using AptifyWebApi.Dto;
 using AptifyWebApi.Models;
 using AptifyWebApi.Models.Meeting;
 using AptifyWebApi.Models.Shared;
+using Microsoft.Ajax.Utilities;
 using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Linq;
@@ -49,18 +50,16 @@ namespace AptifyWebApi.Helpers
 
         public static IQueryable<T> Filter<T>(this IList<T> lst, Expression<Func<T, bool>> predicate) where T : class
         {
-            return lst.AsQueryable().Where(predicate);
+            return lst.AsQueryable().Filter(predicate);
         }
 
         public static IList GetMeetingIdByZipDistance(this ISession session, string postalCode, string milesDistance)
         {
+            //TODO: Convert to linq
             var sql = String.Format(
                 @"select mt.ID from [Aptify].[dbo].[vwAddressesTiny] at join [Aptify].[dbo].[vwMeetingsTiny] mt on mt.AddressID = at.ID where exists (select * from [Aptify].[dbo].[fnOSCPAGetZipDistanceWeb]({0},at.PostalCode) dt where dt.Distance <= {1}) and mt.IsSold = 1 and mt.WebEnabled = 1",
                 postalCode, milesDistance);
 
-           
-
-            //TODO: Refactor out sql
             var addrIds = session.CreateSQLQuery(sql).List();
 
             return addrIds;
@@ -79,18 +78,21 @@ namespace AptifyWebApi.Helpers
 
         public static IList<AptifriedMeetingType> GetActiveDbMeetingTypes(this ISession session)
         {
+            //TODO: Convert to linq
+
+            const string sql = @"select MeetingTypeID from [Aptify].[dbo].[vwMeetingTypeGroupItems]";
+            
             var inUse =
                 /*
                 session.QueryOver<AptifriedMeeting>()
                     .Where(x => x.Type != null && DateTime.Now.Subtract(x.StartDate).Days == 0)
                     .Select(x => x.Type.Id).List<int>();
                     */
-                   session.CreateSQLQuery("select distinct MeetingTypeId from Aptify.[dbo].vwmeetingstiny where MeetingTypeId is not null and DATEDIFF(d, StartDate, GETDATE()) >= 0").List<int>();
+              session.CreateSQLQuery(sql).List<int>();
 
             var qry = session.QueryOver<AptifriedMeetingType>().Where(x => x.Id.IsIn(inUse.ToArray()));
 
             return qry.List<AptifriedMeetingType>();
-
         }
 
        
@@ -138,7 +140,7 @@ namespace AptifyWebApi.Helpers
 
 
 
-        public static IList<T> Keyword<T>(this IList<T> res, ISession session, string searchText,
+        public static IList<T> Keyword<T>(this IQueryOver<T,T> res, ISession session, string searchText,
                                                 bool useKeywordRanking)
         {
             //WBN: Refactor out sql
@@ -148,8 +150,8 @@ namespace AptifyWebApi.Helpers
 
 
             //No keyword search for you!
-            if (String.IsNullOrWhiteSpace(searchText))
-                return res;
+            if (!useKeywordRanking || String.IsNullOrWhiteSpace(searchText))
+                return res.List<T>();
 
             var searchBase = new StringBuilder();
             var searchWhere = new StringBuilder();
@@ -207,8 +209,6 @@ namespace AptifyWebApi.Helpers
 
             var searchStringFreeTextTables = String.Format("'{0}'", searchText);
 
-            if (useKeywordRanking)
-            {
                 var rankString = String.Concat(GetRankString(subrankMaps, PrefixContains), " + ",
                                                GetRankString(subrankMaps, PrefixFreeText));
 
@@ -218,8 +218,7 @@ namespace AptifyWebApi.Helpers
 
                 // We don't need to worry about clobbering any sort logic here because it won't have been defined yet
                 searchOrderBy.AppendLine(String.Format("order by {0} desc, mt.startdate", rankString));
-            }
-
+          
             searchBase.BuildContainsTableJoins(searchStringContainsTable, subrankMaps);
             searchBase.BuildFreeTextTableJoins(searchStringFreeTextTables, subrankMaps);
 
@@ -277,7 +276,7 @@ namespace AptifyWebApi.Helpers
 
                     var mIds =
                 session.CreateSQLQuery(
-                  "SELECT mt.Id from [Aptify].[dbo].[vwEducationUnits] eu join [Aptify].[dbo].[vwEducationCategories]ec on ec.ID = eu.EducationCategoryID join [Aptify].[dbo].[vwMeetingsTiny] mt on eu.MeetingID = mt.ID where ec.ID in (:ids)")
+                  "SELECT mt.Id from [Aptify].[dbo].[vwEducationUnits] eu inner join [Aptify].[dbo].[vwEducationCategories]ec on ec.ID = eu.EducationCategoryID inner join [Aptify].[dbo].[vwMeetingsTiny] mt on eu.MeetingID = mt.ID where ec.ID in (:ids)")
                   .SetParameterList("ids",ids).List<int>();
 
             return mIds;

@@ -22,6 +22,7 @@ namespace AptifyWebApi.Dto
         public int MaxRegistrants { get; set; }
         public AptifriedVenueDto Venue { get; set; }
         public int? ParentId { get; set; }
+        public virtual AptifriedMeetingTypeGroupDto TypeGroup { get; set; }
     
         /// <summary>
         /// Couldn't strongly type this column becuase we don't enforce referential integrity on it.

@@ -19,7 +19,8 @@ namespace AptifyWebApi.Dto
             public IList<AptifriedMeetingEductionUnitsDto> CreditTypes { get; set; }
             public int MilesDistance { get; set; }
             public string Zip { get; set; }
-
+            public IList<int> MeetingTypeGroupId { get; set; 
+    }
             public bool IsDateSearch
             {
                 get { return StartDate.HasValue | EndDate.HasValue; }
@@ -50,7 +51,6 @@ namespace AptifyWebApi.Dto
                 //initialized && has types
                 get { return !MeetingTypes.IsNull() && MeetingTypes.Any(); }
             }
-
 
         } 
 
