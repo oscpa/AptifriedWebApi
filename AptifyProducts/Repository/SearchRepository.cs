@@ -18,6 +18,12 @@ using NHibernate.Criterion;
 
 #endregion
 
+//In person and online (1,2) are returning DOMA result. Ondemand only has 1 result 
+
+//TODO: Index for returning from product page back to product in search list
+//set the hash to page-productid and hash link each product
+
+//TODO: Tabs for each MeetingTypeGroup
 //TODO: Sub-Grouping
 //TODO: Export search to excel
 //TODO: Filter - Date sort order (from search obj)
@@ -124,9 +130,11 @@ namespace AptifyWebApi.Repository
         private Expression<Func<T, bool>> CreditTypeFilter(TD sParams)
         {
             //grab selected ids
-            var m = Context.GetMeetingIdsInEducationUnitCategories(sParams);
+            var mIds = Context.GetMeetingIdsInEducationUnitCategories(sParams);
 
-            Expression<Func<T, bool>> expr = x => m.Contains(x.Id);
+            if(mIds.IsNull())
+            ;
+            Expression<Func<T, bool>> expr = x => mIds.Contains(x.Id);
 
             return expr;
         }

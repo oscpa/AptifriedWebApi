@@ -274,11 +274,9 @@ namespace AptifyWebApi.Helpers
         {
              var ids = sParams.CreditTypes.Select(x => x.Id).ToList();
 
-                    var mIds =
-                session.CreateSQLQuery(
-                  "SELECT mt.Id from [Aptify].[dbo].[vwEducationUnits] eu inner join [Aptify].[dbo].[vwEducationCategories]ec on ec.ID = eu.EducationCategoryID inner join [Aptify].[dbo].[vwMeetingsTiny] mt on eu.MeetingID = mt.ID where ec.ID in (:ids)")
-                  .SetParameterList("ids",ids).List<int>();
-
+            var mIds = session.QueryOver<AptifriedMeetingEductionUnits>().Select(x => x.MeetingId)
+                .Where(x => x.Category.Id.IsIn(ids)).List<int>();
+           
             return mIds;
 
         }
