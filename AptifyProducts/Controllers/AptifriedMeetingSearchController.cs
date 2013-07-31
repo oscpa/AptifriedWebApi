@@ -27,7 +27,7 @@ namespace AptifyWebApi.Controllers
         {
             var msDto = new AptifriedMeetingSearchDto
             {
-                MeetingTypes = session.GetActiveMeetingTypeDto()
+                MeetingTypes = session.GetActiveMeetingTypeItemsDto()
             };
 
             return msDto;

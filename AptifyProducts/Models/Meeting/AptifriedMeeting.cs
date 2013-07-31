@@ -16,16 +16,15 @@ namespace AptifyWebApi.Models.Meeting
         public virtual DateTime StartDate { get; set; }
         public virtual DateTime EndDate { get; set; }
         public virtual AptifriedMeetingStatus Status { get; set; }
-        public virtual AptifriedMeetingType Type { get; set; }
-        public virtual AptifriedMeetingTypeGroup TypeGroup { get; set; }
+        public virtual AptifriedMeetingTypeItem TypeItem { get; set; }
         public virtual TimeSpan OpenTime { get; set; }
         public virtual AptifriedAddress Location { get; set; }
         public virtual IList<AptifriedMeetingEductionUnits> Credits { get; set; }
         public virtual int MaxRegistrants { get; set; }
         public virtual AptifriedVenue Venue { get; set; }
         public virtual int? ParentId { get; set; }
-        public virtual int MeetingTypeGroupId { get; set; }
-    
+     
+       
 
         /// <summary>
         /// This value could not be strongly typed as there is no referential integrity between class levels and

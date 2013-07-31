@@ -1,0 +1,30 @@
+﻿#region using
+
+using System.ComponentModel;
+using AptifyWebApi.Helpers;
+
+#endregion
+
+namespace AptifyWebApi.Models.Shared
+{
+    public class EnumsAndConstants
+    {
+        public enum MeetingType
+        {
+            //[EnumHelper.MeetingTypeCategoryAttr(MeetingTypeCategory.InPerson)] Standard = 1,
+            [EnumHelper.MinDays(7)] SelfStudy = 5,
+            Session = 6,
+        }
+
+        public enum MeetingTypeGroup
+        {
+            [Description("InPerson")] InPerson = 1,
+            [Description("OnLine")] Online = 2,
+            [Description("Self-Study")] SelfStudy = 3
+        }
+
+        //Column as bit in database would be ideal.
+        public static string EducationCategoryStatusActive = "Active";
+        public static string EducationCategoryStatusInactive = "Inactive";
+    }
+    }

@@ -8,10 +8,12 @@ using AptifyWebApi.Dto;
 using AptifyWebApi.Models;
 using AptifyWebApi.Models.Meeting;
 using AptifyWebApi.Models.Shared;
+using AutoMapper;
 using Microsoft.Ajax.Utilities;
 using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Linq;
+using NHibernate.Mapping;
 using NHibernate.Transform;
 using System;
 using System.Collections.Generic;
@@ -69,52 +71,26 @@ namespace AptifyWebApi.Helpers
 
         public static int GetActiveDbMeetingTypesCount(this ISession session)
         {
-            var r = session.GetActiveDbMeetingTypes().Count;
+            var r = session.GetActiveDbMeetingTypeItems().Count;
 
             return r;
         }
 
       
 
-        public static IList<AptifriedMeetingType> GetActiveDbMeetingTypes(this ISession session)
+        public static IList<AptifriedMeetingTypeItem> GetActiveDbMeetingTypeItems(this ISession session)
         {
-            //TODO: Convert to linq
+            var lst = session.QueryOver<AptifriedMeetingTypeItem>().List();
 
-            const string sql = @"select MeetingTypeID from [Aptify].[dbo].[vwMeetingTypeGroupItems]";
-            
-            var inUse =
-                /*
-                session.QueryOver<AptifriedMeeting>()
-                    .Where(x => x.Type != null && DateTime.Now.Subtract(x.StartDate).Days == 0)
-                    .Select(x => x.Type.Id).List<int>();
-                    */
-              session.CreateSQLQuery(sql).List<int>();
-
-            var qry = session.QueryOver<AptifriedMeetingType>().Where(x => x.Id.IsIn(inUse.ToArray()));
-
-            return qry.List<AptifriedMeetingType>();
+            return lst;
         }
 
-       
-
-        public static IList<AptifriedMeetingType> GetAllDbMeetingTypes(this ISession session)
+     
+        public static IList<AptifriedMeetingTypeItemDto> GetActiveMeetingTypeItemsDto(this ISession session)
         {
-            var qry = session.QueryOver<AptifriedMeetingType>().List();
+            var itms = session.GetActiveDbMeetingTypeItems();
 
-            return qry;
-        }
-
-        public static IList<AptifriedMeetingTypeDto> GetActiveMeetingTypeDto(this ISession session)
-        {
-            var inUse = session.GetActiveDbMeetingTypes();
-
-            return session.GetAllDbMeetingTypes().Select(x => new AptifriedMeetingTypeDto
-                {
-                    Name = x.Name,
-                    Description = x.Description,
-                    Id = x.Id,
-                    HasMeetings = inUse.Contains(x)
-                }).ToList();
+            return Mapper.Map(itms, new List<AptifriedMeetingTypeItemDto>());
         }
 
         public static List<AptifriedEducationCategory> GetActiveDbEducationCategories(this ISession session)
@@ -124,7 +100,7 @@ namespace AptifyWebApi.Helpers
                                  x =>
                                  x.Status.ToLowerInvariant()
                                   .Equals(
-                                      EnumsAndConstantsToAvoidDatabaseChanges.EducationCategoryStatusActive
+                                      EnumsAndConstants.EducationCategoryStatusActive
                                                                              .ToLowerInvariant()));
 
             return qry.ToList();

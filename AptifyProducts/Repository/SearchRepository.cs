@@ -1,4 +1,5 @@
-﻿using System.Web.Services.Protocols;
+﻿using System.Web.Mvc;
+using System.Web.Services.Protocols;
 
 #region using
 
@@ -60,7 +61,6 @@ namespace AptifyWebApi.Repository
             var filterList = new List<Expression<Func<T, bool>>>();
             
             Expression<Func<T, bool>> filterExpr = x => x.Status.Id == 1 
-                && x.StartDate >= DateTime.Now
                 && x.Product.WebEnabled 
                 && x.Product.IsSold;
 
@@ -83,6 +83,8 @@ namespace AptifyWebApi.Repository
                filterList.Add(LevelsFilter(sParams));
 
             
+            filterList.Add(MeetingTypesGroupFilter(sParams));
+
             filterList.Add(MeetingTypesFilter(sParams));
 
             filterExpr = filterList.Aggregate(filterExpr, (current, expression) => current.AndCombine(expression));
@@ -100,7 +102,7 @@ namespace AptifyWebApi.Repository
             var addressIdsByZip = Context.GetMeetingIdByZipDistance(sParams.Zip,
                                                      sParams.MilesDistance.ToString(CultureInfo.InvariantCulture));
 
-            Expression<Func<T, bool>> expr = x => x.MeetingTypeGroupId == (int)EnumsAndConstantsToAvoidDatabaseChanges.MeetingTypeCategory.InPerson && addressIdsByZip.Contains(x.Id);
+            Expression<Func<T, bool>> expr = x => x.TypeItem.Group.Id == (int)EnumsAndConstants.MeetingTypeGroup.InPerson && addressIdsByZip.Contains(x.Id);
 
             return expr;
         }
@@ -109,13 +111,26 @@ namespace AptifyWebApi.Repository
         {
             Expression<Func<T, bool>> expr;
 
-            //TODO: Gut enum use
             if (sParams.HasMeetingTypes && sParams.MeetingTypes.Count < Context.GetActiveDbMeetingTypesCount())
             {
-                expr = x => sParams.MeetingTypes.Any(y => x.Type != null && y.Id == x.Type.Id);
+                expr = x => sParams.MeetingTypes.Any(y => x.TypeItem.IsNotNull() && x.TypeItem.Type.IsNotNull() && x.TypeItem.Type.IsNotNull() && y.Type.Id == x.TypeItem.Type.Id);
             }
             else
-                expr = x => x.Id != (int)EnumsAndConstantsToAvoidDatabaseChanges.MeetingType.Session;
+                expr = x => x.Id != (int)EnumsAndConstants.MeetingType.Session;
+
+            return expr;
+        }
+
+        private Expression<Func<T, bool>> MeetingTypesGroupFilter(TD sParams)
+        {
+            Expression<Func<T, bool>> expr;
+
+            if (sParams.HasTypeGroups)
+            {
+                expr = x => sParams.MeetingTypes.Any(y => x.TypeItem.IsNotNull() && x.TypeItem.Group.IsNotNull() && x.TypeItem.Group.Id.IsNotNull() && y.Group.Id == x.TypeItem.Group.Id);
+            }
+            else
+                expr = x => x.Id != (int)EnumsAndConstants.MeetingType.Session;
 
             return expr;
         }

@@ -27,9 +27,6 @@ namespace AptifyWebApi.Controllers
         {
            var res = new SearchRepository<AptifriedMeeting,AptifriedMeetingSearchDto>(session).Search(search, false);
 
-            if (search.HasTypeGroup)
-                res = res.Where(x => search.MeetingTypeGroupIds.Contains(x.TypeGroup.Id));
-           
             return new AptifriedMeetingCountResultsDto
             {
                 SearchEntered = search,
