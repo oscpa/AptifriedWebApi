@@ -59,7 +59,10 @@ namespace AptifyWebApi.Helpers
         {
             //TODO: Convert to linq
             var sql = String.Format(
-                @"select mt.ID from [Aptify].[dbo].[vwAddressesTiny] at join [Aptify].[dbo].[vwMeetingsTiny] mt on mt.AddressID = at.ID where exists (select * from [Aptify].[dbo].[fnOSCPAGetZipDistanceWeb]({0},at.PostalCode) dt where dt.Distance <= {1}) and mt.IsSold = 1 and mt.WebEnabled = 1",
+                @"select mt.ID from [Aptify].[dbo].[vwAddressesTiny] at 
+                join [Aptify].[dbo].[vwMeetingsTiny] mt on mt.AddressID = at.ID 
+                where exists (select * from [Aptify].[dbo].[fnOSCPAGetZipDistanceWeb]({0},at.PostalCode) dt
+                             where dt.Distance <= {1}) and mt.IsSold = 1 and mt.WebEnabled = 1",
                 postalCode, milesDistance);
 
             var addrIds = session.CreateSQLQuery(sql).List();

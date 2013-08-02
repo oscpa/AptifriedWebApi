@@ -21,14 +21,15 @@ using NHibernate.Criterion;
 #endregion
 
 //TODO: Tabs for each MeetingTypeGroup
-//TODO: Export search to excel
-//TODO: Sub-Grouping (Parent/Child)
 
 //default tab based on # after search
 
+//TODO: Filter - Date sort order (from search obj/enum)
+
 //each tab has dropdown to order by dynamic x,y,z
 
-//TODO: Filter - Date sort order (from search obj/enum)
+//TODO: Export search to excel
+//TODO: Sub-Grouping (Parent/Child)
 
 //TODO: IP geolocation
 
