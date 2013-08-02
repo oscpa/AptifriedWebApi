@@ -12,7 +12,6 @@ namespace AptifyWebApi.Models.Shared
         public enum MeetingType
         {
             //[EnumHelper.MeetingTypeCategoryAttr(MeetingTypeCategory.InPerson)] Standard = 1,
-            [EnumHelper.MinDays(7)] SelfStudy = 5,
             Session = 6,
         }
 

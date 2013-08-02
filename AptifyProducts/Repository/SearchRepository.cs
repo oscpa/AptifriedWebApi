@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Data.Common.EntitySql;
+using System.Web.Mvc;
 using System.Web.Services.Protocols;
 
 #region using
@@ -19,19 +20,22 @@ using NHibernate.Criterion;
 
 #endregion
 
-//In person and online (1,2) are returning DOMA result. Ondemand only has 1 result 
-
-//TODO: Index for returning from product page back to product in search list
-//set the hash to page-productid and hash link each product
-
 //TODO: Tabs for each MeetingTypeGroup
-//TODO: Sub-Grouping
 //TODO: Export search to excel
-//TODO: Filter - Date sort order (from search obj)
+//TODO: Sub-Grouping (Parent/Child)
+
+//default tab based on # after search
+
+//each tab has dropdown to order by dynamic x,y,z
+
+//TODO: Filter - Date sort order (from search obj/enum)
 
 //TODO: IP geolocation
 
-//TODO: Check zipcode search result accuracy
+//TODO: Return sessions.parent.parent in keyword search
+
+//TODO: Index for returning from product page back to product in search list
+//set the hash to page-productid and hash link each product
 
 namespace AptifyWebApi.Repository
 {
@@ -59,11 +63,9 @@ namespace AptifyWebApi.Repository
         //base: filter out any non-active items 
            
             var filterList = new List<Expression<Func<T, bool>>>();
-            
-            Expression<Func<T, bool>> filterExpr = x => x.Status.Id == 1 
-                && x.Product.WebEnabled 
-                && x.Product.IsSold;
 
+            Expression<Func<T, bool>> filterExpr = BaseFilter();
+            
             filterList.Add(filterExpr);
 
             if (sParams.IsDateSearch)
@@ -82,20 +84,45 @@ namespace AptifyWebApi.Repository
             if (sParams.HasLevels)
                filterList.Add(LevelsFilter(sParams));
 
-            
-            filterList.Add(MeetingTypesGroupFilter(sParams));
 
-            filterList.Add(MeetingTypesFilter(sParams));
+            if (sParams.HasTypeGroups)
+                filterList.Add(MeetingTypesGroupFilter(sParams));
 
-            filterExpr = filterList.Aggregate(filterExpr, (current, expression) => current.AndCombine(expression));
+
+            if (sParams.HasMeetingTypes && NotAllTypeOptionsSelected(sParams))
+                filterList.Add(MeetingTypesFilter(sParams));
+
+
+            filterList.Add(SessionFilter());
+
+            filterExpr = filterList.Aggregate(filterExpr, (current, expression) => current.AndAlsoCombine(expression));
 
            
 
             return filterExpr;
         }
 
-
         #region Filters
+
+        private Expression<Func<T, bool>> SessionFilter()
+        {
+            Expression<Func<T, bool>> expr = x => x.TypeItem.Type.Id != (int) EnumsAndConstants.MeetingType.Session;
+
+            return expr;
+        }
+
+        private Expression<Func<T, bool>> BaseFilter()
+        {
+            var now = DateTime.Now;
+            Expression<Func<T, bool>> expr = x => x.Status.Id == 1
+                                                  && x.Product.WebEnabled
+                                                  && x.Product.IsSold
+                                                  && (x.StartDate >= now || x.TypeItem.Group.Id == (int)EnumsAndConstants.MeetingTypeGroup.SelfStudy)
+                                                  ;
+                                                  
+
+            return expr;
+        }
 
         private Expression<Func<T, bool>> ZipCodeFilter(TD sParams)
         {
@@ -109,29 +136,17 @@ namespace AptifyWebApi.Repository
 
         private Expression<Func<T, bool>>  MeetingTypesFilter(TD sParams)
         {
-            Expression<Func<T, bool>> expr;
-
-            if (sParams.HasMeetingTypes && sParams.MeetingTypes.Count < Context.GetActiveDbMeetingTypesCount())
-            {
-                expr = x => sParams.MeetingTypes.Any(y => x.TypeItem.IsNotNull() && x.TypeItem.Type.IsNotNull() && x.TypeItem.Type.IsNotNull() && y.Type.Id == x.TypeItem.Type.Id);
-            }
-            else
-                expr = x => x.Id != (int)EnumsAndConstants.MeetingType.Session;
+            Expression<Func<T, bool>> expr = x => sParams.MeetingTypes.Any(y => x.TypeItem.IsNotNull() && x.TypeItem.Type.IsNotNull() && x.TypeItem.Type.Id.IsNotNull() 
+                && y.Type.Id == x.TypeItem.Type.Id);
 
             return expr;
         }
 
         private Expression<Func<T, bool>> MeetingTypesGroupFilter(TD sParams)
         {
-            Expression<Func<T, bool>> expr;
-
-            if (sParams.HasTypeGroups)
-            {
-                expr = x => sParams.MeetingTypes.Any(y => x.TypeItem.IsNotNull() && x.TypeItem.Group.IsNotNull() && x.TypeItem.Group.Id.IsNotNull() && y.Group.Id == x.TypeItem.Group.Id);
-            }
-            else
-                expr = x => x.Id != (int)EnumsAndConstants.MeetingType.Session;
-
+            Expression<Func<T, bool>> expr = x => sParams.MeetingTypes.Any(y => x.TypeItem.IsNotNull() && x.TypeItem.Group.IsNotNull() && x.TypeItem.Group.Id.IsNotNull() 
+                && y.Group.Id == x.TypeItem.Group.Id);
+           
             return expr;
         }
 
@@ -161,16 +176,14 @@ namespace AptifyWebApi.Repository
             var eDate = sParams.EndDate.HasValue ? sParams.EndDate.Value : DateTime.MaxValue;
 
             //filter endDates that fall outside the specified range
-            //exclude self study
-
-            //TODO: Remove hardcode. Store business rules in db?
-            //var minDays = EnumsAndConstantsToAvoidDatabaseChanges.MeetingType.SelfStudy.GetMinDays();
-            
+         
             //Using IsInRange extension method not supported
             //nor is GetLengthInDays
             Expression<Func<T, bool>> expr = x =>
                                              (x.EndDate >= sDate && x.EndDate <= eDate);
 
+
+            //TODO: Add self-study exclusion
             //self study (lengh >= 7 days)
             //Expression<Func<T, bool>> expr2 = x => (x.StartDate - eDate).TotalDays >= minDays;
             //expr = expr.OrCombine(expr2);
@@ -181,12 +194,21 @@ namespace AptifyWebApi.Repository
 
         #endregion
 
+
+        #region Get
+
+        private bool NotAllTypeOptionsSelected(AptifriedMeetingSearchDto sParams)
+        {
+            return sParams.MeetingTypes.Count < Context.GetActiveDbMeetingTypesCount();
+        }
+
         public T GetSingle(int id)
         {
             Expression<Func<T, bool>> expr = x => x.Id == id;
 
             return FindBy(expr).Single();
         }
+        #endregion
     }
 
     //end class

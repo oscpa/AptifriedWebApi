@@ -25,7 +25,7 @@ namespace AptifyWebApi.Helpers
         }
 
 
-        public static Expression<Func<T, bool>> AndCombine<T>(this Expression<Func<T, bool>> expr1, Expression<Func<T, bool>> expr2)
+        public static Expression<Func<T, bool>> AndAlsoCombine<T>(this Expression<Func<T, bool>> expr1, Expression<Func<T, bool>> expr2)
         {
             var adaptedExpr2Body = ReplacingExpressionTreeVisitor.Replace(expr2.Parameters[0],expr1.Parameters[0],expr2.Body);
             
@@ -33,11 +33,18 @@ namespace AptifyWebApi.Helpers
         }
 
 
-        public static Expression<Func<T, bool>> OrCombine<T>(this Expression<Func<T, bool>> expr1, Expression<Func<T, bool>> expr2)
+        public static Expression<Func<T, bool>> OrElseCombine<T>(this Expression<Func<T, bool>> expr1, Expression<Func<T, bool>> expr2)
         {
             var adaptedExpr2Body = ReplacingExpressionTreeVisitor.Replace(expr2.Parameters[0],expr1.Parameters[0],expr2.Body);
         
             return Expression.Lambda<Func<T, bool>>(Expression.OrElse(expr1.Body, adaptedExpr2Body), expr1.Parameters);
+        }
+
+        public static Expression<Func<T, bool>> OrCombine<T>(this Expression<Func<T, bool>> expr1, Expression<Func<T, bool>> expr2)
+        {
+            var adaptedExpr2Body = ReplacingExpressionTreeVisitor.Replace(expr2.Parameters[0], expr1.Parameters[0], expr2.Body);
+
+            return Expression.Lambda<Func<T, bool>>(Expression.Or(expr1.Body, adaptedExpr2Body), expr1.Parameters);
         }
 
     }

@@ -23,7 +23,7 @@ namespace AptifyWebApi.Models.Meeting
             References(x => x.Location).Column("AddressID");
             HasMany(x => x.Credits).KeyColumn("MeetingID");
             References(x => x.Venue).Column("VenueID");
-            References(x => x.TypeItem).Column("MeetingTypeGroupID");
+            References(x => x.TypeItem).Column("MeetingTypeGroupId");
 
         }
     }

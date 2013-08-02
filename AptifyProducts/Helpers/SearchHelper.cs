@@ -134,7 +134,7 @@ namespace AptifyWebApi.Helpers
             var searchOrderBy = new StringBuilder();
 
             searchBase.AppendLine(
-                @"SELECT mt.ID, mt.MeetingTitle, mt.StartDate, mt.EndDate, mt.OpenTime, mt.ClassLevelID, mt.ProductID, mt.StatusID, mt.MeetingTypeID, mt.AddressID, mt.VenueID");
+                @"SELECT mt.ID, mt.MeetingTitle, mt.MeetingTypeGroupId, mt.StartDate, mt.EndDate, mt.OpenTime, mt.ClassLevelID, mt.ProductID, mt.StatusID, mt.MeetingTypeID, mt.AddressID, mt.VenueID");
 
             searchBase.AppendLine("from vwMeetingsTiny mt");
             searchBase.AppendLine("inner join vwStoreSearches s on s.ProductID = mt.ProductID");
