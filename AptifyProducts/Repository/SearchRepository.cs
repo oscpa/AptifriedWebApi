@@ -64,7 +64,6 @@ Search Improvements
 //set the hash to page-productid and hash link each product
 
 
-//TODO: Speed up counts using static variables that update in intervals
 namespace AptifyWebApi.Repository
 {
     public class SearchRepository<T, TD> : NHibernateBaseRepository<ISession, T>

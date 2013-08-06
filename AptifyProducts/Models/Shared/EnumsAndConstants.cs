@@ -17,7 +17,7 @@ namespace AptifyWebApi.Models.Shared
 
         public enum MeetingTypeGroup
         {
-            [Description("InPerson")] InPerson = 1,
+            [Description("InPerson")] InPerson = 4,
             [Description("OnLine")] Online = 2,
             [Description("Self-Study")] SelfStudy = 3
         }
