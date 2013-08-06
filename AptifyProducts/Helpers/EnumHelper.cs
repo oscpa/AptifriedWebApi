@@ -67,8 +67,8 @@ namespace AptifyWebApi.Helpers
 
         public static int GetMeetingTypeIdByName(string mTypeName)
         {
-            var id = (EnumsAndConstantsToAvoidDatabaseChanges.MeetingType)
-                Enum.Parse(typeof(EnumsAndConstantsToAvoidDatabaseChanges.MeetingType), mTypeName, true);
+            var id = (EnumsAndConstants.MeetingType)
+                Enum.Parse(typeof(EnumsAndConstants.MeetingType), mTypeName, true);
 
             return (int)id;
         }

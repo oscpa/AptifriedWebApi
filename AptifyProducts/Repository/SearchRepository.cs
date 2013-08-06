@@ -20,6 +20,27 @@ using NHibernate.Criterion;
 
 #endregion
 
+/*
+ * 
+We've made it easier to find products by category (We can adjust the types of categories we use when we have new groupings)
+We've simplified the filters as members don't use them
+Items in tabe will order as they should and have sort filters specific to them
+In person order by options = Date, Distance, Relevance
+Online = Date Relevance
+Self study = Relevance  
+We've removed infinite scroll and added pagination 
+We've added a large box to ensure that other options are known even if tabs are ignored
+ * 
+ * 
+Search Improvements 
+            Tabbed results list by product grouping
+            Initial search results load will be populated with a list of courses within 60 miles of the users current location as priority items
+            Filter changes based on the type of events you are looking at (Example remove radius id viewing on-line or on-demand)
+            Export results list to excel
+    DONE:   Direct link to a results list from a custom URL
+
+ */
+
 //TODO: Tabs for each MeetingTypeGroup
 
 //default tab based on # after search
@@ -27,6 +48,10 @@ using NHibernate.Criterion;
 //TODO: Filter - Date sort order (from search obj/enum)
 
 //each tab has dropdown to order by dynamic x,y,z
+
+//marker for visual indicator of infinite scroll
+
+//show few items from each tab to right of main search
 
 //TODO: Export search to excel
 //TODO: Sub-Grouping (Parent/Child)
@@ -38,6 +63,8 @@ using NHibernate.Criterion;
 //TODO: Index for returning from product page back to product in search list
 //set the hash to page-productid and hash link each product
 
+
+//TODO: Speed up counts using static variables that update in intervals
 namespace AptifyWebApi.Repository
 {
     public class SearchRepository<T, TD> : NHibernateBaseRepository<ISession, T>
@@ -65,7 +92,7 @@ namespace AptifyWebApi.Repository
            
             var filterList = new List<Expression<Func<T, bool>>>();
 
-            Expression<Func<T, bool>> filterExpr = BaseFilter();
+            Expression<Func<T, bool>> filterExpr = BaseFilter(sParams);
             
             filterList.Add(filterExpr);
 
@@ -105,20 +132,21 @@ namespace AptifyWebApi.Repository
 
         #region Filters
 
-        private Expression<Func<T, bool>> SessionFilter()
+        private static Expression<Func<T, bool>> SessionFilter()
         {
             Expression<Func<T, bool>> expr = x => x.TypeItem.Type.Id != (int) EnumsAndConstants.MeetingType.Session;
 
             return expr;
         }
 
-        private Expression<Func<T, bool>> BaseFilter()
-        {
-            var now = DateTime.Now;
+        private static Expression<Func<T, bool>> BaseFilter(TD sParam)
+        {   
+            var sDate = sParam.StartDate ?? DateTime.Now;
             Expression<Func<T, bool>> expr = x => x.Status.Id == 1
                                                   && x.Product.WebEnabled
                                                   && x.Product.IsSold
-                                                  && (x.StartDate >= now || x.TypeItem.Group.Id == (int)EnumsAndConstants.MeetingTypeGroup.SelfStudy)
+                                                  && x.TypeItem != null
+                                                  && (x.StartDate >= sDate | x.TypeItem.Group.Id == (int)EnumsAndConstants.MeetingTypeGroup.SelfStudy)
                                                   ;
                                                   
 
@@ -135,18 +163,19 @@ namespace AptifyWebApi.Repository
             return expr;
         }
 
-        private Expression<Func<T, bool>>  MeetingTypesFilter(TD sParams)
+        private static Expression<Func<T, bool>>  MeetingTypesFilter(TD sParams)
         {
             Expression<Func<T, bool>> expr = x => sParams.MeetingTypes.Any(y => x.TypeItem.IsNotNull() && x.TypeItem.Type.IsNotNull() && x.TypeItem.Type.Id.IsNotNull() 
-                && y.Type.Id == x.TypeItem.Type.Id);
+                && y.Type.Id == x.TypeItem.Type.Id && x.TypeItem.Type.Id != (int)EnumsAndConstants.MeetingType.Session);
 
             return expr;
         }
 
         private Expression<Func<T, bool>> MeetingTypesGroupFilter(TD sParams)
         {
-            Expression<Func<T, bool>> expr = x => sParams.MeetingTypes.Any(y => x.TypeItem.IsNotNull() && x.TypeItem.Group.IsNotNull() && x.TypeItem.Group.Id.IsNotNull() 
-                && y.Group.Id == x.TypeItem.Group.Id);
+            Expression<Func<T, bool>> expr = x => sParams.MeetingTypes.Any(y =>
+                x.TypeItem.IsNotNull() && x.TypeItem.Group.IsNotNull() && x.TypeItem.Group.Id.IsNotNull() 
+            && y.Group.Id == x.TypeItem.Group.Id);
            
             return expr;
         }

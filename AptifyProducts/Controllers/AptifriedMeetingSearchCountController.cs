@@ -30,7 +30,7 @@ namespace AptifyWebApi.Controllers
             return new AptifriedMeetingCountResultsDto
             {
                 SearchEntered = search,
-                Count = res.IsNotNull() ? res.Count() : 0
+                Count = res.Count()
             };
         }
     }

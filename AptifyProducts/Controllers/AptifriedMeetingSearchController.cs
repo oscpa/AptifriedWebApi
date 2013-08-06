@@ -36,7 +36,6 @@ namespace AptifyWebApi.Controllers
         [HttpPost]
         public List<AptifriedMeetingDto> Post(AptifriedMeetingSearchDto search)
         {
-            // If search is null, throw an error
             if (search.IsNull())
                 throw new HttpException(500, "Post must contain a search object", new ArgumentException("search"));
 
