@@ -1,15 +1,19 @@
 ﻿
  #region using
 
+using System.Collections;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using AptifyWebApi.Dto;
 using AptifyWebApi.Models;
 using AptifyWebApi.Models.Meeting;
 using AptifyWebApi.Models.Shared;
+using AutoMapper;
+using Microsoft.Ajax.Utilities;
 using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Linq;
+using NHibernate.Mapping;
 using NHibernate.Transform;
 using System;
 using System.Collections.Generic;
@@ -23,54 +27,7 @@ using Expression = System.Linq.Expressions.Expression;
 
 namespace AptifyWebApi.Helpers
 {
-    /*
-    public class ParameterRebinder : ExpressionVisitor
-    {
-        private readonly Dictionary<ParameterExpression, ParameterExpression> map;
 
-        public ParameterRebinder(Dictionary<ParameterExpression, ParameterExpression> map)
-        {
-            this.map = map ?? new Dictionary<ParameterExpression, ParameterExpression>();
-        }
-
-        public static Expression ReplaceParameters(Dictionary<ParameterExpression, ParameterExpression> map, Expression exp)
-        {
-            return new ParameterRebinder(map).Visit(exp);
-        }
-
-        protected override Expression VisitParameter(ParameterExpression p)
-        {
-            ParameterExpression replacement;
-            if (map.TryGetValue(p, out replacement))
-            {
-                p = replacement;
-            }
-            return base.VisitParameter(p);
-        }
-    }
-
-    public static class ExpressionUtility
-    {
-        public static Expression<T> Compose<T>(this Expression<T> first, Expression<T> second, Func<Expression, Expression, Expression> merge)
-        {
-            var map = first.Parameters.Select((f, i) => new { f, s = second.Parameters[i] }).ToDictionary(p => p.s, p => p.f);
-
-            var secondBody = ParameterRebinder.ReplaceParameters(map, second.Body);
-
-            return Expression.Lambda<T>(merge(first.Body, secondBody), first.Parameters);
-        }
-
-        public static Expression<Func<T, bool>> AndAlso<T>(this Expression<Func<T, bool>> first, Expression<Func<T, bool>> second)
-        {
-            return first.Compose(second, Expression.AndAlso);
-        }
-
-        public static Expression<Func<T, bool>> OrElse<T>(this Expression<Func<T, bool>> first, Expression<Func<T, bool>> second)
-        {
-            return first.Compose(second, Expression.OrElse);
-        }
-    }
-    */
     public static class SearchHelper
     {
         private const string PrefixContains = "cn";
@@ -88,65 +45,55 @@ namespace AptifyWebApi.Helpers
             return days;
         }
 
-        public static IQueryable<T> Filter<T>(this IList<T> lst, Expression<Func<T, bool>> predicate) where T : class
+        public static IQueryable<T> Filter<T>(this IQueryable<T> lst, Expression<Func<T, bool>> predicate) where T : class
         {
-            return lst.AsQueryable().Where(predicate);
+            return lst.Where(predicate);
         }
 
-       
-        public static IList<float> GetZipDistanceWeb(this ISession session, string startZip, string endZip)
+        public static IQueryable<T> Filter<T>(this IList<T> lst, Expression<Func<T, bool>> predicate) where T : class
         {
-            //TODO: Refactor out sql
-            var zips = session.CreateSQLQuery(
-                String.Format(@"SELECT * FROM [dbo].[fnOSCPAGetZipDistanceWeb]({0},{1})",
-                              startZip, endZip)).AddEntity(typeof (float)).List<float>();
+            return lst.AsQueryable().Filter(predicate);
+        }
 
-            return zips;
+        public static IList GetMeetingIdByZipDistance(this ISession session, string postalCode, string milesDistance)
+        {
+            //TODO: Convert to linq
+            var sql = String.Format(
+                @"select mt.ID from [Aptify].[dbo].[vwAddressesTiny] at 
+                join [Aptify].[dbo].[vwMeetingsTiny] mt on mt.AddressID = at.ID 
+                where exists (select * from [Aptify].[dbo].[fnOSCPAGetZipDistanceWeb]({0},at.PostalCode) dt
+                             where dt.Distance <= {1}) and mt.IsSold = 1 and mt.WebEnabled = 1",
+                postalCode, milesDistance);
+
+            var addrIds = session.CreateSQLQuery(sql).List();
+
+            return addrIds;
         }
 
        
 
         public static int GetActiveDbMeetingTypesCount(this ISession session)
         {
-            var r = session.GetActiveDbMeetingTypes().Count;
+            var r = session.GetActiveDbMeetingTypeItems().Count;
 
             return r;
         }
 
       
 
-        public static IList<AptifriedMeetingType> GetActiveDbMeetingTypes(this ISession session)
+        public static IList<AptifriedMeetingTypeItem> GetActiveDbMeetingTypeItems(this ISession session)
         {
-            var inUse =
-                session.CreateSQLQuery(
-                    "select distinct MeetingTypeId from Aptify.[dbo].vwmeetingstiny where MeetingTypeId is not null").List<int>();
+            var lst = session.QueryOver<AptifriedMeetingTypeItem>().List();
 
-            var qry = session.QueryOver<AptifriedMeetingType>().Where(x => x.Id.IsIn(inUse.ToArray()));
-
-            return qry.List<AptifriedMeetingType>();
-
+            return lst;
         }
 
-       
-
-        public static IList<AptifriedMeetingType> GetAllDbMeetingTypes(this ISession session)
+     
+        public static IList<AptifriedMeetingTypeItemDto> GetActiveMeetingTypeItemsDto(this ISession session)
         {
-            var qry = session.QueryOver<AptifriedMeetingType>().List();
+            var itms = session.GetActiveDbMeetingTypeItems();
 
-            return qry;
-        }
-
-        public static IList<AptifriedMeetingTypeDto> GetAllMeetingTypeDto(this ISession session)
-        {
-            var inUse = session.GetActiveDbMeetingTypes();
-
-            return session.GetAllDbMeetingTypes().Select(x => new AptifriedMeetingTypeDto
-                {
-                    Name = x.Name,
-                    Description = x.Description,
-                    Id = x.Id,
-                    HasMeetings = inUse.Contains(x)
-                }).ToList();
+            return Mapper.Map(itms, new List<AptifriedMeetingTypeItemDto>());
         }
 
         public static List<AptifriedEducationCategory> GetActiveDbEducationCategories(this ISession session)
@@ -156,7 +103,7 @@ namespace AptifyWebApi.Helpers
                                  x =>
                                  x.Status.ToLowerInvariant()
                                   .Equals(
-                                      EnumsAndConstantsToAvoidDatabaseChanges.EducationCategoryStatusActive
+                                      EnumsAndConstants.EducationCategoryStatusActive
                                                                              .ToLowerInvariant()));
 
             return qry.ToList();
@@ -172,7 +119,7 @@ namespace AptifyWebApi.Helpers
 
 
 
-        public static IList<T> Keyword<T>(this IQueryOver<T> res, ISession session, string searchText,
+        public static IList<T> Keyword<T>(this IQueryOver<T,T> res, ISession session, string searchText,
                                                 bool useKeywordRanking)
         {
             //WBN: Refactor out sql
@@ -182,7 +129,7 @@ namespace AptifyWebApi.Helpers
 
 
             //No keyword search for you!
-            if (String.IsNullOrWhiteSpace(searchText))
+            if (!useKeywordRanking || String.IsNullOrWhiteSpace(searchText))
                 return res.List<T>();
 
             var searchBase = new StringBuilder();
@@ -190,7 +137,7 @@ namespace AptifyWebApi.Helpers
             var searchOrderBy = new StringBuilder();
 
             searchBase.AppendLine(
-                @"SELECT mt.ID, mt.MeetingTitle, mt.StartDate, mt.EndDate, mt.OpenTime, mt.ClassLevelID, mt.ProductID, mt.StatusID, mt.MeetingTypeID, mt.AddressID, mt.VenueID");
+                @"SELECT mt.ID, mt.MeetingTitle, mt.MeetingTypeGroupId, mt.StartDate, mt.EndDate, mt.OpenTime, mt.ClassLevelID, mt.ProductID, mt.StatusID, mt.MeetingTypeID, mt.AddressID, mt.VenueID");
 
             searchBase.AppendLine("from vwMeetingsTiny mt");
             searchBase.AppendLine("inner join vwStoreSearches s on s.ProductID = mt.ProductID");
@@ -241,8 +188,6 @@ namespace AptifyWebApi.Helpers
 
             var searchStringFreeTextTables = String.Format("'{0}'", searchText);
 
-            if (useKeywordRanking)
-            {
                 var rankString = String.Concat(GetRankString(subrankMaps, PrefixContains), " + ",
                                                GetRankString(subrankMaps, PrefixFreeText));
 
@@ -252,8 +197,7 @@ namespace AptifyWebApi.Helpers
 
                 // We don't need to worry about clobbering any sort logic here because it won't have been defined yet
                 searchOrderBy.AppendLine(String.Format("order by {0} desc, mt.startdate", rankString));
-            }
-
+          
             searchBase.BuildContainsTableJoins(searchStringContainsTable, subrankMaps);
             searchBase.BuildFreeTextTableJoins(searchStringFreeTextTables, subrankMaps);
 
@@ -303,6 +247,17 @@ namespace AptifyWebApi.Helpers
                                                       x + (!String.IsNullOrEmpty(x) ? " + " : String.Empty) + n);
 
             return rankString;
+        }
+
+        public static IList<int> GetMeetingIdsInEducationUnitCategories(this ISession session, AptifriedMeetingSearchDto sParams)
+        {
+             var ids = sParams.CreditTypes.Select(x => x.Id).ToList();
+
+            var mIds = session.QueryOver<AptifriedMeetingEductionUnits>().Select(x => x.MeetingId)
+                .Where(x => x.Category.Id.IsIn(ids)).List<int>();
+           
+            return mIds;
+
         }
     }
 }

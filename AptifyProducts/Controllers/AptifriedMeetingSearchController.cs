@@ -8,7 +8,6 @@ using System.Web.Mvc;
 using AptifyWebApi.Dto;
 using AptifyWebApi.Helpers;
 using AptifyWebApi.Models.Meeting;
-using AptifyWebApi.Models.Shared;
 using AptifyWebApi.Repository;
 using AutoMapper;
 using NHibernate;
@@ -28,41 +27,26 @@ namespace AptifyWebApi.Controllers
         {
             var msDto = new AptifriedMeetingSearchDto
             {
-                MeetingTypes = session.GetAllMeetingTypeDto()
+                MeetingTypes = session.GetActiveMeetingTypeItemsDto()
             };
 
             return msDto;
         }
 
         [HttpPost]
-        public IList<AptifriedMeetingDto> Post(AptifriedMeetingSearchDto search)
+        public List<AptifriedMeetingDto> Post(AptifriedMeetingSearchDto search)
         {
-#if DEBUG
-            var list = new List<string>
-                {
-                    "Standard",
-                    "Webcast",
-                    "Conference",
-                    "On-Site",
-                    "Self-Study",
-                    "Session",
-                    "Webinar",
-                    "Seminar",
-                    "Networking",
-                    "Other"
-                };
-#endif
-
-
             // If search is null, throw an error
             if (search.IsNull())
                 throw new HttpException(500, "Post must contain a search object", new ArgumentException("search"));
 
-            var res = new SearchRepository<AptifriedMeeting, AptifriedMeetingSearchDto>(session).Search(search, false);
+            var res = new SearchRepository<AptifriedMeeting, AptifriedMeetingSearchDto>(session).Search(search, search.IsKeywordSearch);
 
             var results = Mapper.Map(res, new List<AptifriedMeetingDto>());
 
             return results;
+            //GroupBy done here because automapper doesn't support IEnum<IGroup<...
+            //return results.GroupBy(x => x.ParentId);
         }
     }
 }

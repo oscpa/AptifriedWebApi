@@ -475,10 +475,12 @@
     <Compile Include="Dto\AptifriedEducationUnitDto.cs" />
     <Compile Include="Dto\AptifriedMeetingSearchDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTypeDto.cs" />
+    <Compile Include="Dto\AptifriedMeetingTypeItemDto.cs" />
     <Compile Include="Dto\AptifriedProductAttachmentWithThumbnailDto.cs" />
     <Compile Include="Dto\AptifriedProductRelationDto.cs" />
     <Compile Include="Dto\AptifriedProductRelationshipTypeDto.cs" />
     <Compile Include="Dto\AptifriedWebNotificationDto.cs" />
+    <Compile Include="Dto\AptifriedMeetingTypeGroupDto.cs" />
     <Compile Include="Factories\UnityControllerFactory.cs" />
     <Compile Include="Helpers\BaseHelper.cs" />
     <Compile Include="Helpers\DtoHelper.cs" />
@@ -607,6 +609,8 @@
     <Compile Include="Models\AptifriedMemberStatusTypeMap.cs" />
     <Compile Include="Models\AptifriedMemberType.cs" />
     <Compile Include="Models\AptifriedMemberTypeMap.cs" />
+    <Compile Include="Models\Meeting\AptifriedMeetingTypeGroup.cs" />
+    <Compile Include="Models\Meeting\AptifriedMemberTypeGroupMap.cs" />
     <Compile Include="Models\AptifriedOnlineClassDetails.cs" />
     <Compile Include="Models\AptifriedOrder.cs" />
     <Compile Include="Models\AptifriedOrderLine.cs" />
@@ -675,6 +679,8 @@
     <Compile Include="Models\Meeting\AptifriedMeetingTimeSpanProduct.cs" />
     <Compile Include="Models\Meeting\AptifriedMeetingTimeSpanProductMap.cs" />
     <Compile Include="Models\Meeting\AptifriedMeetingMedia.cs" />
+    <Compile Include="Models\Meeting\AptifriedMeetingTypeItem.cs" />
+    <Compile Include="Models\Meeting\AptifriedMeetingTypeItemMap.cs" />
     <Compile Include="Models\SessionSelection\AptifriedCancelledMeetingSessions.cs" />
     <Compile Include="Models\SessionSelection\AptifriedCancelledMeetingSessionsMap.cs" />
     <Compile Include="Models\SessionSelection\AptifriedMeetingSessionLog.cs" />
@@ -683,7 +689,7 @@
     <Compile Include="Models\SessionSelection\AptifriedNewMeetingSessionMap.cs" />
     <Compile Include="Models\Shared\AptifyContext.cs" />
     <Compile Include="Models\Shared\BaseModel.cs" />
-    <Compile Include="Models\Shared\EnumsAndConstantsToAvoidDatabaseChanges.cs" />
+    <Compile Include="Models\Shared\EnumsAndConstants.cs" />
     <Compile Include="Models\Shared\MsSqlDialectExtend.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
     <Compile Include="Repository\NhibernateBaseRepository.cs" />

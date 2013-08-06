@@ -35,15 +35,15 @@ namespace AptifyWebApi.Helpers
 
         #region Mapping Table Needed
 
-        public static int GetMinDays(this EnumsAndConstantsToAvoidDatabaseChanges.MeetingType enumVal)
+        public static int GetMinDays(this EnumsAndConstants.MeetingType enumVal)
         {
             var attribute = enumVal.GetAttributeOfType<MinDays>();
 
             return attribute.Days;
         }
 
-        public static EnumsAndConstantsToAvoidDatabaseChanges.MeetingTypeCategory CategoryId(
-            this EnumsAndConstantsToAvoidDatabaseChanges.MeetingType enumVal)
+        public static EnumsAndConstants.MeetingTypeGroup CategoryId(
+            this EnumsAndConstants.MeetingType enumVal)
         {
             var attribute = enumVal.GetAttributeOfType<MeetingTypeCategoryAttr>();
 
@@ -54,12 +54,12 @@ namespace AptifyWebApi.Helpers
         public static IEnumerable<int> GetMeetingTypeIdsByCategoryDescription(string mTypeDesc)
         {
             var categoryId =
-                (EnumsAndConstantsToAvoidDatabaseChanges.MeetingTypeCategory)
-                Enum.Parse(typeof (EnumsAndConstantsToAvoidDatabaseChanges.MeetingTypeCategory), mTypeDesc, true);
+                (EnumsAndConstants.MeetingTypeGroup)
+                Enum.Parse(typeof (EnumsAndConstants.MeetingTypeGroup), mTypeDesc, true);
 
             return
-                Enum.GetValues(typeof (EnumsAndConstantsToAvoidDatabaseChanges.MeetingType))
-                    .Cast<EnumsAndConstantsToAvoidDatabaseChanges.MeetingType>()
+                Enum.GetValues(typeof (EnumsAndConstants.MeetingType))
+                    .Cast<EnumsAndConstants.MeetingType>()
                     .Where(m => m.CategoryId() == categoryId)
                     .ToList()
                     .Cast<int>();
@@ -76,14 +76,14 @@ namespace AptifyWebApi.Helpers
         [AttributeUsage(AttributeTargets.Field)]
         public class MeetingTypeCategoryAttr : Attribute
         {
-            private readonly EnumsAndConstantsToAvoidDatabaseChanges.MeetingTypeCategory _meetingTypeCategory;
+            private readonly EnumsAndConstants.MeetingTypeGroup _meetingTypeCategory;
 
-            public MeetingTypeCategoryAttr(EnumsAndConstantsToAvoidDatabaseChanges.MeetingTypeCategory mCat)
+            public MeetingTypeCategoryAttr(EnumsAndConstants.MeetingTypeGroup mCat)
             {
                 _meetingTypeCategory = mCat;
             }
 
-            public EnumsAndConstantsToAvoidDatabaseChanges.MeetingTypeCategory MeetingTypeCategory
+            public EnumsAndConstants.MeetingTypeGroup MeetingTypeCategory
             {
                 get { return _meetingTypeCategory; }
             }

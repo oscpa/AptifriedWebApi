@@ -19,11 +19,7 @@ namespace AptifyWebApi.Controllers
 
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult SendAuthOver()
-        {
+            //TODO: Testing page for search
             return View();
         }
     }

@@ -20,10 +20,11 @@ namespace AptifyWebApi.Models.Meeting
             Map(x => x.ClassLevelId);
             References(x => x.Product).Column("ProductID");
             References(x => x.Status).Column("StatusID");
-            References(x => x.Type).Column("MeetingTypeID");
             References(x => x.Location).Column("AddressID");
             HasMany(x => x.Credits).KeyColumn("MeetingID");
             References(x => x.Venue).Column("VenueID");
+            References(x => x.TypeItem).Column("MeetingTypeGroupId");
+
         }
     }
 }

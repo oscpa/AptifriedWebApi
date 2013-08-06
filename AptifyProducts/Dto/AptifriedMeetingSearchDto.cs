@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AptifyWebApi.Helpers;
+using AptifyWebApi.Models;
+using FluentNHibernate.Conventions;
 
 #endregion
 
@@ -11,8 +13,7 @@ namespace AptifyWebApi.Dto
 {
     public class AptifriedMeetingSearchDto
     {
-            public IList<string> MeetingType { get; set; }
-            public IList<AptifriedMeetingTypeDto> MeetingTypes { get; set; }
+            public IList<AptifriedMeetingTypeItemDto> MeetingTypes { get; set; }
             public IList<int> Levels { get; set; }
             public string SearchText { get; set; }
             public DateTime? StartDate { get; set; }
@@ -49,9 +50,13 @@ namespace AptifyWebApi.Dto
             public bool HasMeetingTypes
             {
                 //initialized && has types
-                get { return !MeetingType.IsNull() && MeetingType.Any(); }
+                get { return MeetingTypes.IsNotNull() && MeetingTypes.Any(x => x.Type.IsNotNull()); }
             }
 
+        public bool HasTypeGroups
+        {
+            get { return MeetingTypes.IsNotNull() && MeetingTypes.Any(x => x.Group.IsNotNull()); }
+        }
 
         } 
 
