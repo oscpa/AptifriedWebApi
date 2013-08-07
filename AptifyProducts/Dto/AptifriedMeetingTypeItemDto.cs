@@ -1,8 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using AptifyWebApi.Dto;
-using AptifyWebApi.Models.Meeting;
-
-namespace AptifyWebApi.Models
+﻿namespace AptifyWebApi.Dto
 {
     public class AptifriedMeetingTypeItemDto
     {

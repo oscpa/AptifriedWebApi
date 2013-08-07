@@ -25,12 +25,35 @@ namespace AptifyWebApi.Controllers
 
         public AptifriedMeetingCountResultsDto Post(AptifriedMeetingSearchDto search)
         {
-           var res = new SearchRepository<AptifriedMeeting,AptifriedMeetingSearchDto>(session).Search(search, false);
+            var cnt = -1;
 
-            return new AptifriedMeetingCountResultsDto
+            //TODO: Refactor.  Add post call for CreditTypesCount
+            if(search.HasMeetingTypeItems)
+                foreach (var mType in search.MeetingTypes.Where(mType => mType.Group.IsNotNull() && mType.Group.Id.IsNotNull()))
+                {
+                    if (SearchCounts.MeetingSearch.Groups.NeedsUpdate(mType.Group.Id))
+                        SearchCounts.MeetingSearch.Groups.Update(mType.Group.Id,
+                            new SearchRepository<AptifriedMeeting, AptifriedMeetingSearchDto>(session).Search(
+                                search, false).Count());
+
+                    cnt += SearchCounts.MeetingSearch.Groups.GetCount(mType.Group.Id);
+                }
+
+            if(search.HasCreditTypes)
+                foreach (var cType in search.CreditTypes)
+                {
+                    if (SearchCounts.MeetingSearch.CreditTypes.NeedsUpdate(cType.Id))
+                        SearchCounts.MeetingSearch.CreditTypes.Update(cType.Id,
+                            new SearchRepository<AptifriedMeeting, AptifriedMeetingSearchDto>(session).Search(
+                                search, false).Count());
+
+                    cnt += SearchCounts.MeetingSearch.CreditTypes.GetCount(cType.Id);
+                }
+            
+          return new AptifriedMeetingCountResultsDto
             {
                 SearchEntered = search,
-                Count = res.Count()
+                Count = cnt
             };
         }
     }

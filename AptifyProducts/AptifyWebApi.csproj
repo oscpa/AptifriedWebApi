@@ -691,6 +691,7 @@
     <Compile Include="Models\Shared\BaseModel.cs" />
     <Compile Include="Models\Shared\EnumsAndConstants.cs" />
     <Compile Include="Models\Shared\MsSqlDialectExtend.cs" />
+    <Compile Include="Models\Shared\SearchCounts.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
     <Compile Include="Repository\NhibernateBaseRepository.cs" />
     <Compile Include="Repository\HibernatedAptifriedClassRepository.cs" />

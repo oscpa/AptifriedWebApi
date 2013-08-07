@@ -47,15 +47,22 @@ namespace AptifyWebApi.Dto
                 get { return Levels != null && Levels.Any(); }
             }
 
+        public bool HasMeetingTypeItems
+        {
+            get
+            {
+                return MeetingTypes.IsNotNull();
+            }
+        }
             public bool HasMeetingTypes
             {
                 //initialized && has types
-                get { return MeetingTypes.IsNotNull() && MeetingTypes.Any(x => x.Type.IsNotNull()); }
+                get { return HasMeetingTypeItems && MeetingTypes.Any(x => x.Type.IsNotNull()); }
             }
 
         public bool HasTypeGroups
         {
-            get { return MeetingTypes.IsNotNull() && MeetingTypes.Any(x => x.Group.IsNotNull()); }
+            get { return HasMeetingTypeItems && MeetingTypes.Any(x => x.Group.IsNotNull()); }
         }
 
         } 

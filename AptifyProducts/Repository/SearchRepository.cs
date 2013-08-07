@@ -64,6 +64,8 @@ Search Improvements
 //set the hash to page-productid and hash link each product
 
 
+//add tracking to pagination links
+
 namespace AptifyWebApi.Repository
 {
     public class SearchRepository<T, TD> : NHibernateBaseRepository<ISession, T>
@@ -91,7 +93,7 @@ namespace AptifyWebApi.Repository
            
             var filterList = new List<Expression<Func<T, bool>>>();
 
-            Expression<Func<T, bool>> filterExpr = BaseFilter(sParams);
+            var filterExpr = BaseFilter(sParams);
             
             filterList.Add(filterExpr);
 
@@ -164,13 +166,17 @@ namespace AptifyWebApi.Repository
 
         private static Expression<Func<T, bool>>  MeetingTypesFilter(TD sParams)
         {
-            Expression<Func<T, bool>> expr = x => sParams.MeetingTypes.Any(y => x.TypeItem.IsNotNull() && x.TypeItem.Type.IsNotNull() && x.TypeItem.Type.Id.IsNotNull() 
-                && y.Type.Id == x.TypeItem.Type.Id && x.TypeItem.Type.Id != (int)EnumsAndConstants.MeetingType.Session);
+            Expression<Func<T, bool>> expr = x => sParams.MeetingTypes.Any(y => x.TypeItem.IsNotNull()
+                                                                                && x.TypeItem.Type.IsNotNull() &&
+                                                                                x.TypeItem.Type.Id.IsNotNull()
+                                                                                && y.Type.Id == x.TypeItem.Type.Id);
 
+           //Expression<Func<T, bool>> expr2 = x => x.TypeItem.Type.Id != (int) EnumsAndConstants.MeetingType.Session;
+           
             return expr;
         }
 
-        private Expression<Func<T, bool>> MeetingTypesGroupFilter(TD sParams)
+        private static Expression<Func<T, bool>> MeetingTypesGroupFilter(TD sParams)
         {
             Expression<Func<T, bool>> expr = x => sParams.MeetingTypes.Any(y =>
                 x.TypeItem.IsNotNull() && x.TypeItem.Group.IsNotNull() && x.TypeItem.Group.Id.IsNotNull() 

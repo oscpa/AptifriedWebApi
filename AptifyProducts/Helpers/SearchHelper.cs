@@ -249,6 +249,7 @@ namespace AptifyWebApi.Helpers
             return rankString;
         }
 
+        
         public static IList<int> GetMeetingIdsInEducationUnitCategories(this ISession session, AptifriedMeetingSearchDto sParams)
         {
              var ids = sParams.CreditTypes.Select(x => x.Id).ToList();
