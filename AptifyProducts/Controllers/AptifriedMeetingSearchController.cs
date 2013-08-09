@@ -22,6 +22,7 @@ namespace AptifyWebApi.Controllers
         {
         }
 
+        [System.Web.Http.AcceptVerbs("GET")]
         [HttpGet]
         public AptifriedMeetingSearchDto Get()
         {
@@ -33,6 +34,15 @@ namespace AptifyWebApi.Controllers
             return msDto;
         }
 
+  /*      
+        [System.Web.Http.AcceptVerbs("GET")]
+        [HttpGet]
+        public string ExportToExcel(AptifriedMeetingSearchResultDto resultsDto)
+        {
+            throw new NotImplementedException();
+        }
+        */
+        [System.Web.Http.AcceptVerbs("POST")]
         [HttpPost]
         public List<AptifriedMeetingDto> Post(AptifriedMeetingSearchDto search)
         {
