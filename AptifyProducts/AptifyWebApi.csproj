@@ -453,6 +453,7 @@
     <Compile Include="Controllers\AptifriedConferenceMeetingSessionSesSelController.cs" />
     <Compile Include="Controllers\AptifriedConferenceMeetingSesSelController.cs" />
     <Compile Include="Controllers\AptifriedCPECertificateController.cs" />
+    <Compile Include="Controllers\AptifriedEducationUnitAttachmentController.cs" />
     <Compile Include="Controllers\AptifriedEducationUnitController.cs" />
     <Compile Include="Controllers\AptifriedExamController.cs" />
     <Compile Include="Controllers\AptifriedMeetingController.cs" />
@@ -488,6 +489,7 @@
     <Compile Include="Dto\AptifriedCPECertificateDto.cs" />
     <Compile Include="Dto\AptifriedCpeCreditAdjustmentTypeDto.cs" />
     <Compile Include="Dto\AptifriedEducationUnitAggregateDto.cs" />
+    <Compile Include="Dto\AptifriedEducationUnitAttachmentDto.cs" />
     <Compile Include="Dto\AptifriedEducationUnitDto.cs" />
     <Compile Include="Dto\AptifriedProductAttachmentWithThumbnailDto.cs" />
     <Compile Include="Dto\AptifriedProductRelationDto.cs" />
@@ -597,6 +599,8 @@
     <Compile Include="Models\AptifriedEducationCategory.cs" />
     <Compile Include="Models\AptifriedEducationCategoryMap.cs" />
     <Compile Include="Models\AptifriedEducationUnit.cs" />
+    <Compile Include="Models\AptifriedEducationUnitAttachment.cs" />
+    <Compile Include="Models\AptifriedEducationUnitAttachmentMap.cs" />
     <Compile Include="Models\AptifriedEducationUnitMap.cs" />
     <Compile Include="Models\AptifriedExam.cs" />
     <Compile Include="Models\AptifriedExamMap.cs" />

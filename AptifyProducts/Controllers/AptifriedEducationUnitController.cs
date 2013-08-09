@@ -102,6 +102,23 @@ namespace AptifyWebApi.Controllers {
 				throw new HttpException(500, "Error loading up Education Units GE");
 			}
 
+			AptifriedEducationUnitAttachmentController euaCtrl = new AptifriedEducationUnitAttachmentController(session);
+			if (euaCtrl == null) {
+				throw new HttpException(500, "Couldn't load up education unit attachment controller");
+			}
+
+			var euAttachments = euaCtrl.Get(Convert.ToInt64(educationUnitId));
+
+			if (euAttachments != null) {
+				try {
+					foreach (var euAt in euAttachments) {
+						euaCtrl.Delete(euAt.Id);
+					}
+				} catch (Exception ex) {
+					throw new HttpException(500, "Error deleting education unit attachments: " + ex.Message, ex);
+				}
+			}
+
 			if (!educationUnitEntity.Delete()) {
 				throw new HttpException(500, "Error deleting entity: " + educationUnitEntity.LastUserError);
 			}

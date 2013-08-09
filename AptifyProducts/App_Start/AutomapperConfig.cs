@@ -29,12 +29,15 @@ namespace AptifyWebApi {
 
             Mapper.CreateMap<AptifriedCompany, AptifriedCompanyDto>();
             Mapper.CreateMap<AptifriedCourse, AptifriedCourseDto>();
+
+			Mapper.CreateMap<AptifriedEducationCategory, AptifriedEducationCategoryDto>();
+
+			Mapper.CreateMap<AptifriedEducationUnit, AptifriedEducationUnitDto>();
+			Mapper.CreateMap<AptifriedEducationUnitAttachment, AptifriedEducationUnitAttachmentDto>();
             
             Mapper.CreateMap<AptifriedExam, AptifriedExamDto>();
             Mapper.CreateMap<AptifriedExamQuestion, AptifriedExamQuestionDto>();
-            Mapper.CreateMap<AptifriedEducationCategory, AptifriedEducationCategoryDto>();
             Mapper.CreateMap<AptifriedExamQuestionPossibleAnswers, AptifriedExamQuestionPossibleAnswersDto>();
-            Mapper.CreateMap<AptifriedEducationUnit, AptifriedEducationUnitDto>();
 
 			Mapper.CreateMap<AptifriedLicenseStatus, AptifriedLicenseStatusDto>();
 
