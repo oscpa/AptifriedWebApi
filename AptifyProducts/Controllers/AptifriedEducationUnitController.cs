@@ -107,7 +107,7 @@ namespace AptifyWebApi.Controllers {
 				throw new HttpException(500, "Couldn't load up education unit attachment controller");
 			}
 
-			var euAttachments = euaCtrl.Get(Convert.ToInt64(educationUnitId));
+			var euAttachments = euaCtrl.GetForEducationUnitId(Convert.ToInt64(educationUnitId));
 
 			if (euAttachments != null) {
 				try {

@@ -76,6 +76,23 @@ namespace AptifyWebApi.Controllers {
 		}
 
 		private bool InternalDelete(int personId, int attachmentId) {
+			AptifriedEducationUnitAttachmentController euaCtrl = new AptifriedEducationUnitAttachmentController(session);
+			if (euaCtrl == null) {
+				throw new HttpException(500, "Couldn't load up education unit attachment controller");
+			}
+
+			var euAttachments = euaCtrl.GetForAttachmentId(Convert.ToInt64(attachmentId));
+
+			if (euAttachments != null) {
+				try {
+					foreach (var euAt in euAttachments) {
+						euaCtrl.Delete(euAt.Id);
+					}
+				} catch (Exception ex) {
+					throw new HttpException(500, "Error deleting education unit attachments: " + ex.Message, ex);
+				}
+			}
+
 			var atts = new AptifyAttachments(AptifyApp, "Persons", personId);
 			return atts.DeleteAttachment(attachmentId);
 		}

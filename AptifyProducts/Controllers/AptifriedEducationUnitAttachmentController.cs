@@ -36,12 +36,20 @@ namespace AptifyWebApi.Controllers {
 			return dtos;
 		}
 
-		public IList<AptifriedEducationUnitAttachmentDto> Get(long id) {
-			var query = "select eu.* from vwEducationUnitAttachments eu where ID = :id";
+		public IList<AptifriedEducationUnitAttachmentDto> GetForEducationUnitId(long educationUnitId) {
+			return GetForFieldId("EducationUnitID", educationUnitId);
+		}
+
+		public IList<AptifriedEducationUnitAttachmentDto> GetForAttachmentId(long attachmentId) {
+			return GetForFieldId("AttachmentID", attachmentId);
+		}
+
+		private IList<AptifriedEducationUnitAttachmentDto> GetForFieldId(string field, long id) {
+			var query = "select * from vwEducationUnitAttachments where " + field + " = :id";
 
 			var models = session.CreateSQLQuery(query)
+				.AddEntity("vwEducationUnitAttachments", typeof(AptifriedEducationUnitAttachment))
 				.SetInt64("id", id)
-				.SetEntity("eu", typeof(AptifriedEducationUnitAttachment))
 				.List<AptifriedEducationUnitAttachment>();
 
 			return Mapper.Map(models, new List<AptifriedEducationUnitAttachmentDto>());
@@ -58,7 +66,12 @@ namespace AptifyWebApi.Controllers {
 				id = dto.Id;
 			}
 
-			var ge = AptifyApp.GetEntityObject("EducationUnitAttachment", id);
+			var ge = AptifyApp.GetEntityObject("EducationUnitAttachments", id);
+
+			if (ge == null) {
+				throw new HttpException(500, "Couldn't instantiate an entity for the education unit attachments");
+			}
+
 			ge.SetValue("EducationUnitID", dto.EducationUnitId);
 			ge.SetValue("AttachmentID", dto.AttachmentId);
 
