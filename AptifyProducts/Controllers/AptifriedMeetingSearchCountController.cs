@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Http;
 using AptifyWebApi.Dto;
 using AptifyWebApi.Helpers;
 using AptifyWebApi.Models.Meeting;
@@ -23,6 +24,8 @@ namespace AptifyWebApi.Controllers
         }
 
 
+
+        [HttpPost]
         public AptifriedMeetingCountResultsDto Post(AptifriedMeetingSearchDto search)
         {
             var cnt = -1;
@@ -39,6 +42,17 @@ namespace AptifyWebApi.Controllers
                     cnt += SearchCounts.MeetingSearch.Groups.GetCount(mType.Group.Id);
                 }
 
+            if (search.HasMeetingTypeItems)
+                foreach (var mType in search.MeetingTypes.Where(mType => mType.Type.IsNotNull() && mType.Type.Id.IsNotNull()))
+                {
+                    if (SearchCounts.MeetingSearch.Types.NeedsUpdate(mType.Type.Id))
+                        SearchCounts.MeetingSearch.Types.Update(mType.Type.Id,
+                            new SearchRepository<AptifriedMeeting, AptifriedMeetingSearchDto>(session).Search(
+                                search, false).Count());
+
+                    cnt += SearchCounts.MeetingSearch.Types.GetCount(mType.Type.Id);
+                }
+            /*
             if(search.HasCreditTypes)
                 foreach (var cType in search.CreditTypes)
                 {
@@ -49,12 +63,14 @@ namespace AptifyWebApi.Controllers
 
                     cnt += SearchCounts.MeetingSearch.CreditTypes.GetCount(cType.Id);
                 }
-            
+            */
           return new AptifriedMeetingCountResultsDto
             {
                 SearchEntered = search,
                 Count = cnt
             };
+             
         }
+
     }
 }

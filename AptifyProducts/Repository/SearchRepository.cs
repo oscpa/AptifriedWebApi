@@ -1,4 +1,5 @@
 ﻿using System.Data.Common.EntitySql;
+using System.Net;
 using System.Web.Mvc;
 using System.Web.Services.Protocols;
 
@@ -21,7 +22,7 @@ using NHibernate.Criterion;
 #endregion
 
 /*
- * 
+ 
 We've made it easier to find products by category (We can adjust the types of categories we use when we have new groupings)
 We've simplified the filters as members don't use them
 Items in tabe will order as they should and have sort filters specific to them
@@ -30,39 +31,36 @@ Online = Date Relevance
 Self study = Relevance  
 We've removed infinite scroll and added pagination 
 We've added a large box to ensure that other options are known even if tabs are ignored
- * 
- * 
+
 Search Improvements 
-            Tabbed results list by product grouping
-            Initial search results load will be populated with a list of courses within 60 miles of the users current location as priority items
+    DONE:   Tabbed results list by product grouping
+    DONE:   Initial search results load will be populated with a list of courses within 60 miles of the users current location as priority items
             Filter changes based on the type of events you are looking at (Example remove radius id viewing on-line or on-demand)
             Export results list to excel
     DONE:   Direct link to a results list from a custom URL
 
  */
 
-//TODO: Tabs for each MeetingTypeGroup
+//---------------------------------------------------------------------
 
-//default tab based on # after search
+//BUG zip code distance search
 
 //TODO: Filter - Date sort order (from search obj/enum)
-
-//each tab has dropdown to order by dynamic x,y,z
-
-//marker for visual indicator of infinite scroll
-
-//show few items from each tab to right of main search
+//  each tab has dropdown to order by dynamic x,y,z
 
 //TODO: Export search to excel
-//TODO: Sub-Grouping (Parent/Child)
 
-//TODO: IP geolocation
+//---------------------------------------------------------------------
 
-//TODO: Return sessions.parent.parent in keyword search
+//WBN: Sub-Grouping (Parent/Child)
 
-//TODO: Index for returning from product page back to product in search list
-//set the hash to page-productid and hash link each product
+//WBN: IP geolocation
 
+//WBN: Return sessions.parent.parent in keyword search
+
+//WBN: Index for returning from product page back to product in search list
+
+//---------------------------------------------------------------------
 
 //add tracking to pagination links
 
@@ -77,7 +75,7 @@ namespace AptifyWebApi.Repository
         public IQueryable<T> Search(TD sParams, bool useKeywordRanking)
         {
             var f = GetFilter(sParams);
-
+            
             var res =
                Context.QueryOver<T>()
                    .Keyword(Context, sParams.SearchText, useKeywordRanking)
@@ -105,7 +103,6 @@ namespace AptifyWebApi.Repository
                  filterList.Add(CreditTypeFilter(sParams));
 
             
-            //TODO: Gut enum
             if (sParams.IsZipSearch)
                 filterList.Add(ZipCodeFilter(sParams));
 
