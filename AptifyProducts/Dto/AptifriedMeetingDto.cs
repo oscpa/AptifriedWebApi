@@ -23,7 +23,8 @@ namespace AptifyWebApi.Dto
         public int MaxRegistrants { get; set; }
         public AptifriedVenueDto Venue { get; set; }
         public int? ParentId { get; set; }
-    
+
+        public int Rank { get; set; }
         /// <summary>
         /// Couldn't strongly type this column becuase we don't enforce referential integrity on it.
         /// </summary>

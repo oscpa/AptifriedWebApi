@@ -466,6 +466,7 @@
     <Compile Include="Controllers\AptifriedCartController.cs" />
     <Compile Include="Controllers\AptifyClassesController.cs" />
     <Compile Include="Controllers\AptifriedPaymentTypeController.cs" />
+    <Compile Include="Controllers\AptifriedMeetingSearchToExcelController.cs" />
     <Compile Include="Dto\AptifriedAnswerSheetAnswerDto.cs" />
     <Compile Include="Dto\AptifriedAnswerSheetDto.cs" />
     <Compile Include="Dto\AptifriedAttachmentCategoryDto.cs" />

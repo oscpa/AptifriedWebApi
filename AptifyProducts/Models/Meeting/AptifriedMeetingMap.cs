@@ -1,5 +1,6 @@
 ﻿#region using
 
+using FluentNHibernate.Conventions;
 using FluentNHibernate.Mapping;
 
 #endregion
@@ -18,6 +19,7 @@ namespace AptifyWebApi.Models.Meeting
             Map(x => x.OpenTime)
                 .CustomType("TimeAsTimeSpan");
             Map(x => x.ClassLevelId);
+            Map(x => x.Rank).Nullable();
             References(x => x.Product).Column("ProductID");
             References(x => x.Status).Column("StatusID");
             References(x => x.Location).Column("AddressID");
