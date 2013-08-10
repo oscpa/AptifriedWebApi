@@ -849,6 +849,7 @@
     <Content Include="lib\ElectronicPaymentVerisign.dll" />
     <Content Include="lib\EntityFramework.dll" />
     <Content Include="lib\EntityFramework.xml" />
+    <Content Include="lib\EPPlus.dll" />
     <Content Include="lib\ExpandKits.dll" />
     <Content Include="lib\FilterRules.dll" />
     <Content Include="lib\FluentNHibernate.dll" />
