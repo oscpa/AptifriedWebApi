@@ -57,20 +57,20 @@ namespace AptifyWebApi.Helpers
 
         public static IList GetMeetingIdByZipDistance(this ISession session, string postalCode, string milesDistance)
         {
-            //BUG Distance search results not finding neighboring zips
             //TODO: Convert to linq
+            var zip = session.QueryOver<AptifriedZipCode>().Where(x => x.PostalCode == postalCode).SingleOrDefault();
+            var zLat = zip.Latitude;
+            var zLong = zip.Longitude;
+
     
-            var sql = String.Format(
-                @"select mt.ID, (select * 
-				from [Aptify].[dbo].[fnOSCPAGetZipDistanceWeb]({0},at.PostalCode) dt
-                where dt.Distance <= {1}) as Distance
-from [Aptify].[dbo].[vwAddressesTiny] at 
-join [Aptify].[dbo].[vwMeetingsTiny] mt on mt.AddressID = at.ID 
-where exists (select * 
-				from [Aptify].[dbo].[fnOSCPAGetZipDistanceWeb]({0},at.PostalCode) dt
-                where dt.Distance <= {1}) and mt.IsSold = 1 and mt.WebEnabled = 1
-				and mt.StartDate > GETDATE()
-order by distance", postalCode, milesDistance);
+            var sql = string.Format(@"SELECT m.Id, z.Long,z.Lat,a.PostalCode,
+                CEILING(3958.75586574 * ACOS(SIN({0}/{1}) * SIN(z.Lat/{1}) + COS({0}/{1}) * COS(z.lat/{1}) * COS(z.Long/{1} - -83.1383/{1}))) as Miles
+                FROM vwAddresses a WITH(NoLock)
+                INNER JOIN vwMeetingsTiny m WITH(NoLock) ON a.id = m.addressID and m.MeetingTypeID not in (6)
+                INNER JOIN vwProducts p WITH(NoLock) ON m.ProductID = p.ID AND p.IsSold = 1 AND p.WebEnabled = 1
+                INNER JOIN vwZipCodes z WITH(NoLock) ON z.ZIPCode =  a.PostalCode5Numeric and z.CountryCodeID = 222
+                WHERE
+                CEILING(3958.75586574 * ACOS(SIN({0}/{1}) * SIN(z.Lat/{1}) + COS({0}/{1}) * COS(z.lat/{1}) * COS(z.Long/{1} - -83.1383/{1}))) <= {2}", zLat, zLong, milesDistance);
 
             var addrIds = session.CreateSQLQuery(sql).List();
 
