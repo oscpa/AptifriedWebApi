@@ -1,6 +1,8 @@
 ﻿
  using System;
  using System.Linq.Expressions;
+ using System.Reflection;
+ using FluentNHibernate.Data;
  using Remotion.Linq.Parsing.ExpressionTreeVisitors;
 
 namespace AptifyWebApi.Helpers
@@ -47,5 +49,12 @@ namespace AptifyWebApi.Helpers
             return Expression.Lambda<Func<T, bool>>(Expression.Or(expr1.Body, adaptedExpr2Body), expr1.Parameters);
         }
 
+       
+
+        /*
+         Person person = new FactoryEntity<Person>()
+    .AssociateWithEntity(p => p.Address, address)
+    .InstanceEntity; 
+         */
     }
 }
