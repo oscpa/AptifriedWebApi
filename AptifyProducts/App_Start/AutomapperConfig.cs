@@ -50,7 +50,8 @@ namespace AptifyWebApi.App_Start
             Mapper.CreateMap<AptifriedLicenseStatus, AptifriedLicenseStatusDto>();
 
             Mapper.CreateMap<AptifriedMeeting, AptifriedMeetingDto>();
-              
+            Mapper.CreateMap<AptifriedMeetingT, AptifriedMeetingDto>();
+  
             Mapper.CreateMap<AptifriedMeetingDetail, AptifriedMeetingDetailDto>();
             Mapper.CreateMap<AptifriedMeetingEductionUnits, AptifriedMeetingEductionUnitsDto>()
                   .ForMember(dto => dto.Code, m => m.ResolveUsing(ao => ao.Category.Code))

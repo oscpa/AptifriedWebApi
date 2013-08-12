@@ -606,6 +606,8 @@
     <Compile Include="Models\AptifriedExamQuestionPossibleAnswersMap.cs" />
     <Compile Include="Models\AptifriedLicenseStatus.cs" />
     <Compile Include="Models\AptifriedLicenseStatusMap.cs" />
+    <Compile Include="Models\AptifriedMeetingT.cs" />
+    <Compile Include="Models\AptifriedMeetingTMap.cs" />
     <Compile Include="Models\AptifriedMeetingTopicTracks.cs" />
     <Compile Include="Models\AptifriedMeetingTopicTracksMap.cs" />
     <Compile Include="Models\AptifriedMeetingTopicTracksProduct.cs" />

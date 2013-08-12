@@ -63,7 +63,7 @@ Search Improvements
 namespace AptifyWebApi.Repository
 {
     public class SearchRepository<T, TD> : NHibernateBaseRepository<ISession, T>
-        where T : AptifriedMeeting
+        where T : AptifriedMeetingT
         where TD : AptifriedMeetingSearchDto
     {
         public SearchRepository(ISession session) : base(session) { }
