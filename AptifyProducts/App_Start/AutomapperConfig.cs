@@ -41,14 +41,6 @@ namespace AptifyWebApi.App_Start
             Mapper.CreateMap<AptifriedCompany, AptifriedCompanyDto>();
             Mapper.CreateMap<AptifriedCourse, AptifriedCourseDto>();
 
-<<<<<<< HEAD
-=======
-			Mapper.CreateMap<AptifriedEducationCategory, AptifriedEducationCategoryDto>();
-
-			Mapper.CreateMap<AptifriedEducationUnit, AptifriedEducationUnitDto>();
-			Mapper.CreateMap<AptifriedEducationUnitAttachment, AptifriedEducationUnitAttachmentDto>();
-            
->>>>>>> 9bfb8bfef6d666d01e22a458bdff172296659026
             Mapper.CreateMap<AptifriedExam, AptifriedExamDto>();
             Mapper.CreateMap<AptifriedExamQuestion, AptifriedExamQuestionDto>();
             Mapper.CreateMap<AptifriedExamQuestionPossibleAnswers, AptifriedExamQuestionPossibleAnswersDto>();

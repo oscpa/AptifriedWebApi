@@ -11,7 +11,7 @@ namespace AptifyWebApi.Models.Meeting
     {
         public AptifriedMeetingMap()
         {
-            Table("vwMeetingsTiny");
+            Table("vwMeetings");
             Id(x => x.Id);
             Map(x => x.MeetingTitle);
             Map(x => x.StartDate);
@@ -21,6 +21,7 @@ namespace AptifyWebApi.Models.Meeting
             Map(x => x.ClassLevelId);
             References(x => x.Product).Column("ProductID");
             References(x => x.Status).Column("StatusID");
+            References(x => x.Type).Column("MeetingTypeId");
             References(x => x.Location).Column("AddressID");
             HasMany(x => x.Credits).KeyColumn("MeetingID");
             References(x => x.Venue).Column("VenueID");
