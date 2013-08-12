@@ -15,6 +15,7 @@ namespace AptifyWebApi.Models
             Map(x => x.Longitude).Column("long");
             Map(x => x.Latitude).Column("lat");
             Map(x => x.PostalCode);
+            Map(x => x.CountryCodeId);
             ReadOnly();
         }
     }

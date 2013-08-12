@@ -40,6 +40,10 @@ namespace AptifyWebApi.App_Start
 
             Mapper.CreateMap<AptifriedCompany, AptifriedCompanyDto>();
             Mapper.CreateMap<AptifriedCourse, AptifriedCourseDto>();
+            Mapper.CreateMap<AptifriedEducationCategory, AptifriedEducationCategoryDto>();
+
+            Mapper.CreateMap<AptifriedEducationUnit, AptifriedEducationUnitDto>();
+            Mapper.CreateMap<AptifriedEducationUnitAttachment, AptifriedEducationUnitAttachmentDto>();
 
             Mapper.CreateMap<AptifriedExam, AptifriedExamDto>();
             Mapper.CreateMap<AptifriedExamQuestion, AptifriedExamQuestionDto>();
@@ -51,6 +55,7 @@ namespace AptifyWebApi.App_Start
             Mapper.CreateMap<AptifriedMeetingT, AptifriedMeetingTDto>();
   
             Mapper.CreateMap<AptifriedMeetingDetail, AptifriedMeetingDetailDto>();
+
             Mapper.CreateMap<AptifriedMeetingEductionUnits, AptifriedMeetingEductionUnitsDto>()
                   .ForMember(dto => dto.Code, m => m.ResolveUsing(ao => ao.Category.Code))
                   .ForMember(dto => dto.Name, m => m.ResolveUsing(ao => ao.Category.Name));
