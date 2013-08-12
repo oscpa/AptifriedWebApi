@@ -49,9 +49,8 @@ namespace AptifyWebApi.App_Start
 
             Mapper.CreateMap<AptifriedLicenseStatus, AptifriedLicenseStatusDto>();
 
-            Mapper.CreateMap<AptifriedMeeting, AptifriedMeetingDto>()
-                .ForMember(x => x.Rank, y => y.Ignore());
-            Mapper.CreateMap<AptifriedMeetingT, AptifriedMeetingDto>();
+            Mapper.CreateMap<AptifriedMeeting, AptifriedMeetingDto>();
+            Mapper.CreateMap<AptifriedMeetingT, AptifriedMeetingTDto>();
   
             Mapper.CreateMap<AptifriedMeetingDetail, AptifriedMeetingDetailDto>();
             Mapper.CreateMap<AptifriedMeetingEductionUnits, AptifriedMeetingEductionUnitsDto>()
