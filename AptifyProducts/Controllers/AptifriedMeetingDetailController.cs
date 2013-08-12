@@ -45,6 +45,8 @@ namespace AptifyWebApi.Controllers
             }
 
             IList<AptifriedMeetingDetail> hibernatedDtos = criteria.List<AptifriedMeetingDetail>();
+            
+            
             IList<AptifriedMeetingDetailDto> meetingDtos = Mapper.Map(hibernatedDtos,
                                                                       new List<AptifriedMeetingDetailDto>());
             return meetingDtos;
