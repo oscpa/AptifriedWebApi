@@ -153,7 +153,7 @@ namespace AptifyWebApi.Repository
                                                      sParams.MilesDistance.ToString(CultureInfo.InvariantCulture));
 
             //Expression<Func<T, bool>> expr = x => x.TypeItem.Group.Id == (int)EnumsAndConstants.MeetingTypeGroup.InPerson && addressIdsByZip.Contains(x.Id);
-            Expression<Func<T, bool>> expr = x => x.TypeItem.Group.Id == (int)EnumsAndConstants.MeetingTypeGroup.InPerson && addressIdsByZip.Contains(x.Id);
+            Expression<Func<T, bool>> expr = x => x.TypeItem.Group.Id == (int)EnumsAndConstants.MeetingTypeGroup.InPerson && addressIdsByZip.Any(y => y.Id == x.Id);
                 //Select(x => { x.Miles = "foo"; return x; })
 
             return expr;

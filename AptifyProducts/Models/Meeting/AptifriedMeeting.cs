@@ -25,7 +25,7 @@ namespace AptifyWebApi.Models.Meeting
         public virtual AptifriedVenue Venue { get; set; }
         public virtual int? ParentId { get; set; }
     
-        public virtual int Rank { get; set;}
+        //public virtual int Rank { get; set;}
         //public virtual int Miles { get; set; }
 
         /// <summary>

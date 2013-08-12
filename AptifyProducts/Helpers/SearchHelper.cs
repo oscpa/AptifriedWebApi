@@ -55,7 +55,7 @@ namespace AptifyWebApi.Helpers
             return lst.AsQueryable().Filter(predicate);
         }
 
-        public static IList GetMeetingIdByZipDistance(this ISession session, string postalCode, string milesDistance)
+        public static IList<AptifriedZipCode> GetMeetingIdByZipDistance(this ISession session, string postalCode, string milesDistance)
         {
             //TODO: Convert to linq
             var zip = session.QueryOver<AptifriedZipCode>().Where(x => x.PostalCode == postalCode).SingleOrDefault();
@@ -73,7 +73,7 @@ namespace AptifyWebApi.Helpers
                 WHERE
                 CEILING(3958.75586574 * ACOS(SIN({0}/{2}) * SIN(z.Lat/{2}) + COS({0}/{2}) * COS(z.lat/{2}) * COS(z.Long/{2} - {1}/{2}))) <= {3}", zLat, zLong, constlong,milesDistance);
 
-            var addrIds = session.CreateSQLQuery(sql).List();
+            var addrIds = session.CreateSQLQuery(sql).AddEntity("a", typeof(AptifriedZipCode)).List<AptifriedZipCode>();
 
             return addrIds;
         }
