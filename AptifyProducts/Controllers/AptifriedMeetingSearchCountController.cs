@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web.Http;
 using AptifyWebApi.Dto;
 using AptifyWebApi.Helpers;
+using AptifyWebApi.Models;
 using AptifyWebApi.Models.Meeting;
 using AptifyWebApi.Models.Shared;
 using AptifyWebApi.Repository;

@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using AptifyWebApi.Dto;
 using AptifyWebApi.Helpers;
+using AptifyWebApi.Models;
 using AptifyWebApi.Models.Meeting;
 using AptifyWebApi.Repository;
 using AutoMapper;

@@ -8,7 +8,7 @@ namespace AptifyWebApi.Dto
     
     public class AptifriedMeetingSearchResultDto
     {
-        public List<List<AptifriedMeetingDto>> ResultList = new List<List<AptifriedMeetingDto>>();
+        public List<List<AptifriedMeetingTDto>> ResultList = new List<List<AptifriedMeetingTDto>>();
 
     }
     

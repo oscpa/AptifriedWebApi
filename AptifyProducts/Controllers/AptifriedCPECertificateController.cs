@@ -1,131 +1,124 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web;
-using System.Web.Http;
+using Aptify.Framework.Application;
+using Aptify.Framework.DataServices;
 using AptifyWebApi.Dto;
-using AptifyWebApi.Helpers;
 using AptifyWebApi.Models;
 using NHibernate;
 
-namespace AptifyWebApi.Controllers {
-	[Authorize]
-	public class AptifriedCPECertificateController : AptifyEnabledApiController {
-		private const int PERSONS_ENTITY_ID = 1006;
+namespace AptifyWebApi.Controllers
+{
+    [System.Web.Http.Authorize]
+    public class AptifriedCPECertificateController : AptifyEnabledApiController
+    {
+        private const int PERSONS_ENTITY_ID = 1006;
 
-		public AptifriedCPECertificateController(ISession session) : base(session) { }
+        public AptifriedCPECertificateController(ISession session) : base(session) { }
 
-        [HttpDelete]
-	    public bool Delete(int attachmentId)
-	    {
-	        using (var transaction = session.BeginTransaction())
-	        {
-	            try
-	            {
-	                var d =
-	                    session.QueryOver<AptifriedAttachment>()
-	                           .Where(x => x.Id == attachmentId)
-	                           .SingleOrDefault<AptifriedAttachment>();
+        public AptifriedCPECertificateDto Post(AptifriedCPECertificateDto cpeDto)
+        {
+            return InternalPost(cpeDto);
+        }
 
-	                //session.Delete(d);
+        public bool Delete(int personId, int attachmentId)
+        {
+            return InternalDelete(personId, attachmentId);
+        }
 
-	                session.Flush();
+        private AptifriedCPECertificateDto InternalPost(AptifriedCPECertificateDto cpeDto)
+        {
+            if (cpeDto == null || cpeDto.Base64Data == null || cpeDto.Base64Data.Length < 1 || string.IsNullOrEmpty(cpeDto.Attachment.Name))
+            {
+                throw new HttpException(500, "No file data to upload or no file name given");
+            }
 
-	                transaction.Commit();
+            if (cpeDto.Attachment.EntityId != PERSONS_ENTITY_ID || cpeDto.Attachment.RecordId < 1)
+            {
+                throw new HttpException(500, "Attempt to insert attachment with invalid entity/record values");
+            }
 
-	                return true;
-	            }
-	            catch (Exception ex)
-	            {
-	                transaction.Rollback();
+            var entityObj = AptifyApp.GetEntityObject("Attachments", -1);
+            entityObj.SetValue("Name", cpeDto.Attachment.Name);
+            entityObj.SetValue("CategoryID", cpeDto.Attachment.Category.Id);
+            entityObj.SetValue("EntityID", PERSONS_ENTITY_ID);
+            entityObj.SetValue("RecordID", cpeDto.Attachment.RecordId);
+            entityObj.SetValue("DateCreated", cpeDto.Attachment.DateCreated);
+            entityObj.SetValue("WhoCreated", "Aptify_EBiz");
+            entityObj.SetValue("Status", cpeDto.Attachment.Status);
 
-	                throw new HttpException(500, "Warning: no entities updated when inserting blob into attachments entity", ex.InnerException);
-	            }
-	        }
-	    }
+            if (!entityObj.Save(false))
+            {
+                throw new HttpException(500, "Dat is wack: " + entityObj.LastUserError);
+            }
+            else
+            {
+                // Return the ID, as a courtesy
+                cpeDto.Attachment.Id = Convert.ToInt32(entityObj.RecordID);
+            }
 
-		[HttpPost]
-		public AptifriedAttachmentDto Post(AptifriedCPECertificateDto cpeDto) {
-			if (cpeDto == null || cpeDto.Base64Data == null || cpeDto.Base64Data.Length < 1 || string.IsNullOrEmpty(cpeDto.Attachment.Name)) {
-				throw new HttpException(500, "No file data to upload or no file name given");
-			}
+            byte[] dataBytes = Convert.FromBase64String(cpeDto.Base64Data);
 
-			if (cpeDto.Attachment.EntityId != PERSONS_ENTITY_ID || cpeDto.Attachment.RecordId < 1) {
-				throw new HttpException(500, "Attempt to insert attachment with invalid entity/record values");
-			}
+            if (dataBytes == null || dataBytes.Length < 1)
+            {
+                throw new HttpException(500, "Error decoding base 64 data to byte array");
+            }
 
-			var entityObj = AptifyApp.GetEntityObject("Attachments", -1);
-			entityObj.SetValue("Name", cpeDto.Attachment.Name);
-			entityObj.SetValue("CategoryID", cpeDto.Attachment.Category.Id);
-			entityObj.SetValue("EntityID", PERSONS_ENTITY_ID);
-			entityObj.SetValue("RecordID", cpeDto.Attachment.RecordId);
-			entityObj.SetValue("DateCreated", cpeDto.Attachment.DateCreated);
-			entityObj.SetValue("WhoCreated", "Aptify_EBiz");
-			entityObj.SetValue("Status", cpeDto.Attachment.Status);
-
-			if (!entityObj.Save(false)) {
-				throw new HttpException(500, "Dat is wack: " + entityObj.LastUserError);
-			}
-
-			byte[] dataBytes = Convert.FromBase64String(cpeDto.Base64Data);
-
-			if (dataBytes == null || dataBytes.Length < 1) {
-				throw new HttpException(500, "Error decoding base 64 data to byte array");
-			}
-
-				//WBN: Refactor this out to a base/CpeCert repo
-
-		    using (var transaction = session.BeginTransaction())
-		    {
-		        try
-		        {
-		            var q =
-		                session.QueryOver<AptifriedAttachment>()
-		                       .Where(x => x.Id == entityObj.RecordID)
-		                       .SingleOrDefault<AptifriedAttachment>();
-
-		            q.BlobData = dataBytes;
-
-		            session.Save(q);
-		        }
-		        catch (Exception ex)
-		        {
-		            var e = ex.ToString();
-
-		            throw new HttpException(500, "Warning: no entities updated when inserting blob into attachments entity");
-		        }
-		    }
-		    //InsertDataIntoDatabaseDirectlyDueToHibernateBug(entityObj.RecordID, dataBytes);
-
-			return cpeDto.Attachment;
-		}
-
-	    private static void InsertDataIntoDatabaseDirectlyDueToHibernateBug(long recordId, IEnumerable dataBytes)
-	    {
-
-            const string sqlUpdate = "update vwAttachments set BlobData = :data where ID = :id";
-
-            var conn = new SqlConnection(WebConfigHelper.DefaultConnectionString);
-           conn.Open();
+            string tempPath = null;
             try
             {
-                var cmd = new SqlCommand(sqlUpdate, conn);
-                cmd.Parameters.AddWithValue("@id", recordId);
-                cmd.Parameters.AddWithValue("@data", dataBytes);
-                cmd.ExecuteNonQuery();
+                tempPath = Path.Combine(new String[] { Path.GetTempPath(), cpeDto.Attachment.Name });
+                File.WriteAllBytes(tempPath, dataBytes);
 
-                cmd.Dispose();
+                var atts = new AptifyAttachments(AptifyApp, "Persons", cpeDto.Attachment.RecordId);
+
+                atts.UpdateFile(Convert.ToInt32(entityObj.RecordID), tempPath);
             }
-            catch (Exception ex)
+            catch (IOException ex)
             {
-                throw new HttpException(500, "Warning: no entities updated when inserting blob into attachments entity");
+                throw new HttpException(500, "We got issues writing the temp files, yo", ex);
             }
             finally
             {
-                conn.Close();
+                if (tempPath != null && File.Exists(tempPath))
+                {
+                    File.Delete(tempPath);
+                }
             }
-	    }
-	}
+
+            return cpeDto;
+        }
+
+        private bool InternalDelete(int personId, int attachmentId)
+        {
+            AptifriedEducationUnitAttachmentController euaCtrl = new AptifriedEducationUnitAttachmentController(session);
+            if (euaCtrl == null)
+            {
+                throw new HttpException(500, "Couldn't load up education unit attachment controller");
+            }
+
+            var euAttachments = euaCtrl.GetForAttachmentId(Convert.ToInt64(attachmentId));
+
+            if (euAttachments != null)
+            {
+                try
+                {
+                    foreach (var euAt in euAttachments)
+                    {
+                        euaCtrl.Delete(euAt.Id);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new HttpException(500, "Error deleting education unit attachments: " + ex.Message, ex);
+                }
+            }
+
+            var atts = new AptifyAttachments(AptifyApp, "Persons", personId);
+            return atts.DeleteAttachment(attachmentId);
+        }
+    }
 }
