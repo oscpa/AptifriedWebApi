@@ -36,7 +36,7 @@ namespace AptifyWebApi.Controllers
                 {
                     if (SearchCounts.MeetingSearch.Groups.NeedsUpdate(mType.Group.Id))
                         SearchCounts.MeetingSearch.Groups.Update(mType.Group.Id,
-                            new SearchRepository<AptifriedMeeting, AptifriedMeetingSearchDto>(session).Search(
+                            new SearchRepository<AptifriedMeetingT, AptifriedMeetingSearchDto>(session).Search(
                                 search, false).Count());
 
                     cnt += SearchCounts.MeetingSearch.Groups.GetCount(mType.Group.Id);
@@ -47,7 +47,7 @@ namespace AptifyWebApi.Controllers
                 {
                     if (SearchCounts.MeetingSearch.Types.NeedsUpdate(mType.Type.Id))
                         SearchCounts.MeetingSearch.Types.Update(mType.Type.Id,
-                            new SearchRepository<AptifriedMeeting, AptifriedMeetingSearchDto>(session).Search(
+                            new SearchRepository<AptifriedMeetingT, AptifriedMeetingSearchDto>(session).Search(
                                 search, false).Count());
 
                     cnt += SearchCounts.MeetingSearch.Types.GetCount(mType.Type.Id);
