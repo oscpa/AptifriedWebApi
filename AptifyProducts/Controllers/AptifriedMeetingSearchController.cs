@@ -36,14 +36,14 @@ namespace AptifyWebApi.Controllers
 
         [System.Web.Http.AcceptVerbs("POST")]
         [HttpPost]
-        public List<AptifriedMeetingDto> Post(AptifriedMeetingSearchDto search)
+        public List<AptifriedMeetingTDto> Post(AptifriedMeetingSearchDto search)
         {
             if (search.IsNull())
                 throw new HttpException(500, "Post must contain a search object", new ArgumentException("search"));
 
             var res = new SearchRepository<AptifriedMeetingT, AptifriedMeetingSearchDto>(session).Search(search, search.IsKeywordSearch);
 
-            var results = Mapper.Map(res, new List<AptifriedMeetingDto>());
+            var results = Mapper.Map(res, new List<AptifriedMeetingTDto>());
 
             return results;
             //GroupBy done here because automapper doesn't support IEnum<IGroup<...
