@@ -1,53 +1,31 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web;
-using System.Web.Http;
+using Aptify.Framework.Application;
+using Aptify.Framework.DataServices;
 using AptifyWebApi.Dto;
-using AptifyWebApi.Helpers;
 using AptifyWebApi.Models;
 using NHibernate;
 
 namespace AptifyWebApi.Controllers {
-	[Authorize]
+	[System.Web.Http.Authorize]
 	public class AptifriedCPECertificateController : AptifyEnabledApiController {
 		private const int PERSONS_ENTITY_ID = 1006;
 
 		public AptifriedCPECertificateController(ISession session) : base(session) { }
 
-        [HttpDelete]
-	    public bool Delete(int attachmentId)
-	    {
-	        using (var transaction = session.BeginTransaction())
-	        {
-	            try
-	            {
-	                var d =
-	                    session.QueryOver<AptifriedAttachment>()
-	                           .Where(x => x.Id == attachmentId)
-	                           .SingleOrDefault<AptifriedAttachment>();
+		public AptifriedCPECertificateDto Post(AptifriedCPECertificateDto cpeDto) {
+			return InternalPost(cpeDto);
+		}
 
-	                //session.Delete(d);
+		public bool Delete(int personId, int attachmentId) {
+			return InternalDelete(personId, attachmentId);
+		}
 
-	                session.Flush();
-
-	                transaction.Commit();
-
-	                return true;
-	            }
-	            catch (Exception ex)
-	            {
-	                transaction.Rollback();
-
-	                throw new HttpException(500, "Warning: no entities updated when inserting blob into attachments entity", ex.InnerException);
-	            }
-	        }
-	    }
-
-		[HttpPost]
-		public AptifriedAttachmentDto Post(AptifriedCPECertificateDto cpeDto) {
+		private AptifriedCPECertificateDto InternalPost(AptifriedCPECertificateDto cpeDto) {
 			if (cpeDto == null || cpeDto.Base64Data == null || cpeDto.Base64Data.Length < 1 || string.IsNullOrEmpty(cpeDto.Attachment.Name)) {
 				throw new HttpException(500, "No file data to upload or no file name given");
 			}
@@ -67,6 +45,9 @@ namespace AptifyWebApi.Controllers {
 
 			if (!entityObj.Save(false)) {
 				throw new HttpException(500, "Dat is wack: " + entityObj.LastUserError);
+			} else {
+				// Return the ID, as a courtesy
+				cpeDto.Attachment.Id = Convert.ToInt32(entityObj.RecordID);
 			}
 
 			byte[] dataBytes = Convert.FromBase64String(cpeDto.Base64Data);
@@ -75,57 +56,45 @@ namespace AptifyWebApi.Controllers {
 				throw new HttpException(500, "Error decoding base 64 data to byte array");
 			}
 
-				//WBN: Refactor this out to a base/CpeCert repo
+			string tempPath = null;
+			try {
+				tempPath = Path.Combine(new String[] { Path.GetTempPath(), cpeDto.Attachment.Name });
+				File.WriteAllBytes(tempPath, dataBytes);
 
-		    using (var transaction = session.BeginTransaction())
-		    {
-		        try
-		        {
-		            var q =
-		                session.QueryOver<AptifriedAttachment>()
-		                       .Where(x => x.Id == entityObj.RecordID)
-		                       .SingleOrDefault<AptifriedAttachment>();
+				var atts = new AptifyAttachments(AptifyApp, "Persons", cpeDto.Attachment.RecordId);
 
-		            q.BlobData = dataBytes;
+				atts.UpdateFile(Convert.ToInt32(entityObj.RecordID), tempPath);
+			} catch (IOException ex) {
+				throw new HttpException(500, "We got issues writing the temp files, yo", ex);
+			} finally {
+				if (tempPath != null && File.Exists(tempPath)) {
+					File.Delete(tempPath);
+				}
+			}
 
-		            session.Save(q);
-		        }
-		        catch (Exception ex)
-		        {
-		            var e = ex.ToString();
-
-		            throw new HttpException(500, "Warning: no entities updated when inserting blob into attachments entity");
-		        }
-		    }
-		    //InsertDataIntoDatabaseDirectlyDueToHibernateBug(entityObj.RecordID, dataBytes);
-
-			return cpeDto.Attachment;
+			return cpeDto;
 		}
 
-	    private static void InsertDataIntoDatabaseDirectlyDueToHibernateBug(long recordId, IEnumerable dataBytes)
-	    {
+		private bool InternalDelete(int personId, int attachmentId) {
+			AptifriedEducationUnitAttachmentController euaCtrl = new AptifriedEducationUnitAttachmentController(session);
+			if (euaCtrl == null) {
+				throw new HttpException(500, "Couldn't load up education unit attachment controller");
+			}
 
-            const string sqlUpdate = "update vwAttachments set BlobData = :data where ID = :id";
+			var euAttachments = euaCtrl.GetForAttachmentId(Convert.ToInt64(attachmentId));
 
-            var conn = new SqlConnection(WebConfigHelper.DefaultConnectionString);
-           conn.Open();
-            try
-            {
-                var cmd = new SqlCommand(sqlUpdate, conn);
-                cmd.Parameters.AddWithValue("@id", recordId);
-                cmd.Parameters.AddWithValue("@data", dataBytes);
-                cmd.ExecuteNonQuery();
+			if (euAttachments != null) {
+				try {
+					foreach (var euAt in euAttachments) {
+						euaCtrl.Delete(euAt.Id);
+					}
+				} catch (Exception ex) {
+					throw new HttpException(500, "Error deleting education unit attachments: " + ex.Message, ex);
+				}
+			}
 
-                cmd.Dispose();
-            }
-            catch (Exception ex)
-            {
-                throw new HttpException(500, "Warning: no entities updated when inserting blob into attachments entity");
-            }
-            finally
-            {
-                conn.Close();
-            }
-	    }
+			var atts = new AptifyAttachments(AptifyApp, "Persons", personId);
+			return atts.DeleteAttachment(attachmentId);
+		}
 	}
 }

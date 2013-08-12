@@ -39,8 +39,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <Reference Include="Antlr3.Runtime">
       <HintPath>packages\WebGrease.1.3.0\lib\Antlr3.Runtime.dll</HintPath>
+=======
+    <Reference Include="ActiproSoftware.Shared, Version=1.0.73.0, Culture=neutral, PublicKeyToken=36ff2196ab5654b9">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files\Aptify 5.0 DEV\ActiproSoftware.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiproSoftware.SyntaxEditor, Version=3.0.181.0, Culture=neutral, PublicKeyToken=c4cd476ffc9028b7">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files\Aptify 5.0 DEV\ActiproSoftware.SyntaxEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiproSoftware.WinUICore, Version=1.0.73.0, Culture=neutral, PublicKeyToken=1eba893a2bc55de5">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files\Aptify 5.0 DEV\ActiproSoftware.WinUICore.dll</HintPath>
+    </Reference>
+    <Reference Include="AnswerSheet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\AnswerSheet.dll</HintPath>
+>>>>>>> 9bfb8bfef6d666d01e22a458bdff172296659026
     </Reference>
     <Reference Include="Aptify.Framework.BusinessLogic.GenericEntity.Generated.Companies">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\Aptify.Framework.BusinessLogic.GenericEntity.Generated.Companies.dll</HintPath>
@@ -68,7 +86,11 @@
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyAddressInterface.dll</HintPath>
     </Reference>
     <Reference Include="AptifyAlerts">
+<<<<<<< HEAD
       <HintPath>..\..\AptifyAlerts.dll</HintPath>
+=======
+      <HintPath>..\..\..\..\..\..\Program Files\Aptify 5.0 DEV\AptifyAlerts.dll</HintPath>
+>>>>>>> 9bfb8bfef6d666d01e22a458bdff172296659026
     </Reference>
     <Reference Include="AptifyApplication">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyApplication.dll</HintPath>
@@ -317,7 +339,11 @@
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\PreferredAddress.dll</HintPath>
     </Reference>
     <Reference Include="ProcessFlowDebugHarness">
+<<<<<<< HEAD
       <HintPath>..\..\ProcessFlowDebugHarness.dll</HintPath>
+=======
+      <HintPath>..\..\..\..\..\..\Program Files\Aptify 5.0 DEV\ProcessFlowDebugHarness.dll</HintPath>
+>>>>>>> 9bfb8bfef6d666d01e22a458bdff172296659026
     </Reference>
     <Reference Include="ProcessSessionLog__AC">
       <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0\ProcessSessionLog__AC.dll</HintPath>
@@ -441,6 +467,7 @@
     <Compile Include="Controllers\AptifriedConferenceMeetingSessionSesSelController.cs" />
     <Compile Include="Controllers\AptifriedConferenceMeetingSesSelController.cs" />
     <Compile Include="Controllers\AptifriedCPECertificateController.cs" />
+    <Compile Include="Controllers\AptifriedEducationUnitAttachmentController.cs" />
     <Compile Include="Controllers\AptifriedEducationUnitController.cs" />
     <Compile Include="Controllers\AptifriedExamController.cs" />
     <Compile Include="Controllers\AptifriedMeetingController.cs" />
@@ -477,6 +504,7 @@
     <Compile Include="Dto\AptifriedCPECertificateDto.cs" />
     <Compile Include="Dto\AptifriedCpeCreditAdjustmentTypeDto.cs" />
     <Compile Include="Dto\AptifriedEducationUnitAggregateDto.cs" />
+    <Compile Include="Dto\AptifriedEducationUnitAttachmentDto.cs" />
     <Compile Include="Dto\AptifriedEducationUnitDto.cs" />
     <Compile Include="Dto\AptifriedMeetingSearchDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTypeDto.cs" />
@@ -598,6 +626,8 @@
     <Compile Include="Models\AptifriedEducationCategory.cs" />
     <Compile Include="Models\AptifriedEducationCategoryMap.cs" />
     <Compile Include="Models\AptifriedEducationUnit.cs" />
+    <Compile Include="Models\AptifriedEducationUnitAttachment.cs" />
+    <Compile Include="Models\AptifriedEducationUnitAttachmentMap.cs" />
     <Compile Include="Models\AptifriedEducationUnitMap.cs" />
     <Compile Include="Models\AptifriedExam.cs" />
     <Compile Include="Models\AptifriedExamMap.cs" />
@@ -982,13 +1012,13 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>62371</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:61739/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>True</UseCustomServer>
+          <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>http://localhost:8088</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
