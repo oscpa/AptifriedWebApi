@@ -55,28 +55,42 @@ namespace AptifyWebApi.Helpers
             return lst.AsQueryable().Filter(predicate);
         }
 
-        public static IList<AptifriedZipCode> GetMeetingIdByZipDistance(this ISession session, string postalCode, string milesDistance)
+        public static IList<int> GetMeetingIdByZipDistance(this ISession session, string postalCode, string milesDistance)
         {
             //TODO: Convert to linq
-            var zip = session.QueryOver<AptifriedZipCode>().Where(x => x.PostalCode == postalCode).SingleOrDefault();
+            var zip =
+                session.QueryOver<AptifriedZipCode>()
+                    .Where(x => x.PostalCode == postalCode && x.CountryCodeId == "222")
+                    .List();
+
             if(zip.IsNull())
-                return new List<AptifriedZipCode>();
+                return new List<int>();
             
-            var zLat = zip.Latitude;
-            var zLong = zip.Longitude;
+            var zLat = zip[0].Latitude;
+            var zLong = zip[0].Longitude;
             const double constlong = 57.2957795130823;
             
     //TODO: Add Miles to AptifriedMeeting/Dto
-            var sql = string.Format(@"SELECT m.Id, z.Long,z.Lat,a.PostalCode,
+            /*
+            var sql = string.Format(@"SELECT m.Id, z.Long as Longitude,z.Lat as Latitude,a.PostalCode5Numeric as PostalCode,
                 CEILING(3958.75586574 * ACOS(SIN({0}/{2}) * SIN(z.Lat/{2}) + COS({0}/{2}) * COS(z.lat/{2}) * COS(z.Long/{2} - {1}/{2}))) as Miles
                 FROM vwAddresses a WITH(NoLock)
                 INNER JOIN vwMeetingsTiny m WITH(NoLock) ON a.id = m.addressID and m.MeetingTypeID not in (6)
                 INNER JOIN vwProducts p WITH(NoLock) ON m.ProductID = p.ID AND p.IsSold = 1 AND p.WebEnabled = 1
-                INNER JOIN vwZipCodes z WITH(NoLock) ON z.ZIPCode =  a.PostalCode5Numeric and z.CountryCodeID = 222
+                INNER JOIN vwZipCodes z WITH(NoLock) ON z.ZIPCode =  a.PostalCode5Numeric and z.CountryCodeID = '222'
                 WHERE
                 CEILING(3958.75586574 * ACOS(SIN({0}/{2}) * SIN(z.Lat/{2}) + COS({0}/{2}) * COS(z.lat/{2}) * COS(z.Long/{2} - {1}/{2}))) <= {3}", zLat, zLong, constlong,milesDistance);
+*/
 
-            var addrIds = session.CreateSQLQuery(sql).AddEntity("a", typeof(AptifriedZipCode)).List<AptifriedZipCode>();
+            var sql = string.Format(@"SELECT m.Id
+                FROM vwAddresses a WITH(NoLock)
+                INNER JOIN vwMeetingsTiny m WITH(NoLock) ON a.id = m.addressID and m.MeetingTypeID not in (6)
+                INNER JOIN vwProducts p WITH(NoLock) ON m.ProductID = p.ID AND p.IsSold = 1 AND p.WebEnabled = 1
+                INNER JOIN vwZipCodes z WITH(NoLock) ON z.ZIPCode =  a.PostalCode5Numeric and z.CountryCodeID = '222'
+                WHERE
+                CEILING(3958.75586574 * ACOS(SIN({0}/{2}) * SIN(z.Lat/{2}) + COS({0}/{2}) * COS(z.lat/{2}) * COS(z.Long/{2} - {1}/{2}))) <= {3}", zLat, zLong, constlong, milesDistance);
+
+            var addrIds = session.CreateSQLQuery(sql).List<int>();
 
             return addrIds;
         }

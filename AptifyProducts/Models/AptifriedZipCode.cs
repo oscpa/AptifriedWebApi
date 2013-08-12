@@ -12,6 +12,8 @@ namespace AptifyWebApi.Models
         public virtual decimal Latitude { get; set; }
         public virtual decimal Longitude { get; set;} 
         public virtual string PostalCode { get; set; }
+        public virtual string CountryCodeId { get; set; }
+    
         public virtual string Miles { get; set; }
     
     }
