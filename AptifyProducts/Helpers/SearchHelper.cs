@@ -136,7 +136,6 @@ namespace AptifyWebApi.Helpers
             //res.Intersect(x => res.Keyword(sParams.SearchText));
 
             var searchBase = new StringBuilder();
-            var searchBaseExt = new StringBuilder();
             var searchWhere = new StringBuilder();
             var searchOrderBy = new StringBuilder();
              const string baseSelectColumns = @"mt.ID, mt.MeetingTitle, mt.MeetingTypeGroupId, mt.StartDate, mt.EndDate, mt.OpenTime, mt.ClassLevelID, mt.ProductID, mt.StatusID, mt.MeetingTypeID, mt.AddressID, mt.VenueID";
@@ -199,7 +198,7 @@ namespace AptifyWebApi.Helpers
 
                 searchBase.AppendLine(string.Format("SELECT ({0}) as Rank, {1}", rankString, baseSelectColumns));
                 searchBase.AppendLine("from vwMeetingsTiny mt");
-                searchBaseExt.AppendLine("inner join vwStoreSearches s on s.ProductID = mt.ProductID");
+                searchBase.AppendLine("inner join vwStoreSearches s on s.ProductID = mt.ProductID");
 
                 // Filter out where relevance < epsilon
                 const float epsilon = 0;
@@ -211,7 +210,7 @@ namespace AptifyWebApi.Helpers
                 searchBase.BuildContainsTableJoins(searchStringContainsTable, subrankMaps);
                 searchBase.BuildFreeTextTableJoins(searchStringFreeTextTables, subrankMaps);
 
-                qry = String.Concat(searchBase, searchBaseExt, searchWhere, searchOrderBy);
+                qry = String.Concat(searchBase, searchWhere, searchOrderBy);
             }
             
 
