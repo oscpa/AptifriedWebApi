@@ -57,13 +57,20 @@ namespace AptifyWebApi.Helpers
 
         public static IList GetMeetingIdByZipDistance(this ISession session, string postalCode, string milesDistance)
         {
+            //BUG Distance search results not finding neighboring zips
             //TODO: Convert to linq
+    
             var sql = String.Format(
-                @"select mt.ID from [Aptify].[dbo].[vwAddressesTiny] at 
-                join [Aptify].[dbo].[vwMeetingsTiny] mt on mt.AddressID = at.ID 
-                where exists (select * from [Aptify].[dbo].[fnOSCPAGetZipDistanceWeb]({0},at.PostalCode) dt
-                             where dt.Distance <= {1}) and mt.IsSold = 1 and mt.WebEnabled = 1",
-                postalCode, milesDistance);
+                @"select mt.ID, (select * 
+				from [Aptify].[dbo].[fnOSCPAGetZipDistanceWeb]({0},at.PostalCode) dt
+                where dt.Distance <= {1}) as Distance
+from [Aptify].[dbo].[vwAddressesTiny] at 
+join [Aptify].[dbo].[vwMeetingsTiny] mt on mt.AddressID = at.ID 
+where exists (select * 
+				from [Aptify].[dbo].[fnOSCPAGetZipDistanceWeb]({0},at.PostalCode) dt
+                where dt.Distance <= {1}) and mt.IsSold = 1 and mt.WebEnabled = 1
+				and mt.StartDate > GETDATE()
+order by distance", postalCode, milesDistance);
 
             var addrIds = session.CreateSQLQuery(sql).List();
 
@@ -136,13 +143,7 @@ namespace AptifyWebApi.Helpers
             var searchWhere = new StringBuilder();
             var searchOrderBy = new StringBuilder();
 
-            searchBase.AppendLine(
-                @"SELECT mt.ID, mt.MeetingTitle, mt.MeetingTypeGroupId, mt.StartDate, mt.EndDate, mt.OpenTime, mt.ClassLevelID, mt.ProductID, mt.StatusID, mt.MeetingTypeID, mt.AddressID, mt.VenueID");
-
-            searchBase.AppendLine("from vwMeetingsTiny mt");
-            searchBase.AppendLine("inner join vwStoreSearches s on s.ProductID = mt.ProductID");
-
-            /**
+           /**
            * Create the names of the tables, each with their own view of the rankings
            * based on the search input, and use some arbitrary mappings of how much
            * importance each should be judged to have.
@@ -190,6 +191,11 @@ namespace AptifyWebApi.Helpers
 
                 var rankString = String.Concat(GetRankString(subrankMaps, PrefixContains), " + ",
                                                GetRankString(subrankMaps, PrefixFreeText));
+
+                const string baseSelectColumns = @"mt.ID, mt.MeetingTitle, mt.MeetingTypeGroupId, mt.StartDate, mt.EndDate, mt.OpenTime, mt.ClassLevelID, mt.ProductID, mt.StatusID, mt.MeetingTypeID, mt.AddressID, mt.VenueID";
+                searchBase.AppendLine(string.Format("SELECT ({0}) as Rank, {1}", rankString, baseSelectColumns));
+                searchBase.AppendLine("from vwMeetingsTiny mt");
+                searchBase.AppendLine("inner join vwStoreSearches s on s.ProductID = mt.ProductID");
 
                 // Filter out where relevance < epsilon
                 const float epsilon = 0;
@@ -244,7 +250,7 @@ namespace AptifyWebApi.Helpers
 
             var rankString = rankStatements.Aggregate(String.Empty,
                                                       (x, n) =>
-                                                      x + (!String.IsNullOrEmpty(x) ? " + " : String.Empty) + n);
+                                                      x + (String.IsNullOrEmpty(x) ? String.Empty : " + ") + n);
 
             return rankString;
         }

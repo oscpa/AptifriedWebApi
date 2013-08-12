@@ -21,6 +21,7 @@ namespace AptifyWebApi.Dto
             public IList<AptifriedMeetingEductionUnitsDto> CreditTypes { get; set; }
             public int MilesDistance { get; set; }
             public string Zip { get; set; }
+            public string UserId { get; set; }
 
             public bool IsDateSearch
             {

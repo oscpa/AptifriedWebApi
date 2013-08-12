@@ -466,6 +466,7 @@
     <Compile Include="Controllers\AptifriedCartController.cs" />
     <Compile Include="Controllers\AptifyClassesController.cs" />
     <Compile Include="Controllers\AptifriedPaymentTypeController.cs" />
+    <Compile Include="Controllers\AptifriedMeetingSearchToExcelController.cs" />
     <Compile Include="Dto\AptifriedAnswerSheetAnswerDto.cs" />
     <Compile Include="Dto\AptifriedAnswerSheetDto.cs" />
     <Compile Include="Dto\AptifriedAttachmentCategoryDto.cs" />
@@ -848,6 +849,7 @@
     <Content Include="lib\ElectronicPaymentVerisign.dll" />
     <Content Include="lib\EntityFramework.dll" />
     <Content Include="lib\EntityFramework.xml" />
+    <Content Include="lib\EPPlus.dll" />
     <Content Include="lib\ExpandKits.dll" />
     <Content Include="lib\FilterRules.dll" />
     <Content Include="lib\FluentNHibernate.dll" />

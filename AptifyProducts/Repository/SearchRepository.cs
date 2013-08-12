@@ -43,8 +43,6 @@ Search Improvements
 
 //---------------------------------------------------------------------
 
-//BUG zip code distance search
-
 //TODO: Filter - Date sort order (from search obj/enum)
 //  each tab has dropdown to order by dynamic x,y,z
 
