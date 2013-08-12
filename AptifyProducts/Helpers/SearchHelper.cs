@@ -59,6 +59,9 @@ namespace AptifyWebApi.Helpers
         {
             //TODO: Convert to linq
             var zip = session.QueryOver<AptifriedZipCode>().Where(x => x.PostalCode == postalCode).SingleOrDefault();
+            if(zip.IsNull())
+                return new List<AptifriedZipCode>();
+            
             var zLat = zip.Latitude;
             var zLong = zip.Longitude;
             const double constlong = 57.2957795130823;
