@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using AptifyWebApi.Attributes;
 using AptifyWebApi.Models.Shared;
 
 #endregion
@@ -24,7 +25,9 @@ namespace AptifyWebApi.Models.Meeting
         public virtual AptifriedVenue Venue { get; set; }
         public virtual int? ParentId { get; set; }
     
-        public virtual int Rank { get; set;} 
+        public virtual int Rank { get; set;}
+        //public virtual int Miles { get; set; }
+
         /// <summary>
         /// This value could not be strongly typed as there is no referential integrity between class levels and
         /// meetings, as there are invalid primary keys. worthless.

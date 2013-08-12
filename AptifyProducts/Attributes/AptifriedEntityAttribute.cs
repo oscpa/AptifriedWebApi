@@ -15,4 +15,8 @@ namespace AptifyWebApi.Attributes
     {
         public string Name { get; set; }
     }
+
+    public class IgnoreAttribute : Attribute
+    {
+    }
 }

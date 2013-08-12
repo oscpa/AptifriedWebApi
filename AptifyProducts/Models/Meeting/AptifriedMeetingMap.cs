@@ -20,6 +20,7 @@ namespace AptifyWebApi.Models.Meeting
                 .CustomType("TimeAsTimeSpan");
             Map(x => x.ClassLevelId);
             Map(x => x.Rank).Nullable();
+            //Map(x => x.Miles).Nullable();
             References(x => x.Product).Column("ProductID");
             References(x => x.Status).Column("StatusID");
             References(x => x.Location).Column("AddressID");

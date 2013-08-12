@@ -25,6 +25,7 @@ namespace AptifyWebApi.Dto
         public int? ParentId { get; set; }
 
         public int Rank { get; set; }
+        //public int Miles { get; set; }
         /// <summary>
         /// Couldn't strongly type this column becuase we don't enforce referential integrity on it.
         /// </summary>

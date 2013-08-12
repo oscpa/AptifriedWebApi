@@ -57,20 +57,21 @@ namespace AptifyWebApi.Helpers
 
         public static IList GetMeetingIdByZipDistance(this ISession session, string postalCode, string milesDistance)
         {
-            //BUG Distance search results not finding neighboring zips
             //TODO: Convert to linq
-    
-            var sql = String.Format(
-                @"select mt.ID, (select * 
-				from [Aptify].[dbo].[fnOSCPAGetZipDistanceWeb]({0},at.PostalCode) dt
-                where dt.Distance <= {1}) as Distance
-from [Aptify].[dbo].[vwAddressesTiny] at 
-join [Aptify].[dbo].[vwMeetingsTiny] mt on mt.AddressID = at.ID 
-where exists (select * 
-				from [Aptify].[dbo].[fnOSCPAGetZipDistanceWeb]({0},at.PostalCode) dt
-                where dt.Distance <= {1}) and mt.IsSold = 1 and mt.WebEnabled = 1
-				and mt.StartDate > GETDATE()
-order by distance", postalCode, milesDistance);
+            var zip = session.QueryOver<AptifriedZipCode>().Where(x => x.PostalCode == postalCode).SingleOrDefault();
+            var zLat = zip.Latitude;
+            var zLong = zip.Longitude;
+            const double constlong = 57.2957795130823;
+            
+    //TODO: Add Miles to AptifriedMeeting/Dto
+            var sql = string.Format(@"SELECT m.Id, z.Long,z.Lat,a.PostalCode,
+                CEILING(3958.75586574 * ACOS(SIN({0}/{2}) * SIN(z.Lat/{2}) + COS({0}/{2}) * COS(z.lat/{2}) * COS(z.Long/{2} - {1}/{2}))) as Miles
+                FROM vwAddresses a WITH(NoLock)
+                INNER JOIN vwMeetingsTiny m WITH(NoLock) ON a.id = m.addressID and m.MeetingTypeID not in (6)
+                INNER JOIN vwProducts p WITH(NoLock) ON m.ProductID = p.ID AND p.IsSold = 1 AND p.WebEnabled = 1
+                INNER JOIN vwZipCodes z WITH(NoLock) ON z.ZIPCode =  a.PostalCode5Numeric and z.CountryCodeID = 222
+                WHERE
+                CEILING(3958.75586574 * ACOS(SIN({0}/{2}) * SIN(z.Lat/{2}) + COS({0}/{2}) * COS(z.lat/{2}) * COS(z.Long/{2} - {1}/{2}))) <= {3}", zLat, zLong, constlong,milesDistance);
 
             var addrIds = session.CreateSQLQuery(sql).List();
 
@@ -134,12 +135,8 @@ order by distance", postalCode, milesDistance);
             //var res = res.Join(idsWeWant, x => x.Id, id => id, (x, id) => x);
             //res.Intersect(x => res.Keyword(sParams.SearchText));
 
-
-            //No keyword search for you!
-            if (!useKeywordRanking || String.IsNullOrWhiteSpace(searchText))
-                return res.List<T>();
-
             var searchBase = new StringBuilder();
+            var searchBaseExt = new StringBuilder();
             var searchWhere = new StringBuilder();
             var searchOrderBy = new StringBuilder();
 
@@ -195,7 +192,7 @@ order by distance", postalCode, milesDistance);
                 const string baseSelectColumns = @"mt.ID, mt.MeetingTitle, mt.MeetingTypeGroupId, mt.StartDate, mt.EndDate, mt.OpenTime, mt.ClassLevelID, mt.ProductID, mt.StatusID, mt.MeetingTypeID, mt.AddressID, mt.VenueID";
                 searchBase.AppendLine(string.Format("SELECT ({0}) as Rank, {1}", rankString, baseSelectColumns));
                 searchBase.AppendLine("from vwMeetingsTiny mt");
-                searchBase.AppendLine("inner join vwStoreSearches s on s.ProductID = mt.ProductID");
+                searchBaseExt.AppendLine("inner join vwStoreSearches s on s.ProductID = mt.ProductID");
 
                 // Filter out where relevance < epsilon
                 const float epsilon = 0;
@@ -207,8 +204,12 @@ order by distance", postalCode, milesDistance);
             searchBase.BuildContainsTableJoins(searchStringContainsTable, subrankMaps);
             searchBase.BuildFreeTextTableJoins(searchStringFreeTextTables, subrankMaps);
 
-
-            var qry = String.Concat(searchBase, searchWhere, searchOrderBy);
+            var qry = "";
+            //No keyword search for you!
+            if (!useKeywordRanking || String.IsNullOrWhiteSpace(searchText))
+                qry = "SELECT 0 as Rank, " + baseSelectColumns + " from vwMeetingsTiny mt order by mt.startdate";//return res.List<T>();
+            else
+                qry = String.Concat(searchBase, searchBaseExt, searchWhere, searchOrderBy);
 
             var meetingQuery = session.CreateSQLQuery(qry)
                                       .AddEntity("mt", typeof(T));

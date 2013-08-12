@@ -51,11 +51,9 @@ Search Improvements
 //---------------------------------------------------------------------
 
 //WBN: Sub-Grouping (Parent/Child)
-
-//WBN: IP geolocation
-
+//WBN: Show loc1/loc2 directions map
 //WBN: Return sessions.parent.parent in keyword search
-
+//WBN: IP geolocation
 //WBN: Index for returning from product page back to product in search list
 
 //---------------------------------------------------------------------
@@ -154,7 +152,9 @@ namespace AptifyWebApi.Repository
             var addressIdsByZip = Context.GetMeetingIdByZipDistance(sParams.Zip,
                                                      sParams.MilesDistance.ToString(CultureInfo.InvariantCulture));
 
+            //Expression<Func<T, bool>> expr = x => x.TypeItem.Group.Id == (int)EnumsAndConstants.MeetingTypeGroup.InPerson && addressIdsByZip.Contains(x.Id);
             Expression<Func<T, bool>> expr = x => x.TypeItem.Group.Id == (int)EnumsAndConstants.MeetingTypeGroup.InPerson && addressIdsByZip.Contains(x.Id);
+                //Select(x => { x.Miles = "foo"; return x; })
 
             return expr;
         }

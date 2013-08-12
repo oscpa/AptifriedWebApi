@@ -616,6 +616,8 @@
     <Compile Include="Models\AptifriedMemberStatusTypeMap.cs" />
     <Compile Include="Models\AptifriedMemberType.cs" />
     <Compile Include="Models\AptifriedMemberTypeMap.cs" />
+    <Compile Include="Models\AptifriedZipCode.cs" />
+    <Compile Include="Models\AptifriedZipCodeMap.cs" />
     <Compile Include="Models\Meeting\AptifriedMeetingTypeGroup.cs" />
     <Compile Include="Models\Meeting\AptifriedMeetingTypeGroupMap.cs" />
     <Compile Include="Models\AptifriedOnlineClassDetails.cs" />
