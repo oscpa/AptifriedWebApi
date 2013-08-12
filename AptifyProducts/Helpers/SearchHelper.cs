@@ -139,7 +139,8 @@ namespace AptifyWebApi.Helpers
             var searchBaseExt = new StringBuilder();
             var searchWhere = new StringBuilder();
             var searchOrderBy = new StringBuilder();
-
+             const string baseSelectColumns = @"mt.ID, mt.MeetingTitle, mt.MeetingTypeGroupId, mt.StartDate, mt.EndDate, mt.OpenTime, mt.ClassLevelID, mt.ProductID, mt.StatusID, mt.MeetingTypeID, mt.AddressID, mt.VenueID";
+               
            /**
            * Create the names of the tables, each with their own view of the rankings
            * based on the search input, and use some arbitrary mappings of how much
@@ -149,8 +150,15 @@ namespace AptifyWebApi.Helpers
            * 
            * In the future, these should be derived evolutionarily or by some other ML method.
            **/
+              var qry = "";
+            //No keyword search for you!
+            if (!useKeywordRanking || String.IsNullOrWhiteSpace(searchText))
+                qry = "SELECT 0 as Rank, " + baseSelectColumns + " from vwMeetingsTiny mt order by mt.startdate";
+                    //return res.List<T>();
+            else
+            {
 
-            IDictionary<string, uint> subrankMaps = new Dictionary<string, uint>
+                IDictionary<string, uint> subrankMaps = new Dictionary<string, uint>
                 {
                     {"ProductName", 25},
                     {"SearchableID", 25},
@@ -167,7 +175,7 @@ namespace AptifyWebApi.Helpers
                     {"MeetingType", 5},
                     {"Level", 0},
                 };
-            /**
+                /**
                          * Create from a search string of "term1 term2 ... termn" the string
                          * "term1 near term2 ... near termn."
                          * 
@@ -176,20 +184,19 @@ namespace AptifyWebApi.Helpers
                          * 
                          * http://msdn.microsoft.com/en-us/library/ms189760(v=SQL.90).aspx
                          **/
-            var searchStringContainsTable = String.Format("'({0})'",
-                                                          searchText.Split(' ')
-                                                                    .Aggregate(String.Empty, (x, n) =>
-                                                                                             x +
-                                                                                             (!String.IsNullOrEmpty(x)
-                                                                                                  ? " near "
-                                                                                                  : String.Empty) + n));
+                var searchStringContainsTable = String.Format("'({0})'",
+                    searchText.Split(' ')
+                        .Aggregate(String.Empty, (x, n) =>
+                            x +
+                            (!String.IsNullOrEmpty(x)
+                                ? " near "
+                                : String.Empty) + n));
 
-            var searchStringFreeTextTables = String.Format("'{0}'", searchText);
+                var searchStringFreeTextTables = String.Format("'{0}'", searchText);
 
                 var rankString = String.Concat(GetRankString(subrankMaps, PrefixContains), " + ",
-                                               GetRankString(subrankMaps, PrefixFreeText));
+                    GetRankString(subrankMaps, PrefixFreeText));
 
-                const string baseSelectColumns = @"mt.ID, mt.MeetingTitle, mt.MeetingTypeGroupId, mt.StartDate, mt.EndDate, mt.OpenTime, mt.ClassLevelID, mt.ProductID, mt.StatusID, mt.MeetingTypeID, mt.AddressID, mt.VenueID";
                 searchBase.AppendLine(string.Format("SELECT ({0}) as Rank, {1}", rankString, baseSelectColumns));
                 searchBase.AppendLine("from vwMeetingsTiny mt");
                 searchBaseExt.AppendLine("inner join vwStoreSearches s on s.ProductID = mt.ProductID");
@@ -200,16 +207,13 @@ namespace AptifyWebApi.Helpers
 
                 // We don't need to worry about clobbering any sort logic here because it won't have been defined yet
                 searchOrderBy.AppendLine(String.Format("order by {0} desc, mt.startdate", rankString));
-          
-            searchBase.BuildContainsTableJoins(searchStringContainsTable, subrankMaps);
-            searchBase.BuildFreeTextTableJoins(searchStringFreeTextTables, subrankMaps);
 
-            var qry = "";
-            //No keyword search for you!
-            if (!useKeywordRanking || String.IsNullOrWhiteSpace(searchText))
-                qry = "SELECT 0 as Rank, " + baseSelectColumns + " from vwMeetingsTiny mt order by mt.startdate";//return res.List<T>();
-            else
+                searchBase.BuildContainsTableJoins(searchStringContainsTable, subrankMaps);
+                searchBase.BuildFreeTextTableJoins(searchStringFreeTextTables, subrankMaps);
+
                 qry = String.Concat(searchBase, searchBaseExt, searchWhere, searchOrderBy);
+            }
+            
 
             var meetingQuery = session.CreateSQLQuery(qry)
                                       .AddEntity("mt", typeof(T));
