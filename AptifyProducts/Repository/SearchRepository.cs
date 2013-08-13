@@ -35,7 +35,7 @@ We've added a large box to ensure that other options are known even if tabs are 
 Search Improvements 
     DONE:   Tabbed results list by product grouping
     DONE:   Initial search results load will be populated with a list of courses within 60 miles of the users current location as priority items
-            Filter changes based on the type of events you are looking at (Example remove radius id viewing on-line or on-demand)
+    DONE    Filter changes based on the type of events you are looking at (Example remove radius id viewing on-line or on-demand)
             Export results list to excel
     DONE:   Direct link to a results list from a custom URL
 
