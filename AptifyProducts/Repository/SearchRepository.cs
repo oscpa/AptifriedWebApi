@@ -43,6 +43,9 @@ Search Improvements
 
 //---------------------------------------------------------------------
 
+//BUG #680 Homepage counts are off
+//in-person showing 254, should be 252 (sum(types))
+
 //TODO: Filter - Date sort order (from search obj/enum)
 //  each tab has dropdown to order by dynamic x,y,z
 
@@ -115,7 +118,7 @@ namespace AptifyWebApi.Repository
                 filterList.Add(MeetingTypesFilter(sParams));
 
 
-            filterList.Add(SessionFilter());
+            //filterList.Add(SessionFilter());
 
             filterExpr = filterList.Aggregate(filterExpr, (current, expression) => current.AndAlsoCombine(expression));
 
@@ -166,7 +169,8 @@ namespace AptifyWebApi.Repository
                                                                                 x.TypeItem.Type.Id.IsNotNull()
                                                                                 && y.Type.Id == x.TypeItem.Type.Id);
 
-           //Expression<Func<T, bool>> expr2 = x => x.TypeItem.Type.Id != (int) EnumsAndConstants.MeetingType.Session;
+            //TODO: Add self-study exclusion
+            //Expression<Func<T, bool>> expr2 = x => x.TypeItem.Type.Id != (int) EnumsAndConstants.MeetingType.Session;
            
             return expr;
         }

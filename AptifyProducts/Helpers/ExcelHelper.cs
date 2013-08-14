@@ -12,7 +12,7 @@ namespace AptifyWebApi.Helpers
         
         public static ExcelPackage ToExcel(this AptifriedMeetingSearchResultDto results)
         {
-            //Lack of T... refactor to reflected generics
+            //Lack of T... refactor to method.invoke reflected generics
  
             var pck = new ExcelPackage();
 
@@ -20,8 +20,13 @@ namespace AptifyWebApi.Helpers
                                       from meeting in tabResult select worksheet)
             {
                 //TODO: Excel: Build worksheets by meeting
-                worksheet.Cells["A1"].Value = "Sample 2";
+
+                //reflect property name for heading
+
+                worksheet.Cells["A1"].Value = "heading";
                 worksheet.Cells["A1"].Style.Font.Bold = true;
+
+                //fill cells per meeting
             }
 
             return pck;
