@@ -490,7 +490,6 @@
     <Compile Include="Dto\AptifriedWebNotificationDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTypeGroupDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTDto.cs" />
-    <Compile Include="Dto\Class1.cs" />
     <Compile Include="Factories\UnityControllerFactory.cs" />
     <Compile Include="Helpers\BaseHelper.cs" />
     <Compile Include="Helpers\DtoHelper.cs" />

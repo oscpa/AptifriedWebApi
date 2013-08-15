@@ -53,18 +53,7 @@ namespace AptifyWebApi.Controllers
 
                     cnt += SearchCounts.MeetingSearch.Types.GetCount(mType.Type.Id);
                 }
-            /*
-            if(search.HasCreditTypes)
-                foreach (var cType in search.CreditTypes)
-                {
-                    if (SearchCounts.MeetingSearch.CreditTypes.NeedsUpdate(cType.Id))
-                        SearchCounts.MeetingSearch.CreditTypes.Update(cType.Id,
-                            new SearchRepository<AptifriedMeeting, AptifriedMeetingSearchDto>(session).Search(
-                                search, false).Count());
-
-                    cnt += SearchCounts.MeetingSearch.CreditTypes.GetCount(cType.Id);
-                }
-            */
+            
           return new AptifriedMeetingCountResultsDto
             {
                 SearchEntered = search,
