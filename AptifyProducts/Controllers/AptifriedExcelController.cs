@@ -7,15 +7,20 @@ using System.Web.Mvc;
 using System.Web.UI;
 using AptifyWebApi.Dto;
 using AptifyWebApi.Helpers;
+using NHibernate;
 
 namespace AptifyWebApi.Controllers
 {
     //UI calls to service need refactored
-    public class AptifriedMeetingSearchToExcelController
+    public class AptifriedExcelController : AptifyEnabledApiController
     {
-        [System.Web.Http.AcceptVerbs("GET")]
-        [HttpGet]
-        public void ExportToExcel(AptifriedMeetingSearchResultDto resultsDto)
+        public AptifriedExcelController(ISession session) : base(session)
+        {
+        }
+
+        [System.Web.Http.AcceptVerbs("Post")]
+        [HttpPost]
+        public void Post(AptifriedMeetingSearchResultDto resultsDto)
         {
             var excelBook = resultsDto.ToExcel();
 

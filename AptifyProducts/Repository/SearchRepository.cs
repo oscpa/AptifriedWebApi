@@ -35,13 +35,16 @@ We've added a large box to ensure that other options are known even if tabs are 
 Search Improvements 
     DONE:   Tabbed results list by product grouping
     DONE:   Initial search results load will be populated with a list of courses within 60 miles of the users current location as priority items
-            Filter changes based on the type of events you are looking at (Example remove radius id viewing on-line or on-demand)
+    DONE    Filter changes based on the type of events you are looking at (Example remove radius id viewing on-line or on-demand)
             Export results list to excel
     DONE:   Direct link to a results list from a custom URL
 
  */
 
 //---------------------------------------------------------------------
+
+//BUG #680 Homepage counts are off
+//in-person showing 254, should be 252 (sum(types))
 
 //TODO: Filter - Date sort order (from search obj/enum)
 //  each tab has dropdown to order by dynamic x,y,z
@@ -115,7 +118,7 @@ namespace AptifyWebApi.Repository
                 filterList.Add(MeetingTypesFilter(sParams));
 
 
-            filterList.Add(SessionFilter());
+            //filterList.Add(SessionFilter());
 
             filterExpr = filterList.Aggregate(filterExpr, (current, expression) => current.AndAlsoCombine(expression));
 
@@ -166,7 +169,8 @@ namespace AptifyWebApi.Repository
                                                                                 x.TypeItem.Type.Id.IsNotNull()
                                                                                 && y.Type.Id == x.TypeItem.Type.Id);
 
-           //Expression<Func<T, bool>> expr2 = x => x.TypeItem.Type.Id != (int) EnumsAndConstants.MeetingType.Session;
+            //TODO: Add self-study exclusion
+            //Expression<Func<T, bool>> expr2 = x => x.TypeItem.Type.Id != (int) EnumsAndConstants.MeetingType.Session;
            
             return expr;
         }

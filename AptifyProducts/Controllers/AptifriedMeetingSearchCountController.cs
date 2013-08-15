@@ -29,7 +29,7 @@ namespace AptifyWebApi.Controllers
         [HttpPost]
         public AptifriedMeetingCountResultsDto Post(AptifriedMeetingSearchDto search)
         {
-            var cnt = -1;
+            var cnt = 0;
 
             //TODO: Refactor.  Add post call for CreditTypesCount
             if(search.HasMeetingTypeItems)

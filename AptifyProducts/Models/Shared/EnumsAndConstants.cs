@@ -12,7 +12,7 @@ namespace AptifyWebApi.Models.Shared
         public enum MeetingType
         {
             //[EnumHelper.MeetingTypeCategoryAttr(MeetingTypeCategory.InPerson)] Standard = 1,
-            Session = 6,
+            Session = 8,
         }
 
         public enum MeetingTypeGroup
