@@ -43,9 +43,6 @@ Search Improvements
 
 //---------------------------------------------------------------------
 
-//BUG #680 Homepage counts are off
-//in-person showing 254, should be 252 (sum(types))
-
 //TODO: Filter - Date sort order (from search obj/enum)
 //  each tab has dropdown to order by dynamic x,y,z
 
