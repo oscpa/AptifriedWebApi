@@ -201,9 +201,6 @@
     <Reference Include="EBusinessGlobal">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\EBusinessGlobal.dll</HintPath>
     </Reference>
-    <Reference Include="Elmah">
-      <HintPath>packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\..\..\..\Documents\Visual Studio 2012\Projects\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -464,6 +461,7 @@
     <Compile Include="Controllers\AptifriedProductRelationController.cs" />
     <Compile Include="Controllers\AptifriedWebCartController.cs" />
     <Compile Include="Controllers\AptifriedWebNotificationController.cs" />
+    <Compile Include="Controllers\AptifriedWebShoppingCartDetailsCount.cs" />
     <Compile Include="Controllers\AptifriedWebUserController.cs" />
     <Compile Include="Controllers\AptifyEnabledApiController.cs" />
     <Compile Include="Controllers\AuthorizationController.cs" />
@@ -493,6 +491,7 @@
     <Compile Include="Dto\AptifriedWebNotificationDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTypeGroupDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTDto.cs" />
+    <Compile Include="Dto\AptifriedWebShoppingCartDetailsCountDto.cs" />
     <Compile Include="Factories\UnityControllerFactory.cs" />
     <Compile Include="Helpers\BaseHelper.cs" />
     <Compile Include="Helpers\DtoHelper.cs" />
@@ -626,6 +625,8 @@
     <Compile Include="Models\AptifriedMemberStatusTypeMap.cs" />
     <Compile Include="Models\AptifriedMemberType.cs" />
     <Compile Include="Models\AptifriedMemberTypeMap.cs" />
+    <Compile Include="Models\AptifriedWebShoppingCartDetailsCount.cs" />
+    <Compile Include="Models\AptifriedWebShoppingCartDetailsCountMap.cs" />
     <Compile Include="Models\AptifriedZipCode.cs" />
     <Compile Include="Models\AptifriedZipCodeMap.cs" />
     <Compile Include="Models\AptifriedMeetingTypeGroup.cs" />

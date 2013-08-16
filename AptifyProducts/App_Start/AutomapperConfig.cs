@@ -112,6 +112,7 @@ namespace AptifyWebApi.App_Start
                   .ForMember(dto => dto.Order, m => m.Ignore())
                   .ForMember(dto => dto.RequestedLines, m => m.MapFrom(ao => ao.Lines));
             Mapper.CreateMap<AptifriedWebShoppingCartDetails, AptifriedWebShoppingCartProductRequestDto>();
+			Mapper.CreateMap<AptifriedWebShoppingCartDetailsCount, AptifriedWebShoppingCartDetailsCountDto>();
             Mapper.CreateMap<AptifriedWebShoppingCartType, AptifriedWebShoppingCartTypeDto>();
 
             Mapper.CreateMap<AptifriedOrder, AptifriedCompletedOrderDto>();
