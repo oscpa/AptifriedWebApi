@@ -16,7 +16,7 @@ namespace AptifyWebApi.Models
         public virtual AptifriedProduct Product { get; set; }
         public virtual DateTime StartDate { get; set; }
         public virtual DateTime EndDate { get; set; }
-        public virtual AptifriedMeetingStatus Status { get; set; }
+        public virtual int StatusId { get; set; }
         public virtual AptifriedMeetingTypeItem TypeItem { get; set; }
         public virtual TimeSpan OpenTime { get; set; }
         public virtual AptifriedAddress Location { get; set; }
@@ -25,7 +25,7 @@ namespace AptifyWebApi.Models
         public virtual AptifriedVenue Venue { get; set; }
         public virtual int? ParentId { get; set; }
 
-        public virtual int Rank { get; set; }
+        public virtual int Relevance { get; set; }
         //public virtual int Miles { get; set; }
 
         /// <summary>

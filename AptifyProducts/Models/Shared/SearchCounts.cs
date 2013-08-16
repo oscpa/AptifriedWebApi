@@ -17,7 +17,7 @@ namespace AptifyWebApi.Models.Shared
     {
         public static class MeetingSearch
         {
-            public const int UpdateIntervalInMinutes = 240;
+            public const int UpdateIntervalInHours = 24;
 
             public static class Groups
             {
@@ -26,24 +26,33 @@ namespace AptifyWebApi.Models.Shared
 
                 public static bool NeedsUpdate(int id)
                 {
-                    return !Counts.ContainsKey(id) || (DateTime.Now - LastUpdated).TotalHours > UpdateIntervalInMinutes;
+                    return !Counts.ContainsKey(id) || (DateTime.Now - LastUpdated).TotalHours > UpdateIntervalInHours;
                 }
 
                 public static void Update(int id, int count)
                 {
-                    if (Counts.ContainsKey(id))
-                        Counts[id] = count;
+                    lock (Counts)
+                    {
+                        
+                        if (Counts.ContainsKey(id))
+                            Counts[id] = count;
 
-                    else
-                        Counts.Add(id, count);
+                        else
+                            Counts.Add(id, count);
+                    }
+
+                    LastUpdated = DateTime.Now;
                 }
 
                 public static int GetCount(int id)
                 {
-                    int cnt;
-                    Counts.TryGetValue(id, out cnt);
+                    lock (Counts)
+                    {
+                        int cnt;
+                        Counts.TryGetValue(id, out cnt);
 
-                    return cnt;
+                        return cnt;
+                    }
                 }
             }
 
@@ -54,26 +63,40 @@ namespace AptifyWebApi.Models.Shared
 
                 public static bool NeedsUpdate(int id)
                 {
-                    return !Counts.ContainsKey(id) || (DateTime.Now - LastUpdated).TotalHours > UpdateIntervalInMinutes;
+                    lock (Counts)
+                    {
+                        lock (Counts)
+                        {
+                            
+                        return !Counts.ContainsKey(id) || (DateTime.Now - LastUpdated).TotalHours > UpdateIntervalInHours;    
+                            }}
                 }
 
                 public static void Update(int id, int count)
                 {
-                    if (Counts.ContainsKey(id))
-                        Counts[id] = count;
+                    lock (Counts)
+                    {
 
-                    else
-                        Counts.Add(id, count);
+                        if (Counts.ContainsKey(id))
+                            Counts[id] = count;
+
+                        else
+                            Counts.Add(id, count);
+                    }
 
                     LastUpdated = DateTime.Now;
                 }
 
                 public static int GetCount(int id)
                 {
-                    int cnt;
-                    Counts.TryGetValue(id, out cnt);
+                    lock (Counts)
+                    {
 
-                    return cnt;
+                        int cnt;
+                        Counts.TryGetValue(id, out cnt);
+
+                        return cnt;
+                    }
                 }
             }
         }
