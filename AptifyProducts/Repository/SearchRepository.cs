@@ -78,7 +78,7 @@ namespace AptifyWebApi.Repository
                    .Filter(f);
 
             //if results !ranked by keyword and !start/end date search, orderby date desc
-            return !useKeywordRanking ? res.OrderBy(x => x.StartDate) : res;
+            return !useKeywordRanking ? res.OrderBy(x => x.EndDate) : res;
         }
 
         private Expression<Func<T, bool>> GetFilter(TD sParams)
@@ -93,7 +93,8 @@ namespace AptifyWebApi.Repository
             if (sParams.IsDateSearch)
                   filterList.Add(DateFilter(sParams));
 
-            filterList.Add(CreditTypeFilter(sParams));
+            if(sParams.HasCreditTypes)
+                filterList.Add(CreditTypeFilter(sParams));
             
             if (sParams.IsZipSearch)
                 filterList.Add(ZipCodeFilter(sParams));
@@ -199,11 +200,15 @@ namespace AptifyWebApi.Repository
             //var mIds = Context.GetMeetingIdsInEducationUnitCategories(sParams);
 
             //if(mIds.IsNull())
-            
-            Expression<Func<T, bool>> expr = x => x.Credits.Any(y => sParams.CreditTypes.Any(z => z.Id == y.Category.Id));
+            //Expression<Func<T, bool>> expr = x => x.Credits.Any(y => sParams.CreditTypes.Any(z => z.Id == y.Category.Id));
+
+            //grab selected ids
+            var mIds = Context.GetMeetingIdsInEducationUnitCategories(sParams);
+
+            Expression<Func<T, bool>> expr = x => mIds.Contains(x.Id);
 
             return expr;
-        }
+            }
 
         private static Expression<Func<T, bool>> DateFilter(TD sParams)
         {
