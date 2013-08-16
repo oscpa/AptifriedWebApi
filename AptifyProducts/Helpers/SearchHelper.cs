@@ -166,10 +166,11 @@ namespace AptifyWebApi.Helpers
            * 
            * In the future, these should be derived evolutionarily or by some other ML method.
            **/
-              var qry = "";
+            
+            var qry = "";
             //No keyword search for you!
             if (!useKeywordRanking || String.IsNullOrWhiteSpace(searchText))
-                qry = "SELECT 0 as Rank, " + baseSelectColumns + " from vwMeetingsTiny mt order by mt.startdate";
+                qry = "SELECT 100 as Relevance, " + baseSelectColumns + " from vwMeetingsTiny mt order by mt.startdate";
                     //return res.List<T>();
             else
             {
@@ -213,7 +214,7 @@ namespace AptifyWebApi.Helpers
                 var rankString = String.Concat(GetRankString(subrankMaps, PrefixContains), " + ",
                     GetRankString(subrankMaps, PrefixFreeText));
 
-                searchBase.AppendLine(string.Format("SELECT ({0}) as Rank, {1}", rankString, baseSelectColumns));
+                searchBase.AppendLine(string.Format("SELECT ({0}) as Relevance, {1}", rankString, baseSelectColumns));
                 searchBase.AppendLine("from vwMeetingsTiny mt");
                 searchBase.AppendLine("inner join vwStoreSearches s on s.ProductID = mt.ProductID");
 
