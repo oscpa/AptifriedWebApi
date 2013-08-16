@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using AptifyWebApi.Models.Shared;
 
-
+/*
 namespace AptifyWebApi.Repository
 {
     public class EntityBaseRepository<TC, T> : BaseRepository<TC> where T : class where TC : AptifyEntityContext
@@ -56,3 +56,4 @@ namespace AptifyWebApi.Repository
 
   
 }
+*/

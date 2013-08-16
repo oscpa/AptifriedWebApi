@@ -3,7 +3,6 @@
 
 using System.Collections;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using AptifyWebApi.Dto;
 using AptifyWebApi.Models;
 using AptifyWebApi.Models.Meeting;
