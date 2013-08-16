@@ -500,7 +500,6 @@
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\ExcelHelper.cs" />
     <Compile Include="Helpers\ModelHelper.cs" />
-    <Compile Include="Helpers\SearchCountHelper.cs" />
     <Compile Include="Helpers\SearchHelper.cs" />
     <Compile Include="Helpers\WebConfigHelper.cs" />
     <Compile Include="Dto\AptifriedCarouselElementDto.cs" />
