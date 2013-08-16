@@ -78,15 +78,14 @@ namespace AptifyWebApi.Repository
                    .Filter(f);
 
             //if results !ranked by keyword and !start/end date search, orderby date desc
-            return !useKeywordRanking ? res.OrderBy(x => x.EndDate) : res;
+            return !useKeywordRanking ? res.OrderBy(x => x.StartDate) : res;
         }
 
         private Expression<Func<T, bool>> GetFilter(TD sParams)
         {
-        //base: filter out any non-active items 
-           
             var filterList = new List<Expression<Func<T, bool>>>();
 
+            //base: filter out any non-active items 
             var filterExpr = BaseFilter(sParams);
             
             filterList.Add(filterExpr);
@@ -94,11 +93,8 @@ namespace AptifyWebApi.Repository
             if (sParams.IsDateSearch)
                   filterList.Add(DateFilter(sParams));
 
-            //if credit type search and not all types selected
-            if (sParams.HasCreditTypes && sParams.CreditTypes.Count() < Context.GetActiveDbEducationCategoryCount())
                  filterList.Add(CreditTypeFilter(sParams));
 
-            
             if (sParams.IsZipSearch)
                 filterList.Add(ZipCodeFilter(sParams));
 
@@ -136,7 +132,7 @@ namespace AptifyWebApi.Repository
         private static Expression<Func<T, bool>> BaseFilter(TD sParam)
         {   
             var sDate = sParam.StartDate ?? DateTime.Now;
-            Expression<Func<T, bool>> expr = x => x.Status.Id == 1
+            Expression<Func<T, bool>> expr = x => x.StatusId.IsNotNull() && x.StatusId == 1
                                                   && x.Product.WebEnabled
                                                   && x.Product.IsSold
                                                   && x.TypeItem != null
@@ -166,9 +162,6 @@ namespace AptifyWebApi.Repository
                                                                                 x.TypeItem.Type.Id.IsNotNull()
                                                                                 && y.Type.Id == x.TypeItem.Type.Id);
 
-            //TODO: Add self-study exclusion
-            //Expression<Func<T, bool>> expr2 = x => x.TypeItem.Type.Id != (int) EnumsAndConstants.MeetingType.Session;
-           
             return expr;
         }
 
@@ -190,12 +183,24 @@ namespace AptifyWebApi.Repository
 
         private Expression<Func<T, bool>> CreditTypeFilter(TD sParams)
         {
+            /*
+            if (!sParams.HasCreditTypes)
+            {
+                sParams.CreditTypes = new List<AptifriedMeetingEductionUnitsDto>();
+                foreach (
+                    var d in
+                        Context.GetActiveDbEducationCategories()
+                            .Select(c => new AptifriedMeetingEductionUnitsDto {Id = c.Id, Name = c.Name, Code = c.Code})
+                    )
+                    sParams.CreditTypes.Add(d);
+            }
+             */
             //grab selected ids
-            var mIds = Context.GetMeetingIdsInEducationUnitCategories(sParams);
+            //var mIds = Context.GetMeetingIdsInEducationUnitCategories(sParams);
 
-            if(mIds.IsNull())
-            ;
-            Expression<Func<T, bool>> expr = x => mIds.Contains(x.Id);
+            //if(mIds.IsNull())
+
+            Expression<Func<T, bool>> expr = x => x.Credits.Any(y => sParams.CreditTypes.Any(z => z.Id == y.Category.Id));
 
             return expr;
         }

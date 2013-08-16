@@ -201,6 +201,9 @@
     <Reference Include="EBusinessGlobal">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\EBusinessGlobal.dll</HintPath>
     </Reference>
+    <Reference Include="Elmah">
+      <HintPath>packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\..\..\..\Documents\Visual Studio 2012\Projects\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -497,6 +500,7 @@
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\ExcelHelper.cs" />
     <Compile Include="Helpers\ModelHelper.cs" />
+    <Compile Include="Helpers\SearchCountHelper.cs" />
     <Compile Include="Helpers\SearchHelper.cs" />
     <Compile Include="Helpers\WebConfigHelper.cs" />
     <Compile Include="Dto\AptifriedCarouselElementDto.cs" />
@@ -719,6 +723,7 @@
     <Compile Include="Repository\SearchRepository.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Readme\Elmah.txt" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
