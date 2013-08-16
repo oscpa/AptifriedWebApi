@@ -1,4 +1,4 @@
-﻿using System.Data.Common.EntitySql;
+using System.Data.Common.EntitySql;
 using System.Net;
 using System.Web.Mvc;
 using System.Web.Services.Protocols;
@@ -71,14 +71,14 @@ namespace AptifyWebApi.Repository
         public IQueryable<T> Search(TD sParams, bool useKeywordRanking)
         {
             var f = GetFilter(sParams);
-            
+
             var res =
                Context.QueryOver<T>()
                    .Keyword(Context, sParams.SearchText, useKeywordRanking)
                    .Filter(f);
 
             //if results !ranked by keyword and !start/end date search, orderby date desc
-            return !useKeywordRanking ? res.OrderBy(x => x.StartDate) : res;
+            return !useKeywordRanking ? res.OrderBy(x => x.EndDate) : res;
         }
 
         private Expression<Func<T, bool>> GetFilter(TD sParams)
@@ -87,20 +87,21 @@ namespace AptifyWebApi.Repository
 
             //base: filter out any non-active items 
             var filterExpr = BaseFilter(sParams);
-            
+
             filterList.Add(filterExpr);
 
             if (sParams.IsDateSearch)
-                  filterList.Add(DateFilter(sParams));
+                filterList.Add(DateFilter(sParams));
 
-                 filterList.Add(CreditTypeFilter(sParams));
+            if (sParams.HasCreditTypes)
+                filterList.Add(CreditTypeFilter(sParams));
 
             if (sParams.IsZipSearch)
                 filterList.Add(ZipCodeFilter(sParams));
 
 
             if (sParams.HasLevels)
-               filterList.Add(LevelsFilter(sParams));
+                filterList.Add(LevelsFilter(sParams));
 
 
             if (sParams.HasTypeGroups)
@@ -115,7 +116,7 @@ namespace AptifyWebApi.Repository
 
             filterExpr = filterList.Aggregate(filterExpr, (current, expression) => current.AndAlsoCombine(expression));
 
-           
+
 
             return filterExpr;
         }
@@ -124,13 +125,13 @@ namespace AptifyWebApi.Repository
 
         private static Expression<Func<T, bool>> SessionFilter()
         {
-            Expression<Func<T, bool>> expr = x => x.TypeItem.Type.Id != (int) EnumsAndConstants.MeetingType.Session;
+            Expression<Func<T, bool>> expr = x => x.TypeItem.Type.Id != (int)EnumsAndConstants.MeetingType.Session;
 
             return expr;
         }
 
         private static Expression<Func<T, bool>> BaseFilter(TD sParam)
-        {   
+        {
             var sDate = sParam.StartDate ?? DateTime.Now;
             Expression<Func<T, bool>> expr = x => x.StatusId.IsNotNull() && x.StatusId == 1
                                                   && x.Product.WebEnabled
@@ -138,7 +139,7 @@ namespace AptifyWebApi.Repository
                                                   && x.TypeItem != null
                                                   && (x.StartDate >= sDate | x.TypeItem.Group.Id == (int)EnumsAndConstants.MeetingTypeGroup.SelfStudy)
                                                   ;
-                                                  
+
 
             return expr;
         }
@@ -150,12 +151,12 @@ namespace AptifyWebApi.Repository
 
             //Expression<Func<T, bool>> expr = x => x.TypeItem.Group.Id == (int)EnumsAndConstants.MeetingTypeGroup.InPerson && addressIdsByZip.Contains(x.Id);
             Expression<Func<T, bool>> expr = x => x.TypeItem.Group.Id == (int)EnumsAndConstants.MeetingTypeGroup.InPerson && addressIdsByZip.Any(y => y == x.Id);
-                //Select(x => { x.Miles = "foo"; return x; })
+            //Select(x => { x.Miles = "foo"; return x; })
 
             return expr;
         }
 
-        private static Expression<Func<T, bool>>  MeetingTypesFilter(TD sParams)
+        private static Expression<Func<T, bool>> MeetingTypesFilter(TD sParams)
         {
             Expression<Func<T, bool>> expr = x => sParams.MeetingTypes.Any(y => x.TypeItem.IsNotNull()
                                                                                 && x.TypeItem.Type.IsNotNull() &&
@@ -168,9 +169,9 @@ namespace AptifyWebApi.Repository
         private static Expression<Func<T, bool>> MeetingTypesGroupFilter(TD sParams)
         {
             Expression<Func<T, bool>> expr = x => sParams.MeetingTypes.Any(y =>
-                x.TypeItem.IsNotNull() && x.TypeItem.Group.IsNotNull() && x.TypeItem.Group.Id.IsNotNull() 
+                x.TypeItem.IsNotNull() && x.TypeItem.Group.IsNotNull() && x.TypeItem.Group.Id.IsNotNull()
             && y.Group.Id == x.TypeItem.Group.Id);
-           
+
             return expr;
         }
 
@@ -199,8 +200,12 @@ namespace AptifyWebApi.Repository
             //var mIds = Context.GetMeetingIdsInEducationUnitCategories(sParams);
 
             //if(mIds.IsNull())
+            //Expression<Func<T, bool>> expr = x => x.Credits.Any(y => sParams.CreditTypes.Any(z => z.Id == y.Category.Id));
 
-            Expression<Func<T, bool>> expr = x => x.Credits.Any(y => sParams.CreditTypes.Any(z => z.Id == y.Category.Id));
+            //grab selected ids
+            var mIds = Context.GetMeetingIdsInEducationUnitCategories(sParams);
+
+            Expression<Func<T, bool>> expr = x => mIds.Contains(x.Id);
 
             return expr;
         }
@@ -212,7 +217,7 @@ namespace AptifyWebApi.Repository
             var eDate = sParams.EndDate.HasValue ? sParams.EndDate.Value : DateTime.MaxValue;
 
             //filter endDates that fall outside the specified range
-         
+
             //Using IsInRange extension method not supported
             //nor is GetLengthInDays
             Expression<Func<T, bool>> expr = x =>
