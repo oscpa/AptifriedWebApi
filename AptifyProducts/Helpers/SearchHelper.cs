@@ -167,7 +167,7 @@ namespace AptifyWebApi.Helpers
            * In the future, these should be derived evolutionarily or by some other ML method.
            **/
             
-            var qry = "";
+              var qry = "";
             //No keyword search for you!
             if (!useKeywordRanking || String.IsNullOrWhiteSpace(searchText))
                 qry = "SELECT 100 as Relevance, " + baseSelectColumns + " from vwMeetingsTiny mt order by mt.startdate";
