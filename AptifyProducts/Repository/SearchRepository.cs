@@ -137,7 +137,7 @@ namespace AptifyWebApi.Repository
                                                   && x.Product.WebEnabled
                                                   && x.Product.IsSold
                                                   && x.TypeItem != null
-                                                  && (x.StartDate >= sDate | x.TypeItem.Group.Id == (int)EnumsAndConstants.MeetingTypeGroup.SelfStudy)
+                                                  && (x.EndDate >= sDate | x.TypeItem.Group.Id == (int)EnumsAndConstants.MeetingTypeGroup.SelfStudy)
                                                   ;
 
 
