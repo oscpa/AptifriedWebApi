@@ -169,7 +169,7 @@ namespace AptifyWebApi.Helpers
               var qry = "";
             //No keyword search for you!
             if (!useKeywordRanking || String.IsNullOrWhiteSpace(searchText))
-                qry = "SELECT 100 as Relevance, " + baseSelectColumns + " from vwMeetingsTiny mt order by mt.startdate";
+                qry = "SELECT 0 as Relevance, " + baseSelectColumns + " from vwMeetingsTiny mt order by mt.startdate";
                     //return res.List<T>();
             else
             {
