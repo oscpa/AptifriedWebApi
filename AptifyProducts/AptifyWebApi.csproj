@@ -267,11 +267,13 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate">
-      <HintPath>..\..\..\..\Documents\Visual Studio 2012\Projects\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
+    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate.OData">
-      <HintPath>..\..\..\..\Documents\Visual Studio 2012\Projects\packages\NHibernate.OData.0.3.0.0\lib\net35\NHibernate.OData.dll</HintPath>
+    <Reference Include="NHibernate.OData, Version=0.3.0.0, Culture=neutral, PublicKeyToken=d2da1ed826cfe201, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\NHibernate.OData.0.3.0.0\lib\net35\NHibernate.OData.dll</HintPath>
     </Reference>
     <Reference Include="OrderAddressFlowdown">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OrderAddressFlowdown.dll</HintPath>
@@ -711,7 +713,6 @@
     <Compile Include="Models\Shared\BaseModel.cs" />
     <Compile Include="Models\Shared\EnumsAndConstants.cs" />
     <Compile Include="Models\Shared\MsSqlDialectExtend.cs" />
-    <Compile Include="Models\Shared\SearchCounts.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
     <Compile Include="Repository\NhibernateBaseRepository.cs" />
     <Compile Include="Repository\HibernatedAptifriedClassRepository.cs" />

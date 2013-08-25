@@ -31,29 +31,15 @@ namespace AptifyWebApi.Controllers
         {
             var cnt = 0;
 
-            //TODO: Refactor.  Add post call for CreditTypesCount
             if(search.HasMeetingTypeItems)
                 foreach (var mType in search.MeetingTypes.Where(mType => mType.Group.IsNotNull() && mType.Group.Id.IsNotNull()))
-                {
-                    if (SearchCounts.MeetingSearch.Groups.NeedsUpdate(mType.Group.Id))
-                        SearchCounts.MeetingSearch.Groups.Update(mType.Group.Id,
-                            new SearchRepository<AptifriedMeetingT, AptifriedMeetingSearchDto>(session).Search(
-                                search, false).Count());
+                    cnt += new SearchRepository<AptifriedMeetingT, AptifriedMeetingSearchDto>(session).Search(search, false).Count());
 
-                    cnt += SearchCounts.MeetingSearch.Groups.GetCount(mType.Group.Id);
-                }
-
+           
             if (search.HasMeetingTypeItems)
                 foreach (var mType in search.MeetingTypes.Where(mType => mType.Type.IsNotNull() && mType.Type.Id.IsNotNull()))
-                {
-                    if (SearchCounts.MeetingSearch.Types.NeedsUpdate(mType.Type.Id))
-                        SearchCounts.MeetingSearch.Types.Update(mType.Type.Id,
-                            new SearchRepository<AptifriedMeetingT, AptifriedMeetingSearchDto>(session).Search(
-                                search, false).Count());
-
-                    cnt += SearchCounts.MeetingSearch.Types.GetCount(mType.Type.Id);
-                }
-            
+                    cnt += new SearchRepository<AptifriedMeetingT, AptifriedMeetingSearchDto>(session).Search(search, false).Count());
+ 
           return new AptifriedMeetingCountResultsDto
             {
                 SearchEntered = search,
