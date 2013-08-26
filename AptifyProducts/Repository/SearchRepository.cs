@@ -21,31 +21,6 @@ using NHibernate.Criterion;
 
 #endregion
 
-/*
- 
-We've made it easier to find products by category (We can adjust the types of categories we use when we have new groupings)
-We've simplified the filters as members don't use them
-Items in tabe will order as they should and have sort filters specific to them
-In person order by options = Date, Distance, Relevance
-Online = Date Relevance
-Self study = Relevance  
-We've removed infinite scroll and added pagination 
-We've added a large box to ensure that other options are known even if tabs are ignored
-
-Search Improvements 
-    DONE:   Tabbed results list by product grouping
-    DONE:   Initial search results load will be populated with a list of courses within 60 miles of the users current location as priority items
-    DONE    Filter changes based on the type of events you are looking at (Example remove radius id viewing on-line or on-demand)
-            Export results list to excel
-    DONE:   Direct link to a results list from a custom URL
-
- */
-
-//---------------------------------------------------------------------
-
-//TODO: Filter - Date sort order (from search obj/enum)
-//  each tab has dropdown to order by dynamic x,y,z
-
 //TODO: Export search to excel
 
 //---------------------------------------------------------------------
@@ -62,6 +37,7 @@ Search Improvements
 
 namespace AptifyWebApi.Repository
 {
+    //TODO: Abstract this down a level
     public class SearchRepository<T, TD> : NHibernateBaseRepository<ISession, T>
         where T : AptifriedMeetingT
         where TD : AptifriedMeetingSearchDto
@@ -137,7 +113,9 @@ namespace AptifyWebApi.Repository
                                                   && x.Product.WebEnabled
                                                   && x.Product.IsSold
                                                   && x.TypeItem != null
-                                                  && (x.EndDate >= sDate | x.TypeItem.Group.Id == (int)EnumsAndConstants.MeetingTypeGroup.SelfStudy)
+                                                  && (x.EndDate >= sDate 
+                                                        | x.TypeItem.Group.Id == (int)EnumsAndConstants.MeetingTypeGroup.SelfStudy)
+                                                  && x.TypeItem.Type.Id != (int)EnumsAndConstants.MeetingType.Session
                                                   ;
 
 
