@@ -31,13 +31,16 @@ namespace AptifyWebApi.Controllers
         {
             var cnt = 0;
 
-            if(search.HasMeetingTypeItems)
-                foreach (var mType in search.MeetingTypes.Where(mType => mType.Group.IsNotNull() && mType.Group.Id.IsNotNull()))
-                    cnt += new SearchRepository<AptifriedMeetingT, AptifriedMeetingSearchDto>(session).Search(search, false).Count();
-            else if (search.HasMeetingTypeItems)
-                foreach (var mType in search.MeetingTypes.Where(mType => mType.Type.IsNotNull() && mType.Type.Id.IsNotNull()))
-                    cnt += new SearchRepository<AptifriedMeetingT, AptifriedMeetingSearchDto>(session).Search(search, false).Count();
-          
+            if (search.HasMeetingTypeItems)
+            {
+                if (search.HasTypeGroups)
+                    foreach (var mType in search.MeetingTypes.Where(mType => mType.Group.IsNotNull() && mType.Group.Id.IsNotNull()))
+                        cnt += new SearchRepository<AptifriedMeetingT, AptifriedMeetingSearchDto>(session).Search(search, false).Count();
+
+                else if (search.HasMeetingTypes)
+                    foreach (var mType in search.MeetingTypes.Where(mType => mType.Type.IsNotNull() && mType.Type.Id.IsNotNull()))
+                        cnt += new SearchRepository<AptifriedMeetingT, AptifriedMeetingSearchDto>(session).Search(search, false).Count();
+            }
             return new AptifriedMeetingCountResultsDto
             {
                 SearchEntered = search,

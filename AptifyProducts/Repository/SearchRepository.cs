@@ -69,22 +69,22 @@ namespace AptifyWebApi.Repository
             if (sParams.IsDateSearch)
                 filterList.Add(DateFilter(sParams));
 
-            if (sParams.HasCreditTypes)
-                filterList.Add(CreditTypeFilter(sParams));
-
+            if(sParams.HasCreditTypes)
+           filterList.Add(CreditTypeFilter(sParams));
+          
             if (sParams.IsZipSearch)
                 filterList.Add(ZipCodeFilter(sParams));
 
 
-            if (sParams.HasLevels)
-                filterList.Add(LevelsFilter(sParams));
+            //if (sParams.HasLevels)
+            //    filterList.Add(LevelsFilter(sParams));
 
 
             if (sParams.HasTypeGroups)
                 filterList.Add(MeetingTypesGroupFilter(sParams));
 
 
-            if (sParams.HasMeetingTypes && NotAllTypeOptionsSelected(sParams))
+            if (sParams.HasMeetingTypes)
                 filterList.Add(MeetingTypesFilter(sParams));
 
 
@@ -108,13 +108,15 @@ namespace AptifyWebApi.Repository
 
         private static Expression<Func<T, bool>> BaseFilter(TD sParam)
         {
+            // 
+                                                        //| x.TypeItem.Group.Id == (int)EnumsAndConstants.MeetingTypeGroup.SelfStudy//
+            //x.StatusId.IsNotNull() && x.StatusId == 1
             var sDate = sParam.StartDate ?? DateTime.Now;
-            Expression<Func<T, bool>> expr = x => x.StatusId.IsNotNull() && x.StatusId == 1
-                                                  && x.Product.WebEnabled
+            Expression<Func<T, bool>> expr = x => 
+                                                  x.Product.WebEnabled
                                                   && x.Product.IsSold
                                                   && x.TypeItem != null
-                                                  && (x.EndDate >= sDate 
-                                                        | x.TypeItem.Group.Id == (int)EnumsAndConstants.MeetingTypeGroup.SelfStudy)
+                                                  && (x.EndDate >= sDate)
                                                   ;
 
 
@@ -180,6 +182,7 @@ namespace AptifyWebApi.Repository
             //Expression<Func<T, bool>> expr = x => x.Credits.Any(y => sParams.CreditTypes.Any(z => z.Id == y.Category.Id));
 
             //grab selected ids
+
             var mIds = Context.GetMeetingIdsInEducationUnitCategories(sParams);
 
             Expression<Func<T, bool>> expr = x => mIds.Contains(x.Id);

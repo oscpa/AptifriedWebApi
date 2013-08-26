@@ -15,6 +15,12 @@ namespace AptifyWebApi.Models.Shared
             Session = 8,
         }
 
+        public static int EducationCategoriesCount = 7;
+        public enum EducationCategories
+        {
+            Na = 6,
+        }
+
         public enum MeetingTypeGroup
         {
             [Description("InPerson")] InPerson = 4,

@@ -279,13 +279,37 @@ namespace AptifyWebApi.Helpers
         
         public static IList<int> GetMeetingIdsInEducationUnitCategories(this ISession session, AptifriedMeetingSearchDto sParams)
         {
+            /*
              var ids = sParams.CreditTypes.Select(x => x.Id).ToList();
+             ids.Add((int)EnumsAndConstants.EducationCategories.Mu);//Forcing MU
 
+             if (sParams.CreditTypes.Count == 0)
+             {
+                 sParams.CreditTypes.Add(1);
+                 sParams.CreditTypes.Add(2);
+                 sParams.CreditTypes.Add(3);
+                 sParams.CreditTypes.Add(9);
+                 sParams.CreditTypes.Add(11);
+                 sParams.CreditTypes.Add(12);
+             }
+
+             if (sParams.CreditTypes.Count == EnumsAndConstants.EducationCategoriesCount)
+                 ids.Add((int)EnumsAndConstants.EducationCategories.Na);
+ 
             var mIds = session.QueryOver<AptifriedMeetingEductionUnits>().Select(x => x.MeetingId)
                 .Where(x => x.Category.Id.IsIn(ids)).List<int>();
            
             return mIds;
+            */
 
+            var ids = sParams.CreditTypes.Select(x => x.Id).ToList();
+            //ids.Add((int)EnumsAndConstants.EducationCategories.Na);
+
+            var mIds = session.QueryOver<AptifriedMeetingEductionUnits>().Select(x => x.MeetingId)
+                .Where(x => x.Category.Id.IsIn(ids)).List<int>();
+
+            return mIds;
         }
+         
     }
 }
