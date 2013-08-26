@@ -302,6 +302,8 @@ namespace AptifyWebApi.Helpers
             return mIds;
             */
 
+            //add na type
+            //add pd type
             var ids = sParams.CreditTypes.Select(x => x.Id).ToList();
             //ids.Add((int)EnumsAndConstants.EducationCategories.Na);
 
