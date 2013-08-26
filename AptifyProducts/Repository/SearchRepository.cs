@@ -115,7 +115,6 @@ namespace AptifyWebApi.Repository
                                                   && x.TypeItem != null
                                                   && (x.EndDate >= sDate 
                                                         | x.TypeItem.Group.Id == (int)EnumsAndConstants.MeetingTypeGroup.SelfStudy)
-                                                  && x.TypeItem.Type.Id != (int)EnumsAndConstants.MeetingType.Session
                                                   ;
 
 
