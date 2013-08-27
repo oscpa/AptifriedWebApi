@@ -22,5 +22,7 @@ namespace AptifyWebApi.Dto
         /// Couldn't strongly type this column becuase we don't enforce referential integrity on it.
         /// </summary>
         public int ClassLevelId { get; set; }
+
+		public int ParentId { get; set; }
     }
 }
