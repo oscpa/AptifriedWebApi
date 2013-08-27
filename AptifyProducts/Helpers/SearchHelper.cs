@@ -169,15 +169,12 @@ namespace AptifyWebApi.Helpers
            **/
             
               var qry = "";
-            //No keyword search for you!
+            //No keyword search for you! 
             if (!useKeywordRanking || String.IsNullOrWhiteSpace(searchText))
             {
                 searchBase.AppendLine("SELECT 0 as Relevance, " + baseSelectColumns + " from vwMeetingsTiny mt");
                 searchOrderBy.AppendLine("order by mt.startdate");
-           
-                qry = String.Concat(searchBase, searchWhere, searchOrderBy); 
             }
-                    //return res.List<T>();
             else
             {
 
