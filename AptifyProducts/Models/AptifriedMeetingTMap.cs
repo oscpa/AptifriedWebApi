@@ -1,4 +1,6 @@
 ﻿using System;
+using NHibernate.Criterion;
+
 #region using
 
 using FluentNHibernate.Conventions;
@@ -20,7 +22,7 @@ namespace AptifyWebApi.Models.Meeting
             Map(x => x.OpenTime)
                 .CustomType("TimeAsTimeSpan");
             Map(x => x.ClassLevelId);
-            Map(x => x.Relevance).Nullable();
+            Map(x => x.Relevance);
             Map(x => x.StatusId).Column("StatusID");
             //Map(x => x.Miles).Nullable();
             References(x => x.Product).Column("ProductID");

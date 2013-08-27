@@ -153,6 +153,8 @@ namespace AptifyWebApi.Helpers
 
             var searchBase = new StringBuilder();
             var searchWhere = new StringBuilder();
+            searchWhere.AppendLine("where mt.webenabled = 1 and mt.IsSold = 1 and mt.EndDate > GETDATE() and mt.MeetingTypeId is not null");
+           
             var searchOrderBy = new StringBuilder();
              const string baseSelectColumns = @"mt.ID, mt.MeetingTitle, mt.MeetingTypeGroupId, mt.StartDate, mt.EndDate, mt.OpenTime, mt.ClassLevelID, mt.ProductID, mt.StatusID, mt.MeetingTypeID, mt.AddressID, mt.VenueID";
                
@@ -169,7 +171,12 @@ namespace AptifyWebApi.Helpers
               var qry = "";
             //No keyword search for you!
             if (!useKeywordRanking || String.IsNullOrWhiteSpace(searchText))
-                qry = "SELECT 0 as Relevance, " + baseSelectColumns + " from vwMeetingsTiny mt order by mt.startdate";
+            {
+                searchBase.AppendLine("SELECT 0 as Relevance, " + baseSelectColumns + " from vwMeetingsTiny mt");
+                searchOrderBy.AppendLine("order by mt.startdate");
+           
+                qry = String.Concat(searchBase, searchWhere, searchOrderBy); 
+            }
                     //return res.List<T>();
             else
             {
@@ -219,7 +226,7 @@ namespace AptifyWebApi.Helpers
 
                 // Filter out where relevance < epsilon
                 const float epsilon = 0;
-                searchWhere.AppendLine(String.Format("where {0} > {1}", rankString, epsilon));
+                searchWhere.AppendLine(String.Format("and {0} > {1}", rankString, epsilon));
 
                 // We don't need to worry about clobbering any sort logic here because it won't have been defined yet
                 searchOrderBy.AppendLine(String.Format("order by {0} desc, mt.startdate", rankString));
@@ -227,9 +234,9 @@ namespace AptifyWebApi.Helpers
                 searchBase.BuildContainsTableJoins(searchStringContainsTable, subrankMaps);
                 searchBase.BuildFreeTextTableJoins(searchStringFreeTextTables, subrankMaps);
 
-                qry = String.Concat(searchBase, searchWhere, searchOrderBy);
             }
-            
+
+            qry = String.Concat(searchBase, searchWhere, searchOrderBy);    
 
             var meetingQuery = session.CreateSQLQuery(qry)
                                       .AddEntity("mt", typeof(T));
