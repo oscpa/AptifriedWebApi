@@ -30,5 +30,7 @@ namespace AptifyWebApi.Models
         /// meetings, as there are invalid primary keys. worthless.
         /// </summary>
         public virtual int ClassLevelId { get; set; }
+
+		public virtual int ParentId { get; set; }
     }
 }
