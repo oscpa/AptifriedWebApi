@@ -24,7 +24,7 @@ namespace AptifyWebApi.Controllers {
 			 **/
 			string conferenceMeetingQuery =
 				" Select	M.* " +
-				" from	vwMeetingsTiny M " +
+				" from	vwMeetings M " +
 				" Join	vwProductsTiny P ON M.ProductID = P.ID " +
 				" WHERE P.ID IN " +
 				"	(	Select ProductID " +

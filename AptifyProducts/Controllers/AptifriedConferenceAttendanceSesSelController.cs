@@ -24,7 +24,7 @@ namespace AptifyWebApi.Controllers
             // had to break this out into a query for the function i call. not sure how to wire them up
             string attendanceQuery =
                 " select mt.* " +
-                " from vwMeetingsTiny mt " +
+                " from vwMeetings mt " +
                 " where  " +
                 " mt.ID in ( " +
                 " 	select omd.MeetingID " +
