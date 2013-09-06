@@ -14,7 +14,6 @@ namespace AptifyWebApi.Helpers
             return Equals(obj, default(T));
         }
 
-
         public static bool IsNotNull<T>(this T obj)
         {
             return !obj.IsNull();
