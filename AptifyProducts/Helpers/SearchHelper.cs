@@ -70,17 +70,6 @@ namespace AptifyWebApi.Helpers
             const double constlong = 57.2957795130823;
             
     //TODO: Add Miles to AptifriedMeeting/Dto
-            /*
-            var sql = string.Format(@"SELECT m.Id, z.Long as Longitude,z.Lat as Latitude,a.PostalCode5Numeric as PostalCode,
-                CEILING(3958.75586574 * ACOS(SIN({0}/{2}) * SIN(z.Lat/{2}) + COS({0}/{2}) * COS(z.lat/{2}) * COS(z.Long/{2} - {1}/{2}))) as Miles
-                FROM vwAddresses a WITH(NoLock)
-                INNER JOIN vwMeetingsTiny m WITH(NoLock) ON a.id = m.addressID and m.MeetingTypeID not in (6)
-                INNER JOIN vwProducts p WITH(NoLock) ON m.ProductID = p.ID AND p.IsSold = 1 AND p.WebEnabled = 1
-                INNER JOIN vwZipCodes z WITH(NoLock) ON z.ZIPCode =  a.PostalCode5Numeric and z.CountryCodeID = '222'
-                WHERE
-                CEILING(3958.75586574 * ACOS(SIN({0}/{2}) * SIN(z.Lat/{2}) + COS({0}/{2}) * COS(z.lat/{2}) * COS(z.Long/{2} - {1}/{2}))) <= {3}", zLat, zLong, constlong,milesDistance);
-*/
-
             var sql = string.Format(@"SELECT m.Id
                 FROM vwAddresses a WITH(NoLock)
                 INNER JOIN vwMeetingsTiny m WITH(NoLock) ON a.id = m.addressID and m.MeetingTypeID not in (6)
@@ -127,7 +116,7 @@ namespace AptifyWebApi.Helpers
                                  x =>
                                  x.Status.ToLowerInvariant()
                                   .Equals(
-                                      EnumsAndConstants.EducationCategoryStatusActive
+                                      Constants.EducationCategoryStatusActive
                                                                              .ToLowerInvariant()));
 
             return qry.ToList();
@@ -153,7 +142,7 @@ namespace AptifyWebApi.Helpers
 
             var searchBase = new StringBuilder();
             var searchWhere = new StringBuilder();
-            searchWhere.AppendLine("where mt.webenabled = 1 and mt.IsSold = 1 and mt.EndDate > GETDATE() and mt.MeetingTypeId is not null");
+            searchWhere.AppendLine("where mt.webenabled = 1 and mt.IsSold = 1 and mt.EndDate > GETDATE() and mt.MeetingTypeId is not null");//base filter
            
             var searchOrderBy = new StringBuilder();
              const string baseSelectColumns = @"mt.ID, mt.MeetingTitle, mt.MeetingTypeGroupId, mt.StartDate, mt.EndDate, mt.OpenTime, mt.ClassLevelID, mt.ProductID, mt.StatusID, mt.MeetingTypeID, mt.AddressID, mt.VenueID";
@@ -168,7 +157,7 @@ namespace AptifyWebApi.Helpers
            * In the future, these should be derived evolutionarily or by some other ML method.
            **/
             
-              var qry = "";
+              var qry = string.Empty;
             //No keyword search for you! 
             if (!useKeywordRanking || String.IsNullOrWhiteSpace(searchText))
             {
@@ -283,34 +272,13 @@ namespace AptifyWebApi.Helpers
         
         public static IList<int> GetMeetingIdsInEducationUnitCategories(this ISession session, AptifriedMeetingSearchDto sParams)
         {
-            /*
-             var ids = sParams.CreditTypes.Select(x => x.Id).ToList();
-             ids.Add((int)EnumsAndConstants.EducationCategories.Mu);//Forcing MU
+           var ids = sParams.CreditTypes.Select(x => x.Id).ToList();
+           ids.Add((int)Enums.EducationCategoriesActiveNotInUi.Na);//Forcing Na
 
-             if (sParams.CreditTypes.Count == 0)
-             {
-                 sParams.CreditTypes.Add(1);
-                 sParams.CreditTypes.Add(2);
-                 sParams.CreditTypes.Add(3);
-                 sParams.CreditTypes.Add(9);
-                 sParams.CreditTypes.Add(11);
-                 sParams.CreditTypes.Add(12);
-             }
-
-             if (sParams.CreditTypes.Count == EnumsAndConstants.EducationCategoriesCount)
-                 ids.Add((int)EnumsAndConstants.EducationCategories.Na);
- 
-            var mIds = session.QueryOver<AptifriedMeetingEductionUnits>().Select(x => x.MeetingId)
-                .Where(x => x.Category.Id.IsIn(ids)).List<int>();
-           
-            return mIds;
-            */
-
-            //add na type
-            //add pd type
-            var ids = sParams.CreditTypes.Select(x => x.Id).ToList();
-            //ids.Add((int)EnumsAndConstants.EducationCategories.Na);
-
+            if (sParams.CreditTypes.Count >= (session.GetActiveDbEducationCategoryCount() - Enum.GetNames(typeof (Enums.EducationCategoriesActiveNotInUi)).Length)) 
+                //grab all active and subtract enums that are active, but not used in Ui
+                ids.Add((int)Enums.EducationCategoriesActiveNotInUi.Mu);//Forcing MU
+            
             var mIds = session.QueryOver<AptifriedMeetingEductionUnits>().Select(x => x.MeetingId)
                 .Where(x => x.Category.Id.IsIn(ids)).List<int>();
 

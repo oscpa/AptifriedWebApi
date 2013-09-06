@@ -12,7 +12,7 @@ namespace AptifyWebApi.Helpers
     {
         public static bool IsActive(this AptifriedEducationCategory ec)
         {
-            return ec.Status.ToLowerInvariant().Equals(EnumsAndConstants.EducationCategoryStatusActive.ToLowerInvariant());
+            return ec.Status.ToLowerInvariant().Equals(Constants.EducationCategoryStatusActive.ToLowerInvariant());
         }
     }
 }

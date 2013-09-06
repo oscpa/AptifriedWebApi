@@ -35,15 +35,15 @@ namespace AptifyWebApi.Helpers
 
         #region Mapping Table Needed
 
-        public static int GetMinDays(this EnumsAndConstants.MeetingType enumVal)
+        public static int GetMinDays(this Enums.MeetingType enumVal)
         {
             var attribute = enumVal.GetAttributeOfType<MinDays>();
 
             return attribute.Days;
         }
 
-        public static EnumsAndConstants.MeetingTypeGroup CategoryId(
-            this EnumsAndConstants.MeetingType enumVal)
+        public static Enums.MeetingTypeGroup CategoryId(
+            this Enums.MeetingType enumVal)
         {
             var attribute = enumVal.GetAttributeOfType<MeetingTypeCategoryAttr>();
 
@@ -54,12 +54,12 @@ namespace AptifyWebApi.Helpers
         public static IEnumerable<int> GetMeetingTypeIdsByCategoryDescription(string mTypeDesc)
         {
             var categoryId =
-                (EnumsAndConstants.MeetingTypeGroup)
-                Enum.Parse(typeof (EnumsAndConstants.MeetingTypeGroup), mTypeDesc, true);
+                (Enums.MeetingTypeGroup)
+                Enum.Parse(typeof (Enums.MeetingTypeGroup), mTypeDesc, true);
 
             return
-                Enum.GetValues(typeof (EnumsAndConstants.MeetingType))
-                    .Cast<EnumsAndConstants.MeetingType>()
+                Enum.GetValues(typeof (Enums.MeetingType))
+                    .Cast<Enums.MeetingType>()
                     .Where(m => m.CategoryId() == categoryId)
                     .ToList()
                     .Cast<int>();
@@ -67,8 +67,8 @@ namespace AptifyWebApi.Helpers
 
         public static int GetMeetingTypeIdByName(string mTypeName)
         {
-            var id = (EnumsAndConstants.MeetingType)
-                Enum.Parse(typeof(EnumsAndConstants.MeetingType), mTypeName, true);
+            var id = (Enums.MeetingType)
+                Enum.Parse(typeof(Enums.MeetingType), mTypeName, true);
 
             return (int)id;
         }
@@ -76,14 +76,14 @@ namespace AptifyWebApi.Helpers
         [AttributeUsage(AttributeTargets.Field)]
         public class MeetingTypeCategoryAttr : Attribute
         {
-            private readonly EnumsAndConstants.MeetingTypeGroup _meetingTypeCategory;
+            private readonly Enums.MeetingTypeGroup _meetingTypeCategory;
 
-            public MeetingTypeCategoryAttr(EnumsAndConstants.MeetingTypeGroup mCat)
+            public MeetingTypeCategoryAttr(Enums.MeetingTypeGroup mCat)
             {
                 _meetingTypeCategory = mCat;
             }
 
-            public EnumsAndConstants.MeetingTypeGroup MeetingTypeCategory
+            public Enums.MeetingTypeGroup MeetingTypeCategory
             {
                 get { return _meetingTypeCategory; }
             }

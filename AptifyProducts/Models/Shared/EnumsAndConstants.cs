@@ -7,7 +7,7 @@ using AptifyWebApi.Helpers;
 
 namespace AptifyWebApi.Models.Shared
 {
-    public class EnumsAndConstants
+    public class Enums
     {
         public enum MeetingType
         {
@@ -15,9 +15,9 @@ namespace AptifyWebApi.Models.Shared
             Session = 8,
         }
 
-        public static int EducationCategoriesCount = 7;
-        public enum EducationCategories
+        public enum EducationCategoriesActiveNotInUi
         {
+            Mu = 5,
             Na = 6,
         }
 
@@ -27,7 +27,10 @@ namespace AptifyWebApi.Models.Shared
             [Description("OnLine")] Online = 2,
             [Description("Self-Study")] SelfStudy = 3
         }
+    }
 
+    public class Constants
+    {
         //Column as bit in database would be ideal.
         public static string EducationCategoryStatusActive = "Active";
         public static string EducationCategoryStatusInactive = "Inactive";

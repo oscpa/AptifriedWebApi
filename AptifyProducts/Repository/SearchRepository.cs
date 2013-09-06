@@ -101,7 +101,7 @@ namespace AptifyWebApi.Repository
 
         private static Expression<Func<T, bool>> SessionFilter()
         {
-            Expression<Func<T, bool>> expr = x => x.TypeItem.Type.Id != (int)EnumsAndConstants.MeetingType.Session;
+            Expression<Func<T, bool>> expr = x => x.TypeItem.Type.Id != (int)Enums.MeetingType.Session;
 
             return expr;
         }
@@ -129,7 +129,7 @@ namespace AptifyWebApi.Repository
                                                      sParams.MilesDistance.ToString(CultureInfo.InvariantCulture));
 
             //Expression<Func<T, bool>> expr = x => x.TypeItem.Group.Id == (int)EnumsAndConstants.MeetingTypeGroup.InPerson && addressIdsByZip.Contains(x.Id);
-            Expression<Func<T, bool>> expr = x => x.TypeItem.Group.Id == (int)EnumsAndConstants.MeetingTypeGroup.InPerson && addressIdsByZip.Any(y => y == x.Id);
+            Expression<Func<T, bool>> expr = x => x.TypeItem.Group.Id == (int)Enums.MeetingTypeGroup.InPerson && addressIdsByZip.Any(y => y == x.Id);
             //Select(x => { x.Miles = "foo"; return x; })
 
             return expr;
