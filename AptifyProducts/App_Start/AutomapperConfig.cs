@@ -92,6 +92,7 @@ namespace AptifyWebApi.App_Start
 
             Mapper.CreateMap<AptifriedProduct, AptifriedProductDto>();
             Mapper.CreateMap<AptifriedProductObjective, AptifriedProductObjectiveDto>();
+			Mapper.CreateMap<AptifriedProductPersonNote, AptifriedProductPersonNoteDto>();
             Mapper.CreateMap<AptifriedProductPrice, AptifriedProductPriceDto>();
             Mapper.CreateMap<AptifriedProductRelation, AptifriedProductRelationDto>();
             Mapper.CreateMap<AptifriedProductRelationshipType, AptifriedProductRelationshipTypeDto>();

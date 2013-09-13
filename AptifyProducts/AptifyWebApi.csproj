@@ -460,6 +460,7 @@
     <Compile Include="Controllers\AptifriedMeetingTopicTrackController.cs" />
     <Compile Include="Controllers\AptifriedPersonController.cs" />
     <Compile Include="Controllers\AptifriedProductAttachmentWithThumbnailsController.cs" />
+    <Compile Include="Controllers\AptifriedProductPersonNotesController.cs" />
     <Compile Include="Controllers\AptifriedProductRelationController.cs" />
     <Compile Include="Controllers\AptifriedWebCartController.cs" />
     <Compile Include="Controllers\AptifriedWebNotificationController.cs" />
@@ -487,6 +488,7 @@
     <Compile Include="Dto\AptifriedMeetingTypeDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTypeItemDto.cs" />
     <Compile Include="Dto\AptifriedProductAttachmentWithThumbnailDto.cs" />
+    <Compile Include="Dto\AptifriedProductPersonNoteDto.cs" />
     <Compile Include="Dto\AptifriedProductRelationDto.cs" />
     <Compile Include="Dto\AptifriedProductRelationshipTypeDto.cs" />
     <Compile Include="Dto\AptifriedMeetingSearchResultDto.cs" />
@@ -627,6 +629,8 @@
     <Compile Include="Models\AptifriedMemberStatusTypeMap.cs" />
     <Compile Include="Models\AptifriedMemberType.cs" />
     <Compile Include="Models\AptifriedMemberTypeMap.cs" />
+    <Compile Include="Models\AptifriedProductPersonNote.cs" />
+    <Compile Include="Models\AptifriedProductPersonNoteMap.cs" />
     <Compile Include="Models\AptifriedWebShoppingCartDetailsCount.cs" />
     <Compile Include="Models\AptifriedWebShoppingCartDetailsCountMap.cs" />
     <Compile Include="Models\AptifriedZipCode.cs" />
