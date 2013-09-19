@@ -17,6 +17,7 @@ namespace AptifyWebApi.Models {
 			Map(x => x.Body);
 			Map(x => x.DateCreated);
 			Map(x => x.DateUpdated);
+            Map(x => x.IsActive);
 		}
 	}
 }

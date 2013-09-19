@@ -72,7 +72,10 @@ namespace AptifyWebApi.Controllers {
 
 			AptifyGenericEntityBase noteGe = AptifyApp.GetEntityObject("ProductPersonNotes", noteId);
 			if (noteGe != null) {
-				noteGe.Delete();
+				//noteGe.Delete();
+                noteGe.SetValue("IsActive", false);
+
+                noteGe.Save(false);
 
 				if (!string.IsNullOrEmpty(noteGe.LastUserError)) {
 					throw new HttpException(500, noteGe.LastUserError);

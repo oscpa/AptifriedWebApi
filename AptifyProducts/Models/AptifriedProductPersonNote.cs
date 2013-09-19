@@ -11,5 +11,6 @@ namespace AptifyWebApi.Models {
 		public virtual String Body { get; set; }
 		public virtual DateTime DateCreated { get; set; }
 		public virtual DateTime DateUpdated { get; set; }
+        public virtual Boolean IsActive { get; set; }
 	}
 }

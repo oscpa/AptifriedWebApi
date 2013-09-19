@@ -11,5 +11,6 @@ namespace AptifyWebApi.Dto {
 		public String Body { get; set; }
 		public DateTime DateCreated { get; set; }
 		public DateTime DateUpdated { get; set; }
+        public Boolean IsActive { get; set; }
 	}
 }
