@@ -47,6 +47,7 @@ namespace AptifyWebApi.Controllers {
 			noteGe.SetValue("ProductID", note.Product.Id);
 			noteGe.SetValue("PersonID", note.Person.Id);
 			noteGe.SetValue("Body", note.Body);
+            noteGe.SetValue("IsActive", note.IsActive);
 
 			if (newNoteId == -1) {
 				noteGe.SetValue("DateCreated", System.DateTime.Now);
