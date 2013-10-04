@@ -7,6 +7,7 @@ namespace AptifyWebApi.Dto {
 	public class AptifriedEducationUnitAttachmentDto {
 		public long Id { get; set; }
 		public long EducationUnitId { get; set; }
-		public long AttachmentId { get; set; }
+        public long AttachmentId { get; set; }
+		public AptifriedAttachmentDto Attachment { get; set; }
 	}
 }

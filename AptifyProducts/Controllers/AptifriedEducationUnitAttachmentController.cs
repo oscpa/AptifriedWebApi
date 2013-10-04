@@ -40,9 +40,10 @@ namespace AptifyWebApi.Controllers {
 			return GetForFieldId("EducationUnitID", educationUnitId);
 		}
 
-		public IList<AptifriedEducationUnitAttachmentDto> GetForAttachmentId(long attachmentId) {
-			return GetForFieldId("AttachmentID", attachmentId);
-		}
+        public IList<AptifriedEducationUnitAttachmentDto> GetForAttachmentId(long attachmentId)
+        {
+            return GetForFieldId("AttachmentID", attachmentId);
+        }
 
 		private IList<AptifriedEducationUnitAttachmentDto> GetForFieldId(string field, long id) {
 			var query = "select * from vwEducationUnitAttachments where " + field + " = :id";
