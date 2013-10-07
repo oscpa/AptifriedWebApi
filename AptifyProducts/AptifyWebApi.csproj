@@ -497,7 +497,9 @@
     <Compile Include="Dto\AptifriedProductRelationDto.cs" />
     <Compile Include="Dto\AptifriedProductRelationshipTypeDto.cs" />
     <Compile Include="Dto\AptifriedMeetingSearchResultDto.cs" />
+    <Compile Include="Dto\AptifriedQuestionBranchDto.cs" />
     <Compile Include="Dto\AptifriedQuestionDto.cs" />
+    <Compile Include="Dto\AptifriedQuestionKnowledgeAnswerDto.cs" />
     <Compile Include="Dto\AptifriedQuestionTypeDto.cs" />
     <Compile Include="Dto\AptifriedWebNotificationDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTypeGroupDto.cs" />
@@ -648,6 +650,10 @@
     <Compile Include="Models\AptifriedProductPersonNote.cs" />
     <Compile Include="Models\AptifriedProductPersonNoteMap.cs" />
     <Compile Include="Models\AptifriedQuestion.cs" />
+    <Compile Include="Models\AptifriedQuestionBranch.cs" />
+    <Compile Include="Models\AptifriedQuestionBranchMap.cs" />
+    <Compile Include="Models\AptifriedQuestionKnowledgeAnswer.cs" />
+    <Compile Include="Models\AptifriedQuestionKnowledgeAnswerMap.cs" />
     <Compile Include="Models\AptifriedQuestionMap.cs" />
     <Compile Include="Models\AptifriedQuestionType.cs" />
     <Compile Include="Models\AptifriedQuestionTypeMap.cs" />
