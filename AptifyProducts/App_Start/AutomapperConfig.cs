@@ -49,6 +49,7 @@ namespace AptifyWebApi.App_Start
             Mapper.CreateMap<AptifriedExamQuestion, AptifriedExamQuestionDto>();
             Mapper.CreateMap<AptifriedExamQuestionPossibleAnswers, AptifriedExamQuestionPossibleAnswersDto>();
 
+			Mapper.CreateMap<AptifriedKnowledgeAnswer, AptifriedKnowledgeAnswerDto>();
 			Mapper.CreateMap<AptifriedKnowledgeCaptureMode, AptifriedKnowledgeCaptureModeDto>();
 			Mapper.CreateMap<AptifriedKnowledgeCategory, AptifriedKnowledgeCategoryDto>();
 
