@@ -487,6 +487,7 @@
     <Compile Include="Dto\AptifriedKnowledgeAnswerDto.cs" />
     <Compile Include="Dto\AptifriedKnowledgeCaptureModeDto.cs" />
     <Compile Include="Dto\AptifriedKnowledgeCategoryDto.cs" />
+    <Compile Include="Dto\AptifriedKnowledgeDeliveryTypeDto.cs" />
     <Compile Include="Dto\AptifriedKnowledgeStatusDto.cs" />
     <Compile Include="Dto\AptifriedKnowledgeTrackingTypeDto.cs" />
     <Compile Include="Dto\AptifriedMeetingSearchDto.cs" />
@@ -497,6 +498,7 @@
     <Compile Include="Dto\AptifriedProductRelationDto.cs" />
     <Compile Include="Dto\AptifriedProductRelationshipTypeDto.cs" />
     <Compile Include="Dto\AptifriedMeetingSearchResultDto.cs" />
+    <Compile Include="Dto\AptifriedQuestionBranchAnswerBranchDto.cs" />
     <Compile Include="Dto\AptifriedQuestionBranchDto.cs" />
     <Compile Include="Dto\AptifriedQuestionDto.cs" />
     <Compile Include="Dto\AptifriedQuestionKnowledgeAnswerDto.cs" />
@@ -629,6 +631,8 @@
     <Compile Include="Models\AptifriedKnowledgeCaptureModeMap.cs" />
     <Compile Include="Models\AptifriedKnowledgeCategory.cs" />
     <Compile Include="Models\AptifriedKnowledgeCategoryMap.cs" />
+    <Compile Include="Models\AptifriedKnowledgeDeliveryType.cs" />
+    <Compile Include="Models\AptifriedKnowledgeDeliveryTypeMap.cs" />
     <Compile Include="Models\AptifriedKnowledgeStatus.cs" />
     <Compile Include="Models\AptifriedKnowledgeStatusMap.cs" />
     <Compile Include="Models\AptifriedKnowledgeTrackingType.cs" />
@@ -651,6 +655,8 @@
     <Compile Include="Models\AptifriedProductPersonNoteMap.cs" />
     <Compile Include="Models\AptifriedQuestion.cs" />
     <Compile Include="Models\AptifriedQuestionBranch.cs" />
+    <Compile Include="Models\AptifriedQuestionBranchAnswerBranch.cs" />
+    <Compile Include="Models\AptifriedQuestionBranchAnswerBranchMap.cs" />
     <Compile Include="Models\AptifriedQuestionBranchMap.cs" />
     <Compile Include="Models\AptifriedQuestionKnowledgeAnswer.cs" />
     <Compile Include="Models\AptifriedQuestionKnowledgeAnswerMap.cs" />
