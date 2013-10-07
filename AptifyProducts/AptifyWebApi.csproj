@@ -484,6 +484,8 @@
     <Compile Include="Dto\AptifriedEducationUnitAggregateDto.cs" />
     <Compile Include="Dto\AptifriedEducationUnitAttachmentDto.cs" />
     <Compile Include="Dto\AptifriedEducationUnitDto.cs" />
+    <Compile Include="Dto\AptifriedKnowledgeCaptureModeDto.cs" />
+    <Compile Include="Dto\AptifriedKnowledgeCategoryDto.cs" />
     <Compile Include="Dto\AptifriedMeetingSearchDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTypeDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTypeItemDto.cs" />
@@ -615,6 +617,10 @@
     <Compile Include="Models\AptifriedExamQuestionMap.cs" />
     <Compile Include="Models\AptifriedExamQuestionPossibleAnswers.cs" />
     <Compile Include="Models\AptifriedExamQuestionPossibleAnswersMap.cs" />
+    <Compile Include="Models\AptifriedKnowledgeCaptureMode.cs" />
+    <Compile Include="Models\AptifriedKnowledgeCaptureModeMap.cs" />
+    <Compile Include="Models\AptifriedKnowledgeCategory.cs" />
+    <Compile Include="Models\AptifriedKnowledgeCategoryMap.cs" />
     <Compile Include="Models\AptifriedLicenseStatus.cs" />
     <Compile Include="Models\AptifriedLicenseStatusMap.cs" />
     <Compile Include="Models\AptifriedMeetingT.cs" />
