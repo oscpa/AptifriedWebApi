@@ -484,8 +484,11 @@
     <Compile Include="Dto\AptifriedEducationUnitAggregateDto.cs" />
     <Compile Include="Dto\AptifriedEducationUnitAttachmentDto.cs" />
     <Compile Include="Dto\AptifriedEducationUnitDto.cs" />
+    <Compile Include="Dto\AptifriedKnowledgeAnswerDto.cs" />
     <Compile Include="Dto\AptifriedKnowledgeCaptureModeDto.cs" />
     <Compile Include="Dto\AptifriedKnowledgeCategoryDto.cs" />
+    <Compile Include="Dto\AptifriedKnowledgeStatusDto.cs" />
+    <Compile Include="Dto\AptifriedKnowledgeTrackingTypeDto.cs" />
     <Compile Include="Dto\AptifriedMeetingSearchDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTypeDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTypeItemDto.cs" />
@@ -494,6 +497,7 @@
     <Compile Include="Dto\AptifriedProductRelationDto.cs" />
     <Compile Include="Dto\AptifriedProductRelationshipTypeDto.cs" />
     <Compile Include="Dto\AptifriedMeetingSearchResultDto.cs" />
+    <Compile Include="Dto\AptifriedQuestionTypeDto.cs" />
     <Compile Include="Dto\AptifriedWebNotificationDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTypeGroupDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTDto.cs" />
@@ -617,10 +621,15 @@
     <Compile Include="Models\AptifriedExamQuestionMap.cs" />
     <Compile Include="Models\AptifriedExamQuestionPossibleAnswers.cs" />
     <Compile Include="Models\AptifriedExamQuestionPossibleAnswersMap.cs" />
+    <Compile Include="Models\AptifriedKnowledgeAnswerMap.cs" />
     <Compile Include="Models\AptifriedKnowledgeCaptureMode.cs" />
     <Compile Include="Models\AptifriedKnowledgeCaptureModeMap.cs" />
     <Compile Include="Models\AptifriedKnowledgeCategory.cs" />
     <Compile Include="Models\AptifriedKnowledgeCategoryMap.cs" />
+    <Compile Include="Models\AptifriedKnowledgeStatus.cs" />
+    <Compile Include="Models\AptifriedKnowledgeStatusMap.cs" />
+    <Compile Include="Models\AptifriedKnowledgeTrackingType.cs" />
+    <Compile Include="Models\AptifriedKnowledgeTrackingTypeMap.cs" />
     <Compile Include="Models\AptifriedLicenseStatus.cs" />
     <Compile Include="Models\AptifriedLicenseStatusMap.cs" />
     <Compile Include="Models\AptifriedMeetingT.cs" />
@@ -637,6 +646,8 @@
     <Compile Include="Models\AptifriedMemberTypeMap.cs" />
     <Compile Include="Models\AptifriedProductPersonNote.cs" />
     <Compile Include="Models\AptifriedProductPersonNoteMap.cs" />
+    <Compile Include="Models\AptifriedQuestionType.cs" />
+    <Compile Include="Models\AptifriedQuestionTypeMap.cs" />
     <Compile Include="Models\AptifriedWebShoppingCartDetailsCount.cs" />
     <Compile Include="Models\AptifriedWebShoppingCartDetailsCountMap.cs" />
     <Compile Include="Models\AptifriedZipCode.cs" />
@@ -713,6 +724,7 @@
     <Compile Include="Models\AptifriedMeetingMedia.cs" />
     <Compile Include="Models\AptifriedMeetingTypeItem.cs" />
     <Compile Include="Models\AptifriedMeetingTypeItemMap.cs" />
+    <Compile Include="Models\AptifriedKnowledgeAnswer.cs" />
     <Compile Include="Models\SessionSelection\AptifriedCancelledMeetingSessions.cs" />
     <Compile Include="Models\SessionSelection\AptifriedCancelledMeetingSessionsMap.cs" />
     <Compile Include="Models\SessionSelection\AptifriedMeetingSessionLog.cs" />

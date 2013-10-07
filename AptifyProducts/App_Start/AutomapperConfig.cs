@@ -125,6 +125,8 @@ namespace AptifyWebApi.App_Start
             Mapper.CreateMap<AptifriedOrder, AptifriedCompletedOrderDto>();
             Mapper.CreateMap<AptifriedOrderLine, AptifriedCompletedOrderLineDto>();
 
+			Mapper.CreateMap<AptifriedQuestionType, AptifriedQuestionTypeDto>();
+
             Mapper.CreateMap<OrdersEntity, AptifriedOrderDto>()
                   .ForMember(dto => dto.Id, m => m.MapFrom(ao => ao.RecordID))
                   .ForMember(dto => dto.Lines, m => m.ResolveUsing<OrderLinesResolver>()
