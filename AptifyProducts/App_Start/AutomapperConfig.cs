@@ -125,6 +125,7 @@ namespace AptifyWebApi.App_Start
             Mapper.CreateMap<AptifriedOrder, AptifriedCompletedOrderDto>();
             Mapper.CreateMap<AptifriedOrderLine, AptifriedCompletedOrderLineDto>();
 
+			Mapper.CreateMap<AptifriedQuestion, AptifriedQuestionDto>();
 			Mapper.CreateMap<AptifriedQuestionType, AptifriedQuestionTypeDto>();
 
             Mapper.CreateMap<OrdersEntity, AptifriedOrderDto>()

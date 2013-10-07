@@ -497,6 +497,7 @@
     <Compile Include="Dto\AptifriedProductRelationDto.cs" />
     <Compile Include="Dto\AptifriedProductRelationshipTypeDto.cs" />
     <Compile Include="Dto\AptifriedMeetingSearchResultDto.cs" />
+    <Compile Include="Dto\AptifriedQuestionDto.cs" />
     <Compile Include="Dto\AptifriedQuestionTypeDto.cs" />
     <Compile Include="Dto\AptifriedWebNotificationDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTypeGroupDto.cs" />
@@ -646,6 +647,8 @@
     <Compile Include="Models\AptifriedMemberTypeMap.cs" />
     <Compile Include="Models\AptifriedProductPersonNote.cs" />
     <Compile Include="Models\AptifriedProductPersonNoteMap.cs" />
+    <Compile Include="Models\AptifriedQuestion.cs" />
+    <Compile Include="Models\AptifriedQuestionMap.cs" />
     <Compile Include="Models\AptifriedQuestionType.cs" />
     <Compile Include="Models\AptifriedQuestionTypeMap.cs" />
     <Compile Include="Models\AptifriedWebShoppingCartDetailsCount.cs" />
