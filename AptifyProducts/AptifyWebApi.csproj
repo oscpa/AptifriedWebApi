@@ -504,6 +504,7 @@
     <Compile Include="Dto\AptifriedQuestionBranchDto.cs" />
     <Compile Include="Dto\AptifriedQuestionDto.cs" />
     <Compile Include="Dto\AptifriedQuestionKnowledgeAnswerDto.cs" />
+    <Compile Include="Dto\AptifriedQuestionTreeDto.cs" />
     <Compile Include="Dto\AptifriedQuestionTypeDto.cs" />
     <Compile Include="Dto\AptifriedWebNotificationDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTypeGroupDto.cs" />
@@ -667,6 +668,8 @@
     <Compile Include="Models\AptifriedQuestionKnowledgeAnswer.cs" />
     <Compile Include="Models\AptifriedQuestionKnowledgeAnswerMap.cs" />
     <Compile Include="Models\AptifriedQuestionMap.cs" />
+    <Compile Include="Models\AptifriedQuestionTree.cs" />
+    <Compile Include="Models\AptifriedQuestionTreeMap.cs" />
     <Compile Include="Models\AptifriedQuestionType.cs" />
     <Compile Include="Models\AptifriedQuestionTypeMap.cs" />
     <Compile Include="Models\AptifriedWebShoppingCartDetailsCount.cs" />
