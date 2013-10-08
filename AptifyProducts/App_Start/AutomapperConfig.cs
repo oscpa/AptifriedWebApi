@@ -55,6 +55,7 @@ namespace AptifyWebApi.App_Start
 			Mapper.CreateMap<AptifriedKnowledgeDeliveryType, AptifriedKnowledgeDeliveryTypeDto>();
 			Mapper.CreateMap<AptifriedKnowledgeParticipant, AptifriedKnowledgeParticipantDto>();
 			Mapper.CreateMap<AptifriedKnowledgeResult, AptifriedKnowledgeResultDto>();
+			Mapper.CreateMap<AptifriedKnowledgeResultDetail, AptifriedKnowledgeResultDetailDto>();
 			Mapper.CreateMap<AptifriedKnowledgeStatus, AptifriedKnowledgeStatusDto>();
 			Mapper.CreateMap<AptifriedKnowledgeTrackingType, AptifriedKnowledgeTrackingTypeDto>();
 

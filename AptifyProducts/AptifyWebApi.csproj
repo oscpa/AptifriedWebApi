@@ -489,6 +489,7 @@
     <Compile Include="Dto\AptifriedKnowledgeCategoryDto.cs" />
     <Compile Include="Dto\AptifriedKnowledgeDeliveryTypeDto.cs" />
     <Compile Include="Dto\AptifriedKnowledgeParticipantDto.cs" />
+    <Compile Include="Dto\AptifriedKnowledgeResultDetailDto.cs" />
     <Compile Include="Dto\AptifriedKnowledgeResultDto.cs" />
     <Compile Include="Dto\AptifriedKnowledgeStatusDto.cs" />
     <Compile Include="Dto\AptifriedKnowledgeTrackingTypeDto.cs" />
@@ -640,6 +641,8 @@
     <Compile Include="Models\AptifriedKnowledgeParticipant.cs" />
     <Compile Include="Models\AptifriedKnowledgeParticipantMap.cs" />
     <Compile Include="Models\AptifriedKnowledgeResult.cs" />
+    <Compile Include="Models\AptifriedKnowledgeResultDetail.cs" />
+    <Compile Include="Models\AptifriedKnowledgeResultDetailMap.cs" />
     <Compile Include="Models\AptifriedKnowledgeResultMap.cs" />
     <Compile Include="Models\AptifriedKnowledgeStatus.cs" />
     <Compile Include="Models\AptifriedKnowledgeStatusMap.cs" />
