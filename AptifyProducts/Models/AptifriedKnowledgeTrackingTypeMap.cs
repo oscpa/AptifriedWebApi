@@ -9,7 +9,7 @@ namespace AptifyWebApi.Models {
 		public AptifriedKnowledgeTrackingTypeMap() {
 			Table("vwKnowledgeTrackingTypes");
 
-			Id(x => x.Name);
+			Id(x => x.Id);
 
 			Map(x => x.Name);
 			Map(x => x.Description);

@@ -462,6 +462,7 @@
     <Compile Include="Controllers\AptifriedProductAttachmentWithThumbnailsController.cs" />
     <Compile Include="Controllers\AptifriedProductPersonNotesController.cs" />
     <Compile Include="Controllers\AptifriedProductRelationController.cs" />
+    <Compile Include="Controllers\AptifriedQuestionTreeController.cs" />
     <Compile Include="Controllers\AptifriedWebCartController.cs" />
     <Compile Include="Controllers\AptifriedWebNotificationController.cs" />
     <Compile Include="Controllers\AptifriedWebShoppingCartDetailsCount.cs" />
