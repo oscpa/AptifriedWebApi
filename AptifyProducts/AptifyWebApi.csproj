@@ -505,6 +505,7 @@
     <Compile Include="Dto\AptifriedQuestionDto.cs" />
     <Compile Include="Dto\AptifriedQuestionKnowledgeAnswerDto.cs" />
     <Compile Include="Dto\AptifriedQuestionTreeDto.cs" />
+    <Compile Include="Dto\AptifriedQuestionTreeKnowledgeDeliveryTypeDto.cs" />
     <Compile Include="Dto\AptifriedQuestionTypeDto.cs" />
     <Compile Include="Dto\AptifriedWebNotificationDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTypeGroupDto.cs" />
@@ -749,6 +750,8 @@
     <Compile Include="Models\AptifriedMeetingTypeItem.cs" />
     <Compile Include="Models\AptifriedMeetingTypeItemMap.cs" />
     <Compile Include="Models\AptifriedKnowledgeAnswer.cs" />
+    <Compile Include="Models\AptifriedQuestionTreeKnowledgeDeliveryType.cs" />
+    <Compile Include="Models\AptifriedQuestionTreeKnowledgeDeliveryTypeMap.cs" />
     <Compile Include="Models\SessionSelection\AptifriedCancelledMeetingSessions.cs" />
     <Compile Include="Models\SessionSelection\AptifriedCancelledMeetingSessionsMap.cs" />
     <Compile Include="Models\SessionSelection\AptifriedMeetingSessionLog.cs" />
