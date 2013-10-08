@@ -53,7 +53,7 @@ namespace AptifyWebApi.Dto
 
         public bool IsZipSearch
         {
-            get { return !Zip.IsNull() && !MilesDistance.IsNull() && MilesDistance > 0; }
+            get { return !string.IsNullOrWhiteSpace(Zip) && !MilesDistance.IsNull() && MilesDistance > 0; }
         }
 
         public bool HasLevels
