@@ -28,5 +28,11 @@ namespace AptifyWebApi.Controllers {
 
 			return Mapper.Map(queryCriteria.List<AptifriedQuestionTree>(), new List<AptifriedQuestionTreeDto>());
 		}
+
+		public IList<AptifriedQuestionTree> GetById(int id) {
+			return session.QueryOver<AptifriedQuestionTree>()
+				.Where(x => x.Id.Equals(id))
+				.List<AptifriedQuestionTree>();
+		}
 	}
 }
