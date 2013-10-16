@@ -447,6 +447,7 @@
     <Compile Include="Controllers\AptifriedEducationUnitController.cs" />
     <Compile Include="Controllers\AptifriedExamController.cs" />
     <Compile Include="Controllers\AptifriedKnowledgeResultController.cs" />
+    <Compile Include="Controllers\AptifriedKnowledgeResultDetailController.cs" />
     <Compile Include="Controllers\AptifriedMeetingController.cs" />
     <Compile Include="Controllers\AptifriedMeetingDetailController.cs" />
     <Compile Include="Controllers\AptifriedEductionCategoryController.cs" />
