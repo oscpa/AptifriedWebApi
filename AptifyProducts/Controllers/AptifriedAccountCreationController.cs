@@ -1,11 +1,13 @@
 ﻿#region using
 
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Net;
 using System.Net.Mail;
 using System.Web;
 using AptifyWebApi.Dto;
+using AptifyWebApi.Models;
 using NHibernate;
 
 #endregion
@@ -26,6 +28,19 @@ namespace AptifyWebApi.Controllers
         private AptifriedPersonDto createPersonAndWebUser(AptifriedPersonDto personDto)
         {
             var personController = new AptifriedPersonController(session);
+
+			// See if we've got a web user with this email already (Persons does its own checks)
+			ISQLQuery query = session.CreateSQLQuery("select wu.* from vwWebUsers wu where wu.Email = :email or wu.UserID = :email");
+            query.AddEntity("wu", typeof (AptifriedWebUser));
+            query.SetString("email", personDto.Email);
+
+			List<AptifriedWebUser> wuList = (List<AptifriedWebUser>)query.List<AptifriedWebUser>();
+
+			if (wuList.Count > 0) {
+				throw new HttpException(500, "We found a user with that email address already. Have you forgotten your password?");
+			}
+
+			// Create the person
             AptifriedPersonDto createdPersonDto = personController.Put(personDto);
 
             if (createdPersonDto != null)
@@ -68,7 +83,8 @@ namespace AptifyWebApi.Controllers
             msg.Subject = "OSCPA Store Account Successfully Created!";
             msg.Body =
                 "Thank you for creating an account at the OSCPA Store. Please log in using your email address as your username and your temporary password, which should be changed immediately: " +
-                password;
+                password
+				+ "\n\nTo change your password, please visit http://www.ohioscpa.com/membership/profile";
             msg.IsBodyHtml = false;
 
             string defCreds = ConfigurationManager.AppSettings["UseDefaultCredentials"];
