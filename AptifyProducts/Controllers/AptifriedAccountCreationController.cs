@@ -84,7 +84,7 @@ namespace AptifyWebApi.Controllers
             msg.Body =
                 "Thank you for creating an account at the OSCPA Store. Please log in using your email address as your username and your temporary password, which should be changed immediately: " +
                 password
-				+ "\n\nTo change your password, please visit http://www.ohioscpa.com/membership/profile";
+				+ "\n\nTo change your password, log in to the Store, click your name in the upper-right corner, and select 'Change Your Password.'";
             msg.IsBodyHtml = false;
 
             string defCreds = ConfigurationManager.AppSettings["UseDefaultCredentials"];
