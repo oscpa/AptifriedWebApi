@@ -460,6 +460,7 @@
     <Compile Include="Controllers\AptifriedMeetingTextSearchController.cs" />
     <Compile Include="Controllers\AptifriedMeetingTimeSpanController.cs" />
     <Compile Include="Controllers\AptifriedMeetingTopicTrackController.cs" />
+    <Compile Include="Controllers\AptifriedPasswordChangeController.cs" />
     <Compile Include="Controllers\AptifriedPersonController.cs" />
     <Compile Include="Controllers\AptifriedProductAttachmentWithThumbnailsController.cs" />
     <Compile Include="Controllers\AptifriedProductPersonNotesController.cs" />
