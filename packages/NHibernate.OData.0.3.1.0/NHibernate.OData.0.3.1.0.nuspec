@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>NHibernate.OData</id>
+    <version>0.3.1.0</version>
+    <title>NHibernate.OData</title>
+    <authors>Pieter van Ginkel</authors>
+    <owners>Pieter van Ginkel</owners>
+    <licenseUrl>http://www.gnu.org/licenses/lgpl-3.0.txt</licenseUrl>
+    <projectUrl>http://github.com/pvginkel/NHibernate.OData</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>OData parser for NHibernate.</description>
+    <copyright>Pieter van Ginkel © 2012</copyright>
+    <tags>nhibernate odata</tags>
+    <dependencies>
+      <dependency id="NHibernate" version="3.3.0.4000" />
+    </dependencies>
+  </metadata>
+</package>
