@@ -11,5 +11,6 @@ namespace AptifyWebApi.Dto {
 		public AptifriedKnowledgeCategoryDto KnowledgeCategory { get; set; }
 		public AptifriedQuestionTypeDto QuestionType { get; set; }
 		public string Description { get; set; }
+		public IEnumerable<AptifriedQuestionKnowledgeAnswerDto> QuestionKnowledgeAnswers { get; set; }
 	}
 }

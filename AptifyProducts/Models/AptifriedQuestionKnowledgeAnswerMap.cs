@@ -11,7 +11,7 @@ namespace AptifyWebApi.Models {
 
 			Id(x => x.Id);
 
-			References(x => x.Question).Column("QuestionID");
+			//References(x => x.Question).Column("QuestionID");
 			Map(x => x.Sequence);
 			References(x => x.KnowledgeAnswer).Column("KnowledgeAnswerID");
 			Map(x => x.AnswerRequired);

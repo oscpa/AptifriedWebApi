@@ -11,5 +11,6 @@ namespace AptifyWebApi.Models {
 		public virtual AptifriedKnowledgeCategory KnowledgeCategory { get; set; }
 		public virtual AptifriedQuestionType QuestionType { get; set; }
 		public virtual string Description { get; set; }
+		public virtual IEnumerable<AptifriedQuestionKnowledgeAnswer> QuestionKnowledgeAnswers { get; set; }
 	}
 }

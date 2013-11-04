@@ -16,6 +16,8 @@ namespace AptifyWebApi.Models {
 			References(x => x.KnowledgeCategory).Column("KnowledgeCategoryID");
 			References(x => x.QuestionType).Column("QuestionTypeID");
 			Map(x => x.Description);
+
+			HasMany(x => x.QuestionKnowledgeAnswers).Table("vwQuestionKnowledgeAnswers").KeyColumn("QuestionID");
 		}
 	}
 }
