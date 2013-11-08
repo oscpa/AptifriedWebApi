@@ -11,6 +11,8 @@ using NHibernate.OData;
 
 namespace AptifyWebApi.Controllers {
 	public class AptifriedQuestionTreeController : AptifyEnabledApiController {
+		private static int USER_ENTERED_KNOWLEDGE_ANSWER_ID = 45;
+
 		public AptifriedQuestionTreeController(ISession session) : base(session) { }
 
 		public IList<AptifriedQuestionTreeDto> Get() {
@@ -32,7 +34,7 @@ namespace AptifyWebApi.Controllers {
 
 		public IList<AptifriedQuestionTree> GetById(int id) {
 			return session.QueryOver<AptifriedQuestionTree>()
-				.Where(x => x.Id.Equals(id))
+				.Where(x => x.Id == id)
 				.List<AptifriedQuestionTree>();
 		}
 
@@ -134,8 +136,8 @@ namespace AptifyWebApi.Controllers {
 			return null;
 		}
 
-		private AptifriedKnowledgeResult PostResult(AptifriedQuestionTreeSubmissionDto submissionDto, AptifriedKnowledgeResultController resultController) {
-			var result = resultController.Post(new AptifriedKnowledgeResultDto() {
+		private AptifriedKnowledgeResultDto PostResult(AptifriedQuestionTreeSubmissionDto submissionDto, AptifriedKnowledgeResultController resultController) {
+			AptifriedKnowledgeResultDto result = resultController.Post(new AptifriedKnowledgeResultDto() {
 				DateCreated = DateTime.Now,
 				DateUpdated = DateTime.Now,
 				IsComplete = submissionDto.IsComplete,
@@ -149,35 +151,37 @@ namespace AptifyWebApi.Controllers {
 			});
 
 			if (result != null) {
-				return Mapper.Map<AptifriedKnowledgeResult>(result);
+				return result;
 			} else {
 				return null;
 			}
 		}
 
-		private AptifriedKnowledgeResultDetail PostResultDetail(AptifriedKnowledgeResultDetailController resultDetailController, AptifriedQuestionTreeSubmissionDto submissionDto, int sequence, AptifriedKnowledgeResult resultObject) {
+		private AptifriedKnowledgeResultDetailDto PostResultDetail(AptifriedKnowledgeResultDetailController resultDetailController, AptifriedQuestionTreeSubmissionDto submissionDto, int sequence, AptifriedKnowledgeResultDto resultObject) {
 			AptifriedQuestionDto question = submissionDto.Questions[sequence];
 			string answerValue = submissionDto.Answers[sequence];
 			int questionBranchId = submissionDto.QuestionBranchIds[sequence];
 			
 			// Handle if we're answering from among a set list of predetermined answers (e.g., a combo box or radio list)
 			int answerValueInt;
-			AptifriedKnowledgeAnswerDto knowledgeAnswerDto = null;
+			AptifriedKnowledgeAnswerDto knowledgeAnswerDto = new AptifriedKnowledgeAnswerDto() {
+				Id = USER_ENTERED_KNOWLEDGE_ANSWER_ID
+			};
 
 			if (Int32.TryParse(answerValue, out answerValueInt)) {
 				AptifriedQuestionKnowledgeAnswerDto knowledgeAnswer = question.QuestionKnowledgeAnswers.Where(ka => ka.KnowledgeAnswer.Id == answerValueInt).FirstOrDefault();
 				if (knowledgeAnswer != null) {
 					knowledgeAnswerDto = new AptifriedKnowledgeAnswerDto() {
-						Id = knowledgeAnswer.Id
+						Id = knowledgeAnswer.KnowledgeAnswer.Id
 					};
 				}
 			}
 
-			var result = resultDetailController.Post(new AptifriedKnowledgeResultDetailDto() {
+			AptifriedKnowledgeResultDetailDto result = resultDetailController.Post(new AptifriedKnowledgeResultDetailDto() {
 				KnowledgeResult = new AptifriedKnowledgeResultDto() {
 					Id = resultObject.Id
 				},
-				Sequence = sequence,
+				Sequence = sequence + 1,
 				QuestionTree = new AptifriedQuestionTreeDto() {
 					Id = submissionDto.QuestionTreeId
 				},
@@ -189,11 +193,11 @@ namespace AptifyWebApi.Controllers {
 				},
 				KnowledgeAnswer = knowledgeAnswerDto,
 				KnowledgeAnswerValue = answerValue,
-				HtmlName = string.Empty
+				HtmlName = answerValue
 			});
 
 			if (result != null) {
-				return Mapper.Map<AptifriedKnowledgeResultDetail>(result);
+				return result;
 			} else {
 				return null;
 			}

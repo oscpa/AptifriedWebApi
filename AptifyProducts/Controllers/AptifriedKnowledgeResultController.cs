@@ -28,8 +28,8 @@ namespace AptifyWebApi.Controllers {
 			IList<AptifriedKnowledgeResult> existingResults =
 				session.QueryOver<AptifriedKnowledgeResult>()
 				.Where(x =>
-					x.Person.Id.Equals(result.Person.Id)
-					&& x.QuestionTreeId.Equals(result.QuestionTreeId))
+					x.Person.Id == result.Person.Id
+					&& x.QuestionTreeId == result.QuestionTreeId)
 				.List<AptifriedKnowledgeResult>();
 
 			// Check conditions
