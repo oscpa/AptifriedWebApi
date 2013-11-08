@@ -511,6 +511,7 @@
     <Compile Include="Dto\AptifriedQuestionKnowledgeAnswerDto.cs" />
     <Compile Include="Dto\AptifriedQuestionTreeDto.cs" />
     <Compile Include="Dto\AptifriedQuestionTreeKnowledgeDeliveryTypeDto.cs" />
+    <Compile Include="Dto\AptifriedQuestionTreeSubmissionDto.cs" />
     <Compile Include="Dto\AptifriedQuestionTypeDto.cs" />
     <Compile Include="Dto\AptifriedWebNotificationDto.cs" />
     <Compile Include="Dto\AptifriedMeetingTypeGroupDto.cs" />

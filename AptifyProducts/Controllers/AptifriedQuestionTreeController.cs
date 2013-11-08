@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Http;
 using AptifyWebApi.Dto;
 using AptifyWebApi.Models;
 using AutoMapper;
@@ -33,6 +34,169 @@ namespace AptifyWebApi.Controllers {
 			return session.QueryOver<AptifriedQuestionTree>()
 				.Where(x => x.Id.Equals(id))
 				.List<AptifriedQuestionTree>();
+		}
+
+		[Authorize]
+		public bool Post(AptifriedQuestionTreeSubmissionDto submissionDto) {
+			HttpException ex = null;
+
+			// Check for validity
+			ex = CheckPostObject(submissionDto);
+			if (ex != null) {
+				throw ex;
+			}
+
+			// Get the question tree (now that we know it's there)
+			var questionTree = session.QueryOver<AptifriedQuestionTree>().Where(x => x.Id == submissionDto.QuestionTreeId).List<AptifriedQuestionTree>().FirstOrDefault<AptifriedQuestionTree>();
+
+			// Handle multiple submissions (if allowed)
+			ex = CheckMultiSubmit(submissionDto, questionTree);
+			if (ex != null) {
+				throw ex;
+			}
+
+			// Handle partial submissions (if allowed)
+			ex = CheckPartialSubmit(submissionDto, questionTree);
+			if (ex != null) {
+				throw ex;
+			}
+
+			var resultController = new AptifriedKnowledgeResultController(session);
+			if (resultController == null) {
+				throw new HttpException(500, "Couldn't instantiate knowledge result controller");
+			}
+
+			var resultObject = PostResult(submissionDto, resultController);
+			if (resultObject == null) {
+				throw new HttpException(500, "Null result when posting a new knowledge result internally");
+			}
+
+			var resultDetailController = new AptifriedKnowledgeResultDetailController(session);
+			if (resultDetailController == null) {
+				throw new HttpException(500, "Couldn't instantiate knowledge result detail controller");
+			}
+
+			for (int i = 0; i < submissionDto.Questions.Count; i++) {
+				var resultDetailObject = PostResultDetail(resultDetailController, submissionDto, i, resultObject);
+				if (resultDetailObject == null) {
+					throw new HttpException(500, "Null result when posting a new knowledge result detail internally");
+				}
+			}
+
+			return true;
+		}
+
+		private HttpException CheckPostObject(AptifriedQuestionTreeSubmissionDto submissionDto) {
+			if (submissionDto == null) {
+				return new HttpException(500, "Question tree submission DTO is null");
+			}
+
+			if (submissionDto.PersonId < 1) {
+				return new HttpException(500, "No valid person ID");
+			}
+
+			if (submissionDto.QuestionTreeId < 1) {
+				return new HttpException(500, "No valid question tree ID");
+			}
+
+			if (session.QueryOver<AptifriedQuestionTree>().Where(x => x.Id == submissionDto.QuestionTreeId).RowCount() != 1) {
+				return new HttpException(500, "No question tree found given that question tree ID");
+			}
+
+			if (submissionDto.Questions == null || submissionDto.Answers == null) {
+				return new HttpException(500, "Missing questions and/or answers");
+			}
+
+			if (submissionDto.Questions.Count != submissionDto.Answers.Count) {
+				return new HttpException(500, "Mismatched number of questions and answers");
+			}
+
+			return null;
+		}
+
+		private HttpException CheckMultiSubmit(AptifriedQuestionTreeSubmissionDto submissionDto, AptifriedQuestionTree questionTree) {
+			if (!questionTree.AllowDuplicates) {
+				var previousCount = session.QueryOver<AptifriedKnowledgeResult>().Where(x => x.QuestionTreeId == questionTree.Id && x.Person.Id == submissionDto.PersonId).RowCount();
+
+				if (previousCount > 0) {
+					return new HttpException(500, "Duplicate question tree submission");
+				}
+			}
+
+			return null;
+		}
+
+		private HttpException CheckPartialSubmit(AptifriedQuestionTreeSubmissionDto submissionDto, AptifriedQuestionTree questionTree) {
+			if (!questionTree.AllowPartialCompletion && !submissionDto.IsComplete) {
+				return new HttpException(500, "Partial submission is not allowed");
+			}
+
+			return null;
+		}
+
+		private AptifriedKnowledgeResult PostResult(AptifriedQuestionTreeSubmissionDto submissionDto, AptifriedKnowledgeResultController resultController) {
+			var result = resultController.Post(new AptifriedKnowledgeResultDto() {
+				DateCreated = DateTime.Now,
+				DateUpdated = DateTime.Now,
+				IsComplete = submissionDto.IsComplete,
+				KnowledgeCaptureMode = new AptifriedKnowledgeCaptureModeDto() {
+					Id = submissionDto.KnowledgeCaptureModeId
+				},
+				Person = new AptifriedPersonDto() {
+					Id = submissionDto.PersonId
+				},
+				QuestionTreeId = submissionDto.QuestionTreeId
+			});
+
+			if (result != null) {
+				return Mapper.Map<AptifriedKnowledgeResult>(result);
+			} else {
+				return null;
+			}
+		}
+
+		private AptifriedKnowledgeResultDetail PostResultDetail(AptifriedKnowledgeResultDetailController resultDetailController, AptifriedQuestionTreeSubmissionDto submissionDto, int sequence, AptifriedKnowledgeResult resultObject) {
+			AptifriedQuestionDto question = submissionDto.Questions[sequence];
+			string answerValue = submissionDto.Answers[sequence];
+			int questionBranchId = submissionDto.QuestionBranchIds[sequence];
+			
+			// Handle if we're answering from among a set list of predetermined answers (e.g., a combo box or radio list)
+			int answerValueInt;
+			AptifriedKnowledgeAnswerDto knowledgeAnswerDto = null;
+
+			if (Int32.TryParse(answerValue, out answerValueInt)) {
+				AptifriedQuestionKnowledgeAnswerDto knowledgeAnswer = question.QuestionKnowledgeAnswers.Where(ka => ka.KnowledgeAnswer.Id == answerValueInt).FirstOrDefault();
+				if (knowledgeAnswer != null) {
+					knowledgeAnswerDto = new AptifriedKnowledgeAnswerDto() {
+						Id = knowledgeAnswer.Id
+					};
+				}
+			}
+
+			var result = resultDetailController.Post(new AptifriedKnowledgeResultDetailDto() {
+				KnowledgeResult = new AptifriedKnowledgeResultDto() {
+					Id = resultObject.Id
+				},
+				Sequence = sequence,
+				QuestionTree = new AptifriedQuestionTreeDto() {
+					Id = submissionDto.QuestionTreeId
+				},
+				QuestionBranch = new AptifriedQuestionBranchDto() {
+					Id = questionBranchId
+				},
+				Question = new AptifriedQuestionDto() {
+					Id = question.Id
+				},
+				KnowledgeAnswer = knowledgeAnswerDto,
+				KnowledgeAnswerValue = answerValue,
+				HtmlName = string.Empty
+			});
+
+			if (result != null) {
+				return Mapper.Map<AptifriedKnowledgeResultDetail>(result);
+			} else {
+				return null;
+			}
 		}
 	}
 }
