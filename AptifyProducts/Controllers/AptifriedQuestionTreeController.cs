@@ -79,18 +79,13 @@ namespace AptifyWebApi.Controllers {
 				throw new HttpException(500, "Couldn't instantiate knowledge result detail controller");
 			}
 
-			// Separate sequence counting from loop counting to allow skipping dummy questions (e.g., headers)
-			int sequenceCount = 0;
 			for (int i = 0; i < submissionDto.Questions.Count; i++) {
 				if (submissionDto.Questions[i].QuestionType.Id != HEADER_QUESTION_TYPE) {
-					sequenceCount++;
-
-					var resultDetailObject = PostResultDetail(resultDetailController, submissionDto, sequenceCount, resultObject);
+					var resultDetailObject = PostResultDetail(resultDetailController, submissionDto, i, resultObject);
 					if (resultDetailObject == null) {
 						throw new HttpException(500, "Null result when posting a new knowledge result detail internally");
 					}
 				}
-				
 			}
 
 			return true;
