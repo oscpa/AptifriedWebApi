@@ -101,13 +101,14 @@ namespace AptifyWebApi.App_Start
             Mapper.CreateMap<AptifriedPerson, AptifriedPersonDto>();
 
             Mapper.CreateMap<AptifriedProduct, AptifriedProductDto>();
+			Mapper.CreateMap<AptifriedProductAttachmentWithThumbnail, AptifriedProductAttachmentWithThumbnailDto>();
             Mapper.CreateMap<AptifriedProductObjective, AptifriedProductObjectiveDto>();
 			Mapper.CreateMap<AptifriedProductPersonNote, AptifriedProductPersonNoteDto>();
             Mapper.CreateMap<AptifriedProductPrice, AptifriedProductPriceDto>();
             Mapper.CreateMap<AptifriedProductRelation, AptifriedProductRelationDto>();
             Mapper.CreateMap<AptifriedProductRelationshipType, AptifriedProductRelationshipTypeDto>();
             Mapper.CreateMap<AptifriedProductType, AptifriedProductTypeDto>();
-            Mapper.CreateMap<AptifriedProductAttachmentWithThumbnail, AptifriedProductAttachmentWithThumbnailDto>();
+			Mapper.CreateMap<AptifriedProductQuestionTree, AptifriedProductQuestionTreeDto>();
 
             Mapper.CreateMap<AptifriedVenue, AptifriedVenueDto>();
 
