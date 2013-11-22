@@ -477,6 +477,7 @@
     <Compile Include="Controllers\AptifyClassesController.cs" />
     <Compile Include="Controllers\AptifriedPaymentTypeController.cs" />
     <Compile Include="Controllers\AptifriedExcelController.cs" />
+    <Compile Include="Controllers\AptifriedHealthCheckController.cs" />
     <Compile Include="Dto\AptifriedAnswerSheetAnswerDto.cs" />
     <Compile Include="Dto\AptifriedAnswerSheetDto.cs" />
     <Compile Include="Dto\AptifriedAttachmentCategoryDto.cs" />
