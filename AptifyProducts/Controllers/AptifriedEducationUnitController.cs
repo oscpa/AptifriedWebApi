@@ -140,7 +140,7 @@ namespace AptifyWebApi.Controllers {
            // string transcriptQuery = "select  Name , Location , Type , Credit , Dates , ProductID " +
                 //" from fnOscpaTranscriptGetEducationUnitAggregate(:personId, :startDate, :endDate, :includeExternal, default, default) ";
 
-			string transcriptQuery = "SELECT Name,Location,Type,SUM(Credit),Dates,dbo.fnOSCPAGetProgenitorProductID(ProductId) FROM fnOscpaTranscriptGetEducationUnitAggregate(:personId, :startDate, :endDate, :includeExternal, default, default) Group BY Name,Location,Type,Dates,dbo.fnOSCPAGetProgenitorProductID(ProductId)";
+            string transcriptQuery = "EXEC spOSCPAWebTranscriptAggregate @PersonId=:personId, @StartDate=:startDate, @EndDate=:endDate, @IncludeExternal=:includeExternal";
 
             var transcriptData = session.CreateSQLQuery(transcriptQuery)
                 .SetParameter("personId", personId)
