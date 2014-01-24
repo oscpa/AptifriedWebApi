@@ -54,6 +54,9 @@
     <Reference Include="Aptify.Framework.BusinessLogic.GenericEntity.Generated.Organizations">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\Aptify.Framework.BusinessLogic.GenericEntity.Generated.Organizations.dll</HintPath>
     </Reference>
+    <Reference Include="Aptify.Framework.BusinessLogic.GenericEntity.Generated.Payments">
+      <HintPath>..\..\..\..\..\..\Program Files\Aptify 5.5.1\Aptify.Framework.BusinessLogic.GenericEntity.Generated.Payments.dll</HintPath>
+    </Reference>
     <Reference Include="Aptify.Framework.BusinessLogic.GenericEntity.Generated.Persons">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\Aptify.Framework.BusinessLogic.GenericEntity.Generated.Persons.dll</HintPath>
     </Reference>
@@ -117,8 +120,23 @@
     <Reference Include="AptifyMeetingsEntity">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyMeetingsEntity.dll</HintPath>
     </Reference>
+    <Reference Include="AptifyMessagingEngine, Version=4.5.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files\Aptify 5.5.1\AptifyMessagingEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="AptifyOBDEntity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files\Aptify 5.5.1\AptifyOBDEntity.dll</HintPath>
+    </Reference>
     <Reference Include="AptifyObjectRepository">
       <HintPath>bin\Bootfiles\AptifyObjectRepository.dll</HintPath>
+    </Reference>
+    <Reference Include="AptifyOMDEntity">
+      <HintPath>..\..\..\..\..\..\Program Files\Aptify 5.5.1\AptifyOMDEntity.dll</HintPath>
+    </Reference>
+    <Reference Include="AptifyOrderLineControl, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files\Aptify 5.5.1\AptifyOrderLineControl.dll</HintPath>
     </Reference>
     <Reference Include="AptifyOrdersEntity">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyOrdersEntity.dll</HintPath>
@@ -143,6 +161,10 @@
     </Reference>
     <Reference Include="AptifySalesTax">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifySalesTax.dll</HintPath>
+    </Reference>
+    <Reference Include="AptifyScriptEngine, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files\Aptify 5.5.1\AptifyScriptEngine.dll</HintPath>
     </Reference>
     <Reference Include="AptifySecurityKey, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -203,6 +225,10 @@
     <Reference Include="EBusinessGlobal">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\EBusinessGlobal.dll</HintPath>
     </Reference>
+    <Reference Include="ElectronicPaymentVerisign, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files\Aptify 5.5.1\ElectronicPaymentVerisign.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\..\..\..\Documents\Visual Studio 2012\Projects\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -228,6 +254,10 @@
     </Reference>
     <Reference Include="ICheckInventory">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\ICheckInventory.dll</HintPath>
+    </Reference>
+    <Reference Include="ICurrencyMarkToMarket, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files\Aptify 5.5.1\ICurrencyMarkToMarket.dll</HintPath>
     </Reference>
     <Reference Include="ICurrencyRetrieval, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -284,6 +314,10 @@
     <Reference Include="OrganizationObject">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OrganizationObject.dll</HintPath>
     </Reference>
+    <Reference Include="OSCPA.Campaigns.Tracking, Version=2.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files\Aptify 5.5.1\OSCPA.Campaigns.Tracking.dll</HintPath>
+    </Reference>
     <Reference Include="OSCPACompanyObject">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OSCPACompanyObject.dll</HintPath>
     </Reference>
@@ -299,9 +333,13 @@
     <Reference Include="OSCPAOrderLineGE">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OSCPAOrderLineGE.dll</HintPath>
     </Reference>
-    <Reference Include="Payflow_dotNET, Version=4.3.1.0, Culture=neutral, PublicKeyToken=14aa1e8d77f2a97c, processorArchitecture=MSIL">
+    <Reference Include="OSCPAPaymentsEntity, Version=5.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files\Aptify 5.0\Payflow_dotNET.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\Aptify 5.5.1\OSCPAPaymentsEntity.dll</HintPath>
+    </Reference>
+    <Reference Include="Payflow_dotNET, Version=4.3.0.0, Culture=neutral, PublicKeyToken=14aa1e8d77f2a97c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files\Aptify 5.5.1\Payflow_dotNET.dll</HintPath>
     </Reference>
     <Reference Include="PaymentGenerateGL">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\PaymentGenerateGL.dll</HintPath>
@@ -313,6 +351,9 @@
     <Reference Include="Payments, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\Payments.dll</HintPath>
+    </Reference>
+    <Reference Include="PaymentTypeObject">
+      <HintPath>..\..\..\..\..\..\Program Files\Aptify 5.5.1\PaymentTypeObject.dll</HintPath>
     </Reference>
     <Reference Include="PreferredAddress, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f3fa0ecabf9514d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -584,7 +625,7 @@
     <Compile Include="Dto\SessionSelection\AptifriedNewMeetingSessionDto.cs" />
     <Compile Include="Factories\AptifriedAuthorizationFactory.cs" />
     <Compile Include="Factories\UnityDependencyResolver.cs" />
-    <Compile Include="Formatters\JsonpMediaTypeFormatter.cs" />
+    <Compile Include="Helpers\Formatters\JsonpMediaTypeFormatter.cs" />
     <Compile Include="Managers\PerRequestLifetimeManager.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -864,6 +905,8 @@
     <Content Include="lib\AptifyConnectionState.dll" />
     <Content Include="lib\AptifyEBusinessUser.dll" />
     <Content Include="lib\AptifyEventFire.dll" />
+    <Content Include="lib\AptifyExcelIntegration.dll" />
+    <Content Include="lib\AptifyExcelWizard.dll" />
     <Content Include="lib\AptifyExceptionManagement.dll" />
     <Content Include="lib\AptifyExceptionManagementInterfaces.dll" />
     <Content Include="lib\AptifyFilterRules.dll" />
@@ -974,6 +1017,7 @@
     <Content Include="lib\PaymentGenerateGL.dll" />
     <Content Include="lib\PaymentInfoObject.dll" />
     <Content Include="lib\Payments.dll" />
+    <Content Include="lib\PaymentTypeObject.dll" />
     <Content Include="lib\PreferredAddress.dll" />
     <Content Include="lib\ProcessFlowDebugHarness.dll" />
     <Content Include="lib\ProcessSessionLog__AC.dll" />
@@ -1053,13 +1097,13 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>62371</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:61739/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>True</UseCustomServer>
+          <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>http://localhost:8088</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
