@@ -20,6 +20,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -181,10 +183,10 @@
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\AptifyUtility.dll</HintPath>
     </Reference>
     <Reference Include="AutoMapper">
-      <HintPath>..\..\..\Visual Studio 2012\Projects\packages\AutoMapper.3.0.0\lib\net40\AutoMapper.dll</HintPath>
+      <HintPath>..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="AutoMapper.Net4">
-      <HintPath>..\..\..\Visual Studio 2012\Projects\packages\AutoMapper.3.0.0\lib\net40\AutoMapper.Net4.dll</HintPath>
+      <HintPath>..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
     <Reference Include="BackOrders">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\BackOrders.dll</HintPath>
@@ -240,7 +242,7 @@
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\ExpandKits.dll</HintPath>
     </Reference>
     <Reference Include="FluentNHibernate">
-      <HintPath>..\..\..\Visual Studio 2012\Projects\packages\FluentNHibernate.1.3.0.733\lib\FluentNHibernate.dll</HintPath>
+      <HintPath>..\packages\FluentNHibernate.1.4.0.0\lib\net35\FluentNHibernate.dll</HintPath>
     </Reference>
     <Reference Include="GenerateCOGS">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\GenerateCOGS.dll</HintPath>
@@ -264,7 +266,7 @@
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\ICurrencyRetrieval.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections">
-      <HintPath>..\..\..\Visual Studio 2012\Projects\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="IGenerateCOGS">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\IGenerateCOGS.dll</HintPath>
@@ -300,10 +302,10 @@
       <HintPath>packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate">
-      <HintPath>..\..\..\Visual Studio 2012\Projects\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
+      <HintPath>..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate.OData">
-      <HintPath>..\..\..\Visual Studio 2012\Projects\packages\NHibernate.OData.0.3.1.0\lib\net35\NHibernate.OData.dll</HintPath>
+      <HintPath>..\packages\NHibernate.OData.0.3.1.0\lib\net35\NHibernate.OData.dll</HintPath>
     </Reference>
     <Reference Include="OrderAddressFlowdown">
       <HintPath>..\..\Sitefinity-FineCitizens0-0\bin\OrderAddressFlowdown.dll</HintPath>
@@ -826,6 +828,10 @@
     <Compile Include="Repository\SearchRepository.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.Net4.dll">
+      <Link>AutoMapper.Net4.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -1110,6 +1116,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
